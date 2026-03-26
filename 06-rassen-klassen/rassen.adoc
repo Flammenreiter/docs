@@ -1,0 +1,436 @@
+
+= Rassen — 5 Kern + 5 Erweiterte
+
+
+Vollständige Dokumentation aller 10 spielbaren Rassen mit biologischen Features, Subrassen und Kultur-Noten.
+
+'''
+
+
+== 5 Kern-Rassen
+
+
+
+=== Mensch (Humans)
+
+
+_Lore_: Dominante Rasse der Welt. 3 der 5 Akademie-Gründer waren Menschen. Anpassungsfähig, überall vertreten.
+
+_Biologische Features_:
+* Heroic Inspiration bei Long Rest
+* 1 Extra-Feat bei Level 1
+* 1 Extra-Skill Proficiency
+* Variabel in allen Regionen
+
+_Subrassen_: Kulturelle Varianten über das Multi-Layer-Geographie-System (keine mechanischen Unterschiede)
+
+_Akademie-Häuser_: Verteilt über alle 4 Häuser
+
+_Spezielle Regel_: Menschen können bei Level 1 1 zusätzliches Feat nehmen (nicht Ability Score).
+
+'''
+
+
+=== Zwerg (Dwarves)
+
+
+_Lore_: Alter Bund, stolze Tradition. 1 der 5 Gründer war Zwerg. Bergvölker, Schmiede, Erz-Affinität. Verathos-nahe Kultur.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Poison Resistance
+* Advantage on Poison Saves
+* Stonecunning (advantage on Perception in stone)
+* Tool Proficiency (Smiths' Tools or Masons' Tools)
+* Speed: 25ft (nicht reduziert im schweren Panzer)
+
+_Subrassen_:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Subrasse | Feature | Besonderheit
+
+| _Berg-Zwerg_ | Medium Armor Proficiency | Kann Platte tragen ohne STR-Anforderung
+| _Hügel-Zwerg_ | +1 HP/Level | Extra Ausdauer, Langlebigkeit
+|===
+
+
+_Akademie-Häuser_: Affinität zu Tiefe Esse (Bronze) und Drachenfeste (Rot)
+
+'''
+
+
+=== Elf (Elves)
+
+
+_Lore_: Älteste Rasse. Überlebende der Epoche der Kriege mit Erinnerungen die Jahrtausende zurückreichen.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Fey Ancestry (immune to magic sleep)
+* Trance (4 Stunden statt 8 Stunden)
+* Perception Proficiency (Advantage all Perception checks)
+* Speed: 30ft
+* Lifespan: 750+ Jahre (können sich an alte Zeiten erinnern)
+
+_Subrassen_:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Subrasse | Feature | Besonderheit
+
+| _Hoch-Elf_ | 1 Wizard Cantrip (INT-basiert) | Magisches Interesse, oft Gelehrte
+| _Wald-Elf_ | Mask of Wild, +5ft Speed | Verstecken in natürlicher Umgebung, schneller
+| _Drow_ | Superior Darkvision 120ft, Faerie Fire 1×/Tag | Untergrund-Kultur, siehe Drow-Spezial
+|===
+
+
+_Akademie-Häuser_: Affinität zu Turm der Ketten (Blau) und Liebe & Leben (Grün)
+
+'''
+
+
+=== Halbelf (Half-Elves)
+
+
+_Lore_: Kinder beider Welten. Häufig an der Akademie. Brückenbauer zwischen Kulturen.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Fey Ancestry
+* 2 Extra Skill Proficiencies
+* Flexibility in Ability Score Distribution (flexibler mit Abstammung)
+* Speed: 30ft
+
+_Keine Subrassen_ — Abstammung bestimmt Spezialisierung
+
+_Akademie-Häuser_: Verteilt, oft Liebe & Leben (Grün)
+
+'''
+
+
+=== Halbling (Halflings)
+
+
+_Lore_: Reisende, Händler, Geschichtenerzähler. Perfekt fürs Gerüchte-System.
+
+_Biologische Features_:
+* Lucky (Nat 1 neu würfeln, 1×/Tag)
+* Brave (Advantage on Frightened Saves)
+* Halfling Nimbleness (move through larger creatures' spaces)
+* Speed: 25ft
+* Größe: Small (Advantage hide, weniger Reichweite)
+
+_Subrassen_:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Subrasse | Feature | Besonderheit
+
+| _Leichtfuß_ | Advantage Stealth checks | Diebe, Kundschafter, Spione
+| _Starkherz_ | Poison Resistance | Reisende, Überlebenskünstler
+|===
+
+
+_Akademie-Häuser_: Affinität zu Liebe & Leben (Grün)
+
+_Spezielle Regel_: Halflings haben natürlichen Zugang zu Gerüchte-System (mehr Quellen).
+
+'''
+
+
+== 5 Erweiterte Rassen
+
+
+
+=== Halbork (Half-Orcs)
+
+
+_Lore_: Krieger-Stämme aus den Grenzlanden. Respektiert für Stärke, misstrauisch beäugt in Städten.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Relentless Endurance (1×/Long Rest, stay conscious at 0 HP einmal)
+* Savage Attacks (roll extra weapon die on crit)
+* Speed: 30ft
+* Größe: Medium
+
+_Keine Subrassen_
+
+_Akademie-Häuser_: Drachenfeste (Rot) — Krieger-Klassen
+
+_Kultur-Noten_: Oft Soldaten oder Barbarians. Disposition bei traditionellen Adels-NPCs variabel.
+
+'''
+
+
+=== Gnom (Gnomes)
+
+
+_Lore_: Tüftler, Alchemisten, Illusionisten. Akademie-Forscher. Aeolyn-Affinität.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Gnome Cunning (Advantage INT/WIS/CHA Saves vs. Magic)
+* Speed: 25ft
+* Größe: Small
+* Lifespan: 400+ Jahre (können lange Projekte verfolgen)
+
+_Subrassen_:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Subrasse | Feature | Besonderheit
+
+| _Wald-Gnom_ | Minor Illusion Cantrip | Illusionisten, Trickster
+| _Fels-Gnom_ | Tinkering Tools Proficiency + Small Constructs bauen | Erfinder, Ingenieure
+|===
+
+
+_Akademie-Häuser_: Turm der Ketten (Blau) — Forscher-Klassen
+
+'''
+
+
+=== Tiefling (Tieflings)
+
+
+_Lore_: Nachkommen von Wesen aus der Epoche der Kriege. Nocthari-Affinität. Oft Außenseiter, Magier, Sorcerers.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Hellish Resistance (Fire Resistance)
+* Infernal Legacy (Thaumaturgy Cantrip, Hellish Rebuke 1×/Long Rest, Darkness 1×/Long Rest)
+* Speed: 30ft
+* Größe: Medium
+
+_Keine Subrassen_ — Abstammung bestimmt visuelle Varianten
+
+_Akademie-Häuser_: Turm der Ketten (Blau) — Magier-Klassen
+
+_Kultur-Noten_: Oft misstrauisch betrachtet, aber Akademie neutraler Boden. Disposition bei traditionellen Kulturen -10 bis -20, außer mit zeitlichem Beweis des Charakters.
+
+'''
+
+
+=== Drachenblütige (Dragonborn)
+
+
+_Lore_: Eigene göttliche Schöpfung — die Sieben erschufen sie ZUSAMMEN mit den Drachen als deren Geschwister-Rasse. Nicht 'Nachkommen' sondern parallel erschaffen. Selten, an der Akademie verehrt/gefürchtet.
+
+_Biologische Features_:
+* Draconic Ancestry (Element wählen: Fire, Cold, Lightning, Poison, Acid)
+* Breath Weapon (2d6 auf Level 1 → 5d6 auf Level 17, DC = 8 + CON + PB)
+* Damage Resistance (dem Ancestry entsprechend)
+* Speed: 30ft
+* Größe: Medium, aber größer als Menschen (7-8ft möglich)
+* Lifespan: 80+ Jahre (schneller Lebenszyklus)
+
+_Keine Subrassen_ — Ancestry (Element) bestimmt Appearance
+
+_Akademie-Häuser_: Drachenfeste (Rot) — Dragon Bond Affinität hoch
+
+_Dragon Bond Spezial_: Drachenblütige haben besondere Beziehung zu Drachen. Dragon Bond Resonanz-Check hat natürlichen _Vorteil_. Manche Kulturen fürchten sie als 'Ausgeburt der Kriege'.
+
+_Lore-Detail_: In der Epoche der Kriege kämpften sie an der Seite der Drachen. Als die Drachen sich zurückzogen, blieben sie — ein lebendes Bindeglied zu der Vergangenheit.
+
+'''
+
+
+=== Aasimar (Aasimars)
+
+
+_Lore_: Berührt von göttlicher Macht. Extrem selten. Schwache Resonanz mit den Sieben. Solveris-Affinität.
+
+_Biologische Features_:
+* Darkvision 60ft
+* Celestial Resistance (Radiant + Necrotic)
+* Healing Hands (WIS × Charakter-Level HP, 1×/Long Rest)
+* Celestial Revelation (bei hohem Celestial-Check: kurze Wahrnehmung der göttlichen Schicht)
+* Speed: 30ft
+* Größe: Medium
+* Lifespan: 160+ Jahre
+
+_Keine Subrassen_ — göttliche Manifestation variiert
+
+_Akademie-Häuser_: Liebe & Leben (Grün) oder Turm der Ketten (Blau)
+
+_Kultur-Noten_: Oft als Heilige betrachtet oder Verdächtige der Magie. Disposition bei religiösen NPCs +10, bei skeptischen -5.
+
+'''
+
+
+== Drow: Untergrund-Kultur (NICHT böse)
+
+
+
+=== Konzept
+
+
+Drow in Flammenreiter sind _Elfen die während der Epoche der Kriege in den Untergrund flohen_. Zehntausende Jahre Isolation formte sie:
+* Blasse Haut
+* Weiße Haare
+* Empfindliche Augen (120ft Darkvision, Blindheit bei natürlichem Licht ohne Anpassung)
+
+
+=== Kultur: Nocthari-nah
+
+
+* Wertschätzen Geheimhaltung
+* Vorsicht über Vertrauen
+* Überlebensfähigkeit über Ehre
+* Pragmatisch in Diplomatie
+
+
+=== Akademie-Status
+
+
+_NICHT inhärent böse_ — andere Perspektive auf die Welt.
+
+An der Akademie selten aber respektiert.
+
+
+=== Gruppen-Disposition
+
+
+* _Oberflächen-Kulturen_: -10 bis -20 (Misstrauen, kulturelle Unterschiede)
+* _Akademie_: neutral (Akademie als neutraler Boden hebt das auf)
+* _Drow-Gemeinschaften_: +15 (Heimat-Verständnis)
+
+
+=== Mechanische Änderungen gegenüber PHB Drow
+
+
+* Faerie Fire funktioniert normal (1×/Tag)
+* Keine "böse" Stigmatisierung im Regelwerk
+* Darkvision 120ft (unverändert)
+
+'''
+
+
+== Drachenblütige Lore: Geschwister der Drachen
+
+
+
+=== Schöpfungs-Lore
+
+
+Die Sieben erschufen die Drachen als _Hüter der Schöpfung_ und gleichzeitig die Drachenblütigen als deren _sterbliche Geschwister_:
+* Wesen mit drachenartigen Zügen (Schuppen, Atemwaffe, Resistenz)
+* In humanoidem Körper
+* Bestimmt für Zusammenarbeit mit Drachen
+
+
+=== Epoche der Kriege
+
+
+In der Epoche der Kriege kämpften Drachenblütige an der Seite der Drachen:
+* Straßenkämpfer, Kleriker, Magier
+* Direkt vom Drachenblut befähigt
+* Symbole der Zusammenarbeit zwischen Rassen
+
+
+=== Nach der Epoche
+
+
+Als die Drachen sich zurückzogen:
+* Drachenblütige blieben zurück
+* Wurden zu lebendem Bindeglied zur Vergangenheit
+* Seltene Verbindung zu Dragon Bond System
+
+
+=== Dragon Bond Affinity
+
+
+_Vorteil bei Resonanz-Checks_: Drachenblütige haben natürlichen Vorteil auf den Dragon Bond Resonanz-Check (der erste Roll bei Bindungsversuch).
+
+_Drachen-Reaktion_: Drachen reagieren mit Neugier auf Drachenblütige (+10 Disposition). Sie sehen sie als Verwandte, nicht als Fremde.
+
+
+=== Gesellschaftliches Ansehen
+
+
+_Gegenüber_: Verehrt, gefürchtet, fasziniert
+* Krieger-Kulturen: +15 (Respekt)
+* Gelehrte: +10 (Interesse in der Geschichte)
+* Traditionelle: ±0 bis -5 (Verdacht von "Ausgeburt der Kriege")
+
+_Im Privaten_: Oft einsam — wenige verstehen ihre Verbindung zu Drachen.
+
+'''
+
+
+== Rassen-Vergleichstabelle
+
+
+
+[cols="1,1,1,1,1,1",options="header"]
+|===
+| Rasse | Größe | Speed | Darkvision | Besonderheit | Affinität
+
+| _Mensch_ | M | 30 | Nein | Extra Feat | Flexibel
+| _Zwerg_ | M | 25 | 60ft | Poison Resistance | Verathos
+| _Elf_ | M | 30 | 60ft | Trance, Perception | Aeolyn
+| _Halbelf_ | M | 30 | 60ft | Skills | Flexibel
+| _Halbling_ | S | 25 | Nein | Lucky | Solveris
+| _Halbork_ | M | 30 | 60ft | Relentless | Pyrathis
+| _Gnom_ | S | 25 | 60ft | Cunning vs Magic | Aeolyn
+| _Tiefling_ | M | 30 | 60ft | Fire Resistance | Nocthari
+| _Drachenblütig_ | M | 30 | Nein | Breath Weapon, Resistance | Pyrathis
+| _Aasimar_ | M | 30 | 60ft | Healing Hands | Solveris
+|===
+
+
+'''
+
+
+== Nicht Verfügbare Rassen
+
+
+Folgende Rassen sind _nicht spielbar_:
+
+Goliath, Tabaxi, Kenku, Aarakocra, Warforged, Changeling, Kalashtar, Tortle, Lizardfolk
+
+_Grund_: Kein kultureller Anker in der Flammenreiter-Lore, zu exotisch oder Setting-spezifisch. 10 spielbare Rassen (5 Kern + 5 Erweitert) mit Subrassen = 16 Optionen reichen für maximale Vielfalt ohne Setting-Verwässerung.
+
+'''
+
+
+== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Rassen
+SELECT * FROM races
+WHERE is_playable = true
+ORDER BY rarity ASC;
+
+-- Subrassen
+SELECT * FROM subraces
+WHERE race_id = (SELECT id FROM races WHERE name = 'Zwerg');
+
+-- Rassen-Features (biologisch)
+SELECT * FROM race_features
+WHERE race_id = ?
+ORDER BY feature_type;
+
+-- Charakter-Rasse
+SELECT
+  c.id, c.name,
+  r.name as race_name,
+  sr.name as subrace_name,
+  r.darkvision, r.speed
+FROM characters c
+JOIN races r ON c.race_id = r.id
+LEFT JOIN subraces sr ON c.subrace_id = sr.id
+WHERE c.id = ?;
+
+-- Disposition Modifiers by Race (kultur-spezifisch)
+SELECT * FROM race_disposition_modifiers
+WHERE race_id = ? AND region_id = ?;
+----

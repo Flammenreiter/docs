@@ -1,0 +1,450 @@
+
+= Reise-System & Wetter
+
+
+Reise-Routen, tägliche Pacing, Begegnungen nach Typ-Verteilung, Proviant, monatliche Wetter-Kalibration.
+
+
+== Reise-Routen
+
+
+
+=== Route-Struktur
+
+
+Jede Route verbindet zwei Settlement-Nodes:
+
+----
+Route Properties:
+├── origin_settlement_id
+├── destination_settlement_id
+├── distance_miles
+├── terrain_type (grassland|mountain|forest|desert|water|mixed)
+├── difficulty (easy|moderate|hard|deadly)
+├── hazards[] (brigands, monsters, weather, etc.)
+├── safe_stops[] (waypoints for resting)
+└── historical_events (lore)
+----
+
+
+=== Terrain-Types und ihre Effekte
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Terrain | Speed | Weather | Hazards
+
+| Grassland | Normal | Moderate | Brigands, wild horses
+| Mountain | -25% | Extreme | Avalanche, cold, altitude
+| Forest | -10% | Moderate | Bandits, predators, getting lost
+| Desert | -30% | Extreme heat | Dehydration, sandstorm, nomads
+| Water | Variable | Extreme | Drowning, pirates, krakens
+| Mixed | -15% | Variable | All hazards possible
+|===
+
+
+'''
+
+
+== Pacing-Optionen (täglich)
+
+
+Spieler wählen tägliche Pace:
+
+
+=== Careful Pace (Exploration Speed)
+
+
+----
+Speed: ×0.5 (Half-day progress)
+Stealth: Advantage (+2)
+Perception: +2 to spot ambush
+Provision Cost: ×1 (normal)
+Rest: Can have full camp rituals
+Encounters: ×1 (single encounter possible)
+Risk: Low
+----
+
+_Wann_: Wenn Gruppe erwartet Ärger oder erkundet
+
+
+=== Normal Pace
+
+
+----
+Speed: ×1.0 (Full-day progress)
+Stealth: Normal
+Perception: Normal
+Provision Cost: ×1 (normal)
+Rest: Standard
+Encounters: ×1 (standard chance)
+Risk: Medium
+----
+
+_Wann_: Default Option
+
+
+=== Forced March (Fleeing/Urgent)
+
+
+----
+Speed: ×1.5 (Extra progress)
+Stealth: Disadvantage (-2)
+Perception: -2 to spot hazards
+Provision Cost: ×1.5 (extra food/water needed)
+Rest: Shortened rests only
+Encounters: ×2 (doubles encounter chance)
+Risk: High
+Constitution Save DC 10 + 1/additional day
+  Fail: 1 Exhaustion per day
+----
+
+_Wann_: Fleeing dragon, urgent deadline
+
+'''
+
+
+== Tägliche Encounters
+
+
+Nach jeder Travel-Phase (1 day), würfele Encounter-Chance:
+
+
+=== Encounter-Chance
+
+
+----
+Base Chance: 30%
++ Terrain Modifier: +10-30% (desert +30%, grassland +10%)
++ Pacing Modifier: Careful -10%, Normal 0, Forced +20%
++ Recent Combat: +30% if fought yesterday
+
+Roll: If >threshold → Encounter happens
+----
+
+
+=== Encounter-Typ Verteilung
+
+
+----
+Combat (~30%):     Bandits, Monster, feindliche Patrouille
+Social (~25%):     Reisende Händler, verlorener NPC, Flüchtlinge
+Discovery (~15%):  Ruine, Schatz-Anhaltspunkt, Höhle, Wegschrein
+Environmental (~15%): Brücke kaputt, Erdrutsch, Flussüberquerung
+Omen/Lore (~10%):  Merkwürdiges Zeichen, Prophezeiung, magische Anomalie
+Trap/Ambush (~5%): Gelayerte Falle, Hinterhalt, manipulierter Weg
+----
+
+
+=== Beispiel-Encounters
+
+
+_Combat Encounter_ (30% chance today):
+* 1d4 Bandits (CR 1/8 each)
+* 1 Dire Wolf (CR 1)
+* 2 Wyverns (CR 6)
+* Random selection from region_creatures table
+
+_Social Encounter_ (25%):
+* Merchant caravan looking for guards (Quest offer)
+* Fleeing refugees (quest hook + food scarcity)
+* Traveling preacher (info-gathering, spell casting service?)
+* NPC needing rescue
+
+_Discovery Encounter_ (15%):
+* Abandoned Shrine (roleplay opportunity, potential loot)
+* Wizard's Tower (dungeon? trap? treasure!)
+* Dragon Lairs entrance (scouting opportunity)
+* Ancient Bridge (beautiful/dangerous crossing)
+
+'''
+
+
+== Provisioning System
+
+
+
+=== Provision Consumption
+
+
+_Per Character per Day_: 1 Ration (Food + Water bundled)
+
+* _Standard Ration_: 0.5 GP (dry rations, bread+water)
+* _Quality Ration_: 2 GP (fresh meat, vegetables, wine)
+* _Trail Ration_: 0.1 GP (minimal, low nutrition)
+
+
+=== Where to get Provisions
+
+
+. _Buy at Settlements_: Market prices variable
+. _Forage (DC 12 Survival)_: 1d4 rations per day if successful
+. **Hunt (1-2 hour, requires game): 2d6 rations if kills large animal
+. **Fish (DC 10 if water nearby): 1d6 rations per hour
+
+
+=== No Provisions = Exhaustion
+
+
+----
+Short Rest without Food:
+  CON Save DC 10
+  Fail: 1 Exhaustion gained
+
+Long Rest without Food:
+  CON Save DC 12
+  Fail: 1 Exhaustion gained
+
+2+ Exhaustion: Disadvantage on ALL Checks
+3+ Exhaustion: Speed halved, Disadvantage on Attacks
+4+ Exhaustion: Speed 0 (cannot move)
+5+ Exhaustion: Hit Point maximum halved
+6 Exhaustion: Death
+----
+
+'''
+
+
+== Weather System (Monthly Calibration)
+
+
+
+=== Base Weather per Region & Month
+
+
+Nicht: "Winter ist immer schnee"
+Ja: Schnee ist in Januar wahrscheinlich, in März möglich, in Juli unmöglich
+
+_Beispiel: Temperate Region_
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Month | Likely | Possible | Unlikely
+
+| January | Snow, Cold | Rain, Fog | Heat, Drought
+| April | Rain, Warm | Heat, Cold | Snow, Extreme
+| July | Heat, Dry | Rain, Storms | Snow, Cold
+| October | Rain, Cool | Heat, Wind | Snow (yet)
+|===
+
+
+
+=== Weather-Conditions
+
+
+----
+Weather Conditions (draw daily):
+├── Clear (0% effect)
+├── Cloudy (0% effect)
+├── Light Rain (-5% travel speed)
+├── Heavy Rain (-15% travel, DC 12 Survival)
+├── Thunderstorm (-25% travel, DC 15 Survival, 5% Lightning Strike)
+├── Fog (-20% Perception, -10% travel)
+├── Heat Wave (travel -10%, Survival DC 12, need extra water)
+├── Blizzard (travel -50%, Survival DC 15, Cold Damage 1d4/hour unprotected)
+├── Sandstorm (travel -40%, Sand in Eyes -2 Perception)
+└── Hurricane (impassable, stay in shelter)
+----
+
+
+=== Monthly Roll
+
+
+----
+GM each morning:
+  Roll 1d100 on region_weather_profiles[harptos_month]
+
+  0-40%:   Clear
+  41-65%:  Cloudy
+  66-80%:  Light Rain
+  81-92%:  Heavy Rain
+  93-98%:  Thunderstorm
+  99-100%: Extreme (Blizzard in Winter, Sandstorm in Desert)
+
+If result is "impossible" for season:
+  Re-roll or GM override
+
+  January in Temperate: Can't roll Heat → treat as next option
+----
+
+'''
+
+
+== Fog of War: Pro-Charakter Kartensicht
+
+
+
+=== Visibility Levels
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Level | Description | Usage
+
+| Unknown | Unmapped | Player hasn't been here
+| Known | Name + vague location | Heard about it
+| Visited | All details visible | Been here before
+|===
+
+
+
+=== Mechanics
+
+
+----
+character_travel_knowledge
+├── character_id (FK)
+├── region_id (FK)
+├── location_nodes_visited[] (location_id, first_visited_harptos, last_visited_harptos)
+├── routes_known[] (route_id, discovered_harptos)
+├── known_npc_locations[] (npc_name, last_seen_location, date)
+└── exploration_percentage (0-100%)
+----
+
+
+=== Party Discovery Sharing
+
+
+When one PC discovers location:
+* _All present_ in that location discover it
+* Party doesn't automatically share knowledge
+* PCs must communicate between sessions ("Hey, I found the hidden temple")
+* Mobile App: Party messaging for knowledge-sharing
+
+'''
+
+
+== Time Tracking during Travel
+
+
+
+=== Travel-Phases
+
+
+Each day = 3 phases:
+
+----
+Morning (8am-12pm):
+  - 1 travel phase (3-4 hours)
+  - Breakfast time included
+
+Afternoon (1pm-5pm):
+  - 1 travel phase (4 hours)
+  - Lunch/rest included
+
+Evening (6pm-11pm):
+  - Camp setup, dinner, rest
+  - Possible campfire encounters
+----
+
+
+=== Long Rest during Travel
+
+
+----
+Party needs 8 hours uninterrupted sleep
+Camping:
+  - Setup: 30 min
+  - Sleep: 8 hours
+  - Breaking camp: 30 min
+  - Total: 9 hours → loses 1 travel phase
+
+Safe Town:
+  - Inn: Full rest, no worry
+  - Random House: Need persuasion (DC 12)
+  - Wilderness: Risk of encounter during rest (50%)
+----
+
+'''
+
+
+== Time-Skip Mechanic
+
+
+GM can fast-forward time:
+
+
+=== Mechanical Implications
+
+
+----
+Crafting Projects:
+  - Continue NORMAL
+  - Auto-rolled with standard DCs
+  - Can fail during skip (GM determines)
+
+Dragon Care:
+  - Runs with ×0.25 modifier
+  - Spürbar aber nicht voller Nachteil
+  - Missing care → Bond loses BPs
+
+Provisions:
+  - Consumed per day as normal
+  - Shortage warning if < 50% left
+
+Weather:
+  - Rolled per day as normal
+  - Cumulative effects (3 days rain = wet camp)
+
+Events:
+  - Events in period trigger NACHTRÄGLICH am Ende
+  - "3 weeks pass... you arrive at the city. Suddenly, town guards block entry..."
+
+Item Durability:
+  - NO natural decay over time
+  - Only from active use
+  - So no "rust prevention" mechanics
+
+Item Maintenance:
+  - If unused, stays perfect
+  - If stored in damp place → GM discretion: potential rust
+----
+
+'''
+
+
+== DB-Struktur
+
+
+----
+travel_routes (Welt)
+├── id (PK)
+├── origin_node_id (FK settlement)
+├── destination_node_id (FK settlement)
+├── distance_miles
+├── terrain_type
+├── difficulty
+├── hazards[] (jsonb)
+├── safe_stops[] (jsonb: [{location, supplies_available, npc_present}])
+└── lore_description
+
+weather_profiles (Welt)
+├── region_id (FK)
+├── harptos_month (1-12)
+├── weather_chances (jsonb: [{condition, percentage}])
+├── special_events (jsonb: [{chance, description}])
+└── flavor_text
+
+character_travel_knowledge (Kampagne)
+├── character_id (FK)
+├── region_id (FK)
+├── locations_visited[] (jsonb)
+├── routes_discovered[] (jsonb)
+├── encounter_log (jsonb: [{date, type, npc_met}])
+└── exploration_percent
+
+current_travel (Session-State)
+├── party_group_id (FK)
+├── route_id (FK)
+├── start_location_id (FK)
+├── end_location_id (FK)
+├── progress_percent (0-100)
+├── days_elapsed
+├── current_phase
+├── provisions_consumed
+├── encounters_today[]
+└── weather_today
+----

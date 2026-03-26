@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flammenreiter — Feature Workflow Map</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; padding: 40px 20px; }
+
+  h1 { text-align: center; color: #f0f6fc; font-size: 28px; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #8b949e; font-size: 14px; margin-bottom: 48px; }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* Phase headers */
+  .phase { margin-bottom: 48px; position: relative; }
+  .phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .phase-number { background: #8B0000; color: #fff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+  .phase-title { font-size: 20px; color: #f0f6fc; font-weight: 600; }
+  .phase-repo { background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 2px 10px; font-size: 12px; color: #8b949e; font-family: monospace; }
+
+  /* Flow rows */
+  .flow-row { display: flex; gap: 16px; align-items: stretch; flex-wrap: wrap; }
+
+  /* Cards */
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; flex: 1; min-width: 220px; position: relative; }
+  .card.active { border-color: #8B0000; box-shadow: 0 0 12px rgba(139,0,0,0.15); }
+  .card-icon { font-size: 24px; margin-bottom: 8px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #f0f6fc; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; color: #8b949e; line-height: 1.5; }
+  .card-file { font-family: monospace; font-size: 11px; color: #58a6ff; background: #0d1117; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 8px; }
+  .card-agent { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #d2a8ff; background: rgba(210,168,255,0.1); padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+
+  /* Arrow between cards */
+  .arrow { display: flex; align-items: center; justify-content: center; color: #484f58; font-size: 24px; flex-shrink: 0; min-width: 24px; }
+  .arrow-down { text-align: center; color: #484f58; font-size: 24px; padding: 8px 0; }
+
+  /* Repo tags */
+  .repo-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .repo-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-family: monospace; }
+  .repo-tag.frontend { background: rgba(56,139,253,0.15); color: #58a6ff; border: 1px solid rgba(56,139,253,0.3); }
+  .repo-tag.backend { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+  .repo-tag.shared { background: rgba(210,168,255,0.15); color: #d2a8ff; border: 1px solid rgba(210,168,255,0.3); }
+  .repo-tag.ue5 { background: rgba(255,166,87,0.15); color: #ffa657; border: 1px solid rgba(255,166,87,0.3); }
+  .repo-tag.docs { background: rgba(139,0,0,0.2); color: #ff6b6b; border: 1px solid rgba(139,0,0,0.4); }
+  .repo-tag.orch { background: rgba(255,255,255,0.08); color: #c9d1d9; border: 1px solid rgba(255,255,255,0.15); }
+
+  /* Repo map */
+  .repo-map { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 32px; padding: 24px; background: #0d1117; border: 1px solid #30363d; border-radius: 12px; }
+  .repo-box { padding: 14px; border-radius: 8px; border: 1px solid #30363d; }
+  .repo-box .name { font-family: monospace; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .repo-box .desc { font-size: 11px; color: #8b949e; }
+  .repo-box.frontend { background: rgba(56,139,253,0.08); border-color: rgba(56,139,253,0.2); }
+  .repo-box.frontend .name { color: #58a6ff; }
+  .repo-box.backend { background: rgba(63,185,80,0.08); border-color: rgba(63,185,80,0.2); }
+  .repo-box.backend .name { color: #3fb950; }
+  .repo-box.shared { background: rgba(210,168,255,0.08); border-color: rgba(210,168,255,0.2); }
+  .repo-box.shared .name { color: #d2a8ff; }
+  .repo-box.ue5 { background: rgba(255,166,87,0.08); border-color: rgba(255,166,87,0.2); }
+  .repo-box.ue5 .name { color: #ffa657; }
+  .repo-box.docs { background: rgba(139,0,0,0.1); border-color: rgba(139,0,0,0.3); }
+  .repo-box.docs .name { color: #ff6b6b; }
+  .repo-box.orch { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); }
+  .repo-box.orch .name { color: #c9d1d9; }
+
+  .legend { display: flex; gap: 16px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .section-divider { border: none; border-top: 1px solid #21262d; margin: 48px 0; }
+
+  .workflow-label { text-align: center; font-size: 12px; color: #484f58; text-transform: uppercase; letter-spacing: 2px; margin: 24px 0 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Flammenreiter — Feature Workflow</h1>
+  <p class="subtitle">Von der Idee zum deployten Feature across 8 Repos in der GitHub Org <code style="color:#58a6ff">flammenreiter</code></p>
+
+  <!-- REPO MAP -->
+  <div class="repo-map">
+    <div class="repo-box orch">
+      <div class="name">orchestrator</div>
+      <div class="desc">Sprint-Board, ADRs, Specs, Cross-Repo Issues</div>
+    </div>
+    <div class="repo-box frontend">
+      <div class="name">session-gm</div>
+      <div class="desc">GM Session Web App · React FSD · :3000</div>
+    </div>
+    <div class="repo-box frontend">
+      <div class="name">session-player</div>
+      <div class="desc">Player Session Web App · React FSD · :3002</div>
+    </div>
+    <div class="repo-box frontend">
+      <div class="name">lore-admin</div>
+      <div class="desc">Lore Admin Web App · React FSD · :3003</div>
+    </div>
+    <div class="repo-box backend">
+      <div class="name">api</div>
+      <div class="desc">Hono + Prisma + PostgreSQL · :3001</div>
+    </div>
+    <div class="repo-box shared">
+      <div class="name">shared</div>
+      <div class="desc">OpenAPI Specs → TypeScript Types</div>
+    </div>
+    <div class="repo-box ue5">
+      <div class="name">ue5</div>
+      <div class="desc">Unreal Engine 5 · Mobile Client</div>
+    </div>
+    <div class="repo-box docs">
+      <div class="name">docs</div>
+      <div class="desc">AsciiDoc → PDF Pipeline</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#c9d1d9"></div> Orchestrator</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#58a6ff"></div> Frontend (React FSD)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div> Backend (Hono)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d2a8ff"></div> Shared Contracts</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ffa657"></div> UE5 Mobile</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ff6b6b"></div> Docs (AsciiDoc)</div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- PHASE 1: Feature beschreiben -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">1</div>
+      <div class="phase-title">Feature beschreiben</div>
+      <span class="phase-repo">flammenreiter/orchestrator</span>
+    </div>
+    <div class="flow-row">
+      <div class="card active">
+        <div class="card-icon">💡</div>
+        <div class="card-title">Feature-Idee</div>
+        <div class="card-desc">Du beschreibst was du willst — als Text, Skizze, oder im Gespräch mit dem PO Agent.</div>
+        <div class="card-agent">🤖 Product Owner (opusplan)</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Feature-Spec</div>
+        <div class="card-desc">PO schreibt strukturierte Spec mit User Stories, Akzeptanzkriterien, betroffene Repos.</div>
+        <div class="card-file">.scrum/backlog/FEAT-xxx.md</div>
+        <div class="card-agent">🤖 Product Owner (opusplan)</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">Design Concept (optional)</div>
+        <div class="card-desc">Designer erstellt UI/UX Konzept wenn nötig — via Canva MCP oder als Design-Brief.</div>
+        <div class="card-agent">🤖 Designer (sonnetplan)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇</div>
+
+  <!-- PHASE 2: Tickets erstellen -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">2</div>
+      <div class="phase-title">Tickets erstellen & verteilen</div>
+      <span class="phase-repo">flammenreiter/orchestrator → alle Repos</span>
+    </div>
+    <div class="flow-row">
+      <div class="card active">
+        <div class="card-icon">🎫</div>
+        <div class="card-title">GitHub Issues erstellen</div>
+        <div class="card-desc">SM erstellt Issues in den betroffenen Repos mit klarem Scope, Labels (P0-P3), und Abhängigkeiten.</div>
+        <div class="card-agent">🤖 Scrum Master (opusplan)</div>
+        <div class="repo-tags">
+          <span class="repo-tag shared">shared #12</span>
+          <span class="repo-tag backend">api #34</span>
+          <span class="repo-tag frontend">session-gm #56</span>
+        </div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Sprint-Board aktualisieren</div>
+        <div class="card-desc">Task ins Sprint-Board aufnehmen. Reihenfolge: shared → api → frontends → ue5.</div>
+        <div class="card-file">.scrum/in-progress/</div>
+        <div class="card-agent">🤖 Scrum Master (opusplan)</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">Contract definieren (wenn API)</div>
+        <div class="card-desc">Neuer/geänderter API-Endpoint wird zuerst als OpenAPI Spec im Shared-Repo definiert.</div>
+        <div class="card-file">openapi/neue-spec.yaml</div>
+        <div class="repo-tags">
+          <span class="repo-tag shared">shared</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇</div>
+
+  <!-- PHASE 3: Umsetzung -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">3</div>
+      <div class="phase-title">Umsetzung (parallel in den Repos)</div>
+      <span class="phase-repo">jedes Repo eigenständig</span>
+    </div>
+
+    <div class="workflow-label">Reihenfolge der Abhängigkeiten</div>
+
+    <div class="flow-row">
+      <div class="card" style="border-color: rgba(210,168,255,0.4);">
+        <div class="card-icon">📝</div>
+        <div class="card-title">1. Shared: Contract</div>
+        <div class="card-desc">OpenAPI Spec schreiben, validieren, TypeScript-Types generieren.</div>
+        <div class="card-file">pnpm validate && pnpm generate</div>
+        <div class="card-agent">🤖 Senior Backend (sonnetplan)</div>
+        <div class="repo-tags"><span class="repo-tag shared">shared</span></div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card" style="border-color: rgba(63,185,80,0.4);">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">2. API: Endpoints</div>
+        <div class="card-desc">Route + Service + Zod Validator + Prisma Migration + Tests.</div>
+        <div class="card-file">src/routes/ + src/services/</div>
+        <div class="card-agent">🤖 Senior Backend (sonnetplan)</div>
+        <div class="repo-tags"><span class="repo-tag backend">api</span></div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card" style="border-color: rgba(56,139,253,0.4);">
+        <div class="card-icon">🖥️</div>
+        <div class="card-title">3. Frontend(s): UI</div>
+        <div class="card-desc">FSD-Architektur: Entity (Query) → Feature (Mutation) → Page → Route. API-Types importieren.</div>
+        <div class="card-file">src/entities/ + src/features/</div>
+        <div class="card-agent">🤖 Senior Frontend (sonnetplan)</div>
+        <div class="repo-tags">
+          <span class="repo-tag frontend">session-gm</span>
+          <span class="repo-tag frontend">session-player</span>
+          <span class="repo-tag frontend">lore-admin</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height: 16px;"></div>
+
+    <div class="flow-row">
+      <div class="card" style="border-color: rgba(255,166,87,0.4); flex: 0 0 calc(33% - 12px);">
+        <div class="card-icon">📱</div>
+        <div class="card-title">4. UE5: Mobile (wenn betroffen)</div>
+        <div class="card-desc">API-Integration in C++, UI in UMG, Asset-Pipeline.</div>
+        <div class="card-agent">🤖 Senior UE5 (sonnetplan)</div>
+        <div class="repo-tags"><span class="repo-tag ue5">ue5</span></div>
+      </div>
+      <div style="flex: 0 0 24px;"></div>
+      <div class="card" style="border-color: rgba(139,0,0,0.4); flex: 0 0 calc(33% - 12px);">
+        <div class="card-icon">📖</div>
+        <div class="card-title">5. Docs aktualisieren</div>
+        <div class="card-desc">AsciiDoc-Kapitel anpassen. CI generiert automatisch PDF.</div>
+        <div class="card-agent">🤖 Worker Docs (sonnet)</div>
+        <div class="repo-tags"><span class="repo-tag docs">docs</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇</div>
+
+  <!-- PHASE 4: Review & Merge -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-number">4</div>
+      <div class="phase-title">Review & Merge</div>
+      <span class="phase-repo">alle Repos → orchestrator</span>
+    </div>
+    <div class="flow-row">
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Code Review pro Repo</div>
+        <div class="card-desc">Jedes Repo hat seine eigene CI-Pipeline (lint, typecheck, test, build). Senior reviewed PRs.</div>
+        <div class="card-agent">🤖 Senior (sonnetplan)</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <div class="card-title">Cross-Repo Review</div>
+        <div class="card-desc">PO prüft ob das Feature repo-übergreifend funktioniert und die Akzeptanzkriterien erfüllt.</div>
+        <div class="card-agent">🤖 Product Owner (opusplan)</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="card active">
+        <div class="card-icon">🚀</div>
+        <div class="card-title">Merge & Deploy</div>
+        <div class="card-desc">PRs mergen in Reihenfolge: shared → api → frontends → ue5 → docs. Sprint-Board updaten.</div>
+        <div class="card-file">.scrum/done/FEAT-xxx.md</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Workflow-Stufen -->
+  <div style="margin-top: 32px;">
+    <h2 style="color: #f0f6fc; font-size: 18px; margin-bottom: 16px; text-align: center;">Workflow-Stufen — nicht jedes Feature braucht Full Scrum</h2>
+    <div class="flow-row">
+      <div class="card" style="border-left: 3px solid #8B0000;">
+        <div class="card-title">Stufe 3 — Full Scrum</div>
+        <div class="card-desc">Repo-übergreifend, komplex. PO → SM → Issues in allen Repos → parallel arbeiten → PO reviewed.</div>
+        <div style="margin-top: 8px; font-size: 11px; color: #58a6ff;">Beispiel: Neues Kampfsystem mit API, GM-Dashboard, Player-View, UE5</div>
+      </div>
+      <div class="card" style="border-left: 3px solid #ffa657;">
+        <div class="card-title">Stufe 2 — Lite</div>
+        <div class="card-desc">Ein Repo, klares Scope. Issue direkt im Repo → Senior plant → Worker implementiert.</div>
+        <div style="margin-top: 8px; font-size: 11px; color: #58a6ff;">Beispiel: Neue Tabelle im Lore-Admin für Kreaturen</div>
+      </div>
+      <div class="card" style="border-left: 3px solid #3fb950;">
+        <div class="card-title">Stufe 1 — Bugfix</div>
+        <div class="card-desc">1-2 Dateien. Issue → Debugger fixt → PR → Merge.</div>
+        <div style="margin-top: 8px; font-size: 11px; color: #58a6ff;">Beispiel: Pagination broken in session-player</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Agent overview -->
+  <div style="margin-top: 32px;">
+    <h2 style="color: #f0f6fc; font-size: 18px; margin-bottom: 16px; text-align: center;">Agent-Verteilung über die Repos</h2>
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+      <thead>
+        <tr style="border-bottom: 1px solid #30363d;">
+          <th style="text-align: left; padding: 10px; color: #8b949e;">Agent</th>
+          <th style="text-align: left; padding: 10px; color: #8b949e;">Model</th>
+          <th style="text-align: left; padding: 10px; color: #8b949e;">Lebt in</th>
+          <th style="text-align: left; padding: 10px; color: #8b949e;">Macht was</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Product Owner</td>
+          <td style="padding: 10px; color: #d2a8ff;">opusplan</td>
+          <td style="padding: 10px;"><span class="repo-tag orch">orchestrator</span></td>
+          <td style="padding: 10px; color: #8b949e;">Specs, Issues, Cross-Repo Review</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Scrum Master</td>
+          <td style="padding: 10px; color: #d2a8ff;">opusplan</td>
+          <td style="padding: 10px;"><span class="repo-tag orch">orchestrator</span></td>
+          <td style="padding: 10px; color: #8b949e;">Sprint-Board, Task-Verteilung</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Designer</td>
+          <td style="padding: 10px; color: #d2a8ff;">sonnetplan</td>
+          <td style="padding: 10px;"><span class="repo-tag orch">orchestrator</span></td>
+          <td style="padding: 10px; color: #8b949e;">UI/UX Konzepte, Design Tokens</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Senior Frontend</td>
+          <td style="padding: 10px; color: #58a6ff;">sonnetplan</td>
+          <td style="padding: 10px;"><span class="repo-tag frontend">session-gm</span> <span class="repo-tag frontend">session-player</span> <span class="repo-tag frontend">lore-admin</span></td>
+          <td style="padding: 10px; color: #8b949e;">FSD-Architektur, Lite Features</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Worker Frontend</td>
+          <td style="padding: 10px; color: #58a6ff;">sonnet</td>
+          <td style="padding: 10px;"><span class="repo-tag frontend">session-gm</span> <span class="repo-tag frontend">session-player</span> <span class="repo-tag frontend">lore-admin</span></td>
+          <td style="padding: 10px; color: #8b949e;">Komponenten nach Spec</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Senior Backend</td>
+          <td style="padding: 10px; color: #3fb950;">sonnetplan</td>
+          <td style="padding: 10px;"><span class="repo-tag backend">api</span> <span class="repo-tag shared">shared</span></td>
+          <td style="padding: 10px; color: #8b949e;">API-Architektur, Contracts</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Worker Backend</td>
+          <td style="padding: 10px; color: #3fb950;">sonnet</td>
+          <td style="padding: 10px;"><span class="repo-tag backend">api</span></td>
+          <td style="padding: 10px; color: #8b949e;">Routes, Services</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Senior UE5</td>
+          <td style="padding: 10px; color: #ffa657;">sonnetplan</td>
+          <td style="padding: 10px;"><span class="repo-tag ue5">ue5</span></td>
+          <td style="padding: 10px; color: #8b949e;">UE5-Architektur, API-Integration</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #21262d;">
+          <td style="padding: 10px; color: #f0f6fc;">Worker QS</td>
+          <td style="padding: 10px; color: #8b949e;">sonnet</td>
+          <td style="padding: 10px;" colspan="2" style="color: #8b949e;">In jedem Code-Repo — Tests (Vitest, Playwright, UE5 Automation)</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px; color: #f0f6fc;">Debugger</td>
+          <td style="padding: 10px; color: #8b949e;">sonnet</td>
+          <td style="padding: 10px;" colspan="2" style="color: #8b949e;">In jedem Code-Repo — Root-Cause-Analyse, minimaler Fix</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

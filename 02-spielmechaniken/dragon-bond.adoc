@@ -1,0 +1,376 @@
+
+= Dragon Bond System
+
+
+Drachenbindung mit Spezies-Variationen, Bindungsphasen, täglicher Pflege, Trait-Resonanz.
+
+
+== Dragon-Spezies
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Spezies | Größe | Farbe | Temperament | Spezialfähigkeit
+
+| Feuerdrache | Groß | Rot/Orange | Aggressiv, territorial | Fireball Breath
+| Frostdrache | Riesig | Blau/Weiß | Ruhig, weise | Cold Immunity, Blizzard
+| Gründrache | Mittel | Grün | Listig, hinterhältig | Poison Breath, Manipulation
+| Golddrache | Massiv | Gold | Tugendhaft, selten | Gold breath (healing?), flight speed ×2
+| Schwarzdrache | Mittel | Schwarz | Chaotisch, wild | Lightning Breath, Uncontrollable
+| Silberdrache | Groß | Silber | Gerecht, beschützend | Protection Aura, Healing touch
+| Steindrache | Riesig | Grau | Geduldig, statisch | Petrification Breath, Immobility
+|===
+
+
+'''
+
+
+== Bindungs-Phasen (5)
+
+
+Dragon-Bonding ist ein _progressives System_, nicht sofort.
+
+
+=== Phase 1: Imprinting (Tage 1-7)
+
+
+* Dragon akzeptiert Rider noch nicht
+* Jede Interaktion Chance zu flüchten (20% DC 15 Insight/Animal Handling)
+* Rider MUSS täglich 2 Stunden Zeit investieren (füttern, streicheln, sprechen)
+* Bonus-Aktivitäten: Gemeinsame Abenteuer (+1 Bond pro erfolgreiche Quest)
+* Am Ende: Dragon erkennt Rider-Stimme, bleibt bei Seite
+
+_Mechanik_: 0-10 Bond-Points, braucht 10 zum Durchzug
+
+
+=== Phase 2: Trust Building (Tage 8-30)
+
+
+* Dragon vertraut Rider grundlegend
+* Kann noch weglaufen bei extreme Vernachlässigung (-3 BPs pro Tag ohne Pflege)
+* Rider kann auf Dragon reiten (Flight 60ft)
+* Gemeinsame Ritte = +1 BP pro Session
+* Dragon schläft neben Rider (Lager-Comfort +1)
+
+_Mechanik_: 10-30 BPs
+
+
+=== Phase 3: Emotional Bond (Tage 31-90)
+
+
+* Dragon betrachtet Rider als Herd-Member
+* Wird kämpfen um Rider zu schützen (automatisch Intervention in Combat)
+* Keine Flucht mehr (es sei denn totale Vernachlässigung ≥5 Tage)
+* Trait-Resonanz aktiviert (siehe unten)
+* Combat-Bonus aktiviert: Dragon erhält +2 zu Hit/Damage
+
+_Mechanik_: 30-60 BPs
+
+
+=== Phase 4: Deep Bond (Tage 91-180)
+
+
+* Dragon handelt autonomen Kampf-Entscheidungen (kann Spieler-Befehle ignorieren wenn Instinkt sagt anders)
+* Können ohne Worte kommunizieren (Telepathie-Äquivalent)
+* Dragon kann seine größte Fähigkeit freischalten (z.B. Feuerdrache: Massive Fireball statt Standard)
+* Heilungs-Resonanz: Nach Langem Rest, Dragon heilt automatisch Rider +1d6
+
+_Mechanik_: 60-90 BPs, braucht Major Story-Event zum Durchgang
+
+
+=== Phase 5: Soul Bond (Tage 180+)
+
+
+* Absolut bedingungsloses gegenseitiges Vertrauen
+* Dragon würde Rider für eine Lüge opfern (und umgekehrt)
+* Shared consciousness in Kampf (Rider kann Dragon's senses nutzen)
+* Dragon gibt seinen Namen preis (ultimate trust)
+* Rider und Dragon erhalten +3 zu ALL Checks wenn zusammen
+
+_Mechanik_: 90+ BPs, nur mit major Life-or-Death moment zu erreichen
+
+'''
+
+
+== Tägliche Pflege
+
+
+
+=== Minimal Care (täglich erforderlich)
+
+
+----
+Feeding (1 Stunde):
+  - Dragon braucht Fleisch (je nach Größe: 10-100 lbs)
+  - Bonus-Futter: Köstliche Jagd oder seltenes Fleisch = +2 BPs
+  - Vernachlässigung: -1 BP pro Tag ohne Futter
+
+Grooming (30 Minuten):
+  - Schuppen reinigen, Krallen schärfen
+  - Bonding-Aktivität
+  - Zeigt Zuneigung, -1 BP pro Tag ohne Grooming
+
+Resting (je nach Phase):
+  - Phasen 1-2: Dragon braucht sicheren Ort (Höhle, Lager-Nähe)
+  - Phasen 3+: Schläft neben Rider
+----
+
+
+=== Optional Care (nicht erforderlich, aber Bonus-BP)
+
+
+----
+Hunting Together (2 Stunden, wenn Umgebung erlaubt):
+  +3 BP pro erfolgreiche Hunt
+  Dramatische Szenen-Opportunity
+
+Playing / Training (1-2 Stunden):
+  +2 BP pro Session
+  Rider kann neue Combat-Moves trainieren
+
+Storytelling / Singing (30 Minuten):
+  +1 BP
+  Dragon liebt Geschichten / Musik (spezies-abhängig)
+----
+
+
+=== Penalty System
+
+
+----
+0 Tage Vernachlässigung: Kein Penalty
+1 Tag: -1 BP
+2 Tage: -2 BP + Dragon ist müde (Disadvantage auf 1 Attack)
+3 Tage: -3 BP + Dragon verweigert zu Fliegen
+4 Tage: -5 BP + Dragon wird wild (Phase zurückgegangen)
+5+ Tage: -10 BP + Dragon versucht zu flüchten (DC 20 Animal Handling)
+----
+
+'''
+
+
+== Trait-Resonanz
+
+
+Dragon und Rider können gegenseitig Traits „resonieren" — bedeutet, Dragon hat SEINE VERSION der PC-Traits.
+
+
+=== Wie es funktioniert
+
+
+----
+PC Trait: Mutig+4
+Dragon Trait: Mutig+3 (natürlich, Dragon sind kühn)
+
+Wenn PC zeigt Mut (Nat 20 gegen Fear, ähnlich):
+  Dragon spürt es (Telepathie-äquivalent)
+  Both Trait-Checks aligned
+  Both geben Bonus in nächstem Combat +1
+
+Wenn PC zeigt Feigheit (gegen Mutig+4):
+  Dragon wird verwirrt
+  Trait-Resonanz-Penalty -1 für Session
+  Kann Trait-Shift triggern auf beiden Seiten
+----
+
+
+=== Spezies-typische Traits
+
+
+----
+Feuerdrache (alle eignen sich Traits an):
+  - Aggressiv+ (natürlich)
+  - Territorial+ (natürlich)
+  - Stolz+ (natürlich)
+  + PC kann diese verstärken oder widerlegen
+
+Frostdrache:
+  - Weise+
+  - Geduldig+
+  - Zurückhaltend+
+  + Diese Traits sind schwer zum Überschreiben
+
+Silberdrache:
+  - Gerecht+
+  - Beschützend+
+  - Großzügig+
+  + Perfect resonance mit ähnlichen PCs
+----
+
+'''
+
+
+== Combat während Dragon Bond
+
+
+
+=== Rider-Seite
+
+
+Rider ist auf Dragon, erhält:
+* +10ft Movement (Dragon fliegt)
+* Rider's attacks von Dragon's Rücken out (+1 zu Attack)
+* Dragon-Breath Zugang (Rider kann auszaubern, wenn Drachen mit zustimmen)
+* Disadvantage auf Ranged wenn Dragon doing complex maneuvers
+
+
+=== Dragon-Seite
+
+
+----
+Dragon erhält:
+- Base AC 14 + 2 (Phase 3+)
+- Base HP: 25 + Dragon-Größe (Medium: +0, Large: +10, Huge: +25)
+- Actions: Bite (1d8+3), Claw (1d6+3), Tail (1d6+3)
+- Reaction: Dodge
+
+Breath Weapon (sp)
+- Recharge 5-6
+- Damage: 3d6 (Small), 4d6 (Medium), 6d6 (Large)
+- Type: Fire/Cold/Lightning (spezies-abhängig)
+- DC: CON Save 13+
+----
+
+
+=== Rider-Dragon Teamwork
+
+
+----
+Shared Actions (optional):
+- Rider kann Bonus Action zu "Encourage" geben = Dragon hat Advantage next Attack
+- Dragon kann Reaction zu Shield Rider geben (Block attack meant for Rider)
+
+Telepathic Orders:
+- Rider kann "speak" zu Dragon mental
+- Dragon versteht, aber muss nicht gehorchen (Bonds gehorchen besser, Phase 2 können rebellieren)
+
+Fallen from Dragon:
+- 3d6 Fall damage wenn zu hoch
+- Dragon kann Saving Throw Catch machen (DC 15 DEX), reduces to 1d6
+----
+
+'''
+
+
+== Dragon Equipment
+
+
+
+=== Spezielle Ausrüstung
+
+
+----
+Rider-Variationen:
+- Saddle (reiten ist möglich) — 50 GP
+- Barding (Drache trägt Rüstung) — 100 GP + Rarity
+  - Rarity-Multiplikatoren apply
+  - Q5 Dragon Barding = AC +3 instead of +1
+  - Sehr teuer für große Dragons
+
+Reins & Bonds:
+- Decorative (roleplay) — 10 GP
+- Functional (Holding on during maneuvers) — 30 GP
+- Magical (Dragon kann Telepathie nutzen) — 500 GP+
+
+Rider Harness:
+- Comfort (Long flights without fatigue) — 100 GP
+- Combat (Secure during tricks/maneuvers) — 200 GP
+- Magical (Grants resistances based on Dragon-type) — 500 GP+
+----
+
+
+=== Dragon-only Items
+
+
+Manche Items können NUR Drachen tragen:
+
+----
+Drachenhelm (Kopf)
+- +2 AC nur für Dragon
+- Nur bei Smiths mit Dragon-knowledge
+- Kosten: 500+ GP, Rarity Rare+
+
+Drachenschuppen (verschiedene Körperteile)
+- Grafted scales from other dragons (necromancy??)
+- Mechanical boosts: +1 Damage, +2 AC
+- Ethically questionable, only from defeated dragons
+
+Dragon-Ring
+- Rider trägt, Dragon spürt Verbindung
+- Grants 100ft Telepathie wenn aufgeteilt
+- Prevents accidental Separation
+- Very expensive: 1000 GP Rare, 5000 GP+ Legendary
+----
+
+'''
+
+
+== Level-Up: Drachen-Dialog (ersetzt klassische Listenwahlmenü)
+
+
+Wenn Spieler Level-Up erhält, haben Sie NICHT mehr:
+----
+"Choose: +2 STR oder +1 STR +1 CON"
+----
+
+Stattdessen: _Dragon-Dialog_
+
+----
+Dragon spricht (telepathisch):
+"Du wirst stärker. Der Kampf heute hat dich geprägt.
+Ich sehe zwei Wege:
+  - Deine Muskeln wie Eisen werden (STR+2)
+  - Deine Ausdauer wie meine wird (STR+1 CON+1)"
+
+Spieler: "Ich will stärker werden — STR+2"
+
+Dragon: "Gut. Ich werde dich helfen trainieren."
+[Flavor text, keine mechanische Auswirkung außer Stats]
+----
+
+_Vorteil_:
+* Viel narrativer immersiver
+* Dragon kann Feedback geben ("Das passt nicht zu dir, versuche CON statt")
+* Warnt vor unlogischen Entscheidungen ("Du bist ein Wizard, STR+2?")
+* Macht Dragon zu lebendig aktiven Entity
+
+'''
+
+
+== DB-Struktur
+
+
+----
+dragons (Welt)
+├── id (PK)
+├── name
+├── species
+├── gender
+├── age
+├── personality_traits[]
+├── default_combat_stats
+└── description
+
+character_dragon_bond (Kampagne)
+├── character_id (FK)
+├── dragon_id (FK)
+├── bond_phase (1-5)
+├── bond_points (0-100)
+├── imprint_date_harptos
+├── last_care_harptos
+├── care_history (jsonb: [{date, care_type, bp_gained}])
+├── trait_resonance (jsonb: {dragon_trait_name: pc_alignment, ...})
+├── combat_encounters_together
+└── shared_story_moments
+
+dragon_combat_stats (Kampagne)
+├── bond_id (FK)
+├── current_hp
+├── ac (dynamic based on barding, phase)
+├── hit_bonus (from bond phase)
+├── damage_bonus (from bond phase)
+├── breath_recharge
+├── last_breath_used_round
+└── active_equipment (jsonb: [equipment_instance_ids])
+----

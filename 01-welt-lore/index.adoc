@@ -1,0 +1,110 @@
+
+= Flammenreiter: Welt & Lore Enzyklopädie
+
+
+Komplette Dokumentation der Flammenreiter-Welt. Geschichte, Pantheon, Sigillen, Geographie und Kreaturen im Detail.
+
+
+== Übersicht
+
+
+Diese Dokumentation ist in 5 Hauptdateien organisiert:
+
+
+=== 1. [Geschichte](./geschichte.adoc)
+
+Die vier Epochen der Welt über ~100.000 Jahre:
+* _Epoche der Schöpfung_ (~100.000–80.000 v.h.) — Die Sieben erschaffen die Welt
+* _Epoche der Kriege_ (~80.000–20.000 v.h.) — 60.000 Jahre Chaos und Konflikt
+* _Epoche der Stille_ (~20.000–800 v.h.) — Zeit ohne Magie
+* _Epoche der Akademie_ (letzte ~800 Jahre bis JETZT) — Magie kehrt zurück
+
+Enthält auch:
+* Detaillierte Zeitleiste
+* Verstecktes Wissen über den Götterkrieg
+* Die Fünf Gründer der Sturmfels-Akademie
+* Warum Sigillen JETZT erwachen
+
+
+=== 2. [Pantheon & Sigillen](./pantheon-sigillen.adoc)
+
+Das göttliche System und die 21 mächtigen Artefakte:
+* _Die 7 Urschöpfer_ — Pyrathis, Thalendis, Verathos, Aeolyn, Nocthari, Solveris, Aethyran
+* _Die 21 Sigillen_ — Vollständiger Katalog mit Mechaniken
+** Physische Beschreibung jeder Sigille
+** Trait-Affinität und Trait-Repulsion
+** Passive Boni und aktive Fähigkeiten
+** Trait-Adaptationen (wie sich Sigillen nach Trägern formen)
+** Trait-Drift Risiken
+* _Bindungsmechaniken_ — 3 Bond-Phasen, Attunement-DC
+* _Zwei- und Drei-Sigillen Kombinationen_ — Antagonisten-Level
+* _Story-Einsatz über die Arcs_ — Wie Sigillen in der Kampagne auftauchen
+
+
+=== 3. [Geographie](./geographie.adoc)
+
+Das Multi-Layer Welt-System:
+* _Politische Regionen_ — Hierarchie von Empire bis Wilderness
+* _Kulturelle Zonen_ — Unabhängig von politischen Grenzen
+* _Religiöse Zonen_ — Einflussgebiet und Rechtssystem-Überschreibungen
+* _Handelszonen_ — Gilden-Einflussgebiete und Preismodifizierer
+* _Punkt-Berechnung_ — PostGIS zur Bestimmung lokaler Eigenschaften
+* _Ort-Hierarchie_ — 5 Ebenen von Welt bis zu konkreten Points of Interest
+* _28 POI-Typen_ — Von Tavernen über Tempel bis zu Bandit Hideouts
+* _NPC & Organisations-Zuordnung_ — Wer arbeitet wo
+
+
+=== 4. [Kreaturen](./kreaturen.adoc)
+
+Das vollständige Bestiar-System:
+* _Taxonomie_ — Typ → Spezies → Rasse → Individuum
+* _14 Kreaturtypen_ — Von Aberrations bis Undead
+* _Herkunfts-Epochen_ — Schöpfung, Kriege, Stille, Akademie
+* _Intelligenz-Stufen_ — Geistlos bis Weise
+* _Sozialstrukturen_ — Einzelgänger bis Schwärme
+* _Flammenreiter-Original Kreaturen:_
+** Schattenwolf
+** Sturmgreif
+** Erdenwächter
+** Nebelstalker
+** Aschegeist
+** Sigillen-Verderber
+* _SRD Integration_ — 300+ Standard-Kreaturen
+
+
+== Navigation
+
+
+Alle Dateien sind im Markdown-Format und können mit relativem Links untereinander verlinkt werden:
+* link:./geschichte.adoc[Zur Geschichte]
+* link:./pantheon-sigillen.adoc[Zum Pantheon]
+* link:./geographie.adoc[Zur Geographie]
+* link:./kreaturen.adoc[Zu Kreaturen]
+
+
+== Welt-Kontext
+
+
+_Flammenreiter_ ist eine komplette D&D 5e Kampagnen-Plattform mit erweiterten Mechaniken:
+* Basis: D&D 5e + Baldur's Gate 3 Regeln
+* Magie-System: Sigillen als Ultimate Power-Level
+* Welt-System: Politisch, kulturell, religiös, handelsmäßig
+* NPC-System: Traits, Disposition, Beziehungen
+* Bestiar: Taxonomie mit Epochen-Lore
+
+Diese Lore-Dokumentation ist kampagnenunabhängig und beschreibt die WELT selbst, nicht spezifische Kampagnen.
+
+
+== Status
+
+
+* _Geschichte_: Vollständig
+* _Pantheon & Sigillen_: Vollständig mit allen 21 Sigillen
+* _Geographie_: Struktur vollständig, konkreter Content fehlt noch
+* _Kreaturen_: Katalog mit Flammenreiter-Originals + SRD-Integration
+
+'''
+
+_Version_: 1.0
+_Sprache_: Deutsch
+_Zielgruppe_: Game Master, Spieler (redaktionell angepasst), Entwickler

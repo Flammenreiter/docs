@@ -1,0 +1,396 @@
+
+= Infrastruktur & DevOps
+
+
+_PLACEHOLDER — Wird bei Implementierungs-Start befüllt_
+
+'''
+
+
+== Status
+
+
+Diese Dokumentation wird bei Beginn der Infrastruktur-Implementierung mit spezifischen Konfigurationen, Scripts und Best-Practices gefüllt. Derzeit sind nur die geplanten Themen dokumentiert.
+
+'''
+
+
+== Geplante Themen
+
+
+
+=== CI/CD Pipeline
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Komponente | Beschreibung | Status
+
+| _GitHub Actions_ | Für alle Repos (Web, Mobile, Shared) | Geplant
+| _Typ-Generierung_ | Supabase → Zod → npm publish → Apps | Geplant
+| _Zod → C++ Codegen_ | Für Unreal Engine Mobile App | Geplant
+| _Automated Testing_ | Tests auf PRs | Geplant
+| _Staging Environment_ | Vor Production | Geplant
+| _Production Environment_ | Live-System | Geplant
+|===
+
+
+
+==== Workflows (geplant)
+
+
+[source,yaml]
+----
+# .github/workflows/type-generation.yml
+- Trigger: Supabase Schema-Änderung
+- Steps:
+  1. Introspect Supabase
+  2. Generate Zod Schemas
+  3. Generate C++ Types
+  4. Publish to NPM
+  5. Notify Apps
+----
+
+[source,yaml]
+----
+# .github/workflows/test.yml
+- Trigger: Pull Request
+- Steps:
+  1. Unit Tests (Jest)
+  2. Integration Tests (Supabase Edge Functions)
+  3. E2E Tests (Playwright)
+  4. Coverage Report
+----
+
+[source,yaml]
+----
+# .github/workflows/deploy.yml
+- Trigger: Merge to main
+- Steps:
+  1. Build (Web)
+  2. Deploy to Staging (Vercel)
+  3. Smoke Tests
+  4. Manual Approval
+  5. Deploy to Production
+----
+
+'''
+
+
+=== Testing-Strategie
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Test-Typ | Umfang | Tools | Beispiele
+
+| _Unit Tests_ | Hono Services | Jest, Vitest | EffectProcessor, DCCalculator
+| _Integration Tests_ | Supabase Edge Functions | Supabase Local Dev | XP-Verteilung, Sync-Operationen
+| _E2E Tests_ | User-Flows | Playwright, Cypress | Character-Sheet Complete Flow, Combat Encounter
+| _Snapshot Tests_ | UI-Komponenten | Jest | Spider-Chart, Paper-Doll, Character-Header
+| _Performance Tests_ | Kritische Pfade | Lighthouse, Custom | Session-Planner Graph Load, Map Rendering
+|===
+
+
+
+==== Test-Coverage-Ziele
+
+
+* _Services (Business Logic):_ 90%+ Coverage
+* _Components (UI):_ 70%+ Coverage (nur kritische)
+* _Edge Functions:_ 85%+ Coverage
+* _Database Functions:_ 80%+ Coverage
+
+'''
+
+
+=== Supabase Setup
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Komponente | Beschreibung | Status
+
+| _RLS Policies_ | Kampagnen-Isolation, Spieler-Scope | Geplant
+| _Realtime Channels_ | Pro Kampagne, pro Session | Geplant
+| _Edge Functions_ | AI-Portraits, Discord-Webhooks, Type-Gen | Geplant
+| _PostGIS Extension_ | Geographie-Layer für Maps | Geplant
+| _Row-Level Security_ | Pro Rolle (GM, Spieler, Viewer) | Geplant
+|===
+
+
+
+==== RLS-Struktur (geplant)
+
+
+[source,sql]
+----
+-- Kampagnen-Isolation
+CREATE POLICY "Users can access own campaigns"
+  ON campaigns
+  USING (created_by_user_id = auth.uid());
+
+-- Spieler dürfen nur ihre Charaktere sehen
+CREATE POLICY "Players see own characters"
+  ON characters
+  USING (player_user_id = auth.uid() OR created_by_user_id = auth.uid());
+
+-- GM sieht alles in der Kampagne
+CREATE POLICY "GM sees all campaign data"
+  ON session_mechanical_log
+  USING (campaign_id IN (SELECT id FROM campaigns WHERE created_by_user_id = auth.uid()));
+----
+
+
+==== Realtime Subscriptions (geplant)
+
+
+[source,typescript]
+----
+// Pro-Session Channel
+supabase
+  .channel(`session:${sessionId}`)
+  .on('postgres_changes', { event: '*', schema: 'public' }, payload => {
+    // Character updates
+    // NPC updates
+    // Loot distribution
+  })
+  .subscribe();
+----
+
+'''
+
+
+=== Caching
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Ebene | Daten | Strategy | TTL
+
+| _Welt-Ebene_ | Rassen, Klassen, Items, Spells, Creatures | Aggressiv | 1 Woche
+| _Kampagnen-Ebene_ | Stories, Quests, NPCs, Organizations | Moderate | 1 Stunde
+| _Session-Ebene_ | Mechanical Log, Loot, Discoveries | None (Realtime) | —
+|===
+
+
+
+==== Caching-Libraries
+
+
+
+[cols="1,1",options="header"]
+|===
+| Tool | Verwendung
+
+| _Redis_ | Distributed Cache (Supabase Sessions)
+| _Browser LocalStorage_ | Client-Side UI State
+| _Service Workers_ | Offline Assets + PWA
+|===
+
+
+'''
+
+
+=== Monitoring
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Aspekt | Tool | Metriken
+
+| _Error Tracking_ | Sentry (oder PostHog) | Exception Rate, User Impact
+| _Performance_ | Vercel Analytics + Custom | Page Load, API Response Time
+| _Realtime Health_ | Custom Dashboards | WebSocket Connections, Latency
+| _API Metrics_ | Supabase Logs | Request Rate, Errors, Slow Queries
+|===
+
+
+
+==== Alerting (geplant)
+
+
+[source,yaml]
+----
+# Kritische Alerts
+- Error Rate > 1%
+- API Response Time > 1000ms
+- Database Connections > 80%
+- Edge Function Executions Failed
+----
+
+'''
+
+
+=== Deployment
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| System | Hosting | Besonderheit
+
+| _Web App_ | Vercel oder Cloudflare Pages | Zero-downtime deploys, Edge Caching
+| _Supabase_ | Managed (Official) | Auto-Backups, Updates
+| _Hono API_ | Supabase Edge Functions oder Cloudflare Workers | Serverless
+| _Mobile (Unreal)_ | App Store / Google Play | Distribution via App Stores
+|===
+
+
+
+==== Deployment-Checklist (geplant)
+
+
+[source,markdown]
+----
+- [ ] Tests passing (all suites)
+- [ ] Type-generation successful
+- [ ] Database migrations applied
+- [ ] Edge Functions deployed
+- [ ] Web build succeeds
+- [ ] Smoke tests pass
+- [ ] Performance metrics acceptable
+- [ ] Security scan clear
+- [ ] Manual QA sign-off
+- [ ] Rollback plan documented
+----
+
+'''
+
+
+=== Environment-Variablen (geplant)
+
+
+[source,env]
+----
+# .env.local (Development)
+VITE_SUPABASE_URL=http://localhost:54321
+VITE_SUPABASE_KEY=eyJ...
+VITE_API_BASE_URL=http://localhost:3000
+
+# .env.staging
+VITE_SUPABASE_URL=https://staging.supabase.co
+VITE_SUPABASE_KEY=eyJ...
+VITE_API_BASE_URL=https://api-staging.example.com
+
+# .env.production
+VITE_SUPABASE_URL=https://prod.supabase.co
+VITE_SUPABASE_KEY=eyJ...
+VITE_API_BASE_URL=https://api.example.com
+----
+
+'''
+
+
+== Repository-Struktur (geplant)
+
+
+----
+flammenreiter-monorepo/
+├── web/                       # Next.js / React Web App
+│   ├── src/
+│   ├── .github/workflows/    # CI/CD
+│   └── Dockerfile
+├── mobile/                    # Unreal Engine 5 Project
+│   ├── Source/
+│   ├── Content/
+│   └── .github/workflows/
+├── packages/
+│   ├── shared-types/         # Zod Schemas (published to npm)
+│   ├── ui-components/        # Exportable Component Library
+│   └── api-client/           # Typed Supabase Client
+├── docker/
+│   ├── Dockerfile.web
+│   ├── docker-compose.yml
+│   └── Dockerfile.functions
+├── .github/
+│   ├── workflows/
+│   │   ├── test.yml
+│   │   ├── type-generation.yml
+│   │   ├── deploy-staging.yml
+│   │   └── deploy-production.yml
+│   └── CODEOWNERS
+└── index.adoc
+----
+
+'''
+
+
+== Security Best Practices (geplant)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Maßnahme
+
+| _Secrets Management_ | GitHub Secrets für API Keys, DB Credentials
+| _RLS Enforcement_ | Strenge Row-Level Security Policies
+| _HTTPS Only_ | Alle Connections encrypted
+| _Rate Limiting_ | Pro User, Pro IP
+| _CORS Policy_ | Whitelist nur trusted Origins
+| _Input Validation_ | Zod Schema Validation überall
+| _SQL Injection_ | Parameterized Queries via ORM
+| _CSRF Protection_ | SameSite Cookies
+| _XSS Prevention_ | Content Security Policy Headers
+|===
+
+
+'''
+
+
+== Disaster Recovery (geplant)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Szenario | Maßnahme | RTO | RPO
+
+| _Database Corruption_ | Automated Backups → Restore | 30 min | 1 hour
+| _Code Deployment Bug_ | Automatic Rollback | 5 min | 0 min
+| _Service Outage_ | Multi-Region Failover | 10 min | 5 min
+| _Security Breach_ | Immediate Access Revocation | 1 min | 0 min
+|===
+
+
+'''
+
+
+== Abhängigkeiten
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Abhängigkeit | Status | Auswirkung
+
+| _Stabile API-Schicht (Hono)_ | _Erforderlich_ | Basis für CI/CD
+| _Finalisierte Repo-Struktur_ | _Erforderlich_ | Für GitHub Actions
+| _Supabase Account & Konfiguration_ | _Erforderlich_ | Für Tests & Deployment
+| _Vercel / Hosting-Provider Account_ | _Erforderlich_ | Für Web Deployment
+| _App Store / Google Play Accounts_ | _Erforderlich_ | Für Mobile Deployment
+|===
+
+
+'''
+
+
+== Nächste Schritte
+
+
+. Repository-Struktur finalisieren
+. GitHub Actions Workflows implementieren
+. Supabase RLS Policies definieren und testen
+. Deployment-Prozess dokumentieren
+. Monitoring- und Alerting-System aufbauen
+. Security-Audit durchführen
+
+'''
+
+_Diese Dokumentation ist ein PLACEHOLDER. Sie wird bei Implementierungs-Start mit konkreten Configs, Scripts und Prozeduren befüllt. Stand: 2026-03-26_

@@ -1,0 +1,110 @@
+name: Build PDF Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.adoc'
+      - 'theme/**'
+      - 'images/**'
+      - '.github/workflows/build-pdf.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.adoc'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install Asciidoctor
+        run: |
+          gem install asciidoctor
+          gem install asciidoctor-pdf
+          gem install asciidoctor-diagram
+          gem install rouge
+
+      - name: Build HTML
+        run: |
+          mkdir -p build/html
+          asciidoctor \
+            -r asciidoctor-diagram \
+            -a toc=left \
+            -a toclevels=3 \
+            -a icons=font \
+            -a source-highlighter=rouge \
+            -a imagesdir=images \
+            -a revdate=$(date +%Y-%m-%d) \
+            -D build/html \
+            index.adoc
+
+      - name: Build PDF
+        run: |
+          mkdir -p build/pdf
+          asciidoctor-pdf \
+            -r asciidoctor-diagram \
+            -a toc \
+            -a toclevels=3 \
+            -a icons=font \
+            -a source-highlighter=rouge \
+            -a imagesdir=images \
+            -a revdate=$(date +%Y-%m-%d) \
+            -a pdf-themesdir=theme \
+            -a pdf-theme=flammenreiter \
+            -D build/pdf \
+            index.adoc
+
+      - name: Build einzelne Kapitel als PDF
+        run: |
+          for dir in [0-9][0-9]-*/; do
+            if [ -f "${dir}index.adoc" ]; then
+              echo "Building PDF for ${dir}..."
+              asciidoctor-pdf \
+                -r asciidoctor-diagram \
+                -a toc \
+                -a icons=font \
+                -a source-highlighter=rouge \
+                -a imagesdir=../images \
+                -a revdate=$(date +%Y-%m-%d) \
+                -a pdf-themesdir=../theme \
+                -a pdf-theme=flammenreiter \
+                -D build/pdf \
+                "${dir}index.adoc"
+            fi
+          done
+
+      - name: Upload PDF artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flammenreiter-docs-pdf
+          path: build/pdf/*.pdf
+          retention-days: 30
+
+      - name: Upload HTML artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flammenreiter-docs-html
+          path: build/html/
+          retention-days: 30
+
+      - name: Commit PDFs to build branch
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B build/pdf
+          git add -f build/pdf/*.pdf
+          git commit -m "docs: update generated PDFs [skip ci]" || echo "No changes"
+          git push origin build/pdf --force

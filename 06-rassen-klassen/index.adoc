@@ -1,0 +1,214 @@
+
+= 06 Rassen, Klassen & Herkunft
+
+
+Umfassende Dokumentation des Charakter-Erstellungs-Systems basierend auf D&D 5e 2014 mit Flammenreiter-Hybrid-Modifications.
+
+
+== Überblick
+
+
+_10 Rassen_ · _12 Klassen_ · _3-Stufen-Herkunft_ · _19 Abstammungen_ · _7 Akademie-Fächer_
+
+Das System kombiniert D&D 5e 2014 Basis mit modernen Elementen aus D&D 2024 und BG3, während eine einzigartige 3-stufige Herkunfts-Mechanik etabliert wird, die Stereotypen ablöst.
+
+
+== Regelversion
+
+
+_Basis_: D&D 5e 2014 SRD
+
+_Von 2024 übernommen_:
+* BG3 Bonus Actions (Shove/Jump)
+* Keine 'bösen Rassen'
+* Flexiblere Feat-Optionen
+
+_Nicht übernommen_:
+* Ability Scores aus Background (stattdessen: 3-Stufen-Herkunftssystem)
+
+_Datenbank-Konvention_: Rassen heißen weiterhin 'Rassen' in der `races`-Tabelle (nicht "Species")
+
+
+== Drei-Stufen-Herkunft (Mount & Blade Bannerlord-Style)
+
+
+Die Charakter-Erstellung nutzt ein _3-Stufen-Herkunftssystem_ statt klassischem D&D Background:
+
+
+=== Stufe 1 — Rasse (Biologie)
+
+
+_Was_: Rein biologische Features
+* Darkvision, Resistenzen, Speed, Größe, Lebensspanne, Innate Spells
+* _KEINE Ability Score Boni_
+* Ein Zwerg-Wizard ist genauso viable wie ein Zwerg-Fighter
+
+
+=== Stufe 2 — Abstammung (Familie/Vorfahren)
+
+
+_Was_: Wo du HERKOMMST?
+* +1 auf EINEN Ability Score
+* Kleiner Skill-Vorteil
+* 19 vordefinierte Optionen in 5 Kategorien
+
+
+=== Stufe 3 — Kindheitserlebnis (Prägendes Ereignis)
+
+
+_Was_: Was dir als KIND passiert ist, bevor du an die Akademie kamst
+* Wird durch AI-Interview im Charakter-Wizard generiert
+* Einzigartig für jeden Charakter
+* Kleine narrative Boni (Trait-Start, 1× Advantage, Wissens-Bonus)
+
+
+== 10 Spielbare Rassen
+
+
+_5 Kern-Rassen_ (immer verfügbar):
+. Mensch
+. Zwerg
+. Elf
+. Halbelf
+. Halbling
+
+_5 Erweiterte Rassen_ (verfügbar, seltener):
+. Halbork
+. Gnom
+. Tiefling
+. Drachenblütige
+. Aasimar
+
+Siehe `rassen.adoc` für detaillierte Spezifikationen, Subrassen, Lore und Kultur-Noten.
+
+
+== 12 Verfügbare Klassen
+
+
+_Verfügbar_: Fighter, Barbarian, Monk, Paladin, Ranger, Wizard, Sorcerer, Cleric, Druid, Warlock, Bard, Rogue
+
+_Nicht verfügbar_: Artificer (existiert als Profession "Tüftler", nicht als Klasse)
+
+_Subclass-Policy_: Alle PHB-Subclasses erlaubt (PHB + Xanathar's + Tasha's als Pool). GM kann Setting-fremde einschränken.
+
+_Kein Level-Cap_: Level 20 ist "Epos Stufe 1". Ab Level 20+ kommen Sigillen als komplett neues Power-Layer.
+
+Siehe `klassen.adoc` für Subclass-Affinitäten, Dragon Bond Alignment und Warlock-Patrons.
+
+
+== 19 Abstammungen (5 Kategorien)
+
+
+
+=== Kategorien
+
+
+. _Einfaches Volk_ (3) — Bauern, Fischer, Bergarbeiter
+. _Handwerk & Handel_ (4) — Schmiede, Händler, Heiler, Handwerker
+. _Gelehrte & Geistliche_ (3) — Gelehrte, Priester, Chronisten
+. _Krieger & Ordnungshüter_ (3) — Soldaten, Wache, Grenzjäger
+. _Randständige & Besondere_ (6) — Adel, Kriminelle, Nomaden, Waisen, Magisch Berührt, Drachenblut-Erbe
+
+Jede Abstammung gibt:
+* +1 auf EINEN Ability Score
+* Einen kleinen Skill-Vorteil (Proficiency, Tool, Advantage einmalig, etc.)
+
+Siehe `herkunft.adoc` für vollständige Liste mit Beschreibungen und Mechaniken.
+
+
+== Akademie-Lehrplan
+
+
+_Flammen-Prinzip_: Die Spielergruppe bildet eine FLAMME — eine feste Einheit, die in ALLES zusammen geht.
+
+_3 Lehrjahre_:
+* Jahr 1 — Grundlagen (Alter ~10-12)
+* Jahr 2 — Vertiefung (Alter ~12-14)
+* Jahr 3 — Meisterschaft & Bindung (Alter ~14-16)
+
+_7 Fächer_ (alle belegen alles, Schwerpunkt nach Klasse):
+. Kampfkunst
+. Arkane Lehre
+. Welt & Überleben
+. Geschichte & Götter
+. Drachenkunde
+. Diplomatie & Kommunikation
+. Handwerk & Profession
+
+_4 Häuser_ (Perspektive, nicht Beschränkung):
+* Drachenfeste (Rot) — Ehre, Kampf, Direktheit
+* Turm der Ketten (Blau) — Wissen, Forschung, Analyse
+* Tiefe Esse (Bronze) — Natur, Handwerk, Pragmatismus
+* Liebe & Leben (Grün) — Diplomatie, Gemeinschaft, Intuition
+
+Keine Noten, sondern Fortschritt durch Spiel. Trait-Progression automatisch durch Würfel-Events. Disposition zu NPCs-Lehrern anstatt künstliche Bewertungen.
+
+Siehe `herkunft.adoc` für Akademie-Details und Lehrplan-Struktur.
+
+
+== Dragon Bond & Klassen
+
+
+
+=== 3 Drachen-Archetypen
+
+
+. _Kampfdrache_ — Martial, groß, Reittier
+. _Taschendrache_ — Caster-Fokus, klein, Vertrauter
+. _Schattendrache_ — Stealth/Skill, mittel, Spion
+
+
+=== Klassen-Affinität zur Dragon Bond
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Drachen-Typ | Ideale Klassen | Kompatible
+
+| _Kampfdrache_ | Fighter, Barbarian | Paladin (Kampf), Ranger (Kampf), Monk, Cleric (War)
+| _Taschendrache_ | Wizard, Sorcerer | Cleric (alle außer War), Druid, Warlock, Bard (Lore), Paladin (Magie)
+| _Schattendrache_ | Rogue | Ranger (Scout), Monk (Shadow), Warlock (Chain), Bard (Whispers)
+|===
+
+
+_Halbcaster_ (Paladin, Ranger, Bard): WAHLFREIHEIT — Drache wählt basierend auf dominanten Traits und Spielweise.
+
+Siehe `klassen.adoc` für detaillierte Mechaniken und Warlock-Patrons.
+
+
+== Philosophie: Individualität über Stereotyp
+
+
+_Warum keine Ability-Boni auf Rassen?_
+
+Kein Spieler soll sich gezwungen fühlen eine Rasse zu wählen weil sie +2 auf den richtigen Score gibt. _Rassen sind WER du bist, nicht WAS du kannst._
+
+Ein Zwerg ist von Natur aus zäh (Poison Resistance, Extra HP als Hügel-Zwerg) — aber ob er stark oder klug ist, hängt von seiner FAMILIE ab, nicht seiner Genetik.
+
+_Zwei Zwerge an der Akademie können komplett unterschiedlich sein_ — der eine studiert Magie (Schmiedefamilie + Gelehrtenfamilie Abstammung), der andere ist ein Barbar (Bergarbeiterfamilie + Soldatenfamilie).
+
+Das Drei-Stufen-System erzwingt Rollenplay und Gedanken über Herkunft statt nur "welche Rasse hat die besten Stats?"
+
+
+== Navigation
+
+
+* link:rassen.adoc[Rassen] — 5 Kern + 5 Erweiterte Rassen mit Subrassen, Lore, Kultur-Noten
+* link:klassen.adoc[Klassen] — 12 Klassen, Subclass-Policy, Dragon Bond Affinität, Warlock-Patrons
+* link:herkunft.adoc[Herkunft] — 3-Stufen-System, 19 Abstammungen, AI-Interview Kindheit, Akademie-Lehrplan
+
+
+== Spieler-Erlebnis
+
+
+_In-Character Charakter-Erstellung_:
+. Spieler wählt Rasse (Biologie) — "Was bin ich?"
+. Spieler wählt Abstammung (Familie) — "Wo komme ich her?"
+. AI-Interview Kindheit — "Was hat mich geprägt?"
+. Spieler wählt Klasse (Fähigkeiten) — "Was kann ich?"
+. GM validiert Charakter
+. Party-Zuweisung + Akademie-Hauszuweisung (basierend auf Traits + Spieler-Wunsch)
+
+_Kein Statistik-Powergaming möglich_ — maximale Vielfalt und Kreativität in der Charakter-Erstellung gefördert.
+

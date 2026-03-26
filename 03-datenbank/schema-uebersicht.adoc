@@ -1,0 +1,571 @@
+
+= Datenbank Schema-Übersicht
+
+
+Vollständige Referenz aller ~200 Tabellen nach Domäne organisiert.
+
+
+== Welt-Ebene Tabellen (~80 Tabellen)
+
+
+Kampagnenunabhängige Masterdaten, alle Spieler lesen mit `player_visible`-Filter.
+
+
+=== Basis-Mechanik (2 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `ability_scores` | id, name (STR/DEX/CON/INT/WIS/CHA) | - | 6 Standard-Fähigkeiten
+| `skills` | id, name, ability_score_id (FK) | ability_scores | 18 D&D-Skills + Custom möglich
+|===
+
+
+
+=== Rassen & Herkunft (7 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `races` | id, name, size, speed, description | - | 5+ Rassen
+| `subraces` | id, name, race_id (FK) | races | Unterrassen pro Rasse
+| `race_traits` | id, race_id (FK), trait_spectrum_id (FK) | races, trait_spectrums | Startwert für Spektren
+| `race_innate_spells` | id, race_id (FK), spell_id (FK) | races, spells | Angeborene Zauber
+| `race_languages` | id, race_id (FK), language_id (FK) | races, languages | Sprachen pro Rasse
+| `race_relationships` | id, race_id (FK), other_race_id (FK), relationship_type | races (Self-Ref) | Kulturelle Beziehungen
+| `languages` | id, name, script, description | - | Sprachen-Masterliste
+|===
+
+
+
+=== Klassen & Features (8 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `classes` | id, name, hit_die, primary_ability | - | 12+ Klassen
+| `subclasses` | id, name, class_id (FK), level_gained | classes | Unterklassen pro Klasse
+| `class_saving_throws` | id, class_id (FK), ability_score_id (FK) | classes, ability_scores | Profizienzen pro Klasse
+| `class_skill_choices` | id, class_id (FK), available_skills (jsonb) | classes | Skill-Wahlmenü
+| `class_proficiencies` | id, class_id (FK), proficiency_type, proficiency_value | classes | Waffen-, Rüstungs-, Tool-Profizienzen
+| `class_features` | id, class_id (FK), subclass_id (FK), level_gained, mechanical_effects (jsonb) | classes, subclasses | Features mit MechanicalEffects
+| `class_spell_slots` | id, class_id (FK), level, slot_count_by_character_level (jsonb) | classes | Zauberslot-Progression
+| `equipment_slots` | id, name (head, torso, main_hand, ...) | - | 15+ Global-Slots definiert
+|===
+
+
+
+=== Zauber (5 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `spell_schools` | id, name (Abjuration, Evocation, ...) | - | 8 Schulen
+| `spells` | id, name, spell_school_id (FK), level, casting_time, range, duration, concentration, components (jsonb: V/S/M), mechanical_effects (jsonb) | spell_schools | 500+ Zauber
+| `spell_damage` | id, spell_id (FK), damage_type_id (FK), base_damage, damage_per_level | spells, damage_types | Skalierung pro Level
+| `spell_class_access` | id, spell_id (FK), class_id (FK) | spells, classes | M:N Zugriffsregeln
+| `damage_types` | id, name (fire, cold, poison, ...) | - | 13 D&D + Custom magisch
+|===
+
+
+
+=== Zustände & Sinne (3 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `conditions` | id, name, duration_type, mechanical_effects (jsonb) | - | 15+ D&D/BG3-Zustände
+| `senses` | id, name (Darkvision, Truesight, ...), range_feet, description | - | Verschiedene Sinne/Wahrnehmungen
+| `damage_types` | id, name | - | Schadenstypen (siehe oben)
+|===
+
+
+
+=== Items & Ausrüstung (10 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `item_categories` | id, name (weapon, armor, clothing, ...) | - | Haupt-Item-Kategorien
+| `rarity_tiers` | id, name (common, uncommon, rare, ...) | - | 7 Seltenheitsstufen
+| `items` | id, name, category_id (FK), description, base_weight, is_consumable, mechanical_effects (jsonb) | item_categories | Basis-Item-Definition
+| `item_rarity_variants` | id, item_id (FK), rarity_tier_id (FK), damage_mod, ac_mod, description_variant | items, rarity_tiers | 7 Varianten pro Item
+| `item_weapon_stats` | id, item_id (FK), damage_dice, damage_type_id (FK), weapon_type, is_finesse, is_light | items, damage_types | Waffenspezifika
+| `item_armor_stats` | id, item_id (FK), ac_base, strength_requirement, stealth_disadvantage | items | Rüstungsspezifika
+| `item_clothing_social` | id, item_id (FK), appearance_type (peasant, noble, ...), social_modifier | items | Outfit-Effekte
+| `item_special_abilities` | id, item_id (FK), name, mechanical_effects (jsonb) | items | Magische Fähigkeiten
+| `item_container_stats` | id, item_id (FK), weight_capacity_lbs, stealth_modifier, size_category, social_visibility | items | Behälter-Kapazität & Stealth
+| `equipment_slots` | id, name | - | Slot-Definition (siehe Klassen)
+|===
+
+
+
+=== Feats (1 Tabelle)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `feats` | id, name, description, prerequisite_level, prerequisite_ability (jsonb), mechanical_effects (jsonb) | - | Alle verfügbaren Feats
+|===
+
+
+
+=== Kreaturen (8 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `creature_types` | id, name (humanoid, beast, undead, ...) | - | 14+ Creature-Typen
+| `creatures` | id, name, creature_type_id (FK), cr, size, alignment, description | creature_types | 400+ Kreaturen
+| `creature_ability_scores` | id, creature_id (FK), ability_score_id (FK), score | creatures, ability_scores | Ability Scores pro Kreatur
+| `creature_resistances` | id, creature_id (FK), damage_type_id (FK), resistance_type (immunity/resistance/vulnerability) | creatures, damage_types | Resistenzen
+| `creature_condition_immunities` | id, creature_id (FK), condition_id (FK) | creatures, conditions | Zustands-Immunitäten
+| `creature_actions` | id, creature_id (FK), name, description, action_type (action/bonus_action/reaction), mechanical_effects (jsonb) | creatures | Aktionen mit Effekten
+| `creature_senses` | id, creature_id (FK), sense_id (FK) | creatures, senses | Sinne pro Kreatur
+| `creature_languages` | id, creature_id (FK), language_id (FK) | creatures, languages | Sprachen pro Kreatur
+|===
+
+
+
+=== Geographie & Orte (4 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `political_regions` | id, name, geometry (PostGIS), default_weather_profile_id (FK) | region_weather_profiles | Größere Gebiete (Länder, Provinzen)
+| `cultural_zones` | id, name, geometry (PostGIS), parent_region_id (FK) | political_regions | Kulturbereiche innerhalb Regionen
+| `religious_zones` | id, name, geometry (PostGIS), parent_region_id (FK), deity_id (FK) | political_regions, deities | Religionssphären
+| `trade_zones` | id, name, geometry (PostGIS), parent_region_id (FK) | political_regions | Handelswege & Märkte
+|===
+
+
+
+=== Organisationen & Kulturen (5 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `organizations` | id, name, type_id (FK), leader_npc_id (FK), motto, headquarters_region_id (FK) | organization_types, world_npcs, political_regions | Gilden, Orden, etc.
+| `organization_types` | id, name, parent_type_id (FK Self-Ref) | - | Organisationstyp-Hierarchie
+| `organization_relationships` | id, org_a_id (FK), org_b_id (FK), relationship_type (allied, rival, ...) | organizations (Self-Ref) | Org-zu-Org Beziehungen
+| `cultures` | id, name, region_id (FK), trait_affinities (jsonb), description | political_regions | Kulturdefinitionen
+| `religions` | id, name, deity_id (FK), description | deities | Religionssysteme
+|===
+
+
+
+=== Trait-System (3 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `trait_spectrums` | id, name (Loyal, Skeptisch, ...), description, visibility_scope | - | Kontinuierliche Spektren (-5 bis +5)
+| `trait_spectrum_effects` | id, spectrum_id (FK), level_min, level_max, mechanical_effects (jsonb), description | trait_spectrums | Effekte pro Level
+| `trait_exclusion_rules` | id, spectrum_a_id (FK), spectrum_b_id (FK), exclusion_type (hard/soft) | trait_spectrums (Self-Ref) | Inkompatible Kombos
+|===
+
+
+
+=== Welt-NPCs (5 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `world_npcs` | id, name, tier (named/recurring/background), description, location_node_id (FK) | travel_nodes | Master-NPC-Liste
+| `world_npc_ability_scores` | id, npc_id (FK), ability_score_id (FK), score | world_npcs, ability_scores | Abilities pro NPC
+| `world_npc_trait_levels` | id, npc_id (FK), spectrum_id (FK), level | world_npcs, trait_spectrums | Persönlichkeitsspektren
+| `world_npc_organizations` | id, npc_id (FK), org_id (FK), rank_id (FK) | world_npcs, organizations, organization_ranks | NPC-Organisationszugehörigkeit
+| `world_npc_relationships` | id, npc_a_id (FK), npc_b_id (FK), relationship_type | world_npcs (Self-Ref) | NPC-zu-NPC Beziehungen
+|===
+
+
+
+=== Akademie (8 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `academy_houses` | id, name, description, trait_affinities (jsonb), deity_affinities (jsonb) | - | 5-6 Häuser (Schulzüge)
+| `academy_house_trait_affinities` | id, house_id (FK), spectrum_id (FK), affinity_level | academy_houses, trait_spectrums | Haus-Trait-Neigungen
+| `academy_house_class_affinities` | id, house_id (FK), class_id (FK), affinity_level | academy_houses, classes | Haus-Klassen-Neigungen
+| `academy_subjects` | id, name (Zauber, Melee, Lore, ...), level_1_content (jsonb) | - | 7+ Unterrichtsfächer
+| `academy_subject_year_content` | id, subject_id (FK), year (1-4), content (jsonb) | academy_subjects | Unterrichtsinhalt pro Schuljahr
+| `academy_flammen` | id, campaign_id (FK), name, description, house_id (FK) | academy_houses | Spieler-Gruppen (Schulzüge)
+| `academy_flamme_members` | id, flamme_id (FK), character_id (FK), joined_at_harptos | academy_flammen | Gruppenmitgliedschaften
+| `academy_house_points` | id, house_id (FK), campaign_id (FK), points, updated_at | academy_houses | Punkte-Tracking
+|===
+
+
+
+=== Professionen (2 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `professions` | id, name, category (craft, trade, military, ...), skill_requirements (jsonb), income_per_day (jsonb [1-5]), mechanical_effects (jsonb) | - | 10+ Berufe
+| `profession_trait_requirements` | id, profession_id (FK), spectrum_id (FK), min_level | professions, trait_spectrums | Trait-Voraussetzungen
+|===
+
+
+
+=== Kalender & Zeit (4 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `seasons` | id, name (Winter, Frühling, ...), start_month, end_month, mechanical_effects (jsonb) | - | 4 Jahreszeiten
+| `holidays` | id, name, date (Harptos-Format), duration_days, mechanical_effects (jsonb), is_academy_event | - | 5+ Feiertage
+| `academy_phases` | id, name (Wissen/Lehren/Prüfung/Ruhe), start_month, end_month, theme | - | 4 Akademie-Phasen
+| `time_of_day_types` | id, name (dawn, morning, afternoon, ...) | - | Tageszeiten
+|===
+
+
+
+=== Wetter (2 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `weather_conditions` | id, name, category (natural/magical), visibility_modifier, travel_speed_modifier, combat_effects (jsonb), survival_dc, mechanical_effects (jsonb) | - | 7+ Wetter-Typen
+| `region_weather_profiles` | id, region_id (FK), harptos_month (1-12), weather_weights (jsonb: {condition_name: weight}) | political_regions | Wetter pro Monat & Region
+|===
+
+
+
+=== Reise (7 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `terrain_types` | id, name, travel_modifier, stealth_modifier, perception_modifier, encounter_frequency, mechanical_effects (jsonb) | - | Terrain-Master (road, forest, ...)
+| `travel_nodes` | id, name, region_id (FK), node_type (city, town, village, ...), coordinates (PostGIS), has_inn, has_stable, has_market | political_regions | Reise-Wegpunkte
+| `travel_routes` | id, name, from_node_id (FK), to_node_id (FK), distance_miles, primary_terrain_id (FK), route_type (highway, road, ...), danger_level (1-5), is_bidirectional, mechanical_effects (jsonb) | travel_nodes, terrain_types | Verbindungen zwischen Nodes
+| `travel_route_seasonal_modifiers` | id, route_id (FK), harptos_month (1-12), speed_modifier, is_passable, additional_effects (jsonb) | travel_routes | Saisonale Modifikatoren
+| `travel_mounts_vehicles` | id, name, category (mount/cart/wagon/ship/flying), speed_modifier, cargo_capacity, passenger_capacity, terrain_restrictions (jsonb), requires_skill | - | Fortbewegungsmittel
+| `location_nodes` | id, name, region_id (FK), node_type, geometry (PostGIS) | political_regions | Orte mit Positionen
+| `random_encounters` | id, name, encounter_type (combat, social, discovery, ...), description, difficulty (1-5), resolution_options (jsonb) | - | Random-Event-Templates
+|===
+
+
+
+=== Gerüchte & Informationen (6 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `information_sources` | id, name, source_type (tavern, notice_board, ...), location_node_id (FK), reliability (1-5) | travel_nodes | Rumor-Quellen im Ort
+| `ground_truths` | id, title, truth_text (GM only!), reference_type (event, quest, npc, ...), reference_id, status (active, resolved, ...) | - | Wahre Fakten hinter Gerüchten
+| `rumor_variants` | id, ground_truth_id (FK), variant_text, accuracy (accurate, exaggerated, ...), tone (neutral, alarming, ...) | ground_truths | Variationen einer Wahrheit
+| `location_rumors` | id, source_id (FK), rumor_variant_id (FK), available_from_harptos, discovery_dc, cost_gp, narrator_npc_id (FK) | information_sources, rumor_variants, world_npcs | Konkreter Rumor an Ort
+| `rumor_spread_config` | id, region_id (FK), spread_speed (fast/normal/slow), accuracy_degradation (none/slight/heavy) | political_regions | Wie Gerüchte sich verbreiten
+| `dialog_templates` | id, name, profession_id (FK), situation_type (casual, professional, ...), npc_tier_min | professions | Gesprächs-Templates
+|===
+
+
+
+=== Dialog-System (6 Tabellen - Welt)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `dialog_templates` | id, name, profession_id (FK), situation_type, npc_tier_min, description | professions | Templates für Gespräche
+| `dialog_template_nodes` | id, template_id (FK), topic, npc_hint_text, prerequisite_type (skill_check, rumor_known, ...), consequence_type, sort_order | dialog_templates | Dialog-Baum pro Template
+| `npc_emotion_portraits` | id, npc_id (FK), emotion (neutral, happy, angry, ...), portrait_url, generated_by | world_npcs | Emotions-Varianten
+| `crime_types` | id, name, category, default_severity (1-5), is_magic_related, mechanical_effects (jsonb) | - | Straftat-Masterliste
+| `legal_consequences` | id, name, consequence_type (fine, imprisonment, ...), severity_min/max, base_value, duration | - | Straf-Optionen
+| `region_laws` | id, region_id (FK), crime_type_id (FK), local_severity (override), is_illegal | political_regions, crime_types | Regionale Rechtsvariationen
+|===
+
+
+
+=== Pantheon & Sigillen (5 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `deities` | id, name, title, domains (jsonb), description, trait_affinities (jsonb), alignment | - | Götter des Pantheons
+| `sigils` | id, name, deity_id (FK), aspect, physical_description, trait_affinities (jsonb), base_passive_effects (jsonb) | deities | Magische Sigillen
+| `sigil_trait_adaptations` | id, sigil_id (FK), spectrum_id (FK), min_trait_level, adaptation_name, adapted_passive (jsonb), adapted_active (jsonb) | sigils, trait_spectrums | Trait-basierte Adaptionen
+| `sigil_powers` | id, sigil_id (FK), power_name, tier (touched, awakened, divine), description, mechanical_effects (jsonb) | sigils | Progressive Kräfte
+| `deity_domains` | id, deity_id (FK), domain_name | deities | Domänen pro Gott
+|===
+
+
+
+=== Dragon Bonds (9 Tabellen - Welt)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `dragon_species` | id, name (Kampfdrache, Taschendrache, ...), size_category, base_stats (jsonb), magic_tolerance_threshold, recommended_class_types (jsonb) | - | Spezies-Definition
+| `dragon_instances` | id, name, species_id (FK), bond_type_id (FK), age_category (juvenile, young_adult, ...), personality_description, max_bond_count, current_bond_number, status (wild, bonded, ...), cr, flight_speed | dragon_species | Einzelne Drachen
+| `dragon_trait_levels` | id, dragon_id (FK), spectrum_id (FK), level (decimal -5/+5) | dragon_instances, trait_spectrums | Drachen-Persönlichkeit
+| `dragon_equipment_slots` | id, species_id (FK), slot_name (saddle, armor_head, ...), is_available | dragon_species | Ausrüstungs-Slots pro Art
+| `dragon_care_tasks` | id, name, task_type (daily, weekly, seasonal), species_id (FK), age_category, description, neglect_consequence, care_bonus, mechanical_effects (jsonb) | dragon_species | Pflicht-Templates
+| `dragon_element_types` | id, name (Feuer, Eis, Blitz, ...), description | - | Elementare Affinitäten
+| `dragon_scale_harvests` | id, dragon_id (FK), harvested_at_harptos, scale_count, scale_quality (1-5), element_type_id (FK) | dragon_instances, dragon_element_types | Skalenernte-Daten
+| `dragon_bond_templates` | id, name, phase_one_description, phase_two_description, requirements_text | - | Bond-Phase-Templates
+| `dragon_trait_resonances` | id, dragon_spectrum_id (FK), character_spectrum_id (FK), resonance_strength (1-5), description | trait_spectrums (Self-Ref) | Wie Traits zusammenpassen
+|===
+
+
+
+=== Sonstige Welt-Tabellen
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `artifact_properties` | id, item_id (FK), lore_text, creator_description, creation_epoch, curse_description (nullable), curse_effects (jsonb), is_sentient, sentience_traits (jsonb), sentience_personality | items | Artefakt-Erweiterung
+| `crafting_recipes` | id, name, profession_id (FK), min_profession_level, result_item_id (FK), result_rarity_range, total_craft_hours | professions, items | Handwerks-Rezepte
+| `crafting_recipe_steps` | id, recipe_id (FK), step_number, name, description, skill_dc, required_materials (jsonb), hours, success_bonus (jsonb), failure_penalty (jsonb) | crafting_recipes | Detaillierte Schritte
+| `crafting_materials` | id, name, material_category (craft, alchemical, ...), quality (1-5) | - | Handwerks-Rohstoffe
+| `random_tables` | id, name, description, table_category (name, loot, event, ...), tags (jsonb) | - | GM-Zufallstabellen
+| `random_table_entries` | id, table_id (FK), content, weight, tags (jsonb), is_active | random_tables | Einträge pro Tabelle
+| `surface_effects` | id, name, trigger_type (entering, starting_turn, ...), save_type, save_dc, effect_on_fail (jsonb), duration_rounds | - | Bodeneffekte im Kampf
+| `quests` | id, title, description_gm, description_player, quest_type (main, side, bounty, ...), quest_giver_npc_id (FK), target_node_id (FK), status, min_level, reward_gold, reward_xp | world_npcs, travel_nodes | Quest-Definition
+| `quest_objectives` | id, quest_id (FK), description_gm, description_player, objective_type (kill, collect, ...), target_creature_race_id (FK), target_npc_id (FK), quantity_required | quests, creatures, world_npcs | Quest-Ziele
+|===
+
+
+'''
+
+
+== User-Ebene Tabellen (2 Tabellen)
+
+
+User-Profile und Plattform-Zuordnungen. Ergänzt Supabase `auth.users`.
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `user_profiles` | id (FK auth.users), display_name, avatar_url, preferred_role (enum: gm, player, both), created_at, updated_at | auth.users | Wird per Trigger nach Registration erstellt. Display-Name initial aus Auth-Provider
+| `campaign_members` | id, campaign_id (FK), user_id (FK auth.users), role (enum: gm, player), joined_at, invited_by (FK auth.users) | campaigns, auth.users | User-Level Kampagnen-Zuordnung (vor Charakter-Erstellung). GM wird auto-Mitglied bei Kampagne-Erstellen
+| `campaign_invitations` | id, campaign_id (FK), invited_by (FK auth.users), invited_email (nullable), invite_code (unique), status (enum: pending, accepted, expired, revoked), expires_at, accepted_by (FK auth.users, nullable), created_at | campaigns, auth.users | Einladungslinks + E-Mail-Einladungen. Code für Link-Sharing, E-Mail für direkte Einladung
+|===
+
+
+'''
+
+
+== Kampagnen-Ebene Tabellen (~10 Tabellen)
+
+
+Kampagnen-spezifische Daten mit RLS-Isolation nach campaign_id.
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `campaigns` | id, name, description, created_by (FK auth.users), is_active, created_at | - | Campaign Master
+| `campaign_characters` | id, campaign_id (FK), character_id (FK), is_active, joined_at_harptos | campaigns, characters | Welche Charaktere in Kampagne
+| `campaign_calendar_state` | id, campaign_id (FK), current_date (Harptos), current_hour (int), time_of_day (enum) | campaigns | Aktuelle Zeit in Kampagne
+| `campaign_npc_overrides` | id, campaign_id (FK), world_npc_id (FK), override_data (jsonb: changes) | campaigns, world_npcs | Kampagnen-spezifische NPC-Variationen
+| `campaign_relationships` | id, campaign_id (FK), character_id (FK), npc_id (FK), disposition (-100 to +100), last_interaction_harptos | campaigns, characters, world_npcs | Charakter ↔ NPC Disposition
+| `campaign_settings` | id, campaign_id (FK), potion_self_action (action/bonus_action), rules_variant (text) | campaigns | Kampagnen-Regeloptionen
+| `campaign_decisions` | id, campaign_id (FK), session_id (FK), title, description, decision_type, consequence_refs (jsonb) | campaigns, sessions | Wichtige Spieler-Entscheidungen
+| `campaign_travels` | id, campaign_id (FK), session_id (FK), route_id (FK), travel_pace, mount_vehicle_id (FK), march_order (jsonb), status (planned, active, completed) | campaigns, sessions, travel_routes, travel_mounts_vehicles | Überland-Reisen
+| `campaign_travel_days` | id, travel_id (FK), session_id (FK), scene_id (FK), day_number, date_harptos, weather_id (FK), terrain_id (FK), miles_covered, encounter_rolled, encounter_id (FK) | campaign_travels, weather_conditions, terrain_types, random_encounters | Tages-Einträge pro Reise
+| `campaign_dialogs` | id, campaign_id (FK), session_id (FK), npc_id (FK), all_present_character_ids (jsonb), disposition_start, disposition_end, summary | campaigns, sessions, world_npcs | Dialog-Session-Log
+|===
+
+
+'''
+
+
+== Charakter-Ebene Tabellen (~15 Junction-Tabellen + Kardinal-Tabellen)
+
+
+Spieler-Charakter-Daten mit RLS-Schutz.
+
+
+=== Charakter-Basis (12 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `characters` | id (UUID), user_id (FK, nullable), campaign_id (FK), name, class_id (FK), subclass_id (FK), race_id (FK), subrace_id (FK), level, xp_current, xp_next_level, hp_current, hp_max, hit_dice_current, hit_dice_max, exhaustion_level (0-6), death_save_successes, death_save_failures, has_inspiration, encumbrance_status | campaigns, classes, subclasses, races, subraces | Master-Charakter-Record
+| `character_ability_scores` | id, character_id (FK), ability_score_id (FK), base_score, proficiency (bool) | characters, ability_scores | Ability Scores pro Charakter
+| `character_trait_levels` | id, character_id (FK), spectrum_id (FK), level (decimal -5.0 bis +5.0) | characters, trait_spectrums | Persönlichkeitsspektren
+| `character_spell_slots` | id, character_id (FK), spell_level (1-9), slots_total, slots_used | characters | Zauberslot-Tracking
+| `character_known_spells` | id, character_id (FK), spell_id (FK), is_prepared (bool), source (learned, spellbook, ...) | characters, spells | Gelernte Zauber
+| `character_inventory` | id, character_id (FK), item_id (FK), quantity, condition_rating (1-5), is_equipped (bool), is_attuned (bool), parent_container_id (FK Self-Ref) | characters, items | Inventar mit Container-Hierarchie
+| `character_feats` | id, character_id (FK), feat_id (FK), gained_at_level | characters, feats | Erhaltene Feats
+| `character_renown` | id, character_id (FK), organization_id (FK), renown_type (hero, villain, ...), renown_value | characters, organizations | Ruhm pro Org
+| `character_org_reputation` | id, character_id (FK), org_id (FK), reputation (-100 bis +100), last_change_harptos | characters, organizations | Persönliche Org-Reputation
+| `character_professions` | id, character_id (FK), profession_id (FK), level (1-5), xp_current, acquired_via | characters, professions | Gelernte Berufe
+| `character_relationships` | id, character_id (FK), target_npc_id (FK), relationship_status (friend, enemy, ...), notes | characters, world_npcs | NPC-Freundschaften
+| `character_languages` | id, character_id (FK), language_id (FK), proficiency (basic, fluent), learned_from (race, training, ...) | characters, languages | Sprachkenntnisse
+|===
+
+
+
+=== Charakter-Kampagnen-Daten (5+ Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `character_gold` | id, character_id (FK), gold_amount (decimal) | characters | Geld-Tracker
+| `character_travel_knowledge` | id, character_id (FK), route_id (FK), times_traveled, familiarity (unknown bis expert) | characters, travel_routes | Bekannte Routen
+| `character_discovered_nodes` | id, character_id (FK), node_id (FK), discovery_status (known/visited), discovered_at_harptos | characters, travel_nodes | Erkundete Orte
+| `character_discovered_regions` | id, character_id (FK), region_id (FK), discovery_status (known/explored), discovered_at_harptos | characters, political_regions | Erkundete Regionen
+| `character_known_recipes` | id, character_id (FK), recipe_id (FK), learned_from (npc, book, ...), learned_at_harptos | characters, crafting_recipes | Handwerks-Rezepte
+| `character_known_rumors` | id, character_id (FK), rumor_variant_id (FK), learned_at_harptos, learned_from_source_id (FK) | characters, rumor_variants, information_sources | Bekannte Gerüchte
+| `character_quests` | id, character_id (FK), quest_id (FK), accepted_at_harptos, completed_at_harptos, status (active, completed, ...) | characters, quests | Quest-Status pro Charakter
+| `character_death_events` | id, character_id (FK), session_id (FK), cause_of_death, death_type (unconscious, dead, ...), resurrection_type, resurrection_count, date_harptos | characters, sessions | Tod-Tracking & Auferstehungen
+| `character_level_ups` | id, character_id (FK), session_id (FK), from_level, to_level, hp_method (roll, average), asi_or_feat, feat_id (FK), spells_chosen (jsonb), subclass_chosen_id (FK), date_harptos | characters, sessions, feats, subclasses | Level-Up Logs
+| `character_active_effects` | id, character_id (FK), source_item_instance_id (FK), effect_type (buff, debuff, ...), effect_data (jsonb), applied_at_harptos, expires_on (enum), is_active | characters, character_inventory | Aktive Effekte (Buffs/Debuffs)
+| `character_multiclass_readiness` | id, character_id (FK), target_class_id (FK), behavior_score (0-100), relevant_traits (jsonb), is_eligible (bool) | characters, classes | Multiclass-Readiness-Scoring
+|===
+
+
+
+=== Charakter-Magische Systeme (3 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `character_dragon_bonds` | id, character_id (FK), dragon_id (FK), bond_phase (reittier, vertieft), bond_xp (int), bonded_at_harptos, status (active, broken_by_death), care_score (0-100) | characters, dragon_instances | Dragon-Bond pro Charakter
+| `character_sigil_bonds` | id, character_id (FK), sigil_id (FK), bond_phase (touching bis phase3), bonded_at_harptos, trait_drift_log (jsonb), active_uses_remaining | characters, sigils | Sigil-Bond-Status
+| `character_spell_study` | id, character_id (FK), spell_id (FK), source_type (scroll, spellbook, ...), source_item_id (FK), study_started_at, study_progress (0.0-1.0), study_completed (bool), dragon_id (FK) | characters, spells, character_inventory, dragon_instances | Zauber-Studium & Lernfortschritt
+|===
+
+
+'''
+
+
+== Session & Logging Tabellen (~20 Tabellen)
+
+
+Für Sitzungs-Management, Planung und Logging.
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `stories` | id, campaign_id (FK), title, leitziel (text), status (active, completed), created_at | campaigns | Übergeordnete Story
+| `story_arcs` | id, story_id (FK), title, arc_goal (text), status (planned, active, completed), estimated_sessions (int) | stories | Story-Kapitel
+| `sessions` | id, story_arc_id (FK), campaign_id (FK), session_number (int), title (nullable), date_planned, date_played, status (planned, active, completed), recap_text, cliffhanger_text, total_xp_pool (int) | story_arcs, campaigns | Sitzungs-Master
+| `session_participants` | id, session_id (FK), character_id (FK), user_id (FK), joined_at, left_at, attendance_type (present, late_join, early_leave), xp_modifier | sessions, characters, auth.users | Wer war dabei
+| `session_quests` | id, session_id (FK), quest_id (FK), progress_note (text) | sessions, quests | Quests in dieser Sitzung
+| `session_plans` | id, session_id (FK), campaign_id (FK), mode (quick, graph), quick_notes (text), notes_gm, is_template (bool), template_name | sessions, campaigns | Session-Plan Container
+| `session_plan_nodes` | id, plan_id (FK), label, node_type (location, encounter, social, ...), location_node_id (FK), prepared_scenes (jsonb), npc_ids (jsonb), position_x, position_y, notes_gm | session_plans, travel_nodes | Plan-Knoten
+| `session_plan_edges` | id, plan_id (FK), from_node_id (FK), to_node_id (FK), conditions (jsonb), is_bidirectional, label | session_plans, session_plan_nodes (Self-Ref) | Übergänge zwischen Knoten
+| `session_plan_node_state` | id, plan_node_id (FK), status (planned, available, active, visited, skipped), visited_at_harptos, actual_scene_ids (jsonb), condition_overrides (jsonb) | session_plan_nodes | Live-Session-Zustand
+| `arc_graphs` | id, story_arc_id (FK), campaign_id (FK), name, description | story_arcs, campaigns | Story-Arc Meta-Graph
+| `arc_graph_session_nodes` | id, arc_graph_id (FK), session_id (FK), label, position_x, position_y, status (planned, completed) | arc_graphs, sessions | Sessions im Arc-Graph
+| `arc_graph_edges` | id, arc_graph_id (FK), from_session_node_id (FK), to_session_node_id (FK), story_thread_label, is_resolved | arc_graphs, arc_graph_session_nodes (Self-Ref) | Arc-Story-Verbindungen
+| `scenes` | id, session_id (FK), scene_number (int), title, location_poi_id (FK), location_node_id (FK), scene_type (encounter, social, explore, puzzle, chase, narrative, rest, downtime), scene_data (jsonb — typ-spezifisch), background_image_url, music_tag, timer_type (none, rounds, realtime), timer_value (int), timer_consequence (text), scene_status (draft, preview, active, completed) | sessions, location_pois, travel_nodes | Szenen-Container
+| `scene_reveal_elements` | id, scene_id (FK), element_type (title, description, image, npc, ...), element_data (jsonb), sort_order, is_revealed (bool), revealed_at_harptos | scenes | Progressive Offenbarung
+| `session_notes` | id, character_id (FK), user_id (FK), session_id (FK), scene_id (FK), plan_node_id (FK), content (text), is_shared (bool), created_at, updated_at | characters, auth.users, sessions, scenes, session_plan_nodes | Spieler-Notizen
+| `session_note_references` | id, note_id (FK), reference_type (quest, npc, location, ...), reference_id | session_notes | Entity-Verknüpfungen in Notizen
+| `note_tags` | id, name, campaign_id (FK), created_by_user_id (FK) | campaigns, auth.users | Noten-Tagging
+| `session_note_tags` | id, note_id (FK), tag_id (FK) | session_notes, note_tags | Zuordnung
+| `session_mechanical_log` | id, session_id (FK), scene_id (FK), event_type (roll, scene_change, rest, hp_change, ...), event_data (jsonb), character_id (FK), timestamp_order (int) | sessions, scenes, characters | Automatisches Mechanik-Log
+| `session_transcript` | id, session_id (FK), transcript_text (text), transcript_format (raw, timestamped, speaker_labeled), summary_text (text), ai_model_used, source (craig, manual, other), audio_storage_path, processing_status (pending, complete, failed), gm_edited_summary (text), is_player_visible (bool), detected_decisions (jsonb), player_journal_drafts (jsonb) | sessions | Audio-Transkript & KI-Zusammenfassung
+|===
+
+
+'''
+
+
+== Bilder & Maps Tabellen (4 Tabellen)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Tabelle | Schlüsselspalten | Beziehungen | Notizen
+
+| `entity_images` | id, entity_type (character, npc, location, ...), entity_id, image_type (token, portrait, map, ...), source (ai_generated, user_upload), storage_path, blur_hash, width, height, is_primary (bool), generation_metadata (jsonb), campaign_id (FK), created_by (FK auth.users), created_at | - | Polymorphe Bild-Verwaltung
+| `maps` | id, name, location_node_id (FK), location_poi_id (FK), image_path, map_type (world, region, city, dungeon, battle), width (px), height (px), grid_size (nullable), campaign_id (FK), created_at | campaigns, travel_nodes, location_pois | Karten-Container
+| `map_regions` | id, map_id (FK), name, poi_id (FK), polygon_points (jsonb: [[x,y],...]), fill_color, fill_opacity, hover_color, tooltip_text, sort_order | maps, location_pois | Polygon-Overlays
+| `map_tokens` | id, map_id (FK), entity_type (character, npc, creature), entity_id, x (float), y (float), size (float), visible_to_players (bool), placed_by (FK auth.users), updated_at | maps | Token-Platzierung
+|===
+
+
+'''
+
+
+== Weitere Detail-Systeme
+
+
+Detaillierte Tabellenspezifikationen für komplexe Subsysteme finden Sie in link:./schema-details.adoc[schema-details.adoc].

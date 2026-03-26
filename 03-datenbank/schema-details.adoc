@@ -1,0 +1,1214 @@
+
+= Datenbank Schema-Details
+
+
+Detaillierte Dokumentation komplexer Subsysteme mit vollständigen Tabellenspezifikationen.
+
+
+== User & Onboarding (3 Tabellen)
+
+
+Ergänzt Supabase `auth.users` um Plattform-spezifische Daten.
+
+
+=== user_profiles
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID (FK auth.users) | Primary Key, 1:1 mit auth.users
+| display_name | varchar | Initial aus Auth-Provider (Discord-Name, Google-Name, oder E-Mail-Prefix)
+| avatar_url | text (nullable) | Profilbild-URL (Supabase Storage oder Provider-Avatar)
+| preferred_role | enum (gm, player, both) | Default: player. Steuert Onboarding-Flow und Dashboard-Ansicht
+| created_at | timestamptz | Auto
+| updated_at | timestamptz | Auto
+|===
+
+
+_Trigger:_ `on_auth_user_created` → erstellt automatisch `user_profiles` Eintrag.
+
+_RLS:_ User kann nur eigenes Profil schreiben. Alle Profile lesbar für Kampagnen-Mitglieder (für Anzeige).
+
+
+=== campaign_members
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | Primary Key
+| campaign_id | FK campaigns | -
+| user_id | FK auth.users | -
+| role | enum (gm, player) | GM wird auto-gesetzt bei Kampagne-Erstellen
+| joined_at | timestamptz | Beitrittszeitpunkt
+| invited_by | FK auth.users (nullable) | Wer hat eingeladen
+|===
+
+
+_Unique:_ `(campaign_id, user_id)` — ein User kann nur einmal pro Kampagne Mitglied sein.
+
+_Unterschied zu `campaign_characters`:_ `campaign_members` ist User-Level (Person am Tisch). `campaign_characters` ist Character-Level (Spielfigur in der Welt). Ein Member kann mehrere Characters haben (z.B. nach Tod + Neuerstellung).
+
+_RLS:_ Lesbar für alle Members der Kampagne. Schreibbar nur für GM der Kampagne.
+
+
+=== campaign_invitations
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | Primary Key
+| campaign_id | FK campaigns | -
+| invited_by | FK auth.users | GM der einlädt
+| invited_email | varchar (nullable) | Bei E-Mail-Einladung: Ziel-Adresse
+| invite_code | varchar (unique) | Einladungscode für Link-Sharing (z.B. 8-Zeichen alphanumerisch)
+| status | enum (pending, accepted, expired, revoked) | Lifecycle
+| expires_at | timestamptz (nullable) | Optional: Ablaufdatum
+| accepted_by | FK auth.users (nullable) | Wer hat angenommen
+| accepted_at | timestamptz (nullable) | Wann angenommen
+| created_at | timestamptz | Auto
+|===
+
+
+_Flow:_ GM erstellt Invitation → Link/E-Mail → Spieler öffnet → Login/Register → `status=accepted`, `campaign_members` erstellt.
+
+_RLS:_ Erstellen nur GM. Lesen: GM sieht alle eigenen Kampagnen-Einladungen. Spieler können via `invite_code` eine einzelne Einladung lesen (für Beitritt).
+
+'''
+
+
+== Items-System (10 Tabellen)
+
+
+Das Items-System ist hochgradig normalisiert mit vollständiger Unterstützung für Seltenheits-Varianten, spezielle Fähigkeiten und polymorphe Container.
+
+
+=== Tabellenhierarchie
+
+
+----
+items (Basis)
+├── item_rarity_variants (7 pro Item)
+│   ├── item_weapon_stats (nur Waffen)
+│   └── item_armor_stats (nur Rüstungen)
+├── item_clothing_social (nur Kleidung)
+├── item_special_abilities (beliebig viele)
+│   └── mechanical_effects (jsonb per Fähigkeit)
+└── item_container_stats (nur Container)
+----
+
+
+=== items
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | Primary Key
+| name | varchar | Item-Name
+| category_id | FK item_categories | Waffe, Rüstung, Kleidung, etc.
+| rarity_tiers | FK rarity_tiers | Base-Seltenheit
+| description | text | Item-Beschreibung
+| base_weight | decimal | Gewicht ohne Varianten
+| is_consumable | bool | Verbrauchbar (Trank, Schriftrolle, etc.)
+| consumable_effect | jsonb | {effect_type, effect_value, effect_duration, description}
+| is_standard_ammo | bool | Munitionstyp
+| item_type | enum | 'weapon', 'armor', 'clothing', 'container', 'consumable', 'misc', 'provision'
+| requires_attunement | bool | Bedarf Attunement
+| mechanical_effects | jsonb | Array von MechanicalEffect
+| created_at | timestamp | -
+|===
+
+
+_Beispiel Waffe_ (Longsword):
+[source,sql]
+----
+INSERT INTO items (name, category_id, rarity_tiers, is_consumable, item_type)
+VALUES ('Longsword', 1, 'common', false, 'weapon');
+----
+
+
+=== item_rarity_variants
+
+
+Pro Item 7 Varianten (common, uncommon, rare, epic, legendary, mystic, divine).
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | -
+| rarity_tier_id | FK rarity_tiers | -
+| damage_mod | int | Zusatz zum Damage Dice
+| ac_mod | int | Zusatz zur AC (bei Rüstungen)
+| description_variant | text | Beschreibungs-Anpassung
+| cost_gp_multiplier | decimal | Preismodifikatoren
+| special_properties | jsonb | Rarity-spezifische Boni
+|===
+
+
+_Beispiel_: Longsword (rare) hat +1 Damage.
+
+
+=== item_weapon_stats
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | Nur weapon items
+| damage_dice | varchar | z.B. '1d8'
+| damage_type_id | FK damage_types | Slashing, piercing, bludgeoning
+| weapon_type | enum | 'melee', 'ranged'
+| is_finesse | bool | Kann DEX oder STR nutzen
+| is_light | bool | Dual-wield fähig
+| is_versatile | bool | Zwei Hände stärker
+| versatile_damage_dice | varchar | 1d10 statt 1d8
+| reach | int | Reichweite in Feet (default 5)
+| mechanical_effects | jsonb | Spezielle Fähigkeiten (z.B. Vorteil bei Insight)
+|===
+
+
+
+=== item_armor_stats
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | Nur armor items
+| ac_base | int | 10 + DEX (light), 10 (medium), etc.
+| ac_bonus | int | Flat bonus
+| strength_requirement | int | Mindest-STR (nullable)
+| stealth_disadvantage | bool | Nachteil auf Stealth
+| armor_type | enum | 'light', 'medium', 'heavy'
+| mechanical_effects | jsonb | z.B. Cold Resistance
+|===
+
+
+
+=== item_clothing_social
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | Nur clothing items
+| appearance_type | enum | 'peasant', 'commoner', 'merchant', 'noble', 'military', 'arcane', 'religious', 'criminal', 'exotic'
+| social_modifier | int | Vorteil/Nachteil auf Persuasion/Deception in bestimmten Kontexten
+| disguise_effectiveness | int | Wie gut es als Verkleidung funktioniert
+| cultural_significance | jsonb | {culture_id, region_id, reputation_effect}
+|===
+
+
+
+=== item_special_abilities
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | Beliebig viele pro Item
+| name | varchar | Fähigkeitsbeschreibung
+| mechanical_effects | jsonb | Array von MechanicalEffect
+| activation_type | enum | 'passive', 'action', 'bonus_action', 'reaction'
+| uses_per_day | int | (nullable)
+| recharge_on | enum | 'dawn', 'dusk', 'short_rest', 'long_rest'
+| requires_attunement | bool | Extra-Attunement über Basis-Item?
+| description | text | UI-Text
+|===
+
+
+_Beispiel_: Flaming Sword kann als action 5d6 fire damage hinzufügen.
+
+
+=== item_container_stats
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| item_id | FK items | Nur container items
+| weight_capacity_lbs | decimal | Max Gewicht im Container
+| capacity_bonus_lbs | decimal | Bonus durch Verzauberung (Bag of Holding)
+| stealth_modifier | int | -5 wenn überfüllt, +2 wenn versteckt
+| size_category | enum | 'tiny' (Pouch), 'small' (Backpack), 'large' (Chest)
+| social_visibility | enum | 'hidden' (Unsichtbar), 'subtle', 'visible', 'obvious'
+|===
+
+
+'''
+
+
+== Dragon Bond System (9 Tabellen)
+
+
+Komplettes System für die Drachen-Reiter-Bindung mit progressiven Phasen, Pflichten und Ausrüstung.
+
+
+=== dragon_species
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | enum | 'kampfdrache', 'taschendrache', 'schattendrache'
+| size_category | enum | 'small', 'medium', 'large', 'huge'
+| base_stats | jsonb | {hp, ac, str, dex, con, int, wis, cha, cr}
+| magic_tolerance_threshold | int | Max Spell-Level den der Drache ertragen kann
+| recommended_class_types | jsonb | z.B. ['Paladin', 'Ranger', 'Sorcerer']
+| flight_speed | int | In Feet pro Turn
+| personality_archetypes | jsonb | ['Protective', 'Mischievous', 'Wise']
+| mechanical_effects | jsonb | Species-wide Boni
+| description | text | Fluff
+|===
+
+
+
+=== dragon_instances
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | Einzelner Drachen-Name
+| species_id | FK dragon_species | -
+| bond_type_id | FK dragon_element_types | Feuer, Eis, Blitz, etc.
+| age_category | enum | 'juvenile', 'young_adult', 'adult', 'elder'
+| personality_description | text | Individuelle Persönlichkeit
+| max_bond_count | int | Wie viele Rider gleichzeitig
+| current_bond_number | int | Aktuelle Bindungen
+| status | enum | 'wild', 'bonded', 'grieving' (nach Tod eines Riders), 'dead'
+| cr | int | Challenge Rating
+| created_at | timestamp | -
+|===
+
+
+
+=== dragon_trait_levels
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| dragon_id | FK dragon_instances | -
+| spectrum_id | FK trait_spectrums | Persönlichkeit
+| level | decimal | -5.0 bis +5.0
+|===
+
+
+_Beispiel_: Silberdrache könnte Loyal +3, Protective +2 sein.
+
+
+=== dragon_care_tasks
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | z.B. "Scales polieren"
+| task_type | enum | 'daily', 'weekly', 'seasonal'
+| species_id | FK dragon_species | Spezies-spezifisch
+| age_category | enum | Juvenile brauchen mehr Aufmerksamkeit
+| description | text | Was tun
+| neglect_consequence | jsonb | MechanicalEffect wenn vernachlässigt
+| care_bonus | int | Bonuspunkte wenn richtig gemacht
+| duration_minutes | int | Wie lange dauert es
+| mechanical_effects | jsonb | Positive Effekte wenn erledigt
+|===
+
+
+_Beispiel Daily Task_: 15 Minuten Flügelübungen → +3 Care Score, Geschwindigkeit +5ft für heute.
+
+
+=== character_dragon_bonds
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| dragon_id | FK dragon_instances | -
+| bond_phase | enum | 'reittier' (Phase 1), 'vertieft' (Phase 2)
+| bond_xp | int | Fortschritt zu nächster Phase (0-1000)
+| bonded_at_harptos | date | Wann gestartet
+| status | enum | 'active', 'broken_by_rider_death', 'broken_by_dragon_death'
+| care_score | int | 0-100, sinkt ohne Pflege, max +5 Modifikatoren
+| last_care_harptos | date | Wann zuletzt gepflegt
+|===
+
+
+_Mechanik_: Phase 1 (Reittier) = Drache transportiert Rider. Phase 2 (Vertieft) = Emotionale Verbindung, Traits resonate.
+
+
+=== dragon_bond_events
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| bond_id | FK character_dragon_bonds | -
+| event_type | enum | 'bonding_ritual', 'phase_advance', 'shared_combat', 'trust_moment', 'trait_resonance', 'neglect', 'care'
+| description | text | Was ist passiert
+| bond_xp_awarded | int | XP für Phase-Fortschritt
+| session_id | FK sessions | In welcher Session
+| created_at | timestamp | -
+|===
+
+
+_Beispiel_: Charakter mit Loyal +4 und Drache mit Loyal +3 → trait_resonance Event, +50 bond_xp.
+
+
+=== dragon_equipment_slots
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| species_id | FK dragon_species | Pro Spezies unterschiedlich
+| slot_name | enum | 'saddle', 'armor_head', 'armor_body', 'armor_tail', 'claw_enhancement', 'focus_crystal', 'camouflage_cloth', 'collar', 'venom_vial'
+| is_available | bool | Kann diese Spezies diesen Slot nutzen?
+|===
+
+
+
+=== dragon_equipment
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| dragon_id | FK dragon_instances | -
+| item_id | FK items | Muss armor oder special item sein
+| slot_type | enum | (siehe Slots)
+| durability_current | int | Hit Points des Equipments
+| durability_max | int | -
+|===
+
+
+'''
+
+
+== Rechtssystem (7 Tabellen)
+
+
+Umfassendes Strafjustiz-System mit Verbrechen, Konsequenzen, Steckbriefen und Strafregistern.
+
+
+=== crime_types
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | 'Theft', 'Murder', 'Heresy', etc.
+| category | enum | 'theft', 'violence', 'magic', 'social', 'religious', 'custom'
+| default_severity | int | 1-5 (Infraction bis Capital)
+| is_magic_related | bool | Wird Dispel Magic aufgelöst?
+| mechanical_effects | jsonb | Bestrafungs-Effekte
+|===
+
+
+
+=== legal_consequences
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | 'Fine', 'Short Imprisonment', etc.
+| consequence_type | enum | 'fine', 'confiscation', 'arrest', 'prison', 'banishment', 'forced_labor', 'bounty', 'marking', 'service', 'reputation_loss', 'acquittal'
+| severity_min/max | int | Für welche Schweregrad-Range
+| base_value | int/decimal | Geldwert der Strafe (in GP) oder Monate Knast
+| duration_days | int | Wie lange die Strafe andauert
+| mechanical_effects | jsonb | Spiel-Effekte (z.B. -2 auf alle Persuasion)
+|===
+
+
+
+=== region_laws
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| region_id | FK political_regions | -
+| crime_type_id | FK crime_types | -
+| local_severity | int | Überschreibt default_severity (z.B. Murder ist in Stadt = Capital, in Wildnis = Misdemeanor)
+| is_illegal | bool | In manchen Regionen erlaubt, in anderen nicht
+| suggested_consequences | jsonb | Array von legal_consequence_ids
+| legal_code_text | text | GM-Notizen
+|===
+
+
+
+=== region_legal_config
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| region_id | FK political_regions | -
+| guard_presence | int | 1-5 (Wild = 1, Martial Law = 5)
+| justice_type | enum | 'trial', 'summary', 'elder_council', 'military', 'none'
+| negotiation_dc_modifier | int | Wie schwer ist es, eine Strafe zu verhandeln
+| legal_representative_npc_id | FK world_npcs | Lawyer/Judge
+|===
+
+
+
+=== bounty_board
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| target_type | enum | 'character', 'npc', 'creature'
+| target_id | UUID | -
+| issuer_type | enum | 'organization', 'government', 'private_citizen'
+| issuer_id | UUID | -
+| region_id | FK political_regions | Wo ist die Kopfgeld gültig
+| bounty_value_gp | decimal | Preis
+| status | enum | 'active', 'claimed', 'expired', 'cancelled'
+| condition | enum | 'alive', 'dead', 'either'
+| proof_type | enum | 'head', 'hand', 'alive', 'item', 'token', 'none'
+| proof_item_id | FK items | Was muss man bringen (z.B. Siegelring)
+| reward_type | enum | 'gold', 'item', 'reputation'
+| reward_value | jsonb | Details der Belohnung
+| description_player | text | Was Kopfgeldjäger wissen
+| description_gm | text | Hintergrund (GM only)
+| expires_at | timestamp | -
+|===
+
+
+
+=== character_bounties
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| region_id | FK political_regions | -
+| bounty_value | decimal | Total Preis auf Kopf
+| wanted_level | enum | 'suspected', 'wanted', 'highly_wanted', 'kill_on_sight'
+| crime_ids | jsonb | Array von crime_type_ids
+| is_outlaw | bool | Außerhalb des Gesetzes
+| expires_at | timestamp | -
+| discovered_at_harptos | date | Wann wurde der Charakter gesucht
+|===
+
+
+
+=== character_criminal_record
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| crime_type_id | FK crime_types | -
+| region_id | FK political_regions | Welcher Region wird das angerechnet
+| date_harptos | date | Wann begangen
+| consequence_id | FK legal_consequences | -
+| status | enum | 'active', 'served', 'pardoned', 'escaped', 'appealed', 'undetected'
+| served_until | date | (nullable) wenn status=served
+| notes_gm | text | GM-Notizen
+|===
+
+
+'''
+
+
+== Reise-System (7 Tabellen)
+
+
+Detailliertes Overland-Travel mit Routen, Terrain, Wetter und Tages-Tracking.
+
+
+=== terrain_types
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | enum | 'road', 'path', 'open_land', 'forest', 'mountain', 'swamp', 'wilderness', 'desert', 'tundra'
+| travel_modifier | decimal | 1.0 = normal, 0.5 = halb schnell
+| stealth_modifier | int | Vorteil/Nachteil auf Stealth-Checks
+| perception_modifier | int | Vorteil/Nachteil auf Perception
+| encounter_frequency | decimal | Wie oft Encounters (0.2 = 20% pro Tag)
+| mechanical_effects | jsonb | z.B. Exhaustion nach langer Wanderung
+|===
+
+
+
+=== travel_nodes
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | Stadt, Dorf, Kreuzung, etc.
+| region_id | FK political_regions | -
+| node_type | enum | 'city', 'town', 'village', 'outpost', 'crossroads', 'landmark', 'dungeon'
+| coordinates | PostGIS Point | Geografische Position
+| has_inn | bool | Wo kann man rasten
+| has_stable | bool | Pferde unterstellen
+| has_market | bool | Wo kann man kaufen
+| location_poi_id | FK location_pois | (nullable) verbunden mit Ort-Detail
+|===
+
+
+
+=== travel_routes
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | z.B. "High Road to Waterdeep"
+| from_node_id | FK travel_nodes | -
+| to_node_id | FK travel_nodes | -
+| distance_miles | int | -
+| primary_terrain_id | FK terrain_types | Das Hauptterrain der Route
+| route_type | enum | 'highway', 'road', 'path', 'trail', 'waterway', 'none' (offenes Gelände)
+| is_bidirectional | bool | Kann man in beide Richtungen gehen
+| is_known | bool | Standard-Map zeigt Route oder versteckt
+| danger_level | int | 1-5
+| mechanical_effects | jsonb | z.B. Kobold-Maut
+|===
+
+
+
+=== travel_route_seasonal_modifiers
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| route_id | FK travel_routes | -
+| harptos_month | int | 1-12
+| speed_modifier | decimal | Winter könnte 0.5x sein
+| is_passable | bool | Im Winter unpassierbar?
+| additional_effects | jsonb | z.B. Lawinen-Risiko
+|===
+
+
+
+=== travel_mounts_vehicles
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | 'Horse', 'Wagon', 'Ship', etc.
+| category | enum | 'mount', 'cart', 'wagon', 'ship', 'flying'
+| speed_modifier | decimal | Horse = 1.0, Wagon = 0.75
+| cargo_capacity | int | In Hunderpfund
+| passenger_capacity | int | Wie viele Leute
+| terrain_restrictions | jsonb | z.B. Ship kann nicht über Land
+| requires_skill | varchar | (nullable) z.B. Animal Handling
+| purchase_price_gp | int | -
+| rental_price_per_day | int | -
+| mechanical_effects | jsonb | z.B. Schiffe geben Vorteil auf Navi
+|===
+
+
+
+=== campaign_travels
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| campaign_id | FK campaigns | -
+| session_id | FK sessions | (nullable) welche Session
+| route_id | FK travel_routes | -
+| from_node_id | FK travel_nodes | Start (oft = route from_node)
+| to_node_id | FK travel_nodes | Ziel
+| travel_pace | enum | 'fast', 'normal', 'cautious'
+| mount_vehicle_id | FK travel_mounts_vehicles | Was nutzen sie
+| march_order | jsonb | [{character_id, position}] in welcher Reihenfolge
+| status | enum | 'planned', 'active', 'completed', 'abandoned'
+| total_days | int | Geplante Dauer
+| provisions_start | int | Wie viel Essen
+| provisions_remaining | int | Aktuell noch
+| started_at_harptos | date | -
+|===
+
+
+
+=== campaign_travel_days
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| travel_id | FK campaign_travels | -
+| session_id | FK sessions | (nullable)
+| scene_id | FK scenes | (nullable) In welche Scene
+| day_number | int | Tag 1, Tag 2, etc.
+| date_harptos | date | -
+| weather_id | FK weather_conditions | -
+| terrain_id | FK terrain_types | Was ist das Hauptterrain heute
+| miles_covered | int | Geschafft
+| time_of_day_start/end | enum | dawn, morning, dusk, etc.
+| encounter_rolled | bool | Wurde heute ein Encounter gerollt?
+| encounter_id | FK random_encounters | (nullable)
+| rest_type | enum | 'short', 'long', 'none'
+| exhaustion_events | jsonb | Welche Charaktere sind erschöpft?
+| provisions_consumed | int | Essen verbraucht
+| gm_override_notes | text | GM sagt: "Sie finden ein Dorf und rasten 2 Tage"
+| status | enum | 'auto_calculated', 'gm_confirmed', 'gm_overridden'
+|===
+
+
+
+=== character_travel_knowledge
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| route_id | FK travel_routes | -
+| times_traveled | int | Wie oft die Route bereist
+| familiarity | enum | 'unknown', 'heard_of', 'traveled_once', 'familiar', 'expert'
+| discovered_at_harptos | date | Wann zuerst besucht
+|===
+
+
+_Effekt_: Expert-Familiarity gibt +20% Speed und -50% Encounter-Chance.
+
+'''
+
+
+== Crafting System (6 Tabellen)
+
+
+Tiefes Handwerk mit Rezepten, Schritten, Erfolgs-Varianten und Projekt-Tracking.
+
+
+=== crafting_recipes
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | varchar | "Elixir of Health"
+| profession_id | FK professions | Z.B. Alchemy, Smithing
+| min_profession_level | int | Level 3+ um Rezept zu nutzen
+| result_item_id | FK items | Was kommt raus
+| result_rarity_range | jsonb | [common, uncommon, rare] möglich
+| total_craft_hours | int | Wie lange insgesamt
+| description | text | Was brauchts
+| difficulty_dc | int | Schwierigkeit
+|===
+
+
+
+=== crafting_recipe_steps
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| recipe_id | FK crafting_recipes | -
+| step_number | int | Reihenfolge
+| name | varchar | "Mix essence"
+| description | text | Was tun
+| skill_dc | int | DC für Skill-Check
+| required_materials | jsonb | [{item_id, quantity, min_quality}]
+| hours | int | Wie lange dieser Schritt
+| weight_percent | int | Wie wichtig (1-100 total)
+| success_bonus | jsonb | MechanicalEffect wenn erfolgreich
+| failure_penalty | jsonb | Wenn fehlgeschlagen
+| critical_bonus | jsonb | Auf Natural 20
+|===
+
+
+
+=== crafting_materials
+
+
+Diese sind einfach `items` mit `item_type='material'` und `material_category`.
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| item_id | FK items | -
+| material_category | enum | 'craft', 'alchemical', 'enchanting', 'rare'
+| source_description | text | "Found only in mountain caves"
+| quality | int | 1-5
+|===
+
+
+
+=== character_known_recipes
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| recipe_id | FK crafting_recipes | -
+| learned_from | enum | 'npc', 'book', 'experiment'
+| learned_at_harptos | date | -
+|===
+
+
+
+=== crafting_projects
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| recipe_id | FK crafting_recipes | -
+| started_at_harptos | date | -
+| current_step | int | Auf welchem Schritt (1-indexed)
+| status | enum | 'in_progress', 'completed', 'abandoned', 'failed'
+| materials_consumed | jsonb | Was schon aufgebraucht
+| step_results | jsonb | [{step_number, roll_result, quality_gained, bonus_applied}]
+|===
+
+
+_Mechanik_: Character muss Checks pro Schritt bestehen. Failed Check → Projekt abgebrochen oder Schritt nochmal.
+
+
+=== crafting_project_items
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| project_id | FK crafting_projects | -
+| result_item_instance_id | FK character_inventory | Das fertige Item
+| final_quality | int | 1-5
+| bonus_properties | jsonb | Extra MechanicalEffects
+| penalty_properties | jsonb | Fehler während Crafting
+| is_unique | bool | Immer true für crafted items
+|===
+
+
+'''
+
+
+== Quests & Ziele (5 Tabellen)
+
+
+Asynchrones Quest-System mit Zielen, Fortschritt-Tracking und flexibler Belohnung.
+
+
+=== quests
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| campaign_id | FK campaigns | (nullable) Kampagnen-spezifisch oder World?
+| title | varchar | -
+| description_gm | text | Volles Backing
+| description_player | text | Was Spieler sehen
+| quest_type | enum | 'main', 'side', 'bounty', 'guild', 'personal', 'exploration', 'crafting', 'town'
+| quest_giver_npc_id | FK world_npcs | -
+| quest_giver_poi_id | FK location_pois | Wo gibt man auf
+| quest_giver_node_id | FK travel_nodes | -
+| target_node_id | FK travel_nodes | Wo hin
+| target_poi_id | FK location_pois | -
+| target_region_id | FK political_regions | -
+| status | enum | 'undiscovered', 'available', 'accepted', 'declined', 'active', 'completed', 'failed', 'expired'
+| min_level | int | Wer kann nehmen
+| deadline_harptos | date | (nullable)
+| is_repeatable | bool | Kann mehrmals gemacht werden
+| prerequisite_quest_id | FK quests | Self-Ref: must do other quest first
+| prerequisite_org_id | FK organizations | Muss Mitglied sein
+| prerequisite_min_disposition | int | Oder min Disposition
+| visibility | enum | 'gm_only', 'hidden', 'discovered', 'revealed'
+| personal_character_id | FK characters | (nullable) Nur für personal quest_type
+|===
+
+
+
+=== quest_objectives
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| quest_id | FK quests | -
+| description_gm | text | -
+| description_player | text | -
+| objective_type | enum | 'kill', 'collect', 'deliver', 'escort', 'explore', 'talk_to', 'craft', 'solve', 'survive', 'reach_location'
+| target_creature_race_id | FK creatures | Wenn kill
+| target_npc_id | FK world_npcs | Wenn talk_to
+| target_item_id | FK items | Wenn collect
+| target_node_id | FK travel_nodes | Wenn reach_location
+| target_poi_id | FK location_pois | -
+| quantity_required | int | Wie viel
+| quantity_current | int | Aktuelle Fortschritt
+| is_optional | bool | Bonus-Ziele
+| sort_order | int | Reihenfolge für UI
+| visibility | enum | 'gm_only', 'hidden', 'discovered', 'revealed'
+|===
+
+
+
+=== character_quests
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| character_id | FK characters | -
+| quest_id | FK quests | -
+| accepted_at_harptos | date | -
+| completed_at_harptos | date | (nullable)
+| status | enum | 'active', 'completed', 'failed', 'abandoned'
+| personal_notes | text | Character-spezifische Notizen
+|===
+
+
+
+=== quest_rewards
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| quest_id | FK quests | -
+| reward_type | enum | 'gold', 'xp', 'item', 'reputation', 'trait_shift', 'spell_access', 'profession_xp'
+| reward_value | jsonb | {amount}, {item_id, quality, quantity}, {spectrum_id, shift_amount}, {org_id, amount}, {spell_id}, {profession_id, xp_amount}
+| distribution_type | enum | 'group' (Standard), 'individual' (GM wählt), 'quest_owner' (nur personal_character_id)
+| description | text | "Loyalty bonus for the party"
+| assigned_character_ids | jsonb | [{character_id}] befüllt beim Abschluss
+|===
+
+
+
+=== quest_reward_distributions
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| quest_reward_id | FK quest_rewards | -
+| character_id | FK characters | Wer bekam es
+| session_id | FK sessions | -
+| distributed_at | timestamp | -
+| distributed_by | FK auth.users | GM ID
+| notes | text | (nullable) Warum diese Wahl
+|===
+
+
+_Mechanik_: Quest completed → GM Dashboard zeigt Rewards. Pop-up an Spieler. GM assigned pro Reward wer was bekommt. Distribution log erstellt, Items/Gold/XP geschrieben.
+
+'''
+
+
+== Dialog-System (6 Tabellen - Kampagne)
+
+
+Erweitert die World-Dialog-Templates mit Kampagnen-spezifischen Sessions und Ereignissen.
+
+
+=== campaign_dialog_sessions
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| campaign_id | FK campaigns | -
+| session_id | FK sessions | -
+| scene_id | FK scenes | -
+| npc_id | FK world_npcs | Mit wem geredet
+| active_speaker_id | FK characters | Wer spricht gerade
+| all_present_character_ids | jsonb | [{character_id}]
+| started_at_harptos | date | -
+| disposition_start | int | -100 bis +100 am Anfang
+| disposition_end | int | Am Ende (kann sich geändert haben)
+| detail_level | enum | 'shallow', 'medium', 'deep' — bestimmt NPC-Reaktionen
+| template_id | FK dialog_templates | (nullable) Struktur
+| summary | text | Was passiert ist
+|===
+
+
+
+=== campaign_dialog_events
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| dialog_session_id | FK campaign_dialog_sessions | -
+| speaking_character_id | FK characters | Wer spricht
+| event_type | enum | 'skill_check', 'trait_trigger', 'info_revealed', 'disposition_shift', 'speaker_change', 'pop_up_sent', 'topic_discussed'
+| event_detail | jsonb | {skill_used, dc, roll_result} für skill_check, {trait_id, resonance_bonus} für trait_trigger
+| timestamp_order | int | Reihenfolge im Gespräch
+| created_at | timestamp | -
+|===
+
+
+_Mechanik_: Charakter spricht, Trait-Resonanz könnte +2 Disposition geben, Skill-Check bestimmt ob Info revealed wird.
+
+'''
+
+
+== Organisationen (8 Tabellen)
+
+
+Erweiterte Organisations-Verwaltung mit Hierarchien, Memberschaft, Trainings und Exklusivitäts-Regeln.
+
+
+=== organization_types
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| name | enum | 'guild', 'noble_house', 'order', 'military', 'underworld', 'cult', 'academy', 'trade_network'
+| parent_type_id | FK organization_types | Self-Ref (Military → Army vs. Guard)
+| description | text | -
+| default_mechanical_effects | jsonb | Standard Boni für Membership
+|===
+
+
+
+=== organization_ranks
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| organization_id | FK organizations | -
+| name | varchar | "Apprentice", "Journeyman", "Master"
+| rank_level | int | 1-5 (higher = bessere Boni)
+| requirements | jsonb | {min_trait_level: {spectrum_id, min_level}, min_time_months: 6}
+| mechanical_effects | jsonb | Boni pro Rank
+| accessible_services | jsonb | ["discount_at_smith", "access_library"]
+| accessible_locations | jsonb | [{poi_id, access_level}]
+| duties | text | Was musst du tun
+|===
+
+
+
+=== organization_membership
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| member_type | enum | 'npc', 'character'
+| member_id | UUID | -
+| org_id | FK organizations | -
+| rank_id | FK organization_ranks | -
+| joined_at | timestamp | -
+| is_public | bool | Darf jeder sehen dass Mitglied? Spione sind private
+| is_active | bool | -
+| role_title | varchar | "Iron Alchemist" (Spezial-Titel)
+|===
+
+
+
+=== organization_exclusive_rules
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| org_a_id | FK organizations | -
+| org_b_id | FK organizations | -
+| exclusion_type | enum | 'hard' (kann nicht beide sein), 'soft' (Vorteil/Nachteil wenn beide), 'none'
+|===
+
+
+_Beispiel_: Hard Exclusion zwischen Thieves Guild und City Guard.
+
+
+=== organization_trait_requirements
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| org_id | FK organizations | -
+| spectrum_id | FK trait_spectrums | -
+| min_level | int | (nullable) Loyal mindestens +2?
+| max_level | int | (nullable) Oder maximal +1?
+| is_required | bool | Muss erfüllt sein?
+|===
+
+
+
+=== organization_trainings
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Spalte | Typ | Notizen
+
+| id | UUID | -
+| org_id | FK organizations | -
+| min_rank_id | FK organization_ranks | Wer kann trainiert?
+| training_type | enum | 'profession', 'trait', 'skill', 'spell_access', 'item_access'
+| training_ref_id | UUID | profession_id, spectrum_id, skill_id, spell_id, item_id
+| cost | int | GP zu zahlen
+| duration_days | int | Wie lange Training
+| mechanical_effects | jsonb | Effekt nach Training
+|===
+
+
+'''
+
+Weitere Details sind in link:./schema-uebersicht.adoc[schema-uebersicht.adoc] verfügbar.

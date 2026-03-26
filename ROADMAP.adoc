@@ -1,0 +1,177 @@
+
+= ROADMAP — Flammenreiter Entwicklungsplan
+
+
+> Stand: 26.03.2026 · Abgeleitet aus Wiki v8
+
+'''
+
+
+== Phase 1: Web MVP (Charakter-Sheet + GM-Dashboard)
+
+
+
+=== Voraussetzungen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Task | Doku | Priorität
+
+| UI-Design: 6 MVP-Domains (Wireframes + Mockups) | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc] | PRIO 1
+| Design Tokens finalisieren | link:08-design-system/[08-design-system/] | PRIO 3
+| Component Library Specs | link:08-design-system/[08-design-system/] | PRIO 3
+|===
+
+
+
+=== Implementierung
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Task | Doku | Status
+
+| Supabase Projekt + DB-Migrationen | link:03-datenbank/[03-datenbank/] | Offen
+| React/FSD Boilerplate + Routing | link:04-architektur/repo-struktur.adoc[04-architektur/repo-struktur.adoc] | Offen
+| @flammenreiter/shared-types Package | link:04-architektur/shared-types.adoc[04-architektur/shared-types.adoc] | Offen
+| Hono API Layer + EffectProcessor | link:04-architektur/backend.adoc[04-architektur/backend.adoc] | Offen
+| Foundry Pre/Post-Sync Prototyp | link:07-gm-dashboard/[07-gm-dashboard/] | Offen
+|===
+
+
+
+=== MVP-Scope
+
+
+_Charakter-Sheet — 6 Domains:_
+
+
+[cols="1,1,1",options="header"]
+|===
+| Domain | Beschreibung | Doku
+
+| Identity | Header: Name, Portrait, Klasse, Level, Haus | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc]
+| Social | Traits, NPC-Dispositionen, Renown, Orgs | link:02-spielmechaniken/traits.adoc[02-spielmechaniken/traits.adoc]
+| Combat | HP, AC, Spells, Skills, Conditions | link:02-spielmechaniken/kampf-system.adoc[02-spielmechaniken/kampf-system.adoc]
+| Equipment | Paper-Doll, Inventar, Container, Attunement | link:02-spielmechaniken/items-inventar.adoc[02-spielmechaniken/items-inventar.adoc]
+| Downtime | Crafting, Professionen, Reparatur, Training | link:02-spielmechaniken/professionen-crafting.adoc[02-spielmechaniken/professionen-crafting.adoc]
+| Dragon Bond | Drachen-Sheet, Pflege, Bond-Phase, Resonanz | link:02-spielmechaniken/dragon-bond.adoc[02-spielmechaniken/dragon-bond.adoc]
+|===
+
+
+_GM-Dashboard:_
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Doku
+
+| Session-Planer (Graph + Quick Mode) | link:07-gm-dashboard/[07-gm-dashboard/]
+| Szenen-Steuerung (Live) | link:07-gm-dashboard/[07-gm-dashboard/]
+| NPC-Management + Disposition | link:07-gm-dashboard/[07-gm-dashboard/]
+| Map-Viewer (Leaflet) | link:07-gm-dashboard/[07-gm-dashboard/]
+| Foundry Pre/Post-Sync | link:07-gm-dashboard/[07-gm-dashboard/]
+| Encounter Builder | link:07-gm-dashboard/[07-gm-dashboard/]
+| Post-Session Pipeline | link:07-gm-dashboard/[07-gm-dashboard/]
+|===
+
+
+_Shared Features:_
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Doku
+
+| Bild-Pipeline (FLUX) | link:04-architektur/backend.adoc[04-architektur/backend.adoc]
+| Notizen-System | link:07-gm-dashboard/[07-gm-dashboard/]
+| Session Logging | link:07-gm-dashboard/[07-gm-dashboard/]
+| Interaktive Maps | link:07-gm-dashboard/[07-gm-dashboard/]
+|===
+
+
+_Tech-Stack:_ React/FSD, D3 (Charts + Graph), Leaflet (Maps), Zustand, Supabase
+
+'''
+
+
+== Phase 2: Erweiterung
+
+
+3 zusätzliche Domains + erweiterte Features.
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Doku
+
+| Journal & Quests Domain | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc]
+| Entdecktes Wissen (Lore) Domain | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc]
+| Recht & Status (Legal) Domain | link:02-spielmechaniken/recht-dialog.adoc[02-spielmechaniken/recht-dialog.adoc]
+| Craig-Transkript Pipeline (E2E) | link:07-gm-dashboard/[07-gm-dashboard/]
+| AI-Journal | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc]
+| Arc-Graph (Story-Progression) | link:07-gm-dashboard/[07-gm-dashboard/]
+|===
+
+
+'''
+
+
+== Phase 3: Mobile App (Unreal Engine 5)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Doku
+
+| UE5 Projekt-Setup | link:09-mobile/[09-mobile/]
+| Zod→C++ Code-Generator | link:04-architektur/shared-types.adoc[04-architektur/shared-types.adoc]
+| Downtime-Loop (Haupt-Feature) | link:09-mobile/[09-mobile/]
+| 9-12 Drachen-3D-Modelle | link:09-mobile/[09-mobile/]
+| Pflege-Minigames | link:02-spielmechaniken/dragon-bond.adoc[02-spielmechaniken/dragon-bond.adoc]
+| Bond-Phase Cutscenes | link:09-mobile/[09-mobile/]
+|===
+
+
+_Abhängigkeiten:_ Web MVP fertig (API stabil), Shared Types Package, Drachen-3D-Assets.
+
+'''
+
+
+== Content-Pipeline (parallel zu Entwicklung)
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| # | Content-Block | Größe | Abhängigkeit | Doku
+
+| 1 | Geschichte & Gründer | Mittel | Keine | link:01-welt-lore/geschichte.adoc[01-welt-lore/geschichte.adoc]
+| 2 | Crafting-Rezepte | Mittel | Keine | link:02-spielmechaniken/professionen-crafting.adoc[02-spielmechaniken/professionen-crafting.adoc]
+| 3 | Fraktions-Kreaturen | Mittel | Keine | link:01-welt-lore/kreaturen.adoc[01-welt-lore/kreaturen.adoc]
+| 4 | Regionen & Städte | GROSS | Kommt zuletzt | link:01-welt-lore/geographie.adoc[01-welt-lore/geographie.adoc]
+| 5 | Sigillen-Orte + GM-Träger | Klein | Braucht #4 | link:01-welt-lore/pantheon-sigillen.adoc[01-welt-lore/pantheon-sigillen.adoc]
+|===
+
+
+'''
+
+
+== Kampagnen-Arcs (Spieler-Progression)
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Level-Range | Inhalt | Doku
+
+| Level 1–10 | Akademie | link:06-rassen-klassen/herkunft.adoc[06-rassen-klassen/herkunft.adoc]
+| Level 11–15 | Welt erkunden | link:01-welt-lore/geographie.adoc[01-welt-lore/geographie.adoc]
+| Level 16–20 | Krieg & Politik | link:02-spielmechaniken/organisationen.adoc[02-spielmechaniken/organisationen.adoc]
+| Level 20+ | Sigillen-Epos | link:01-welt-lore/pantheon-sigillen.adoc[01-welt-lore/pantheon-sigillen.adoc]
+|===
+

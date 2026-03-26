@@ -1,0 +1,97 @@
+extends: default
+font:
+  catalog:
+    merge: true
+page:
+  layout: portrait
+  margin: [0.75in, 0.75in, 0.75in, 0.75in]
+  size: A4
+base:
+  font-family: Noto Sans
+  font-size: 10.5
+  line-height-length: 15
+  font-color: #333333
+heading:
+  font-family: Noto Sans
+  font-style: bold
+  font-color: #8B0000
+  h1-font-size: 28
+  h2-font-size: 22
+  h3-font-size: 18
+  h4-font-size: 14
+  margin-top: 0
+  margin-bottom: 5
+title-page:
+  align: center
+  title:
+    top: 40%
+    font-size: 36
+    font-style: bold
+    font-color: #8B0000
+    line-height: 1.2
+  subtitle:
+    font-size: 18
+    font-style: italic
+    font-color: #666666
+    margin-top: 10
+  revision:
+    margin-top: 20
+    font-size: 12
+    font-color: #999999
+header:
+  height: 0.5in
+  font-size: 8
+  font-color: #999999
+  border-bottom-width: 0.25
+  border-bottom-color: #DDDDDD
+  recto:
+    right:
+      content: 'Flammenreiter — {chapter-title}'
+  verso:
+    left:
+      content: 'Flammenreiter — {chapter-title}'
+footer:
+  height: 0.5in
+  font-size: 8
+  font-color: #999999
+  border-top-width: 0.25
+  border-top-color: #DDDDDD
+  recto:
+    right:
+      content: 'Seite {page-number} / {page-count}'
+  verso:
+    left:
+      content: 'Seite {page-number} / {page-count}'
+code:
+  font-family: M+ 1mn
+  font-size: 9
+  background-color: #F5F5F5
+  border-color: #DDDDDD
+  border-radius: 3
+  padding: [5, 8, 5, 8]
+table:
+  border-color: #DDDDDD
+  head:
+    font-style: bold
+    background-color: #8B0000
+    font-color: #FFFFFF
+  body:
+    stripe-background-color: #F9F9F9
+admonition:
+  icon:
+    tip:
+      stroke-color: #28A745
+    note:
+      stroke-color: #007BFF
+    important:
+      stroke-color: #FFC107
+    warning:
+      stroke-color: #FD7E14
+    caution:
+      stroke-color: #DC3545
+toc:
+  font-size: 10
+  line-height: 1.4
+  indent: 15
+  dot-leader:
+    font-color: #999999

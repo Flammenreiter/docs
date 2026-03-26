@@ -1,0 +1,23 @@
+# Build output
+build/
+
+# Ruby
+.bundle/
+vendor/
+Gemfile.lock
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+*.sw?
+.vscode/
+
+# Claude
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Temp
+*.tmp
+*.bak

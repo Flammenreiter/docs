@@ -1,0 +1,520 @@
+
+= Kampf-System
+
+
+D&D 5e + BG3 Adaptationen mit Surfaces, Gravity, Cover, Foundry VTT Integration, Encounter-Generierung.
+
+
+== Kern-Mechanik: D&D 5e + BG3
+
+
+
+=== Initiative & Turn Order
+
+
+----
+Combat starts:
+  All combatants roll Initiative (1d20 + DEX Modifier)
+  Highest to Lowest determines order
+  System auto-orders + shows on initiative tracker
+
+Each Turn has:
+  1 Action (Attack, Cast Spell, Dash, Disengage, Dodge, Help)
+  1 Bonus Action (if class feature allows)
+  Movement (30ft base, adjusted by armor/condition)
+  1 Reaction (opportunity attack, shield spell, etc.)
+  Interact with 1 object (draw weapon, drink potion, etc.)
+----
+
+
+=== Attack Roll
+
+
+----
+Attack Roll = 1d20 + Attack Bonus
+  Attack Bonus = Ability Modifier + Proficiency (if proficient)
+
+vs. Target AC
+
+Hit: Roll Damage Dice + Modifiers
+Miss: No damage
+
+Nat 20: Critical Hit (roll damage twice)
+Nat 1: Always Miss (regardless of modifiers)
+----
+
+
+=== Spell Casting
+
+
+_BG3 Spell Slot System_:
+
+----
+Spell Slots (not mana):
+  Per spell LEVEL (1-9)
+  current_slots / max_slots always visible
+
+Casting a spell:
+  Costs 1 Spell Slot of appropriate level (or higher with upcasting)
+
+Cantrips (0-level):
+  Unlimited uses
+  Skalieren with Character Level (not Class Level)
+  Can use Bonus Action or Action
+
+Upcasting:
+  Cast 3rd-level spell in 4th-level slot
+  Effekt wird stärker (if scalable)
+  Cost: 1 Slot of higher level
+----
+
+'''
+
+
+== Surfaces & Environmental Hazards (BG3-inspired)
+
+
+
+=== Surface Types
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Surface | Created By | Effect | Duration
+
+| Fire | Fireball, torch | 1d4 damage per turn standing | Until extinguished
+| Ice | Frost spells, water frozen | Slippery (DEX DC 10 to not fall) | Until melted
+| Web | Spider web, Web spell | Restrained, difficult terrain | Until burned
+| Poison | Gas cloud, green dragon | 1d6 poison damage per turn | Until dispersed
+| Blood | Defeated creature | Slippery (DC 10) | Stays until cleaned
+| Grease | Grease spell, oil | Slippery (DC 10) | 1 hour or burned
+| Tar | Trap, magical effect | Difficult terrain, stuck (DC 12 STR) | Until removed
+|===
+
+
+
+=== Surface Interaction
+
+
+----
+Charakter steht auf Fire:
+  Start of Turn: Take damage ODER move away
+  Can use Action to stop drop and roll (DC 10 DEX)
+
+Charakter nächst zu Web:
+  Can walk durch (restrained while inside)
+  Can burn it (fire damage clears it)
+
+Encounter Designer puts surfaces STRATEGICALLY:
+  Fire between party and enemies (tactical choice: avoid or cross?)
+  Ice on bridge (high stakes crossing)
+  Poison cloud in cave (use ventilation?)
+----
+
+'''
+
+
+== Gravity & Verticality
+
+
+
+=== Falling Damage
+
+
+----
+3d6 damage per 10 feet fallen (minimum 1d6)
+
+Beispiele:
+  Fall 10 feet: 3d6 damage
+  Fall 20 feet: 6d6 damage
+  Fall 100 feet: 30d6 damage (instant death?)
+
+Damaging Fall > Max HP:
+  Character dies
+
+Dex Save to grab ledge (DC = 10 + distance/10):
+  Success: Grab ledge, take no damage, hang
+  Failure: Fall
+----
+
+
+=== Flying Combat
+
+
+----
+Character with flight (winged, levitate spell):
+  Can move in 3D space (up/down/diagonal)
+  Ranged attacks can target flying enemies
+  Flying enemies can swoop + attack + swoop away
+
+High ground advantage:
+  +2 to attack rolls
+  Enemy disadvantage if trying to reach you
+
+Flying + Spell Casting:
+  Must maintain concentration to stay flying
+  If hit: CON Save to maintain flight
+----
+
+'''
+
+
+== Cover & Concealment
+
+
+
+=== Cover Levels
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Cover | AC Bonus | DEX Save Bonus | Example
+
+| Half Cover | +2 | +2 | Standing behind pillar
+| 3/4 Cover | +5 | +5 | Behind wall with gaps
+| Full Cover | Immunity | Immunity | Completely hidden
+| Soft Cover | +1 | +1 | Enemies bodies (not protective)
+|===
+
+
+
+=== Example
+
+
+----
+Rogue hides behind pillar (half cover, +2 AC)
+Archer shoots from 60 feet away (no cover)
+
+Archer's attack: 1d20 + 6 (normal) = 12
+vs. Rogue's AC: 16 (base) + 2 (cover) = 18
+
+Miss! Rogue is protected
+----
+
+'''
+
+
+== Conditions
+
+
+BG3-style conditions:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Condition | Effect | Duration
+
+| Stunned | Cannot act, automatic miss ranged attack | Until saving throw success
+| Paralyzed | Cannot move, only can use gaze/speech | Until saving throw
+| Restrained | Speed 0, disadvantage on attacks, advantage vs | Duration
+| Frightened | Disadvantage on checks, cannot move toward source | Until fear-save
+| Exhaustion | Penalties escalate (1-6 levels) | Various
+| Prone | Disadvantage melee at distance, advantage melee close | Until stands (30ft movement)
+| Grappled | Speed 0, restrained effectively | Until breaks grapple
+| Incapacitated | Cannot take actions/bonus actions | Until condition ends
+|===
+
+
+'''
+
+
+== Foundry VTT Integration
+
+
+System auto-syncs with Foundry Virtual Tabletop:
+
+
+=== Automated Pushes to Foundry
+
+
+----
+Combat Initialization:
+  → Party loads Foundry Scene
+  → System reads encounter file
+  → Enemy tokens appear on map
+  → Initiative rolled, combatants ordered
+
+During Combat:
+  → PC's turn: Foundry highlights this PC
+  → PC declares action: System log synced
+  → Damage rolled: HP bars in Foundry update
+  → Death: Token grayed out
+  → Loot: Post-combat sync to loot table
+
+After Combat:
+  → Combat ends in system
+  → Loot automatically generated
+  → Encounter-log created
+  → Foundry scene cleared
+----
+
+
+=== GM Tools in Foundry
+
+
+----
+Encounter Designer:
+  - Drag enemies from library
+  - Set positions, hp override, treasure
+  - Difficulty rating shown (Easy/Medium/Hard/Deadly)
+  - Suggest adjustments if too easy/hard
+
+Combat Tracker:
+  - Initiative order visible
+  - Current turn highlighted
+  - HP bars synced
+  - Conditions visible (icons)
+
+Token Tools:
+  - Drag token to new position (resolves movement cost)
+  - Right-click for actions (attack, spell)
+  - Damage taken syncs to system
+  - Status effects shown (frozen icon, burning aura, etc.)
+----
+
+'''
+
+
+== Encounter-Generierung
+
+
+
+=== Difficulty Rating
+
+
+----
+Encounter XP = Sum of (Creature CR × Creature Count)
+
+Party Level 5 (4 characters):
+  Easy: < 400 XP
+  Medium: 400-800 XP
+  Hard: 800-1600 XP
+  Deadly: > 1600 XP
+
+System suggests:
+  "Add 1 more bandit to make Medium"
+  "Remove bugbear chief for easier encounter"
+----
+
+
+=== Random Encounter Tables
+
+
+----
+encounter_tables (Welt)
+├── region_id (FK)
+├── terrain_type (grassland, forest, etc.)
+├── difficulty_range (1-5)
+├── creatures[] (jsonb)
+│   ├── {creature_id, cr, count_range, frequency}
+├── treasure_multiplier (×0.5 for weak, ×2.0 for boss)
+└── special_conditions (burn nearby, cave ceiling, etc.)
+----
+
+
+=== Encounter Scaling
+
+
+----
+Party is:
+  2 characters instead of 4? → Reduce encounter count by -2
+  Level 5 instead of 3? → Increase difficulty tier
+  Weakened (low HP, no spells)? → Use easier table
+----
+
+'''
+
+
+== Combat Sequence (Typical)
+
+
+----
+[PREPARATION]
+GM: "You're ambushed by 3 bandits!"
+System: Generates encounter from table
+  - 3 Bandits (CR 1/8 each)
+  - 45 GP total
+  - 1 dagger (Uncommon Q1)
+Foundry scene loads
+
+[INITIALIZATION]
+Initiative rolled:
+  Player A: 18
+  Bandit 1: 14
+  Player B: 12
+  Bandit 2: 11
+  Bandit 3: 9
+
+[ROUND 1]
+Player A's Turn: "I cast Fireball!"
+  → Enemies in range make DEX saves
+  → System rolls damage (4d6 = 14 total)
+  → Enemies take damage: Bandit 1 (14 dmg, now 2 hp remaining)
+
+Bandit 1's Turn: "Flanks Player B, attacks!"
+  → 1d20 + 4 vs AC 14
+  → Roll: 16 (hit!)
+  → 1d6 + 2 damage = 5 dmg
+  → Player B now 27/32 HP
+
+[COMBAT CONTINUES]
+... multiple rounds ...
+
+[VICTORY]
+Bandits defeated!
+Loot generated:
+  - 45 GP divided (11 each, 2 remainder)
+  - Dagger (can be taken by one PC)
+  - Bodies left for scavenging
+
+[LOOT PHASE]
+System: "Distribute loot"
+GM assigns to inventory
+Gold added to party_gold
+Experience calculated:
+  450 XP total (3 bandits × 150 base)
+  112 XP per character
+  Each PC gains level progress
+
+[AFTERMATH]
+System logs combat:
+  - Damage taken by each PC
+  - Resources used (spells, items)
+  - Decisions made
+  - Trait-relevant moments noted
+Session continues with travel/rest
+----
+
+'''
+
+
+== Special Combat Rules
+
+
+
+=== Bonus Action Limitations
+
+
+----
+Can only use ONE bonus action per turn, even if multiple exist:
+  Priest has: Bonus Action Healing + Bonus Action Spiritual Weapon
+  Turn: Can use ONE
+
+Lagen spells (Action + bonus action):
+  If cast Bonus Action spell → can only cast 0-level (cantrip) as action
+  CANNOT cast two leveled spells in same turn
+----
+
+
+=== Opportunity Attacks
+
+
+----
+Enemy leaves threatened area:
+  Trigger opportunity attack (if reaction available)
+
+Can't trigger if:
+  - Enemy used Disengage action
+  - Enemy teleported away
+  - Enemy flew straight up (if no flying)
+
+1 opportunity attack max per turn (from this enemy source)
+----
+
+
+=== Concentration
+
+
+----
+Spell requires concentration:
+  While concentrating on Spell A, can't cast Spell B (if B also concentration)
+
+Takes damage:
+  CON Save DC 10 or (damage/2, whichever higher)
+  Fail: Concentration breaks
+  Success: Maintain spell
+
+Only one concentration active at a time
+----
+
+'''
+
+
+== Loot & Treasure
+
+
+See link:quest-szenen.adoc[quest-szenen.adoc] for Loot-Verteilung-Workflow.
+
+Briefly:
+----
+Encounter generates loot:
+  - Creature wealth (GP)
+  - Items from drop table
+  - Unique items (boss loot)
+
+GM reviews + adjusts
+Players distribute
+System logs all in combat_loot_log
+----
+
+'''
+
+
+== DB-Struktur
+
+
+----
+creatures (Welt)
+├── id (PK)
+├── name
+├── creature_type (humanoid|beast|undead|etc)
+├── ac
+├── hp
+├── speed_ft
+├── ability_scores (STR, DEX, CON, INT, WIS, CHA)
+├── skills (proficiency + bonus)
+├── actions[] (jsonb: [{name, action_type, damage, dc}])
+├── reactions[] (jsonb)
+├── special_abilities[] (jsonb)
+├── resistances (damage types)
+├── immunities (damage types)
+├── senses (darkvision range, passive perception)
+├── languages
+├── challenge_rating (cr)
+└── treasure_table (loot reference)
+
+combats (Kampagne)
+├── id (PK)
+├── session_id (FK)
+├── scene_id (FK)
+├── start_time_harptos
+├── end_time_harptos
+├── encounter_difficulty (easy|medium|hard|deadly)
+├── participants[] (jsonb: {character_id, npc_id, side: party|enemy})
+├── combat_round (current round)
+├── xp_total
+├── treasure_generated (jsonb)
+└── resolution (victory|defeat|fled|custom)
+
+combat_damage_log (Kampagne-Log)
+├── combat_id (FK)
+├── round_number
+├── attacker_id (character|npc)
+├── target_id (character|npc)
+├── damage_amount
+├── damage_type
+├── hit_or_miss
+└── condition_applied (if any)
+
+encounter_templates (Welt)
+├── id (PK)
+├── region_id (FK)
+├── terrain_type
+├── difficulty
+├── creatures[] (jsonb: [{creature_id, count_range}])
+├── surfaces (jsonb)
+├── special_conditions (jsonb)
+└── reward_multiplier
+----

@@ -1,0 +1,484 @@
+
+= Professionen & Crafting-System
+
+
+Fünf Professions-Level mit zehn Base-Professionen plus Multi-Step Crafting mit individueller Qualität.
+
+
+== Profession-System
+
+
+
+=== Profession ≠ Klasse
+
+
+Ein Paladin kann Schmied sein. Ein Wizard kann Lehrer sein. Ein Fighter kann Stadtwache sein.
+
+_Profession_ ist ein eigenständiges Entity in der Welt-Ebene — nicht an Klasse gebunden.
+
+
+=== Kategorien
+
+
+----
+Profession Kategorien:
+  - Craft (Schmied, Alchemist, Verzauberer)
+  - Trade (Händler, Schnitter)
+  - Military (Stadtwache, Söldner)
+  - Academic (Lehrer, Forscher)
+  - Service (Heiler, Entertainer)
+  - Criminal (Spion, Schwarzhändler)
+----
+
+'''
+
+
+== Fünf Professions-Level
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Level | Titel | Anforderung | Einkommen | Zugang
+
+| 1 | Lehrling | Basis | 0.5-2 GP/Tag | Basic recipes
+| 2 | Geselle | 50 XP | 2-5 GP/Tag | Common items
+| 3 | Meister | 200 XP + Lehrer | 5-12 GP/Tag | Uncommon items, teaching
+| 4 | Großmeister | 500 XP + GM-Event | 15-30 GP/Tag | Rare items, mentoring
+| 5 | Legendär | 1000+ XP + Quest | 50+ GP/Tag | Epic items, dynasty
+|===
+
+
+
+=== Einkommen pro Profession & Level
+
+
+
+[cols="1,1,1,1,1,1",options="header"]
+|===
+| Profession | L1 | L2 | L3 | L4 | L5
+
+| Schmied | 1 | 3 | 8 | 20 | 60
+| Alchemist | 0.5 | 2 | 6 | 18 | 55
+| Händler | 2 | 5 | 12 | 30 | 80
+| Stadtwache | 1 | 2 | 5 | 12 | 30
+| Heiler | 1 | 3 | 8 | 20 | 50
+| Lehrer | 0.5 | 1.5 | 4 | 12 | 40
+| Spion | 2 | 4 | 10 | 25 | 70
+| Fisher | 0.5 | 1 | 2.5 | 6 | 18
+| Bergarbeiter | 1 | 2.5 | 5 | 12 | 35
+| Entertainer | 0.5 | 2 | 5 | 15 | 45
+|===
+
+
+(alle GP/Tag)
+
+
+=== Mechanische Boni pro Profession
+
+
+----
+Schmied L3+:
+  + +2 zu Reparatur-Checks
+  + Waffen/Rüstung selbst herstellen
+  + -10% Einkaufspreis für Metallgegenstände
+
+Alchemist L3+:
+  + Tränke brauen (mit Crafting-System)
+  + Giftstoffe herstellen
+  + +2 zu Zutat-Identifikation
+
+Händler L3+:
+  + -10% Einkauf, +10% Verkauf (stackt mit Feilschen)
+  + Schwarzmarkt-Zugang leichter (DC -2)
+  + Automatische Nachricht über Preis-Änderungen
+
+Stadtwache L3+:
+  + +1 Initiative
+  + Zugang zu Wachräumen
+  + -2 auf Bestechungs-DCs gegen andere Wachen
+  + Verhafftungs-Authority (Tätlinge können gepahnt werden)
+
+Heiler L3+:
+  + +2 auf Medicine-Checks
+  + Tränke-Herstellen
+  + Nach Langem Rest: Party kann +2 HP vom Healing heilen
+
+Lehrer L3+:
+  + Studenten finden (Quest-Hook)
+  + Wissens-Checks +2
+  + Können neue Professionen lehren
+
+Spion L3+:
+  + Geheime Infos beschaffen (einmal pro Session)
+  + Schwarzmarkt-Kontakte automatisch
+  + +2 auf Disguise/Deception checks
+----
+
+
+=== Erlernen für Spieler
+
+
+_Downtime-Aktivität_ zwischen Sessions:
+
+. Lehrer-NPC finden (muss in der Welt existieren oder werden geschaffen)
+. Ausbildungskosten zahlen (0-50 GP je nach Profession)
+. X Wochen investieren (festgelegt pro Profession: Schmied 4 Wochen L1, 8 Wochen L2, etc.)
+. Mobile App: Fortschritts-Tracking, optionale "Mini-Quests" pro Tag (sammle 5 Zutaten, repariere 3 Items, etc.)
+
+'''
+
+
+== Crafting-System
+
+
+
+=== Grundprinzip: Multi-Step Crafting
+
+
+Crafting ist _NICHT_ ein sofortiger Skill-Check.
+
+Ein Item hat _mehrere Handlungsschritte_ die einzeln abgearbeitet werden. Jeder Schritt:
+* Hat eigene _Materialien_
+* Hat eigenen _Skill-Check_
+* Generiert optionale _Bonus/Nachteil-Eigenschaften_
+
+Die SUMME aller Schritte bestimmt das Endprodukt.
+
+
+=== Warum Multi-Step statt One-Roll?
+
+
+* _Gekauftes Item_: Perfekt, keine Überraschungen
+* _Gecraftetes Item_: Hat CHARAKTER
+** Jeder Schritt kann Bonus-Eigenschaften ODER Nachteile erzeugen
+** Das macht Crafting zu echtem Gameplay mit Entscheidungen und Risiko
+** Nicht simpler Skill-Check
+** Gecraftete Items sind IMMER individuell — nie zwei identische Stücke
+
+
+=== Crafting-Dauer & App-Integration
+
+
+Crafting dauert LANGE. In einer Spielsession etwas fertigstellen ist faktisch unmöglich.
+
+_Workflow_:
+. _Session_: Materialien sammeln
+. _Downtime_ (2 Wochen): Handlungsschritte in Mobile App abarbeiten
+. _Nächste Session_: Item ist fertig (oder noch in Arbeit)
+
+Jeder Handlungsschritt = 1 Downtime-Tag.
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Item-Komplexität | Schritte | Tage | Beispiel
+
+| Einfach | 2-3 | 1-2 | Einfacher Trank
+| Mittel | 4-6 | 3-5 | Gutes Schwert
+| Komplex | 7-10 | 6-10 | Drachenschuppen-Rüstung
+| Legendär | 10+ | 15+ | Drachenbindungs-Item
+|===
+
+
+'''
+
+
+== Drei Säulen: Rezepte, Materialien, Ergebnis
+
+
+
+=== REZEPTE
+
+
+Pro Profession eine Rezept-Liste:
+* Schmied → Waffen/Rüstung
+* Alchemist → Tränke/Gifte
+* Verzauberer → Magische Items
+
+_Rezepte werden GELERNT_:
+* Von Lehrer-NPC (paid training)
+* Aus Buch (rare find)
+* Durch Experiment (Trial & Error, längere Craft-Zeit)
+
+_Jedes Rezept definiert_:
+[source,json]
+----
+{
+  "name": "Longsword",
+  "profession_id": 1,  // Schmied
+  "min_profession_level": 2,
+  "result_item_id": 42,
+  "result_rarity_range": ["Common", "Rare"],
+  "total_craft_hours": 8,
+  "steps": [
+    {
+      "number": 1,
+      "name": "Forge the Blade",
+      "skill_dc": 12,
+      "required_materials": [
+        {"item_id": "iron_ore", "quantity": 2, "min_quality": 2}
+      ],
+      "hours": 3
+    },
+    // ... more steps
+  ]
+}
+----
+
+
+=== MATERIALIEN
+
+
+Drei Kategorien:
+
+_Basis-Materialien_ (kaufbar überall):
+* Eisen, Holz, Leder, Tuch, Kräuter
+* Preis: 1-5 GP
+* Quality 1-5 erhältlich
+
+_Seltene Materialien_ (nur Quests/Ernte/Drops):
+* Drachenschuppen, Mondsilber, Schattenessenz
+* Preis: 20-200+ GP
+* Quality begrenzt (oft nur Q3-Q5)
+
+_Einzigartige Materialien_ (Story-gated):
+* Herz eines gefallenen Drachen
+* Traubschatten-Seide
+* Nur ein Item weltweit existiert
+* Nicht handelbar
+
+Material-Qualität 1-5 beeinflusst Crafting-DC und mögliche Output-Qualität.
+
+
+=== ERGEBNIS
+
+
+_Final Quality_ = Durchschnitt aller Schritt-Ergebnisse (gewichtet nach Schritt-Wichtigkeit)
+
+----
+Schwert mit 5 Schritten:
+  Step 1 (Klinge, 40% weight): Quality 4
+  Step 2 (Griff, 25% weight): Quality 3
+  Step 3 (Parierstange, 20% weight): Quality 5
+  Step 4 (Zusammenbau, 10% weight): Quality 4
+  Step 5 (Schärfen, 5% weight): Quality 3
+
+Final Quality = (4×0.4) + (3×0.25) + (5×0.2) + (4×0.1) + (3×0.05)
+               = 1.6 + 0.75 + 1.0 + 0.4 + 0.15
+               = 3.9 ≈ Q4
+----
+
+'''
+
+
+== Schritt-für-Schritt Mechanik
+
+
+Pro Crafting-Schritt:
+
+
+=== Skill-Check gegen Schritt-DC
+
+
+----
+Roll: 1d20 + Crafting Bonus
+
+Ergebnis:
+  < DC: FAIL (Pfusch, Nachteil auf Step, Material-Verlust möglich)
+  = DC: SUCCESS (Standard-Qualität für diesen Step)
+  DC+5: GOOD (Bonus-Eigenschaft möglich)
+  DC+10: EXCELLENT (starke Bonus-Eigenschaft)
+  Nat 20: MEISTERWERK (garantierte spezielle Eigenschaft)
+----
+
+
+=== Trait-Interaktion
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Trait | Effekt | Beispiel
+
+| Sorgfältig+ | +2 auf Crafting-Checks | Sorgfältig+3 = +2
+| Ungeduldig+ | -2 auf Crafting, aber ×0.5 Crafting-Zeit | Ungeduldig+3 = -2, 4 Tage → 2 Tage
+| Perfektionist+ | +1 auf Checks, aber Nat 1-2 sind kritisches Fail | Perfektionist+2 = +1, aber sensibel
+|===
+
+
+'''
+
+
+== Schritt-Qualität beeinflusst finales Item
+
+
+Jeder Schritt kann optionale _Modifier_ ins Endprodukt einfließen:
+
+
+=== Schwert-Beispiel
+
+
+----
+Schritt 1: Klinge schmieden (Gewicht 40%)
+  ├─ Gut: +1 Damage
+  ├─ Schlecht: -1 Damage
+  └─ Meisterwerk: +2 Damage + Sharp (never dull)
+
+Schritt 2: Griff herstellen (Gewicht 25%)
+  ├─ Gut: Leichter (Waffe fasst sich besser an)
+  ├─ Schlecht: Schwerer (-1 zu Attack bei extended use)
+  └─ Meisterwerk: Perfectly balanced (+1 AC wenn wield 2-handed)
+
+Schritt 3: Parierstange (Gewicht 20%)
+  ├─ Gut: +1 AC wenn Parry aktiv
+  ├─ Schlecht: keine Parry möglich
+  └─ Meisterwerk: +2 AC + Disarm Advantage
+
+Schritt 4: Zusammenbau (Gewicht 15%)
+  ├─ Gut: +20% Durability
+  ├─ Schlecht: -20% Durability
+  └─ Meisterwerk: Unbreakable (+50% Durability, max-durability 120)
+
+Schritt 5: Schärfen (Gewicht 5%)
+  ├─ Gut: Critical Hit Range erweitert (19-20 statt 20)
+  ├─ Schlecht: normal
+  └─ Meisterwerk: (19-20) + Bleed (1d4 additional damage per round)
+----
+
+
+=== Trank-Beispiel
+
+
+----
+Schritt 1: Zutaten vorbereiten
+  Gut: Potency +20%
+  Schlecht: Potency -20%
+
+Schritt 2: Mischen
+  Gut: Clean brew, keine Nebeneffekte
+  Schlecht: Falsches Mischen = Nebenwirkung (Übelkeit 1h)
+
+Schritt 3: Kochen
+  Gut: Vollständige Wirkung
+  Schlecht: Wirkung -25%
+
+Schritt 4: Filtern
+  Gut: Clean, lange Haltbarkeit
+  Schlecht: Murb, Haltbarkeit -50%
+
+Final Trank = ALL modifiers kombiniert
+  Best case: +20% potency, keine Nebenwirkungen, 2 Jahre Haltbarkeit
+  Worst case: -20% potency, Übelkeit, 3 Monate Haltbarkeit
+----
+
+'''
+
+
+== Reparatur
+
+
+Jedes Item mit Durability kann repariert werden.
+
+
+=== Kosten
+
+
+----
+Reparatur-Kosten = (% Damage) × (Item-Preis) × 0.1
+
+Beispiel:
+  Rare Schwert (Preis 150 GP)
+  Durability 50% → 50% Damage
+  Reparatur-Kosten = 0.5 × 150 × 0.1 = 7.5 GP
+----
+
+
+=== Selbst-Reparatur (mit Profession)
+
+
+PC mit passender Profession (z.B. Schmied) kann selbst reparieren:
+* Skill-Check gegen DC (abhängig von Item-Rarity: Common 10, Rare 14, Legendary 18)
+* Erfolg: Item ist repariert
+* Misserfolg: Material-Verlust, Item braucht NPC-Reparatur
+
+
+=== NPC-Reparatur
+
+
+* Kostet Gold (wie oben)
+* NPC repariert in 1-3 Tagen
+
+
+=== Irreparabel
+
+
+Wenn `max_durability` zu weit gesunken ist (nach vielen Reparaturen):
+* Item kann nicht mehr repariert werden
+* Muss durch neues ersetzt oder recycled werden
+
+'''
+
+
+== DB-Struktur (6 Tabellen)
+
+
+----
+professions (Welt)
+├── id (PK)
+├── name
+├── category
+├── skill_requirements (jsonb)
+├── income_per_day[5] (L1-L5)
+├── mechanical_effects[] (jsonb)
+└── training_cost
+
+crafting_recipes (Welt)
+├── id (PK)
+├── name
+├── profession_id (FK)
+├── min_profession_level
+├── result_item_id (FK)
+├── result_rarity_range
+├── total_craft_hours
+└── description
+
+crafting_recipe_steps (Welt)
+├── id (PK)
+├── recipe_id (FK)
+├── step_number
+├── name
+├── description
+├── skill_dc
+├── required_materials (jsonb: [{item_id, quantity, min_quality}])
+├── hours
+├── weight_percent (Gewichtung im Endprodukt)
+├── success_bonus (jsonb: mechanical_effects)
+├── failure_penalty (jsonb)
+└── critical_bonus (jsonb)
+
+character_known_recipes (Kampagne)
+├── character_id (FK)
+├── recipe_id (FK)
+├── learned_from (npc|book|experiment)
+└── learned_at_harptos
+
+crafting_projects (Kampagne)
+├── id (PK)
+├── character_id (FK)
+├── recipe_id (FK)
+├── started_at_harptos
+├── current_step
+├── status (in_progress|completed|abandoned|failed)
+├── materials_consumed (jsonb)
+└── step_results (jsonb: [{step_number, roll, quality, bonus_applied}])
+
+crafting_project_items (Kampagne)
+├── id (PK)
+├── project_id (FK)
+├── result_item_instance_id (FK)
+├── final_quality
+├── bonus_properties (jsonb: mechanical_effects[])
+├── penalty_properties (jsonb)
+└── is_unique (bool — immer true für crafted items)
+----

@@ -1,0 +1,407 @@
+
+= 12 Klassen & Subclass System
+
+
+Vollständige Dokumentation aller verfügbaren Klassen mit Dragon Bond Affinität und Warlock-Patrons.
+
+'''
+
+
+== Alle 12 Klassen
+
+
+_Verfügbar_: Fighter, Barbarian, Monk, Paladin, Ranger, Wizard, Sorcerer, Cleric, Druid, Warlock, Bard, Rogue
+
+_Nicht Verfügbar_: Artificer — die Rolle existiert als Profession "Tüftler", nicht als Klasse
+
+'''
+
+
+== Subclass-Policy
+
+
+_Grundsätzlich ALLE PHB-Subclasses erlaubt_:
+* Player's Handbook (PHB)
+* Xanathar's Guide to Everything
+* Tasha's Cauldron of Everything
+
+_GM kann Setting-fremde einschränken_, z.B.:
+* Hexblade Warlock (zu drow-spezifisch) → kann abgelehnt werden
+* Aberrant Mind Sorcerer → akzeptiert
+
+_Homebrew_: Nicht standardmäßig erlaubt. GM-Approval nötig.
+
+'''
+
+
+== Dragon Bond Affinität
+
+
+
+=== 3 Drachen-Archetypen
+
+
+. _KAMPFDRACHE (Martial)_ — Groß, Reittier, Krallen, Atem
+. _TASCHENDRACHE (Caster)_ — Klein, Vertrauter, Fokus-Unterstützung
+. _SCHATTENDRACHE (Stealth/Skill)_ — Mittel, Spion, Unsichtbarkeit, Gift
+
+
+=== Klassen-Affinität Matrix
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Klasse | Kampfdrache | Taschendrache | Schattendrache | Notizen
+
+| _Fighter_ | ●●● Ideal | ● | ● | Reiter-Anwendung
+| _Barbarian_ | ●●● Ideal | ● | ○ | Aggression passt
+| _Monk_ | ●● | ●● | ●● Gut | Balance möglich
+| _Paladin_ | ●● Kampf-Build | ●● Magie-Build | ● | Wahlfreiheit!
+| _Ranger_ | ●● Kampf-Build | ● | ●● Scout-Build | Wahlfreiheit!
+| _Wizard_ | ○ | ●●● Ideal | ●● | Fokus-Nutzung
+| _Sorcerer_ | ○ | ●●● Ideal | ●● | Magie-Affinity
+| _Cleric_ | ●● War Domain | ●●● andere | ● | Wahlfreiheit!
+| _Druid_ | ○ | ●●● Ideal | ● | Natürliche Bindung
+| _Warlock_ | ○ | ●● | ●●● Ideal | Pakt-Struktur
+| _Bard_ | ●● Valor | ●● Lore | ●● Whispers | Flexibel
+| _Rogue_ | ○ | ○ | ●●● Ideal | Stealth-Spezialist
+|===
+
+
+_Legende_:
+* ●●● Ideal — beste Pairing
+* ●● Gut — starke Synergie
+* ● Möglich — funktioniert
+* ○ Nicht ideal — aber spielbar mit Kreativität
+* _Wahlfreiheit!_ — Drache entscheidet basierend auf Verhalten
+
+
+=== Halbcaster Wahlfreiheit
+
+
+_Paladin, Ranger, Bard_ haben dominante Combat- und Casting-Züge:
+* _Drache wählt basierend auf_:
+** Charakter-Traits (Mutig = Kampf, Neugierig = Taschendrache)
+** Spielweise-Tendenz (spammt Spells vs nutzt Sword)
+** Personality-Match (Warlock-Pact ähnlich)
+
+Beispiel: Ein Bard der hauptsächlich Kontrolle-Spells wirkt → Taschendrache. Ein Bard der tanzen/kämpfen will → Kampfdrache.
+
+'''
+
+
+== Warlock-Patrons: Die Sieben (verblasst)
+
+
+
+=== Konzept
+
+
+Warlock-Patrons sind die _7 Götter DIREKT_ — aber in stark verblasster Form:
+
+Die Götter sind nach der Epoche der Kriege _erschöpft_:
+* Ein Pakt ist ein dünner Faden zu einem fast schlafenden Wesen
+* Warlock Pact Magic (wenige Slots, Short Rest Recovery) reflektiert Götter-Schwäche
+* _Warlocks sind selten_ und von Priestern misstrauisch betrachtet
+* _Der Pakt KOSTET dem Gott Energie_ — nicht einfach freier Zugang
+
+
+=== 7 Götter & Patrons
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Gott | Domain | Pact-Mechanik | Patron-Effekt | Warlock-Typ
+
+| _Pyrathis_ | Feuer, Zerstörung | Fiend | Aggressive Power, Destruction | Krieger-Warlock
+| _Thalendis_ | Heilung, Wandel | Celestial | Healing, Transformation | Support-Warlock
+| _Verathos_ | Erde, Ordnung, Schutz | Custom | Protection, Law, Durability | Tank-Warlock
+| _Aeolyn_ | Wissen, Telepathie, Magie | Great Old One | Knowledge, Telepathy, Alien Logic | Mind-Warlock
+| _Nocthari_ | Schatten, Tod, Geheimnis | Fiend/Hexblade | Deception, Death, Stealth | Rogue-Warlock
+| _Solveris_ | Licht, Wahrheit, Heilung | Celestial | Truth, Light, Purification | Paladin-Warlock
+| _Aethyran_ | Zeit, Schicksal, Kontrolle | Great Old One | Time Manipulation, Fate | _Mächtigster aber gefährlichster_
+|===
+
+
+
+=== Mechanische Auswirkungen
+
+
+_Alle Warlocks nutzen Pact Magic_:
+* Wenige Spell Slots (wie RAW D&D)
+* Short Rest Recovery (nicht Long Rest)
+* Reflektiert Götter-Schwäche
+
+_Beispiel-Pakt-Features_:
+
+_Pyrathis-Pakt (Fiend)_:
+* Hellish Rebuke verfügbar
+* Invokers für Destruction-Fokus
+* Pact-Boon: Tome, Chain (Fiery), Blade (Inferno)
+
+_Nocthari-Pakt (Fiend/Hexblade-Hybrid)_:
+* Hexblade-Boons möglich
+* Invisibility Affinity
+* Pact-Boon: Chain (Shadow creature), Blade (Shadow)
+
+_Aethyran-Pakt (Great Old One)_:
+* _Vorsicht vor GM-Beschränkung_ — mächtig aber mit Kosten
+* Telepathy
+* Time-related Invocations (wenn vorhanden)
+* _Risiko_: Pakt kann schieflaufen (Gott wacht auf, Wahnsinn, etc.)
+
+
+=== Lore: Warum sind Warlocks selten?
+
+
+. _Götter sind schwach_ — nur begrenzte Energie für neue Pakte
+. _Priesterliche Konkurrenz_ — Priester sehen Warlocks als "falsche Kulte"
+. _Pakt-Kosten_ — Jeder neue Warlock verursacht Götter-Leiden
+. _Akademie-Skeptik_ — Akademie akzeptiert, warnt aber vor Abweichung
+
+
+=== Beispiel-Warlock-Charakter
+
+
+_Name: Arik, Pyrathis-Warlock_
+* Pact-Boon: Pact of the Blade (Inferno-themed)
+* Invocations: Agonizing Blast, One with Shadows, Thief of Five Fates
+* Aspiration: Feuer-Kontrolle, Zerstörung
+* Konflikt: Pyrathis will mehr Zerstörung, Arik will Kontrolle
+
+'''
+
+
+== Kein Level-Cap: Epos-System
+
+
+
+=== Struktur
+
+
+_Level 20 ist NICHT das Ende_ sondern der Beginn des Endgames:
+
+* _Level 1-10_: Akademie-Phase
+* _Level 11-15_: Welt-Phase
+* _Level 16-20_: Krieg/Politik-Phase
+* _Level 20+_: Sigillen-Epos (neues Power-Layer)
+
+
+=== Level 20+: Sigillen-System
+
+
+Ab Level 20:
+* _XP-Tracking geht weiter_ (nicht Level-Progression)
+* _Keine neuen Class Features_
+* _Stattdessen_: Sigillen als komplett neues Power-Layer
+** Sigillen = Göttliche Artefakte mit legendären Fähigkeiten
+** Jede Sigill hat unique Pact/Binding mechanic
+** Spieler können mehrere Sigillen sammeln über Zeit
+* _Epic Boons_ (DMG): +2 Ability Score, Extra Attack, etc.
+* _Trait-Evolution beschleunigt_: Traits evolvieren schneller
+* _Dragon Bond Phase 2 wird stärker_: Reiter + Drache synchronisieren
+
+
+=== Kampagnen-Vision
+
+
+_Kampagne soll ewig laufen können_:
+* Kein "Endspielstoß" bei Level 20
+* Langfristige Ziele entwickeln sich
+* Sigillen-Jagd wird neue Meta-Story
+* Dragon Bond deepens further
+
+Beispiel: Ein Charakter könnte bei Level 25 die _Sigill of Time_ suchen (Aethyran-pakt-gefärbt), was eine ganze Kampagnen-Arc auslöst.
+
+'''
+
+
+== Class Feature Überblick
+
+
+
+=== Martial Classes
+
+
+_Fighter_:
+* Extra Attacks at 5/11/20
+* Action Surge
+* Fighting Styles (6 Optionen)
+* Subclass at 3
+
+_Barbarian_:
+* Rage (STR-based, Damage Reduction)
+* Reckless Attack
+* Danger Sense
+* Subclass at 3
+
+_Monk_:
+* Ki Points (WIS × Level)
+* Unarmored Defense
+* Martial Arts (bonus action attacks, unarmed strike scaling)
+* Subclass at 3
+
+_Paladin_:
+* Spellcasting (Ritter-Spells)
+* Divine Smite (add d8 per spell slot)
+* Lay on Hands
+* Oath at 3 (becomes Subclass)
+
+_Ranger_:
+* Spellcasting
+* Favored Enemy (Bestiarium-linked)
+* Natural Explorer
+* Subclass at 3
+
+
+=== Spellcasting Classes
+
+
+_Wizard_:
+* Spellbook (all wizard spells available)
+* Arcane Recovery (once per long rest)
+* School of Magic at 2 (Subclass)
+* Most versatile prepared speller
+
+_Sorcerer_:
+* Sorcery Points
+* Font of Magic (convert slots ↔ points)
+* Metamagic (6 options)
+* Draconic Bloodline at 1 (Subclass) → _Dragon Bond Affinity_
+
+_Cleric_:
+* Channel Divinity
+* Divine Domain at 1 (Subclass)
+* Healing-focused caster
+* Many subclasses → flexibel für Dragon Bond
+
+_Druid_:
+* Spellcasting (prepare from full list)
+* Wild Shape (transform into beasts)
+* Druidic Language
+* Circle at 2 (Subclass)
+
+_Warlock_:
+* Pact Magic (few slots, short rest recovery)
+* Eldritch Invocations (customize abilities)
+* Pact Boon at 3: Tome/Chain/Blade
+* See Patron-section above
+
+_Bard_:
+* Spellcasting (prepare from Bard list)
+* Bardic Inspiration (bonus die for others)
+* Jack of All Trades (+ half prof to all)
+* College at 3 (Subclass)
+
+
+=== Skill-based Classes
+
+
+_Rogue_:
+* Sneak Attack (extra damage when advantage/ally nearby)
+* Expertise (double prof on 4 skills)
+* Cunning Action (bonus action hide/disengage/dash)
+* Subclass at 3 (Roguish Archetype)
+* Best at skills, deception, stealth
+
+'''
+
+
+== Multiclassing-System
+
+
+
+=== Policy
+
+
+Multiclassing ist _erlaubt aber strukturiert_:
+
+. _Voraussetzungen_: Spieler muss minimale Ability Score haben (13 in Primary Ability der neuen Klasse)
+
+. _Readiness-System_: GM bestimmt wenn Spieler "ready" für Multiclass ist
+** Basierend auf Charakter-Behavior
+** Narrative Justification
+** Spielweise-Trends
+
+. _Trigger_: Beim nächsten Level-Up nach GM-Freigabe
+** Drache spricht zu Charakter: "Ich spüre etwas Neues in dir"
+** Drache schlägt 1-2 Klassen vor
+** Spieler kann annehmen oder ablehnen (kommt später nochmal auf)
+
+. _Keine Selbst-Multiclass_: Spieler können nicht einfach sagen "ich werde Bard". GM-Decision only.
+
+. _Ausrüstungs-Expansion_: Bei Multiclass wird Equipment-Profil erweitert (neue Klasse→neue Waffen/Rüstung).
+
+'''
+
+
+== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Alle Klassen
+SELECT * FROM classes
+WHERE is_playable = true
+ORDER BY name;
+
+-- Subclasses
+SELECT * FROM subclasses
+WHERE class_id = (SELECT id FROM classes WHERE name = 'Fighter');
+
+-- Warlock Patrons
+SELECT * FROM warlock_patrons
+ORDER BY god_id;
+
+-- Charakter-Klasse
+SELECT
+  c.id, c.name, c.level,
+  cl.name as class_name,
+  sc.name as subclass_name,
+  c.xp_current
+FROM characters c
+JOIN classes cl ON c.class_id = cl.id
+LEFT JOIN subclasses sc ON c.subclass_id = sc.id
+WHERE c.id = ?;
+
+-- Multiclass-Readiness
+SELECT * FROM multiclass_readiness
+WHERE character_id = ?
+ORDER BY class_readiness_score DESC;
+
+-- Dragon Bond Class Affinity
+SELECT * FROM dragon_bond_class_affinity
+WHERE class_id = ?;
+----
+
+'''
+
+
+== Klassen im Akademie-Kontext
+
+
+Jede Klasse hat _Schwerpunkt-Fächer_ an der Akademie:
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Klasse | Primär-Fach | Sekundär | Tertiär
+
+| Fighter | Kampfkunst | Handwerk | Diplomatie
+| Barbarian | Kampfkunst | Welt & Überleben | Geschichte
+| Monk | Kampfkunst | Diplomatie | Handwerk
+| Paladin | Kampfkunst | Geschichte & Götter | Diplomatie
+| Ranger | Welt & Überleben | Kampfkunst | Handwerk
+| Wizard | Arkane Lehre | Drachenkunde | Geschichte
+| Sorcerer | Arkane Lehre | Drachenkunde | Kampfkunst
+| Cleric | Geschichte & Götter | Arkane Lehre | Diplomatie
+| Druid | Welt & Überleben | Arkane Lehre | Handwerk
+| Warlock | Drachenkunde | Arkane Lehre | Geschichte
+| Bard | Diplomatie | Arkane Lehre | Handwerk
+| Rogue | Handwerk | Diplomatie | Welt & Überleben
+|===
+
+
+Diese Schwerpunkte beeinflussen, welche Trait-Evolution bei Akademie-Unterricht wahrscheinlicher wird.

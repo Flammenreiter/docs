@@ -1,0 +1,1415 @@
+
+= GM Dashboard — Referenz-Dokumentation
+
+
+_Zentrale Verwaltungsplattform für GM-Aufgaben: Session-Planung, Szenen-Steuerung, NPC-Management, Kämpfe und Post-Session-Workflows._
+
+'''
+
+
+== Inhaltsverzeichnis
+
+
+. link:#session-planer-herzstück[Session-Planer]
+. link:#szenen-steuerung-live[Szenen-Steuerung]
+. link:#npc-management[NPC-Management]
+. link:#map-viewer-leaflet[Map-Viewer]
+. link:#foundry-fernsteuerung[Foundry-Integration]
+. link:#würfel--checks[Würfel & Checks]
+. link:#encounter-builder[Encounter Builder]
+. link:#post-session-pipeline[Post-Session Pipeline]
+. link:#weitere-features[Weitere Features]
+. link:#neue-use-cases-v8[Use Cases]
+
+'''
+
+
+== Session-Planer (Herzstück)
+
+
+Der Session-Planer ist das Kernwerkzeug zur Planung und Durchführung von Spielsessions. Er unterstützt zwei komplementäre Bearbeitungsmodi.
+
+
+=== Zwei Modi
+
+
+
+==== Quick Mode
+
+* _Markdown-Editor_ mit @Entity-Tags
+* Unterstützte Tags: `@NPC:Name`, `@Ort:Name`, `@Aktion:Beschreibung`, etc.
+* _Auto-Complete_ bei Tag-Eingabe
+* Tags werden automatisch als Datenbankreferenzen gespeichert
+* Ideal für schnelle Notizen und Vorbereitung
+
+
+==== Graph Mode (D3 Custom)
+
+* _Visueller Node-Graph-Editor_ mit Drag-Drop Interface
+* _6 Node-Typen:_
+** `location` — Orte/Schauplätze
+** `encounter` — Kämpfe/Begegnungen
+** `social` — Dialog/Soziale Interaktionen
+** `decision_point` — Entscheidungspunkte
+** `event` — Ereignisse
+** `freeform` — Freitext-Notizen
+
+* _Edges (Verbindungen)_ mit Conditions
+* _Condition-Builder_ mit Dropdown-Optionen:
+** `visited` — Ort besucht
+** `met_npc` — NPC getroffen
+** `has_item` — Item im Inventar
+** `quest_state` — Quest-Status
+** `decision_made` — Entscheidung getroffen
+** `disposition_min` — Disposition mindestens X
+** `combat_result` — Kampf-Ergebnis (win/loss/flee)
+
+* _Mini-Map, Zoom, Pan_ für Navigation
+* _Technologie:_ D3.js Custom Implementation
+* _Wiederverwendung:_ Graph-Primitives auch für Quest-Ketten, Entscheidungs-Timelines, Ort-Netzwerke
+
+
+=== Live-Session State
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Node-Status | Bedeutung | Farbe
+
+| _locked_ | Bedingungen nicht erfüllt | Grau
+| _available_ | Bedingungen erfüllt | Gelb
+| _visited_ | Node wurde besucht | Grün
+|===
+
+
+* _Condition-Checker_ prüft live aus bestehenden Datenbanktabellen
+* _Warnung_ bei unerfüllten Conditions
+* GM kann bei Bedarf Conditions überschreiben (Override)
+
+
+=== Session-Rückblick
+
+
+Nach Abschluss einer Session zeigt der Graph:
+* Tatsächlich gewählten Pfad (grüne Nodes)
+* Nicht besuchte Nodes (grau)
+* Basis für Planung der nächsten Session
+* Historischer Überblick über Story-Progression
+
+
+=== Templates & Arc-Graph
+
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Beschreibung
+
+| _Templates_ | Session-Pläne speichern und wiederverwenden
+| _Arc-Graph_ | Mega-Graph über mehrere Sessions zur Visualisierung der Story-Progression
+|===
+
+
+
+=== Abhängigkeiten
+
+
+* Character Sheet (Dokumentation 05)
+* Supabase Realtime
+* Scene-System (Dokumentation 02)
+* D3.js Custom Implementation
+* Shared Graph Primitives (`shared/layout/graph/`)
+
+'''
+
+
+== Szenen-Steuerung (Live)
+
+
+Echtzeit-Kontrolle von Szenen während einer Session.
+
+
+=== Szenen-Leiste
+
+
+Horizontale Leiste oben im Dashboard mit:
+
+
+[cols="1,1",options="header"]
+|===
+| Element | Beschreibung
+
+| _Typ_ | Farbig nach Kontext (social, combat, explore, downtime)
+| _Ort_ | Aktuelle Location
+| _Dauer/Timer_ | Szenen-Länge und aktiver Timer
+| _Aktive NPCs_ | Liste der in der Szene beteiligten NPCs
+| _Quick-Buttons_ | [Neue Szene], [Combat starten], [Timer], [Szene beenden]
+|===
+
+
+
+=== Scene-Typ → Modus-Push
+
+
+* GM wählt Szenen-Typ
+* Typ wird _Realtime_ an alle Spieler gepusht
+* Modi-Mapping:
+** `social` → Social Mode (Konversationen, Verhandlungen)
+** `combat` → Combat Mode (Initiative, Kampf-UI)
+** `explore` → Explore Mode (Umgebung erkunden)
+** `downtime` → Downtime Mode (Rast, Aktivitäten)
+
+
+=== GM-Pop-ups
+
+
+* GM wählt Empfänger (einzelne Spieler/Gruppe/alle)
+* Freitext + optionales NPC-Portrait/Token
+* _NEU in v8:_ `rest_vote` Pop-up für Rast-Abstimmungen
+
+
+=== Timer
+
+
+* _Runden-Timer_ (für Combat)
+* _Echtzeit-Timer_ (flexible Nutzung)
+* Sichtbar für alle Beteiligten
+* Synchronisiert über Supabase Realtime
+
+'''
+
+
+== NPC-Management
+
+
+Verwaltung von Non-Player-Characters mit umfangreicher Betracking-Mechanik.
+
+
+=== Profil-Panel
+
+
+
+[cols="1,1",options="header"]
+|===
+| Information | Typ
+
+| _Name_ | Text
+| _Rasse_ | Selection
+| _Profession_ | Selection
+| _Traits_ | Array (mit Ausprägung: -5 bis +5)
+| _Disposition_ | Numerischer Wert + Emoji-Icon
+| _Emotion-Portrait_ | Dynamisches Bild basierend auf Emotion
+|===
+
+
+
+=== Disposition-Tracker (Live)
+
+
+* _Trait-Trigger Buttons_ zur schnellen Anpassung
+* Live-Updates während Szenen
+* Emoji-Feedback für Spieler
+* Grund-Dokumentation (welcher Trait/Check verursachte Änderung)
+
+
+=== DC-Aufschlüsselung
+
+
+_10-Schritte-Pipeline visuell dargestellt:_
+. Basis-DC (10)
+. +1 pro Challenge-Level
+. +Trait-Modifier
+. +Situational Modifier
+. Advantage/Disadvantage Status
+. Final DC
+. Skill-Check Type
+. Proficiency Bonus
+. Trait-Relevanz
+. Result
+
+'''
+
+
+== Map-Viewer (Leaflet)
+
+
+Kartensystem für Weltnavigation und Szeneneinsatz.
+
+
+=== Weltkarte
+
+
+
+[cols="1,1",options="header"]
+|===
+| Feature | Beschreibung
+
+| _Engine_ | Leaflet mit CRS.Simple
+| _Background_ | AI-generierte Top-Down Weltkarte
+| _Travel-Nodes_ | Marker für bereisbare Orte
+| _Character-Tokens_ | Platzierbar durch GM (zeigt Positionen via Supabase Broadcast)
+|===
+
+
+
+=== Ort-Maps
+
+
+* _Top-Down Karten_ einzelner Orte/Dungeons/Städte
+* _Polygon-Overlays_ für Gebäude/POIs
+* _Hover-Effekt:_ Highlighting + Name
+* _Klick-Aktion:_ POI-Detail anzeigen
+* _GM-Tool:_ react-leaflet-draw für Polygon-Erstellung
+
+
+=== Token-Platzierung (GM-only MVP)
+
+
+* _Drag-Drop Interface_ für Character-Tokens
+* Spieler sehen Positionen über Supabase Broadcast
+* MVP: Keine Spieler-gesteuerte Bewegung
+* Zukünftige Erweiterung: Collaborative Movement
+
+
+=== Szenen-Map senden
+
+
+* Button: "Map an Spieler senden"
+* Aktuelle Map wird als Szenen-Kontext gepusht
+* Alle Spieler sehen synchrone Map
+
+
+=== Abhängigkeiten
+
+
+* Leaflet
+* react-leaflet
+* react-leaflet-draw (GM Polygon-Editor)
+
+'''
+
+
+== Foundry-Fernsteuerung
+
+
+Integration mit Foundry VTT für nahtlose Synchronisation.
+
+
+=== Pre-Sync
+
+
+* Character-Snapshots aus Web-App
+* REST API Call an Foundry
+* Überträgt: Stats, Effekte, Inventar
+
+
+=== Post-Sync
+
+
+* Finaler Charakter-Zustand aus Foundry auslesen
+* Synchronisiert zurück in Web-App
+* Concentration Status, Effekte, Position
+
+
+=== Maps hochladen
+
+
+* Battle-Map aus Web-App → Foundry Scene erstellen
+* Polygon-Daten inkludiert
+* Token-Positionen übernommen
+
+
+=== Alles aus dem GM-Dashboard
+
+
+Alle Sync-Operationen:
+* One-Click im GM-Dashboard
+* Keine zusätzliche Foundry-Navigation nötig
+* Logs für Debugging
+
+
+=== Abhängigkeiten
+
+
+* Foundry REST API Modul (ThreeHats)
+* FLUX API (Supabase Edge Function)
+
+'''
+
+
+== Würfel & Checks
+
+
+Würfelsystem mit DC-Pipeline und Betracking.
+
+
+=== Batch Rolls
+
+
+* Mehrere Würfe gleichzeitig durchführen
+* Gruppiert nach Spieler/Check-Typ
+* Automatische Ergebnissammlung
+
+
+=== DC-Pipeline sichtbar
+
+
+* GM sieht alle Schritte der DC-Berechnung
+* Transparent welche Modifier angewendet wurden
+* Nachverfolgbar für Balance-Überprüfung
+
+
+=== Trait-Relevanz nachträglich markieren
+
+
+* Nach Roll können Traits als relevant markiert werden
+* Beeinflusst Trait-Evolution (UC-CAL-02)
+* Dokumentation für Character Arc
+
+
+=== Logging
+
+
+* Alle öffentlichen Würfe → `session_mechanical_log`
+* Zusätzlich → Campaign Journal
+* Searchable und reportable
+
+'''
+
+
+== Encounter Builder
+
+
+Konstruktion von Begegnungen mit CR-Budget und Loot-Generierung.
+
+
+=== Creature-Auswahl
+
+
+* Vollständige Inline-Stats aller Kreaturen
+* Filterbar nach: Type, CR, Environment, etc.
+* Multi-Select zum Encounter-Aufbau
+
+
+=== CR-Budgeting
+
+
+
+[cols="1,1",options="header"]
+|===
+| Difficulty | Beschreibung
+
+| _Easy_ | Keine ernsthafte Herausforderung
+| _Medium_ | Interessante Herausforderung
+| _Hard_ | Gefährlich, aber gewinnbar
+| _Deadly_ | Potentiell tödlich
+|===
+
+
+* System zeigt CR-Budget basierend auf Party-Level
+* Visual Indicator für Balance
+
+
+=== Loot-Vorschlag
+
+
+* Automatische Loot-Generierung basierend auf Kreaturen
+* Rarity-Distribution
+* Itemization nach Challenge-Schwierigkeit
+* GM kann anpassen/überschreiben
+
+'''
+
+
+== Post-Session Pipeline
+
+
+Systematische Nachbereitung nach jeder Session.
+
+
+=== Schritte der Post-Session Pipeline
+
+
+
+==== 1. XP verteilen
+
+* System schlägt XP-Pool vor (Encounters + Quests + Roleplay)
+* GM passt bei Bedarf an
+* Pro Teilnehmer: `xp_modifier` setzen
+* Abwesende: 0%/50%/100% optional
+* GM bestätigt → `session_xp_awards` erstellen
+* `xp_current` aktualisiert
+* Auslöst Level-Up wenn `xp_current >= xp_next_level`
+
+
+==== 2. Level-Up freigeben
+
+* Nach XP-Verteilung aktiviert sich Dragon-Dialog für Spieler
+* Spieler können Leveln über Character Sheet
+
+
+==== 3. Trait-Evolution Review
+
+* Detected Trait Moments aus Craig-Transkript
+* GM bestätigt/verwirft Trait-Shifts
+* Entscheidungsabhängige Trait-Änderungen prüfen
+
+
+==== 4. Decision Tracking
+
+* Automatisch erkannte Decisions aus Transkript
+* Manuell hinzufügbare Decisions
+* Konsequenz-Verknüpfung
+
+
+==== 5. Visibility-Toggles
+
+* Loot-Sichtbarkeit für Spieler
+* Summary-Veröffentlichung
+
+
+==== 6. Craig-Transkript verarbeiten
+
+* Audio aus Discord → Whisper Transkript
+* AI-Zusammenfassung
+* Detected Decisions & Trait Moments extrahieren
+* Player-Journal-Drafts generieren
+* Status: `processing_status=complete`
+
+
+==== 7. Multiclass-Readiness prüfen
+
+* Dashboard zeigt `behavior_scores` pro Charakter für alle Klassen
+* Beispiel: "Arik: Rogue 73%, Wizard 22%, Cleric 11%"
+* GM kann "Multiclass freischalten" klicken
+* Beim nächsten Level-Up erscheint die Option im Dragon-Dialog
+
+'''
+
+
+== Weitere Features
+
+
+
+=== Charakter-Übersicht
+
+
+* Alle aktiven Charakter-Sheets auf einen Blick
+* Sortierbar nach Name, Level, Class
+* Quick-Access zu: HP, Conditions, Spell Slots, Ressourcen, Exhaustion
+
+
+=== Notes-System
+
+
+* GM sieht alle Spieler-Notizen
+* Filter: Spieler, Session, Tag, Entity-Referenz
+* Können direkt im Dashboard bearbeitet werden
+* Realtime-Synchronisation
+
+'''
+
+
+== Neue Use Cases v8
+
+
+
+=== UC-PTY-01: Party anlegen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | GM-Dashboard → Party-Management → Neue Party → Name eingeben
+| _Datenbankoperationen_ | `party_groups` erstellt mit `campaign_id`, `created_by_user_id`
+| _Ergebnis_ | Leere Party bereit zur Mitgliederzuweisung
+|===
+
+
+
+=== UC-PTY-02: Mitglied hinzufügen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Party öffnen → Aktive Charaktere ohne Party anzeigen → Charakter wählen
+| _Validierung_ | `is_alive=true`, nicht in anderer Party
+| _Datenbankoperationen_ | `party_group_members` erstellt
+| _Benachrichtigungen_ | Spieler erhält Notification
+| _Ergebnis_ | Charakter in Party
+|===
+
+
+
+=== UC-PTY-03: Mitglied entfernen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Mitglied wählen → Grund auswählen: left/kicked/character_death
+| _Datenbankoperationen_ | `is_active=false`, `left_at` gesetzt, `removed_reason` gesetzt
+| _Nachberechnungen_ | `effective_reputation` neu berechnet
+| _Ergebnis_ | Charakter aus Party, Historie erhalten
+|===
+
+
+
+=== UC-PTY-04: Auto-Behandlung bei Charakter-Tod
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System (Trigger)
+| _Trigger_ | `is_alive=false`
+| _Ablauf_ | Party-Mitglied auto `is_active=false`, `removed_reason=character_death`
+| _Nachfolger_ | Spieler erstellt neuen Charakter via UC-PTY-02
+| _Ergebnis_ | Tote auto aus Party, verfügbar für Neuerstellung
+|===
+
+
+
+=== UC-STY-01: Story anlegen mit Party-Zuordnung
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Session-Planer → Neue Story → Aktive Party wählen (Pflicht) → Titel+Beschreibung+Leitziel
+| _Datenbankoperationen_ | `stories` erstellt mit `party_group_id` (unveränderlich)
+| _Constrains_ | Party-Zuordnung kann nicht geändert werden
+| _Ergebnis_ | Story fest an Party gebunden
+|===
+
+
+
+=== UC-XP-01: XP nach Session verteilen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Post-Session-Pipeline
+| _Ablauf_ | System schlägt XP-Pool vor → GM passt an → Pro Teilnehmer: `xp_modifier` setzen
+| _Sonderfall_ | Abwesende: GM wählt 0%/50%/100%
+| _Datenbankoperationen_ | `session_xp_awards` erstellt, `xp_current` aktualisiert
+| _Trigger_ | Wenn `xp_current >= xp_next_level` → Level-Up-Trigger, Dragon-Dialog freigeschaltet
+| _Ergebnis_ | XP verteilt, Level-Ups aktiviert
+|===
+
+
+
+=== UC-CAL-01: Event manuell anlegen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Kalender → Neues Event → Titel, Beschreibung, Harptos-Datum, Typ
+| _Optionen_ | Visibility, Entity-Verknüpfung, Erinnerung
+| _Datenbankoperationen_ | `campaign_events` erstellt, ggf. `character_event_awareness`
+| _Ergebnis_ | Event im Kalender, ggf. sichtbar für Spieler
+|===
+
+
+
+=== UC-CAL-02: Auto-Event bei Crafting
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System (Trigger)
+| _Trigger_ | `crafting_project` erstellt
+| _Ablauf_ | Fertigstellungsdatum berechnen → `campaign_events` mit `type=crafting_complete`
+| _Benachrichtigung_ | `character_event_awareness` für Crafter
+| _Ergebnis_ | Spieler sieht Crafting-Deadline
+|===
+
+
+
+=== UC-CAL-03: Kalender-Erinnerung
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | GM öffnet Dashboard / Session-Start
+| _Ablauf_ | Events mit `reminder_days_before` prüfen → Differenz ≤ reminder?
+| _UI_ | Erinnerungsliste im Dashboard
+| _Ergebnis_ | GM vergisst keine Events
+|===
+
+
+
+=== UC-RND-01: Random Table erstellen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Random-Tables → Neue Tabelle → Name, Kategorie, Einträge
+| _Einträge_ | Mit Gewichtung + Tags
+| _Datenbankoperationen_ | `random_tables` + `random_table_entries` erstellt
+| _Ergebnis_ | Tabelle bereit zum Würfeln
+|===
+
+
+
+=== UC-RND-02: Auf Random Table würfeln
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Tabelle wählen → optional Tag-Filter → Würfeln
+| _Berechnung_ | Gewichteter Zufall
+| _Logging_ | `random_table_rolls` geloggt
+| _Optional_ | Kontext-Notiz hinzufügen
+| _Ergebnis_ | Zufallsergebnis
+|===
+
+
+
+=== UC-FOW-01: Auto-Entdeckung beim Reisen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | `campaign_travel` erreicht neuen Node
+| _Ablauf_ | Alle `session_participants` prüfen → `character_discovered_nodes` erstellen/updaten
+| _Side-Effect_ | Region auto als discovered markieren
+| _Realtime_ | Spieler-Karten update Realtime
+| _Ergebnis_ | Party entdeckt Orte gemeinsam
+|===
+
+
+
+=== UC-FOW-02: GM deckt Ort manuell auf
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Weltkarte → Node/Region wählen → Empfänger wählen (Charakter/Party/Alle)
+| _Status_ | known/visited
+| _Datenbankoperationen_ | `character_discovered_nodes/_regions` erstellt
+| _Optional_ | `source_description` (Wie wurde es entdeckt?)
+| _Ergebnis_ | Charaktere sehen Ort
+|===
+
+
+
+=== UC-LOT-01: Loot nach Kampf verteilen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM + Spieler
+| _Trigger_ | `combat_encounter` completed
+| _Phase 1: Generation_ | System generiert Loot (`drop_chance × Rarity`) → `combat_loot_pools` (status=generated)
+| _Phase 2: Review_ | GM reviewt/passt an → status=gm_reviewed
+| _Phase 3: Distribution_ | GM zeigt Spielern → status=distributing
+| _Phase 4: Spieler-Diskussion_ | In-character Verhandlung
+| _Phase 5: Zuweisung_ | GM weist zu (Drag-Drop/Dropdown)
+| _Gold-Handling_ | Equal split oder manuell
+| _Phase 6: Bestätigung_ | GM bestätigt → `combat_loot_claims` erstellt
+| _Datenbankoperationen_ | Items → `character_inventory`, Gold → `character_gold`
+| _Status_ | Loot = completed
+| _Logging_ | Alles in Session-Log
+| _Ergebnis_ | Loot verteilt und dokumentiert
+|===
+
+
+
+=== UC-CNC-02: Concentration nach Foundry-Sync
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | `foundry_sync_status=post_synced`
+| _Ablauf_ | `post_sync_data` lesen → Concentration-Status pro Charakter
+| _Synchronisation_ | `character_active_effects` sync
+| _Ergebnis_ | Web-App + Foundry synchron
+|===
+
+
+
+=== UC-REC-01: Craig-Transkript verarbeiten
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Post-Session
+| _Ablauf_ | Verarbeitung starten → Edge Function aktiviert
+| _Schritte_ | Craig-Audio → Whisper Transkript → AI-Zusammenfassung
+| _Extraktion_ | `detected_decisions`, `detected_trait_moments`, `player_journal_drafts`
+| _Datenbankoperationen_ | `session_transcript` gespeichert mit `processing_status=complete`
+| _Ergebnis_ | Transkript + Zusammenfassung bereit
+|===
+
+
+
+=== UC-REC-02: Summary reviewen & veröffentlichen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Summary lesen → bei Bedarf bearbeiten (`gm_edited_summary`)
+| _Decisions_ | `detected_decisions` bestätigen/verwerfen → `campaign_decisions` erstellen
+| _Trait-Momente_ | `detected_trait_moments` bestätigen/verwerfen
+| _Spieler-Content_ | `player_journal_drafts` an Spieler → `is_player_visible=true`
+| _Logging_ | Alle akzeptierten Decisions in `campaign_decisions`
+| _Ergebnis_ | Summary veröffentlicht, Entscheidungen dokumentiert
+|===
+
+
+
+=== UC-DLG-01: NPC-Dialog starten und führen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM + Spieler
+| _Plattform_ | Web
+| _Modus_ | Social
+| _Setup_ | GM wählt NPC + teilnehmende Spieler (Array) → `campaign_dialog_sessions` erstellt
+| _Spieler-View_ | NPC-Portrait + Emoji
+| _GM-View_ | Traits, Disposition, Knowledge (mit Dispositions-Schwellen), Text-Bausteine (falls Template)
+| _Communication_ | Discord Voice für Audio
+| _Checks_ | GM fordert Skill-Checks an → DC via 10-Schritte-Pipeline
+| _Live-Updates_ | Disposition ändert sich live (Emoji-Update)
+| _Knowledge_ | Info freischalten mit `is_revealed=true`
+| _Ende_ | Dialog beenden → Zusammenfassung generieren
+| _Ergebnis_ | Dialog geführt und geloggt
+|===
+
+
+
+=== UC-SAV-02: Saving-Throw-Modifier für Foundry Pre-Sync
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | Pre-Sync
+| _Berechnung_ | Pro Charakter alle 6 Save-Modifier via EffectProcessor
+| _Komponenten_ | Basis + Prof + Traits + Items + Wetter + Exhaustion
+| _Flags_ | Advantage/Disadvantage setzen
+| _Output_ | Character-Snapshot an Foundry
+| _Ergebnis_ | Foundry hat korrekte dynamische Save-Modifier
+|===
+
+
+
+=== UC-TRV-01: Reise planen und starten
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Ablauf_ | Weltkarte → Start + Ziel wählen
+| _Routing_ | System zeigt Routen: kürzeste/sicherste/schnellste
+| _Route-Wahl_ | GM wählt eine Route
+| _Vorschau_ | Distanz, Dauer, Gelände, Proviant-Bedarf
+| _Tempo_ | GM wählt: normal/schnell/vorsichtig
+| _Optionen_ | Marschordnung, Reittier
+| _Datenbankoperationen_ | `campaign_travels` erstellt
+| _Visualisierung_ | Reise-Animation startet
+| _Ergebnis_ | Reise aktiv
+|===
+
+
+
+=== UC-TRV-02: Reisetag abwickeln
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System + GM
+| _Trigger_ | Neuer Reisetag
+| _Schritt 1_ | `campaign_travel_days` erstellt
+| _Schritt 2_ | Wetter würfeln (Region × Saison)
+| _Schritt 3_ | Distanz berechnen
+| _Schritt 4_ | Proviant -1 pro Charakter (bei 0: CON Save)
+| _Schritt 5_ | Encounter-Chance würfeln
+| _Kein Encounter_ | Weiter zum nächsten Tag
+| _Mit Encounter_ | Ausrufezeichen, GM entscheidet (Foundry/Skill-Check/Skip)
+| _Tagesende_ | Rast-Option anbieten
+| _Ziel erreicht_ | `campaign_travels` = completed, UC-FOW-01 triggered
+| _Ergebnis_ | Reisetag geloggt und verarbeitet
+|===
+
+
+
+=== UC-WTR-01: Tageswetter bestimmen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System + GM
+| _Trigger_ | Neuer Tag (Reisetag, Downtime, Session-Start)
+| _Ablauf_ | Region + Monat lesen → `region_weather_profiles` (monatlich) laden
+| _Berechnung_ | Gewichtung würfeln (1-100) → `weather_condition` zuweisen
+| _GM-View_ | Ergebnis + Effekte
+| _GM-Option_ | Kann Wetter überschreiben
+| _Spieler-View_ | Wetter-Icon
+| _Systemmechaniken_ | EffectProcessor sammelt Wetter-Effekte
+| _Survival_ | Bei Überlebens-DC: auto CON Save
+| _Ergebnis_ | Tageswetter aktiv und wirksam
+|===
+
+
+
+=== UC-SCN-01: Szene vorbereiten
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Vorbereitung (vor Session)
+| _Ablauf_ | Session-Planer → Node erstellen/wählen
+| _Konfiguration_ | Typ + Ort + `scene_data` definieren
+| _Reveal-Elemente_ | Definieren (auto Standard-Set pro Typ)
+| _Ordering_ | Reihenfolge festlegen
+| _Edges_ | Zu Folge-Szenen definieren
+| _Status_ | `scene_status=draft`
+| _Ergebnis_ | Szene bereit
+|===
+
+
+
+=== UC-SCN-02: Szene ansehen (Preview)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Session (vor Aktivierung)
+| _Aktion_ | Node klicken → "Ansehen" wählen
+| _Status_ | `node_state=preview`
+| _GM-Sicht_ | Sieht ALLES (Beschreibung, NPCs, DCs, Edge-Conditions)
+| _Spieler-Sicht_ | Sehen NICHTS
+| _GM-Optionen_ | Direkt aktivieren oder zurück
+| _Ergebnis_ | GM hat Szene geprüft
+|===
+
+
+
+=== UC-SCN-03: Szene aktivieren + schrittweise einblenden
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Session (Aktivierung)
+| _Schritt 1_ | "Aktivieren" + Bestätigung
+| _Status-Update_ | `scene_status=active`
+| _Spieler-Notification_ | Modus-Wechsel gepusht
+| _Spieler-Initial-View_ | Zunächst NUR Szenen-Titel
+| _Schrittweise Enthüllung_ | GM blendet Elemente einzeln ein
+| _Reihenfolge_ | Beschreibung → Bild → NPCs nach Checks → Feinde → etc.
+| _Pro Element_ | `is_revealed=true` → Realtime Push → Spieler sehen Element
+| _Logging_ | `session_mechanical_log` läuft permanent unten
+| _Beide Seiten_ | GM und Spieler sehen permanentes Audit-Log
+| _Ende_ | Szene beenden → `node_state=visited` → Folge-Szenen verfügbar
+| _Ergebnis_ | Kontrollierte Enthüllung, narrative Kontrolle
+|===
+
+
+
+=== UC-SCN-04: Unbespielte Szene nachträglich aktivieren
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Phase_ | Session (Flexibilität)
+| _Setup_ | Node mit `status=planned/skipped` klicken
+| _Optionen_ | Ansehen oder Aktivieren
+| _Conditions_ | Optional ignorierbar (GM Override)
+| _Ablauf_ | Wie UC-SCN-03 (schrittweise Enthüllung)
+| _Style_ | Detroit-Become-Human-Stil: Narrative Flexibilität
+| _Ergebnis_ | Szenen können beliebig verschoben werden
+|===
+
+
+
+=== UC-RAS-01: Rast-Abstimmung
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | Spieler (Voting), System (Coordination)
+| _Trigger_ | GM sendet Rast-Vorschlag oder Party befindet sich an Rest-Location
+| _Mechanik_ | Pop-up mit ja/nein pro Spieler (Nicht mit OK bestätigen, sondern ja/nein wählen)
+| _Einigung_ | Bei Zustimmung aller startet Rast automatisch
+| _GM-Notification_ | GM erhält Info-Notification
+| _GM-Option_ | GM kann eingreifen (z.B. Encounter triggern) aber muss NICHT bestätigen
+| _Automatik_ | Rest läuft Standard-Mechanik ohne GM-Bottleneck
+| _Ergebnis_ | Rast läuft automatisch bei Einstimmigkeit
+|===
+
+
+
+=== UC-NPC-01: NPC-Emotion/Disposition über Quick Menu
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Modi_ | Social / Explore
+| _Trigger_ | NPC in Szene anklicken
+| _Menu-Optionen_ | Emotion setzen / Disposition ändern / Dialog starten / Profil / Entfernen
+| _Emotion-Auswahl_ | neutral, happy, angry, fearful, suspicious, impressed
+| _Push_ | Portrait/Emoji an Spieler gepusht
+| _Disposition-Änderung_ | MUSS Trait-basierten Grund haben
+| _Gründe_ | NPC-Trait als Trigger / Skill-Check-Ergebnis / Custom-Trait
+| _GM-Interface_ | Grund-Trait wählen + Änderungswert eingeben
+| _Logging_ | `campaign_dialog_events` mit `reason_trait_id`
+| _Emotion-Vorschlag_ | System schlägt optional Emotion-Anpassung vor basierend auf neuem Wert
+| _Spieler-Info_ | Spieler sehen Emoji + vereinfachten Grund ("Er wirkt misstrauisch")
+| _Constraint_ | Kein stumpfer Override ohne Begründung
+| _Ergebnis_ | Disposition korrekt dokumentiert
+|===
+
+
+
+=== UC-CHR-02: Charakter-Tod → Neuerstellung
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System + GM
+| _Trigger_ | `death_type=dead/permadeath`, keine Wiederbelebung möglich
+| _Automatik_ | `is_alive=false` → UC-PTY-04 (auto Party-Austritt)
+| _Dragon Bond_ | `status=broken_by_rider_death`, Dragon = grieving
+| _Inventar_ | Bleibt beim Leichnam (Party kann Items aufsammeln)
+| _Spieler-Interface_ | Beim nächsten Login: Charakter-Erstellungs-Wizard (UC-CHR-01)
+| _Neuer Charakter_ | Startet Level 1
+| _GM-Bestätigung_ | GM bestätigt + fügt zur Party hinzu (UC-PTY-02)
+| _Konsequenz_ | Tod hat reale Auswirkungen
+| _Ergebnis_ | Neuer Charakter von Null
+|===
+
+
+
+=== UC-CAL-01B: Kalender vorspulen (Time Skip)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Trigger_ | Bedarf für Zeitsprung (lange Downtime, etc.)
+| _Ablauf_ | Kalender → "Zeit vorspulen" → Dauer eingeben (Tage/Zieldatum/Periode)
+| _Vorschau_ | Crafting-Fortschritt, Drachenpflege (×0.25 Modifier), Proviant, Events, Saisonwechsel
+| _GM-Review_ | GM prüft + bestätigt
+| _Systembankierung_ | Crafting-Schritte auto-gewürfelt
+| _Drachen-Effekt_ | Care Score ×0.25
+| _Ressourcen_ | Proviant -1 pro Tag
+| _Wetter_ | Pro Tag gewürfelt
+| _Profession-XP_ | Auto-Fortschritt
+| _Events_ | Nachträglich als Liste, GM handelt ab
+| _Zusammenfassung_ | Alle Änderungen dokumentiert
+| _Ergebnis_ | Zeit konsistent vorgesprungen
+|===
+
+
+
+=== UC-ORG-01: Organisation beitreten
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | Spieler + GM
+| _Modus_ | Social
+| _Trigger_ | NPC-Dialog → Mitgliedschaft angeboten/angefragt
+| _Validierung_ | System prüft Voraussetzungen (Traits, Level, Exclusions)
+| _GM-Interface_ | GM sieht Details + bestätigt
+| _Datenbankoperationen_ | `organization_membership` erstellt
+| _Effekte_ | Rang-Boni aktiv → Sheet aktualisiert
+| _Sichtbarkeit_ | Organisation bestimmt Visibility
+| _Ergebnis_ | Spieler Mitglied der Organisation
+|===
+
+
+
+=== UC-ORG-02: Organisation verlassen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | Spieler + GM
+| _Trigger_ | Sheet → Org anklicken → "Verlassen"
+| _Warning_ | Pop-up mit Konsequenzen (Reputation-Verlust, Rang-Boni weg, evtl. Bounty)
+| _Spieler-Bestätigung_ | Spieler bestätigt Verlassen
+| _Validierung_ | System prüft: GM malus-frei?
+| _Konsequenzen_ | Ja (malus-frei): nur deaktiviert. Nein: alle Konsequenzen angewendet
+| _Logging_ | Geloggt in `organization_membership`
+| _Ergebnis_ | Spieler verlässt Organisation mit Konsequenzen
+|===
+
+
+
+=== UC-PRV-01: Proviant aus Truhe
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | Rast / Reisetag
+| _Berechnung_ | `party_stored_items` zählen → Bedarf berechnen
+| _Wenn genug_ | `quantity -1` pro Charakter
+| _Wenn nicht genug_ | Warnung + CON Save erforderlich
+| _Logging_ | Geloggt in `rest_log` / `travel_days`
+| _Ergebnis_ | Proviant verbraucht
+|===
+
+
+
+=== UC-DUR-01: Durability 0-1.5%
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | System
+| _Trigger_ | Item-Nutzung
+| _Berechnung_ | Würfel 0-150 → 0-1.5% × Quality-Modifier
+| _Update_ | `durability_current` aktualisiert
+| _Bei 0%_ | Item unbrauchbar (roter Rahmen, keine Effekte)
+| _Reparatur_ | Item reparierbar möglich
+| _Ergebnis_ | Durability-System aktiv
+|===
+
+
+
+=== UC-BNT-01: Bounty erstellen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Kontext_ | Region-Verwaltung
+| _Trigger_ | Region/Stadt → POI (Schwarzes Brett)
+| _Konfiguration_ | Ziel (NPC/Kreatur) wählen
+| _Zustand_ | alive/dead/either
+| _Belohnung_ | Gold / Item / Reputation
+| _Beweis-Typ_ | head / hand / alive / item / token / none
+| _Beweis-Item_ | Bei physischem Beweis: System erstellt Item + legt es ins Ziel-NPC-Inventar
+| _Beschreibung_ | Spieler-sichtbar
+| _Datenbankoperationen_ | `bounty_board` erstellt
+| _Ergebnis_ | Bounty ausgehängt mit Beweis-Item bei Ziel
+|===
+
+
+
+=== UC-BNT-03: Bounty einlösen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | Spieler + GM
+| _Modus_ | Social
+| _Dialog_ | Mit Auftraggeber-NPC
+| _Validierung_ | Beweis vorzeigen (`proof_item_id` im Inventar?)
+| _Zustand-Check_ | alive/dead match Bounty-Requirement
+| _Belohnung_ | Auszahlen (Gold/Item/Reputation)
+| _Item-Handling_ | Beweis-Item entfernt
+| _Status_ | `bounty=claimed`, `quest=completed`
+| _Logging_ | Geloggt
+| _Ergebnis_ | Bounty eingelöst
+|===
+
+
+
+=== UC-CRM-01: Straftat registrieren
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM + System
+| _Trigger_ | GM klickt "Straftat registrieren" Button
+| _Auswahl_ | Spieler/Gruppe + Straftat-Typ aus `crime_types`
+| _Berechnung_ | System prüft: Region, Guard-Präsenz, Tageszeit, POI-Typ
+| _Detection_ | Detection-Chance berechnet
+| _Stealth-Check_ | Spieler-Stealth-Check gegen Detection
+| _Unentdeckt_ | `criminal_record` (status=undetected) erstellt
+| _Entdeckt_ | Social-Szene mit Wachen-Konflikt
+| _Spieler-Optionen_ | A) Rausreden (Persuasion/Deception), B) Verhandeln (Bestechung/Deal), C) Verhaftung (Konsequenz), D) Flucht (Combat/Chase, wanted_level+, Bounty)
+| _Tracking_ | `criminal_record` + `character_bounties` aktualisiert
+| _Story-Impact_ | Session-Plan adaptiert sich
+| _Ergebnis_ | Straftat registriert mit Konsequenzen
+|===
+
+
+
+=== UC-DEC-01: Entscheidung manuell loggen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Zugang_ | Quick-Button in Szenen-Leiste
+| _Ablauf_ | Titel + Beschreibung eingeben
+| _Typ_ | moral / loyalty / resource / information / risk / personal / group
+| _Schweregrad_ | minor / major / critical
+| _Betroffene_ | Array oder Party
+| _Trigger-Typ_ | interaction / roll / gm_decree / party_vote / consequence
+| _Optionale Konsequenzen_ | quest / disposition / reputation / bounty / criminal / trait_shift / event
+| _Entscheidungs-Ketten_ | Optional: `follow_up_decision_id` für abhängige Entscheidungen
+| _Datenbankoperationen_ | `campaign_decisions` + `character_decision_journal` Einträge erstellt
+| _Logging_ | Audit-Log
+| _Ergebnis_ | Entscheidung dokumentiert und verknüpft
+|===
+
+
+'''
+
+
+== Plattform & Onboarding Use Cases
+
+
+
+=== UC-AUTH-01: Registrierung & Login (Supabase Auth)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | Neuer User / Bestehender User
+| _Trigger_ | Erster Besuch oder Login-Seite
+| _Auth-Provider_ | Supabase Auth: E-Mail + Passwort, Discord OAuth, Google OAuth
+| _Registrierung_ | Provider wählen → Supabase Auth erstellt `auth.users` Eintrag
+| _Post-Registration_ | Trigger-Function erstellt `user_profiles` (display_name aus Provider, avatar_url, preferred_role: gm/player/both)
+| _Login_ | Standard Supabase Auth Flow → JWT Token → Session
+| _Profil-Seite_ | Display-Name ändern, Avatar hochladen, bevorzugte Rolle setzen
+| _Routing nach Login_ | Kampagnen vorhanden → Kampagnen-Dashboard. Keine Kampagnen → Onboarding-Screen ("Kampagne erstellen" oder "Einladungscode eingeben")
+| _RLS-Integration_ | `auth.uid()` wird in allen RLS-Policies als Basis verwendet
+| _Datenbankoperationen_ | `auth.users` (Supabase managed) + `user_profiles` erstellt
+| _Ergebnis_ | User authentifiziert, Profil existiert, Dashboard erreichbar
+|===
+
+
+
+=== UC-CMP-01: Kampagne anlegen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Trigger_ | Dashboard → "Neue Kampagne" oder Onboarding-Screen
+| _Schritt 1: Basis_ | Name + Beschreibung eingeben
+| _Schritt 2: Regeloptionen_ | `campaign_settings` konfigurieren: Potion-Regel (Action/Bonus Action), Regel-Varianten
+| _Schritt 3: Kalender_ | Startdatum im Harptos-Kalender wählen → `campaign_calendar_state` erstellt (current_date, current_hour=8, time_of_day=morning)
+| _Schritt 4: Weltkarte_ | Optional: Weltkarte aus vorhandenen Maps zuweisen
+| _Schritt 5: Startort_ | Optional: Start-travel_node setzen
+| _Datenbankoperationen_ | `campaigns` (is_active=true) + `campaign_settings` + `campaign_calendar_state` erstellt
+| _Auto-Membership_ | Ersteller wird automatisch `campaign_members` mit role=gm
+| _Nächster Schritt_ | GM kann Spieler einladen (UC-CMP-02) und Party bilden (UC-PTY-01)
+| _Ergebnis_ | Kampagne bereit, GM ist Mitglied
+|===
+
+
+
+=== UC-CMP-02: Spieler einladen & Kampagne beitreten
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM (einladen) + Spieler (beitreten)
+| _Trigger_ | Kampagne → "Spieler einladen"
+| _Einladungs-Optionen_ | _Option A:_ Einladungslink generieren (unique Code, optional Ablaufdatum). _Option B:_ E-Mail-Adresse eingeben → System sendet Einladungs-E-Mail mit Link
+| _Datenbankoperationen (Einladung)_ | `campaign_invitations` erstellt (campaign_id, invited_email oder invite_code, invited_by, status=pending, expires_at)
+| _Spieler-Flow (Link)_ | Link öffnen → Login/Register (falls nötig) → Kampagnen-Info sehen (Name, Beschreibung, GM-Name) → "Beitreten" klicken
+| _Spieler-Flow (E-Mail)_ | E-Mail mit Link → wie Link-Flow, aber E-Mail ist vorausgefüllt bei Registration
+| _Beitritt_ | `campaign_members` erstellt (user_id, campaign_id, role=player, joined_at) + `campaign_invitations` status=accepted
+| _GM-Notification_ | GM erhält Benachrichtigung: "[Name] ist deiner Kampagne beigetreten"
+| _Nächster Schritt_ | Spieler wird zu UC-CHR-01 (Charakter-Erstellung) weitergeleitet
+| _Validierung_ | Einladung gültig? (nicht abgelaufen, nicht bereits verwendet). User nicht bereits Mitglied?
+| _Ergebnis_ | Spieler ist Kampagnen-Mitglied, kann Charakter erstellen
+|===
+
+
+
+=== UC-SES-01: Session anlegen, starten & beenden
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _Akteur_ | GM
+| _Kontext_ | Session-Planer im GM-Dashboard
+| _Phase: Anlegen_ | Session-Planer → "Neue Session"
+| _Konfiguration_ | Titel (optional), geplantes Datum (date_planned), Story-Arc zuordnen (story_arc_id), session_number (auto-increment)
+| _Session-Plan_ | `session_plans` erstellt (mode=quick oder graph) → GM plant Szenen via UC-SCN-01
+| _Teilnehmer-Planung_ | GM wählt erwartete Teilnehmer aus aktiver Party → `session_participants` als Vorauswahl (attendance_type=present)
+| _Datenbankoperationen (Anlegen)_ | `sessions` (status=planned) + `session_plans` + `session_participants` erstellt
+| _Phase: Starten_ | GM klickt "Session starten"
+| _Status-Update_ | `sessions.status` = active, `date_played` = now
+| _Broadcast_ | Supabase Realtime: alle `campaign_members` mit role=player erhalten Notification "Session [Titel] hat begonnen"
+| _Spieler-Join_ | Spieler bestätigen Anwesenheit → `session_participants.joined_at` gesetzt
+| _Verspätung_ | Nachzügler: attendance_type=late_join, joined_at=Zeitpunkt
+| _Frühes Verlassen_ | Spieler geht: `left_at` gesetzt, attendance_type=early_leave
+| _Session-Log_ | `session_mechanical_log` startet automatisch bei Session-Start
+| _Phase: Beenden_ | GM klickt "Session beenden"
+| _Beenden-Ablauf_ | `sessions.status` = completed → Alle offenen Szenen auto-completed → Cliffhanger-Text optional eingeben
+| _Post-Session Trigger_ | Post-Session-Pipeline wird freigeschaltet: UC-XP-01, UC-REC-01, Trait-Review, Decision-Tracking
+| _Session-Übersicht_ | Dashboard zeigt: geplante Sessions (Kalender), vergangene Sessions (Timeline), nächste Session prominent
+| _Ergebnis_ | Session hat vollständigen Lifecycle: planned → active → completed → Post-Session
+|===
+
+
+'''
+
+
+== Abhängigkeiten & Integration
+
+
+
+[cols="1,1",options="header"]
+|===
+| System | Verwendung
+
+| Character Sheet (Doc 05) | Charakter-Daten, Level-Up
+| Supabase Realtime | Live-Synchronisation
+| Scene-System (Doc 02) | Szenen-Verwaltung
+| D3.js | Graph-Editor, Spider-Charts
+| Leaflet + react-leaflet | Map-Viewer
+| react-leaflet-draw | GM Polygon-Editor
+| Foundry REST API | Foundry-Sync
+| FLUX API (Edge Function) | Datenverarbeitung
+|===
+
+
+'''
+
+_Diese Dokumentation steht unter Versionskontrolle. Letzte Aktualisierung: 2026-03-26_

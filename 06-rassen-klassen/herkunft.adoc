@@ -1,0 +1,896 @@
+
+= Herkunft — 3-Stufen-System & Akademie
+
+
+Vollständige Dokumentation der 3-stufigen Herkunfts-Mechanik, 19 Abstammungen und Akademie-Lehrplan.
+
+'''
+
+
+== 3-Stufen-Herkunfts-Modell (Übersicht)
+
+
+Der Charakter-Erstellungs-Prozess nutzt _3 Stufen statt klassischem D&D Background_:
+
+
+=== Stufe 1 — RASSE (Biologie)
+
+
+_Frage_: Was bist DU?
+
+_Gibt_:
+* Darkvision, Resistenzen, Speed, Größe, Lebensspanne, Innate Spells
+* Biologische Features (Stonecunning, Lucky, etc.)
+
+_KEINE Ability Score Boni_
+
+_Philosophie_: Ein Zwerg ist nicht automatisch stark. Ein Elf nicht automatisch weise. Die Genetik bestimmt Fähigkeiten, nicht Attribute.
+
+'''
+
+
+=== Stufe 2 — ABSTAMMUNG (Familie/Vorfahren)
+
+
+_Frage_: Wo kommst DU her? Wer waren deine Eltern?
+
+_Gibt_:
+* +1 auf EINEN Ability Score (Spieler wählt, passt zur Familie)
+* Kleiner Skill-Vorteil (Proficiency, Tool, Advantage einmalig, etc.)
+* 19 vordefinierte Optionen in 5 Kategorien
+
+_Philosophie_: Fähigkeiten werden durch Familie geprägt, nicht durch Rasse. Ein Zwerg aus einer Gelehrtenfamilie ist genauso intelligent wie ein Mensch-Gelehrter.
+
+'''
+
+
+=== Stufe 3 — KINDHEITSERLEBNIS (Prägendes Ereignis)
+
+
+_Frage_: Was ist dir als KIND passiert, bevor du an die Akademie kamst?
+
+_Wie_: Wird durch _AI-Interview_ im Charakter-Wizard generiert
+
+_Gibt_:
+* Einzigartiger Narrative Boni (nicht aus Liste)
+* Trait-Start (+1 auf EINEN Trait)
+* 1× Advantage (auf spezifischen Check)
+* Wissens-Bonus (Gerücht, NPC-Name, Ort, etc.)
+* Dispositions-Bonus bei bestimmtem NPC-Typ
+
+_Philosophie_: Jeder Charakter ist einzigartig. Nicht zwei Waisenkinder erleben dasselbe.
+
+'''
+
+
+== 19 Abstammungen (Stufe 2)
+
+
+
+=== 1. Einfaches Volk (3)
+
+
+
+==== (1) BAUERNFAMILIE
+
+
+_Frage_: Deine Familie arbeitete auf dem Feld oder Hof.
+
+_Gibt_:
+* +1 CON
+* Advantage auf Survival-Checks in der Wildnis (harte Arbeit, Wetter-Kenntnis)
+
+_Narrative Hook_: Kennt Feldanbau, Viehzucht, saisonale Übergänge
+
+'''
+
+
+==== (2) FISCHERFAMILIE
+
+
+_Frage_: Du bist am Wasser aufgewachsen.
+
+_Gibt_:
+* +1 WIS
+* Schwimm-Speed +10ft (zusätzlich zu normalem Speed)
+* Proficiency Navigator's Tools
+
+_Narrative Hook_: Kann Gezeiten lesen, kennt Meeresgefahren, navigiert nach Sternen
+
+'''
+
+
+==== (3) BERGARBEITERFAMILIE
+
+
+_Frage_: Unter Tage aufgewachsen.
+
+_Gibt_:
+* +1 STR
+* Darkvision +30ft (falls Rasse keine hat) ODER +30ft extra (falls schon vorhanden)
+* Proficiency Spitzhacke (= Warhammer Stats, aber Bergbau-Flavor)
+
+_Narrative Hook_: Kennt Höhlen, Erzmotten, Untergrund-Kneipen
+
+'''
+
+
+=== 2. Handwerk & Handel (4)
+
+
+
+==== (4) SCHMIEDEFAMILIE
+
+
+_Frage_: Deine Familie betrieb eine Werkstatt.
+
+_Gibt_:
+* +1 STR
+* Profession 'Schmied' startet Level 1 (nicht Level 0)
+* Fire Resistance 5 (abgehärtet durch Jahre Feuer)
+
+_Narrative Hook_: Vertraut mit Werkzeugen, Metallkunde, kann einfache Reparaturen
+
+'''
+
+
+==== (5) HÄNDLERFAMILIE
+
+
+_Frage_: Deine Familie war im Handel tätig.
+
+_Gibt_:
+* +1 CHA
+* +5 Base-Disposition bei Händler-NPCs (sie kennen deine Familie möglicherweise)
+* Kennt Marktpreise einer bestimmten Region
+
+_Narrative Hook_: Geschickt in Verhandlung, kennt legale/illegale Netzwerke, versteht Ökonomie
+
+'''
+
+
+==== (6) KRÄUTERKUNDIGE / HEILER
+
+
+_Frage_: Deine Familie war bekannt für Heilkunde.
+
+_Gibt_:
+* +1 WIS
+* Proficiency Herbalism Kit
+* Kennt 3 Basis-Kräuter (Healing Salve, Dream Lotus, etc.)
+
+_Narrative Hook_: Erste Hilfe, erkennt giftige Pflanzen, kann Tränke brauen
+
+'''
+
+
+==== (7) HANDWERKER (Allgemein)
+
+
+_Frage_: Deine Familie war Kunsthandwerker.
+
+_Gibt_:
+* +1 DEX
+* Proficiency mit EINEM Handwerks-Tool (Spieler wählt: Mason's Tools, Carpenter's Tools, Jeweler's Tools, etc.)
+
+_Narrative Hook_: Feinmotorik, ästhetische Kompetenz, kann improvisieren
+
+'''
+
+
+=== 3. Gelehrte & Geistliche (3)
+
+
+
+==== (8) GELEHRTENFAMILIE
+
+
+_Frage_: Deine Familie war akademisch tätig.
+
+_Gibt_:
+* +1 INT
+* 1 Extra-Sprache (zusätzlich zu Standard + Klassisch)
+* Advantage auf ERSTEN Arcana ODER History Check (Spieler wählt, nur 1× Vorteil)
+
+_Narrative Hook_: Bibliotheks-Zugang, kennt Gelehrten-Netzwerke, Lateinisch/Alte Sprachen
+
+'''
+
+
+==== (9) PRIESTERFAMILIE
+
+
+_Frage_: Deine Familie diente in Tempel.
+
+_Gibt_:
+* +1 WIS
+* Kennt 1 Gebet eines Gottes (= Cantrip-Äquivalent, 1×/Day, Flavor-Magie)
+* +5 Disposition bei Tempel-NPCs (erkennen Zeichen deiner Herkunft)
+
+_Narrative Hook_: Ritualistisch, kennt religiöses Protokoll, Tempel-Zugang
+
+'''
+
+
+==== (10) CHRONISTENFAMILIE
+
+
+_Frage_: Deine Familie dokumentierte Geschichte.
+
+_Gibt_:
+* +1 INT
+* Proficiency Calligrapher's Tools
+* Startet mit 1 Extra-Gerücht (bekannt, dokumentiert)
+
+_Narrative Hook_: Kann schreiben/zeichnen, kennt Archiv-Quellen, erkennt historische Bedeutsamkeit
+
+'''
+
+
+=== 4. Krieger & Ordnungshüter (3)
+
+
+
+==== (11) SOLDATENFAMILIE
+
+
+_Frage_: Deine Familie diente im Militär.
+
+_Gibt_:
+* +1 STR ODER +1 DEX (Spieler wählt: Infanterie vs Bogenschütze)
+* Proficiency mit 1 Martial Weapon (Spieler wählt: Longsword, Crossbow, etc.)
+
+_Narrative Hook_: Kampf-Disziplin, Befehlsstruktur verstehen, Militär-Netzwerke
+
+'''
+
+
+==== (12) WACHFAMILIE
+
+
+_Frage_: Deine Familie war Stadtwache.
+
+_Gibt_:
+* +1 CON
+* +2 Passive Perception (permanent, nicht Proficiency, sondern Trained Awareness)
+* Advantage auf ERSTEN Insight-Check (Menschenkenntnis durch Wach-Alltag)
+
+_Narrative Hook_: Kennt Stadt-Layout, Wache-Routine, erkennt verdächtiges Verhalten
+
+'''
+
+
+==== (13) GRENZJÄGERFAMILIE
+
+
+_Frage_: Deine Familie patrouillierte Grenzen.
+
+_Gibt_:
+* +1 DEX
+* Proficiency Longbow ODER Survival (Spieler wählt)
+* Kennt 1 Terrain besonders gut (Advantage auf ERSTE Encounter-Checks dort)
+
+_Narrative Hook_: Kennt Grenzer-Kultur, kann sich orientieren, Wildnis-Kenntnisse
+
+'''
+
+
+=== 5. Randständige & Besondere (6)
+
+
+
+==== (14) ADELSFAMILIE
+
+
+_Frage_: Du stammst aus Adel.
+
+_Gibt_:
+* +1 CHA
+* +10 Disposition bei Adels-NPCs (Social Recognition)
+* 50 GP extra (Geburtserbe)
+
+_Narrative Hook_: Etikette, Heraldik, adlige Netzwerke. _Aber Akademie fokussiert auf Fähigkeit, nicht Herkunft._
+
+_Warnung_: Andere Spieler können Ressentiments haben. GM sollte "Noble Bastard" oder "Rebellischer Adel" Narrative unterstützen.
+
+'''
+
+
+==== (15) KRIMINELLE FAMILIE
+
+
+_Frage_: Deine Familie war in der Unterwelt.
+
+_Gibt_:
+* +1 DEX
+* Proficiency Thieves' Tools + Stealth
+* -5 Disposition bei Wachen (Reputations-Schulden, verdächtig)
+
+_Narrative Hook_: Kennt schwarze Märkte, Hehlerei, vertraut mit illegalen Netzwerken
+
+'''
+
+
+==== (16) NOMADEN / REISENDE
+
+
+_Frage_: Deine Familie war immer unterwegs.
+
+_Gibt_:
+* +1 CON
+* +5ft Movement Speed (Endurance-Training)
+* Kennt 2 Regionen (Kartographie-Vorteil: orientiert sich schneller)
+
+_Narrative Hook_: Sprach-Versatzstücke, kulturelle Flexibilität, Karawanen-Wissen
+
+'''
+
+
+==== (17) WAISENKIND
+
+
+_Frage_: Du hattest keine Familie, die du kanntest.
+
+_Gibt_:
+* +1 auf WAHL (beliebiger Score)
+* Trait Vorsichtig ODER Mutig startet +1 (Spieler wählt: angepasst an Überlebensstrategie)
+* Advantage auf ERSTE Stealth ODER Persuasion Check (Überlebenstechniken)
+
+_Narrative Hook_: Verbindungen zu anderen Waisen-Netzwerken, unabhängig, oder suchend nach Familie
+
+'''
+
+
+==== (18) MAGISCH BERÜHRT
+
+
+_Frage_: Deine Familie hatte magische Fähigkeiten oder Verbindungen.
+
+_Gibt_:
+* +1 INT ODER +1 WIS (Spieler wählt: Arcane vs Divine Affinity)
+* Spürt Magie in 10ft Radius (schwach, kein Detect Magic, nur "Something is here")
+
+_Narrative Hook_: Kann Magie-Quellen erkennen, interesse bei Akademie-Lehrern, vorsichtige Behandlung durch traditionelle Kulturen
+
+'''
+
+
+==== (19) DRACHENBLUT-ERBE
+
+
+_Frage_: Deine Familie hatte Verbindung zu Drachen.
+
+_Gibt_:
+* +1 CHA
+* +2 auf ERSTEN Dragon Bond Resonanz-Check (familiale Resonanz)
+* Drachen reagieren neugierig (+10 Disposition initial)
+
+_Narrative Hook_: Drachenblütige oder ehemaliger Reiter in deiner Familie. Drachen sehen dich als Potential-Verwandten.
+
+'''
+
+
+== AI-Interview Kindheit (Stufe 3)
+
+
+
+=== Konzept
+
+
+Nicht eine Liste zur Auswahl, sondern ein _generatives Interview_:
+
+Der Charakter-Erstellungs-Wizard stellt _3-5 Fragen kontextabhängig_ (basierend auf Rasse + Abstammung).
+
+Spieler antwortet frei (Text oder Sprache → Voice-to-Text).
+
+AI generiert dann ein _einzigartiges Kindheitserlebnis_ mit kleinem mechanischem Effekt.
+
+
+=== AI-Interview Fragen (Pool)
+
+
+Die AI wählt 3-5 Fragen kontextabhängig:
+
+. "Was ist deine schönste Kindheitserinnerung?"
+. "Wovor hattest du als Kind am meisten Angst?"
+. "Hattest du einen besten Freund? Was habt ihr zusammen gemacht?"
+. "Was wolltest du werden bevor du an die Akademie kamst?"
+. "Was war das Schlimmste das dir passiert ist?"
+. "Wenn du an dein Zuhause denkst, was riechst du?"
+. "Hast du jemals etwas Unerklärliches erlebt?"
+. "Was hat dich zum ersten Mal richtig wütend gemacht?"
+. "Gab es einen Moment wo du dich völlig allein gefühlt hast?"
+. "Welches Abenteuer hast du immer träumen wollen?"
+
+
+=== Beispiel-Generierungen
+
+
+_Spieler-Input_: "Ich hatte einen imaginären Freund der mich vor Gefahr warnte."
+
+_AI-Output_: "Der unsichtbare Wächter"
+
+_Effekt_: Trait Vorsichtig startet +1, Advantage auf ersten Perception-Check um Fallen zu erkennen
+
+'''
+
+_Spieler-Input_: "Meine Schwester wurde krank, ich habe tagelang Kräuter gesucht."
+
+_AI-Output_: "Die lange Nacht"
+
+_Effekt_: Advantage auf ERSTEN Medicine-Check, +5 Disposition bei Heiler-NPCs
+
+'''
+
+_Spieler-Input_: "Ich hab mal im Wald einen Drachen gesehen, ganz kurz."
+
+_AI-OUTPUT_: "Der Schatten zwischen den Bäumen"
+
+_Effekt_: +5 Disposition bei Drachen-NPCs initial, +1 auf Dragon Bond Resonanz-Check
+
+'''
+
+
+=== Erlaubte Effekte (AI-Grenzen)
+
+
+AI darf EINEN Effekt aus 5 Kategorien generieren:
+
+. _TRAIT-STARTBONUS_: Max +1 auf EINEN Trait
+. _SKILL-VORTEIL_: Advantage auf EINEN spezifischen ERSTEN Check (einmalig)
+. _WISSENS-BONUS_: Kennt 1 Extra-Gerücht ODER 1 NPC-Namen ODER 1 Ort
+. _DISPOSITIONS-BONUS_: +5 bei EINEM NPC-Typ oder Ort
+. _KLEINER MECHANISCHER VORTEIL_: 1×/Long Rest, schwach (z.B. "+1d4 to one save")
+
+
+=== Verbotene Effekte
+
+
+AI darf _NIEMALS_ generieren:
+
+* Ability Score Bonuses
+* Proficiencies (Waffen/Rüstungen/Tools)
+* Mehr als +1 auf einen Trait
+* Items oder Gold
+* Permanente Advantage
+* Spells/Cantrips
+* Resistenzen/Immunitäten
+
+_GM muss jedes AI-Erlebnis BESTÄTIGEN_ (`approved_by_gm=true` Flag in DB)
+
+'''
+
+
+== Integration: Erweiterter Charakter-Wizard (10 Schritte)
+
+
+
+=== Wizard-Flow
+
+
+. _Startauswahl_: Akademie-Schüler ODER Quereinsteiger
+. _Rasse + Subrasse_: Biologische Features auto-populate
+. _AI-Interview Kindheit_ (3-5 Fragen): Einzigartiges Erlebnis generieren
+. _AI zeigt Erlebnis + Effekt_ → Spieler bestätigt oder fordert Neuversuch
+. _GM reviewed & bestätigt_ async (approved_by_gm Flag)
+. _Klasse + Subklasse_: Skills, Features auto-populate
+. _Abstammung (Familie)_: +1 Ability + Vorteil
+. _Ability Scores verteilen_: Standard Array / Point Buy / Würfeln
+. _Equipment_: Start-Equipment nach Klasse
+. _Zusammenfassung + Charakter erstellen_: `pending_gm_approval`
+
+
+=== Kontext-Abhängige Fragen
+
+
+AI-Fragen in Schritt 3 berücksichtigen _Rasse + Abstammung_:
+
+* _Drow_: Fragen zu Untergrund, Isolation, Rückkehr
+* _Drachenblütige_: Fragen zu Drachen-Kontakt, göttliche Verbindung
+* _Waisenkind_: Fragen zu Alleinsein, Überlebenstrategien, Hoffnung
+* _Handelsfamilie_: Fragen zu Märkten, Verhandlung, Risiko
+* _Priesterfamilie_: Fragen zu Spiritualität, Zweifel, Glaube
+
+'''
+
+
+== Akademie-Lehrplan
+
+
+
+=== Flammen-Prinzip
+
+
+_Die Spielergruppe bildet eine FLAMME_ — eine feste Einheit die in ALLES zusammen geht:
+
+_Kein Separieren, keine getrennten Stundenpläne._
+
+Jeder sitzt im selben Unterricht, aber was jeder DARAUS MACHT ist individuell:
+
+* Im Kampfkunst-Unterricht übt der _Fighter_ Schwertformen
+* Der _Wizard_ daneben trainiert _Konzentration unter Lärm_
+* BEIDE im selben Raum, zur selben Zeit
+* Der GM beschreibt EINE Szene, jeder Spieler macht seinen Teil
+
+_Das Flammen-System ist das Rückgrat der Akademie-Erfahrung._
+
+'''
+
+
+=== 3 Lehrjahre
+
+
+
+==== JAHR 1 — GRUNDLAGEN (Alter ~10-12)
+
+
+_Fokus_: Alle lernen alles auf Basis-Niveau
+
+* Basis-Kampf, Basis-Magie, Basis-Wissen, Basis-Überleben
+* Hier wird gesiebt — wer nicht besteht wird Handwerker/Bauer (kein Scheitern, nur ein anderer Weg)
+
+_Akademie-Hauszuweisung am ENDE von Jahr 1_:
+* Basierend auf Trait-Analyse (SpiderChart Evolution)
+* + Schüler-Wunsch (nicht-bindend)
+
+_Unterricht_: 5 Monate regulär, 5 Monate Expedition/Praxis, 1 Monat Prüfung, 1 Monat Ferien
+
+'''
+
+
+==== JAHR 2 — VERTIEFUNG (Alter ~12-14)
+
+
+_Fokus_: Dieselben 7 Fächer, aber anspruchsvoller. Individuelle Vertiefung nach Klasse/Talent.
+
+* Dragon Bond Vorbereitung beginnt (Drachenkunde wird intensiv)
+* Haus-Zugehörigkeit zeigt sich in Schwerpunkten
+
+_Unterricht_: Ähnliche Struktur, tiefere Content
+
+'''
+
+
+==== JAHR 3 — MEISTERSCHAFT & BINDUNG (Alter ~14-16)
+
+
+_Fokus_: Abschluss-Herausforderungen als FLAMME (nicht individuell!)
+
+* Die Gruppe muss gemeinsam bestehen
+* Bindungsritual (große Story-Beats)
+
+_Ergebnis_:
+* Wer besteht = Akademie-Absolvent
+* Wer den Dragon Bond eingeht = Flammenreiter
+
+_Wichtig_: Wer keine Bindung eingeht ist KEIN Versager. Es gibt mehr Schüler als bindungswillige Drachen. Ein Absolvent ohne Drache ist ein vollwertiger Akademie-Absolvent.
+
+'''
+
+
+=== 7 Fächer — Alle belegen alles
+
+
+Jedes Fach maps direkt auf ein Kern-System des Projekts:
+
+
+==== (1) KAMPFKUNST
+
+
+_Maps zu_: Kampf-System
+
+_Was ALLE lernen_: Basis-Waffen, Selbstverteidigung, Fitness, Action Economy, Formation
+
+_KRIEGER vertieft_: Martial Weapons, Kampfstile (Dueling/Defense/Great Weapon), Mounted Combat, Rüstungstraining
+
+_MAGIER vertieft_: Konzentration unter Beschuss, Stab-Kampf, Positionierung auf dem Schlachtfeld (wo stehe ich als Caster?)
+
+_ROGUE vertieft_: Dolchkampf, Ausweichen, Dirty Fighting, Sneak Attack-Positionierung
+
+_Trait-Förderung_: Mutig/Feige, Diszipliniert/Chaotisch
+
+'''
+
+
+==== (2) ARKANE LEHRE
+
+
+_Maps zu_: Magie-System
+
+_Was ALLE lernen_: Die 8 Magie-Schulen als Theorie, Magie-Erkennung, Counter-Strategien
+
+_KRIEGER vertieft_: Spell-Identifikation, Saving Throws, Anti-Mage-Taktik
+
+_MAGIER vertieft_: Spell-Casting, Slot-Management, Spezialisierung auf 1-2 Schulen, Ritual-Casting, Upcasting
+
+_ROGUE vertieft_: Magische Fallen erkennen/entschärfen, Illusions-Grundlagen, Verzauberungen durchschauen
+
+_8 Schulen_: Abjuration, Conjuration, Divination, Enchantment, Evocation, Illusion, Necromancy, Transmutation
+
+_Trait-Förderung_: Neugierig/Gleichgültig, Vorsichtig/Reckless
+
+'''
+
+
+==== (3) WELT & ÜBERLEBEN
+
+
+_Maps zu_: Reise-System, Wetter, Pflanzen/Materialien, Bestiarum
+
+_Was ALLE lernen_: Kräuter-Grundlagen, Tier-Erkennung, Wetter lesen, Navigation, Erste Hilfe, Feuer machen, Lager aufbauen
+
+_KRIEGER vertieft_: Terrain-Nutzung im Kampf, Marschordnung, Lagerverteidigung, Proviant-Planung
+
+_MAGIER vertieft_: Alchemie-Grundlagen, Materialien-Ernte für Spell-Komponenten, Ritual-Zutaten, Magie-Quellen in Natur
+
+_ROGUE vertieft_: Schleichen in verschiedenen Terrains, Fallen bauen und entschärfen, Spuren lesen und verwischen, Gift-Pflanzen
+
+_Trait-Förderung_: Sorgfältig/Nachlässig, Geduldig/Ungeduldig
+
+'''
+
+
+==== (4) GESCHICHTE & GÖTTER
+
+
+_Maps zu_: Lore, Pantheon, Sigillen-Theologie
+
+_Was ALLE lernen_: Die 4 Epochen, die 7 Götter (Gebete, Tempel, Domains), die 5 Gründer, politische Strukturen der Welt
+
+_DAS Fach wo Spieler Lore lernen die später Story-relevant wird._
+
+_JAHR 1_: Überblick aller 4 Epochen, die 7 Götter als Allgemeinwissen
+
+_JAHR 2_: Epoche der Kriege im Detail (was passierte WIRKLICH?), Gründer-Geschichte, politische Karte
+
+_JAHR 3_: Sigillen-THEOLOGIE (theoretisch! — es gibt Legenden über göttliche Artefakte), verstecktes Wissen nur bei hoher Disposition zum Lehrer
+
+_Prüfungs-Mechanik_: Mündlich über das Dialog-System! NPC-Lehrer stellt Fragen, Disposition beeinflusst welche Informationen freigeschaltet werden.
+
+_Trait-Förderung_: Neugierig/Gleichgültig, Weise/Naiv
+
+'''
+
+
+==== (5) DRACHENKUNDE
+
+
+_Maps zu_: Dragon Bond System
+
+_DAS Fach das Flammenreiter von jeder anderen Akademie unterscheidet. Seit 100 Jahren im Lehrplan._
+
+_JAHR 1_: Drachen-Geschichte, 3 Rassen als Theorie, Verhaltenskunde. KEIN Kontakt mit echten Drachen.
+
+_JAHR 2_: Bindungstheorie vertieft, Trait-Analyse (welcher Drache passt zu mir?), Pflege-Theorie, erste beaufsichtigte Besuche bei Drachen.
+
+_JAHR 3_: Erstkontakt-Training, Annäherungs-Rituale, Bindungsritual (STORY-BEAT, nicht automatisch!), Pflege-Praxis, Reit-Training (Kampfdrache) / Fokus-Training (Taschendrache) / Stealth-Koordination (Schattendrache)
+
+_Wichtig_: Wer keine Bindung eingeht ist KEIN Versager — Drache entscheidet, keine Prüfung. Ein Absolvent ohne Drache ist ein vollwertiger Akademie-Absolvent.
+
+'''
+
+
+==== (6) DIPLOMATIE & KOMMUNIKATION
+
+
+_Maps zu_: Dialog-System, Disposition, Gerüchte, Ökonomie, Sprachen
+
+_Was ALLE lernen_: Zuhören, Argumentieren, Höflichkeit, kulturelle Sensibilität, Gerüchte auswerten, Sprach-Grundlagen
+
+_KRIEGER vertieft_: Intimidation, Befehlsgebung, Kriegs-Verhandlung, Kapitulations-Protokoll
+
+_MAGIER vertieft_: Überzeugen durch Wissen, arkane Debatte, akademische Rhetorik, Schriftkunde
+
+_ROGUE vertieft_: Lügen erkennen (Insight), Manipulation, Informationsbeschaffung, Feilschen, Kontakte knüpfen
+
+_Trait-Förderung_: Ehrlich/Verlogen, Loyal/Treulos, Mitfühlend/Gleichgültig
+
+'''
+
+
+==== (7) HANDWERK & PROFESSION
+
+
+_Maps zu_: Profession-System, Crafting, Durability, Item-Quality
+
+_Was ALLE lernen_: Item-Pflege (Durability-System!), Reparatur-Grundlagen, Material-Erkennung, Werkzeug-Umgang
+
+_Jeder MUSS seine Ausrüstung pflegen können._
+
+_KRIEGER vertieft_: Waffenpflege, Rüstungs-Reparatur, Schmiedekunst-Basis, Belagerungswerkzeug
+
+_MAGIER vertieft_: Fokus-Herstellung, Tränke brauen (Alchemie), Scroll-Schreiben, Verzauberungs-Grundlagen
+
+_ROGUE vertieft_: Schloss-Mechanik, Fallen bauen, Gift mischen, Werkzeug-Improvisation
+
+_Trait-Förderung_: Sorgfältig/Nachlässig, Geduldig/Ungeduldig
+
+'''
+
+
+=== Keine Noten — Fortschritt durch Spiel
+
+
+Statt künstlichen Noten passiert im Unterricht:
+
+_WÜRFEL-EVENTS_: GM ruft Check aus, alle würfeln.
+* Nat 20 = Aha-Moment (Trait-Shift, XP-Bonus, Lehrer beeindruckt → +Disposition)
+* Nat 1 = Peinlich oder Katastrophe (Story-Moment, auch Trait-Evolution-Trigger)
+
+_TRAIT-PROGRESSION_: Unterricht IST Trait-Training.
+* Kampfkunst fördert Mutig/Diszipliniert
+* Arkane Lehre fördert Neugierig
+* GM markiert trait-relevante Würfe → automatische Evolution
+
+_SKILL-VERBESSERUNG_: Proficiency steigt durch Nutzung, nicht durch Noten
+
+_DISPOSITION STATT NOTEN_: Lehrer sind NPCs mit vollem Disposition-System.
+* Guter Schüler → Disposition steigt → Zugang zu Spezialwissen
+* Schlechter Schüler → Disposition sinkt → härtere DCs
+* Das IST das Noten-System — organisch statt künstlich
+
+_HAUS-PUNKTE_: Individuelle Leistung fließt in Haus-Score. Gamification-Leaderboard in der Mobile-App.
+
+'''
+
+
+=== 4 Häuser → Perspektive, nicht Beschränkung
+
+
+Haus bestimmt den _SCHWERPUNKT und die Kultur, nicht die erlaubten Fächer oder Klassen._
+
+
+==== DRACHENFESTE (Rot)
+
+
+_Kultur_: Ehre, Kampf, Direktheit
+
+_Klassen-Affinität_: Krieger-Klassen
+
+_Gottheiten_: Pyrathis-nahe
+
+_Ein Fighter in Liebe & Leben_ ist ein Diplomat-Krieger (zuerst Rede, dann Schwert)
+
+'''
+
+
+==== TURM DER KETTEN (Blau)
+
+
+_Kultur_: Wissen, Forschung, Analyse
+
+_Klassen-Affinität_: Magier-Klassen
+
+_Gottheiten_: Aeolyn-nahe
+
+_Ein Wizard in Drachenfeste_ ist ein Kampfmagier (Evocation-Fokus, offensiv)
+
+'''
+
+
+==== TIEFE ESSE (Bronze)
+
+
+_Kultur_: Natur, Handwerk, Pragmatismus
+
+_Klassen-Affinität_: Ranger, Druid, Cleric
+
+_Gottheiten_: Verathos, Thalendis-nahe
+
+'''
+
+
+==== LIEBE & LEBEN (Grün)
+
+
+_Kultur_: Diplomatie, Gemeinschaft, Intuition
+
+_Klassen-Affinität_: Bard, Rogue, Cleric
+
+_Gottheiten_: Solveris, Nocthari-Kultur
+
+'''
+
+
+=== Akademie-Jahr im Harptos-Kalender
+
+
+
+==== LERNEN (5 Monate)
+
+
+_Regulärer Unterricht_: 7 Fächer im Wechsel
+
+_Typische Woche_:
+* Montag: Kampfkunst + Handwerk
+* Dienstag: Arkane Lehre (ganztags)
+* Mittwoch: Welt & Überleben (Expedition draußen)
+* Donnerstag: Geschichte + Diplomatie
+* Freitag: Drachenkunde
+
+_Wochenende_: Freizeit + Mobile-App
+
+
+==== PRAXIS (5 Monate)
+
+
+Expeditionen, Gruppen-Herausforderungen, Haus-Wettbewerbe
+
+Weniger Klassenzimmer, mehr Feld. Große Story-Beats.
+
+
+==== PRÜFUNG (1 Monat)
+
+
+Abschluss-Herausforderung als FLAMME (nicht individuell!)
+
+Die Gruppe muss gemeinsam bestehen.
+
+
+==== RUHE (1 Monat)
+
+
+Ferien. Downtime. Mobile-App-Aktivitäten. Drachen-Pflege. Spieler können nach Hause reisen oder an der Akademie bleiben.
+
+'''
+
+
+== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Abstammungen (19)
+SELECT * FROM ancestries
+WHERE category IN ('common_folk', 'craft_trade', 'scholar_clergy', 'warrior_law', 'outlier_special')
+ORDER BY category, name;
+
+-- Charakter mit Abstammung
+SELECT
+  c.id, c.name,
+  a.name as ancestry_name,
+  a.ability_bonus_type, a.ability_bonus_amount,
+  ch.narrative_event, ch.approved_by_gm
+FROM characters c
+JOIN ancestries a ON c.ancestry_id = a.id
+LEFT JOIN character_childhood ch ON c.childhood_id = ch.id
+WHERE c.id = ?;
+
+-- Akademie-Daten
+SELECT
+  c.id, c.name, c.academy_house_id,
+  ah.name as house_name,
+  af.flame_id, af.flame_number
+FROM characters c
+LEFT JOIN academy_houses ah ON c.academy_house_id = ah.id
+LEFT JOIN academy_flamme_members af
+  ON c.id = af.character_id
+  AND af.flame_year = ?
+WHERE c.id = ?;
+
+-- Unterricht-Ereignisse
+SELECT * FROM academy_lesson_events
+WHERE character_id = ?
+AND lesson_subject IN ('combat_arts', 'arcane_lore', 'world_survival', 'history_gods', 'dragon_lore', 'diplomacy', 'craft_profession')
+ORDER BY created_at DESC;
+----
+
+'''
+
+
+== Zusammenfassung: Philosophisches Design
+
+
+Die Herkunfts-System basiert auf der _Flammenreiter-Kernphilosophie_:
+
+_Individualität über Stereotyp_
+
+Ein Zwerg-Wizard ist nicht "falsch" — er ist Teil einer Familie von Gelehrten, die zufällig Zwerge sind. Ein Menschen-Rogue aus Adelsfamilie ist ein verbitterter Rebel, nicht ein "typischer" Adeliger.
+
+Jede Stufe (Rasse, Abstammung, Kindheit) trägt zur _einzigartigen Identität des Charakters_ bei, statt stereotype Character-Builds zu erzwingen.
+
+Das AI-Interview zur Kindheit sichert, dass _zwei Charaktere mit identischen Rasse/Klasse/Abstammung immer noch komplett unterschiedlich sind_.
+
+Die Akademie behandelt jeden als _individuelle Flamme_, nicht als Nummer in einer Liste.
+
+Das ist Flammenreiter.

@@ -1,0 +1,535 @@
+
+= Ökonomie & Handel
+
+
+Nur Gold, dynamische Preise, Tauschhandel als NORMALE Handelsform, Schwarzmarkt, unbegrenztes Party-Lager.
+
+
+== Währung: Gold ist Gold
+
+
+
+=== Einzelne Währung
+
+
+_NUR Gold (GP)_ — keine Kupfer/Silber/Platin, keine regionalen Währungen, keine Wechselkurse.
+
+* Jede Goldmünze = 1 GP
+* Goldmünze selbst ist ein Item mit Wert (wie jedes andere Handelsgut)
+* Vereinfacht Buchhaltung radikal
+* Hält Fokus auf Gameplay statt Münzzählen
+
+'''
+
+
+== Dynamische Preise
+
+
+Nicht: "Ein Schwert kostet immer 15 GP"
+Ja: "Ein Schwert kostet zwischen 14-28 GP je nach Region, Jahreszeit, Krieg, etc."
+
+
+=== Preisformel
+
+
+----
+Final Price = Base Price
+  × World Modifier (1 = baseline, 1.2 = 20% inflation)
+  × Regional Supply (0.7 = abundant/cheap, 1.5 = scarce/expensive)
+  × Local Demand (1.0 = normal, 1.3 = high demand)
+  × Event Modifier (1.3 = war, 0.8 = festival)
+  × Merchant Personal (reputation of seller, ±5-15%)
+  × PC Reputation (negotiating power)
+----
+
+
+=== Praktisches Beispiel
+
+
+_Langschwert_ (Base: 15 GP)
+
+
+[cols="1,1,1",options="header"]
+|===
+| Region | Modifiers | Ergebnis
+
+| Eisenberge (Eisen abundant) | World 1.0 × Supply 0.7 × Demand 1.0 | 15 × 0.7 = 10.5 GP
+| Hauptstadt (Normal) | World 1.0 × Supply 1.0 × Demand 1.0 | 15 × 1.0 = 15 GP
+| Wüstenstadt (Krieg, kein Eisen) | World 1.0 × Supply 1.5 × Demand 1.3 × Event 1.2 | 15 × 1.5 × 1.3 × 1.2 = 35 GP
+|===
+
+
+
+=== Rarity-Multiplikatoren
+
+
+Base Price in item_rarity_variants:
+
+
+[cols="1,1",options="header"]
+|===
+| Rarity | Multiplier
+
+| Common | ×1
+| Uncommon | ×3
+| Rare | ×10
+| Epic | ×50
+| Legendary | ×200
+| Mystic | ×1000
+| Divine | unbezahlbar / Quest-Reward
+|===
+
+
+_Quality-Multiplikatoren_ nochmal anwenden:
+
+
+[cols="1,1",options="header"]
+|===
+| Quality | Multiplier
+
+| Q1 | ×0.8
+| Q2 | ×1.0
+| Q3 | ×1.2
+| Q4 | ×1.5
+| Q5 | ×2.0
+|===
+
+
+_Beispiel_: Rare Q5 Schwert
+* Base Rare Schwert: 150 GP
+* Quality Q5: 150 × 2.0 = 300 GP
+* Hauptstadt normal: 300 × 1.0 = 300 GP
+* Aber Wüste im Krieg: 300 × 1.5 × 1.3 × 1.2 = 702 GP (!!)
+
+'''
+
+
+== Händler-Preise
+
+
+
+=== Buy & Sell Spreads
+
+
+_Händler verkaufen_ mit Aufschlag:
+----
+Händler kauft von Party für 100 GP → Verkaufspreis = 130-150 GP (30-50% Markup)
+----
+
+_Händler kaufen_ mit Abzug:
+----
+Party verkauft zu Händler für 100 GP (Basis-Preis) → Händler bezahlt 30-50 GP (30-50% Abzug)
+----
+
+
+=== Spezialisiert-Bonus
+
+
+Spezialisierte Händler zahlen besser für Fachgebiet:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Händler | Kauft gut | Abzug
+
+| Schmied | Waffen/Rüstung | 60% (statt 30%)
+| Alchemist | Tränke/Zutaten | 60%
+| Antiqitäten | Historische Items | 50%
+| General Store | Alles | 30%
+|===
+
+
+
+=== Profession Merchant Bonus
+
+
+PC mit _Profession: Merchant Level 3+_:
+* -10% beim Einkaufen (Käufer-Bonus)
+* +10% beim Verkaufen (Verkäufer-Bonus)
+* Stackt mit Feilschen-erfolg
+
+'''
+
+
+== Schwarzmarkt
+
+
+Illegale Waren, Umgehungen, Spionage-Items:
+
+
+=== Zugangsbedingungen
+
+
+Braucht eins davon:
+* Kontakte (mehrere Conversations mit Criminal-NPC)
+* Kriminelle Reputation +30+ (bei Thieves Guild, etc.)
+* Streetwise-Check (DC 14)
+
+
+=== Preisierung
+
+
+----
+Illegale Waren: +50% bis +200% Aufschlag (je illegaler)
+Legale Waren: +20% Risikozuschlag
+----
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Item | Legal? | Risiko | Preis
+
+| Gifttrank | Nein | sehr hoch | +200%
+| Lockpicks | Illegal in manche Gegenden | mittel | +50%
+| Feuer-Verbrauchsgüter | Nein (bei Wachen) | mittel | +100%
+| Normales Schwert | Ja | keine | Normal
+|===
+
+
+
+=== Detection-Risk
+
+
+Schwarzmarkt-Kauf wird protokolliert:
+----
+Wenn Wachen findest Schwarzmarkt-Item bei Durchsuchung:
+  1. Geldstrafe (×3 Item-Wert)
+  2. Oder Gefängnis (1d6 Tage)
+  3. Oder Kopfgeld (Bounty-Status)
+----
+
+'''
+
+
+== Tauschhandel: Die NORMALE Handelsform
+
+
+
+=== Kern-Mechanik
+
+
+_NUR HÄNDLER HABEN GOLD._
+
+Alle anderen NPCs zahlen in Erzeugnissen ihrer Fertigkeit:
+* Bauer hat Getreide, kein Gold
+* Fischer hat Fisch
+* Soldat hat alte Waffe
+* Lehrer hat Wissen (quest-giver?)
+
+Gold ist auch nur ein Item — es IST ein Tauschgegenstand.
+
+
+=== Item-gegen-Item Tausch
+
+
+Das ist die NORMALE Handelsform:
+
+----
+Spieler möchte Heilmittel von einem Alchemisten
+Alchemist: "Ich brauche Drachenwiese und Mondstein"
+Spieler: "Ich habe nur Drachenwiese"
+
+Alchemist bewertet:
+  - Braucht Mondstein ≥ 70% → Heilmittel-Wert
+  - Drachenwiese Wert 50% von benötigtem
+  → "Ich gebe dir 50% Heilmittel, oder du schuldest mir noch 30GP"
+
+Oder Spieler bietet: "Ich gebe dir diese Ritterrüstung statt"
+Alchemist: "Ritterrüstung? Ich bin ein Zauberer, das hilft mir nicht. Nein."
+----
+
+
+=== NPC-motivierte Bewertung
+
+
+NPC bewertet Items nicht nach Marktpreis sondern nach EIGENEN BEDÜRFNISSEN:
+
+----
+Hungernder Schmied: Bezahlt 2× normal für Brot
+Sammler-NPC: Bezahlt 5× für ein Familienerbstück
+Magischer Forschungs-NPC: Bezahlt 10× für seltene Komponenten
+----
+
+
+=== App-Feature: Item-Bewertung-UI
+
+
+Das MUSS ein gutes UI-Feature werden:
+
+----
+[Alchemist window]
+
+Sie bietet:
+  - Lesser Healing Potion (2× verfügbar)
+  - Antitoxin (5× verfügbar)
+  - Rare Moonstone Dust (1× verfügbar)
+
+Sie braucht:
+  - Dragon's Breath Herb (★★★★★ important)
+  - Moonstone (★★★★☆)
+  - Beliebiger Heilkraut (★★★☆☆)
+
+[Your inventory]
+Draggable Items für Trade-Fenster
+
+NPC's response:
+  Dragon's Breath + Moonstone + Common Herb
+  → "Perfekt! Hier sind alle 2 Healing Potions + Antitoxin"
+
+oder
+
+  Nur Dragon's Breath
+  → "Das reicht für 1 Potion. Rest brauchst du anderen Preis zu bezahlen"
+----
+
+'''
+
+
+== Feilschen (Contested Roll)
+
+
+
+=== Mechanik
+
+
+Contested Roll: PC Persuasion vs. NPC Insight
+
+Modifikatoren:
+----
+PC Modifier:
+  + CHA + Proficiency (if trained in Persuasion)
+  + Trait-Bonus (Gierig+, Charismatisch+)
+  + Disposition-Bonus (bekannter/vertrauter?)
+
+NPC Modifier:
+  + WIS + Insight Prof
+  + Gierig-Penalty (wenn NPC Gierig ist, schwerer zu verhandeln)
+  + Trait-Modi (Vertrauenselig-, Großzügig+)
+  + Reputation (für diesen Kaufmann bekannt?)
+----
+
+Erfolg: Deal trotz Unterzahlung abgeschlossen
+Misserfolg: Ablehnung, +2 DC pro weiterer Versuch
+Nat 1: Disposition -5, NPC lehnt alle Verhandlungen ab
+
+
+=== Großhandel-Rabatt
+
+
+10+ gleiche Items → automatischer Mengen-Rabatt:
+* 10-20 Items: -5% pro Item-Einheit
+* 20-50 Items: -10%
+* 50+ Items: -15%
+
+_Aber_: Große Mengen Verkaufen → Markt-Sättigung
+----
+Stadt kauft normally 5× Schwerter pro Monat
+Spieler versucht 50 Schwerter zu verkaufen
+→ Marktwert sinkt pro Einheit (-25%, -50% etc.)
+→ Wird wieder normal nach Monat oder zwei
+----
+
+'''
+
+
+== Regionale Ressourcen
+
+
+Jede Region produziert Güter:
+
+
+=== Güter-Kategorien
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Ressource | Beispiel-Regionen | Export
+
+| Erz | Eisenberge, Dwarf Mountains | Waffen, Rüstung
+| Fisch | Küstenstädte | Trockenfisch, Öl
+| Holz | Wälder | Möbel, Schiffe
+| Getreide | Flachland | Brot, Bier
+| Magie | Akademie-Städte | Tränke, Scrolls
+| Jagd | Wildnis-Regionen | Felle, Fleisch
+| Vieh | Farm-Gegenden | Milch, Käse
+| Wein | Weinberge | Luxus-Getränke
+|===
+
+
+
+=== Supply Status
+
+
+----
+Abundant (billig) → Sufficient (normal) → Scarce (teuer) → Depleted (nicht verfügbar)
+
+Eisenberge (Eisen): Abundant = Eisen-Gegenstände -30%
+Wüste (Fisch): Depleted = Fisch existiert nicht
+Küste (Fisch): Abundant = Fisch -40%
+----
+
+
+=== Handelsrouten
+
+
+Routen verbinden Regionen. Unterbrochene Route → abhängige Region verliert Import:
+
+----
+Küste ← [Route] → Hauptstadt
+
+Wenn Route unterbrochen (Drache, Krieg):
+  Küste: Fischerei-Produkte können nicht exportiert
+  Hauptstadt: Kann kein frisches Fisch importieren
+
+Lokale Preise steigen automatisch
+----
+
+'''
+
+
+== Party-Lager & Permanente Lagerung
+
+
+
+=== Die Lager-Truhe
+
+
+Jede Party hat genau 1 Lager mit 1 Truhe:
+
+_Größe_: UNENDLICH
+* Kein Slot-Limit
+* Kein Gewichtslimit
+* Spieler müssen selbst wissen was sie haben
+
+_Gameplay-Entscheidung_: Kein automatisches Inventar. Spieler sind selbst verantwortlich.
+
+_Ort_: Wechselt je nach Story
+----
+Session 1-3: Akademie-Zimmer
+Session 4-6: Camp unterwegs (bei Drachen-Höhle)
+Session 7+: Mietwohnung in Hauptstadt
+----
+
+
+=== Besonderheiten
+
+
+_Kein Diebstahl-Risiko_:
+* Zu komplex zu implementieren
+* Kein narrative Gewinn wenn Lager geleert wird
+* Würde Party-Flow unterbrechen
+
+_Zugriff nur am physischen Ort_:
+* Wenn Party reist: Können NICHT auf Lager zugreifen
+* Getragene Items + Rucksack = nur was mitgenommen
+* Ermöglicht strategische "was nehmen wir mit"-Entscheidungen
+
+'''
+
+
+== Steuern & Zölle (nur Story)
+
+
+
+=== Kein mechanisches System
+
+
+Keine automatischen Abzüge, keine Tracking-Tabellen.
+
+
+=== Story-Events statt Mechanics
+
+
+Steuern/Zölle existieren NUR als:
+* Handelsblockade (Quest-Hook: Route unterbrochen)
+* Korrupter Zöllner (Social-Encounter)
+* Embargo (GM-entscheidung: diese Waren sind verboten)
+* Krieg-Dekret (temporäre Preiserhöhung +50%)
+
+GM kann situativ Kosten einbauen, aber System berechnet nicht automatisch.
+
+'''
+
+
+== Immobilien & Karawanen (Zukunft)
+
+
+
+=== Nicht jetzt implementieren
+
+
+Aber architectural als Potential aufnehmen:
+
+_Idee_: Spieler können als Gruppe besitzen:
+* Geschäfte (passive income)
+* Karawanen (begleiten = content)
+* Häuser/Tavernen (story hub, passive income)
+
+
+=== Why Future
+
+
+* Keine technischen Abhängigkeiten zu anderen Systemen
+* Kann jederzeit als Story-Element eingeführt werden
+* Wenn Spieler darauf reagieren: Quick Implementation
+* Eigenes Modul, eigene DB-Tabellen
+
+'''
+
+
+== DB-Struktur
+
+
+
+=== Ökonomie-Tables
+
+
+----
+character_gold (Kampagne)
+├── character_id (FK)
+└── gold_amount (decimal)
+
+trade_transactions (Kampagne-Log)
+├── id (PK)
+├── buyer_type (character|npc)
+├── buyer_id (FK)
+├── seller_type (character|npc)
+├── seller_id (FK)
+├── session_id (FK)
+├── items_given (jsonb: [{item_id, quantity, quality}])
+├── items_received (jsonb: [{item_id, quantity, quality}])
+├── gold_given
+├── gold_received
+├── transaction_type (enum: purchase|sale|barter|gift)
+└── location_node_id (FK)
+
+party_storage (Kampagne)
+├── id (PK)
+├── party_group_id (FK)
+├── location_node_id (FK)
+├── name (z.B. "Akademie-Zimmer")
+└── description
+
+party_stored_items (Kampagne)
+├── id (PK)
+├── storage_id (FK)
+├── item_instance_id (FK)
+└── stored_at_harptos
+
+market_prices (Welt-Layer)
+├── region_id (FK)
+├── item_id (FK)
+├── base_price_gp
+├── supply_status (enum: abundant|sufficient|scarce|depleted)
+├── demand_level (1-5)
+├── modified_at_harptos
+└── notes (GM-Anmerkungen)
+
+merchant_inventory (Welt)
+├── npc_id (FK Merchant)
+├── item_id (FK)
+├── quantity_available
+├── markup_percent (30-150%)
+└── description
+----

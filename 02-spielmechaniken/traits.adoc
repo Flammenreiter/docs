@@ -1,0 +1,255 @@
+
+= Trait-Spektrum: Persönlichkeitssystem
+
+
+Das Kern-System für Charakterentwicklung: Nicht-binäre Spektren zwischen gegensätzlichen Polen, narrative Evolution durch Entscheidungen und Geschichten.
+
+
+== Grundprinzip
+
+
+
+=== Spektrum-Struktur
+
+
+Jeder Trait ist ein Spektrum mit zwei Polen:
+* _Bereich_: -5 bis +5
+* _Neutral_: 0 = Keine Bonusse, Charakter ist unbefestigt
+* _Commitment_: Nur Commitment wird belohnt — high positive UND high negative Levels geben Vorteile
+* _Bewertung_: Beide Pole haben eigene Stärken UND Schwächen. Es gibt kein objektiv 'gutes' oder 'schlechtes' Ende
+
+
+=== Beispiel-Spektren
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Pol 1 | Wert | Pol 2 | Pol 1 Stärken | Pol 2 Stärken
+
+| Loyal | -5...0...+5 | Treulos | +5 Schutz-Checks, Advantage auf Inspiration | +5 Deception, +5 Selbsterhaltung
+| Mutig | -5...0...+5 | Feige | +5 Initiative, Advantage bei Furcht-Saves | +5 Stealth, +5 Flucht
+| Ehrlich | -5...0...+5 | Verlogen | +5 Persuasion (bei Wahrheit) | +5 Deception
+| Gnädig | -5...0...+5 | Grausam | Charisma-Boni mit Schwachen | Intimidation-Boni
+| Neugierig | -5...0...+5 | Gleichgültig | Exploration-Boni, Loot-Awareness | Konzentration unter Stress
+| Gierig | -5...0...+5 | Großzügig | +2 beim Feilschen | +2 Persuasion (bei NPC-Gunst-Gewinn)
+|===
+
+
+
+== Evolution: Wie Traits sich ändern
+
+
+Traits sind nicht statisch — sie verändern sich durch narrative Momente:
+
+
+=== Trigger und Shifts
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Trigger | Shift-Betrag | Auslösung
+
+| Entscheidung (konsistent mit Trait) | ±0.5 | Spieler tätigt narrativ konsistente Handlung
+| Nat 20 GEGEN Trait | +1 Richtung Gegenpol | Erfolg trotz Gegenpol ("Überraschung: Es hat funktioniert!")
+| Nat 1 GEGEN Trait | +1 Richtung aktueller Trait | Katastrophe bestätigt Trait ("Welt bestraft Abweichung")
+| Story-Event | ±1-2 | GM markiert relevante Session-Moment
+| Existenzieller Moment | ±2 | Großer Story-Wendepunkt
+|===
+
+
+
+=== Wichtig: Trait-Relevanz-Markierung
+
+
+Nur _STORY-RELEVANTE_ Würfe zählen. GM markiert jeden Wurf mit `trait_relevance` Flag. Beispiele:
+* Wahrnehmungs-Check weil der Charakter _neugierig_ ist = trait-relevant
+* Wahrnehmungs-Check um Feinde zu sehen = nicht trait-relevant
+* Überzeuge einen NPC, während du _ehrlich_ bleibst = trait-relevant
+* Überzeuge einen NPC mit Deception = nicht trait-relevant (kein neuer Ehrlich-Check)
+
+
+== Eskalationskurve: Was hohe Level bedeuten
+
+
+Traits haben _zunehmende Konsequenzen_ auf höheren Levels:
+
+
+=== Loyal+1 verrat
+
+
+* _Reaktion_: Leichtes Unbehagen
+* _Mechanik_: -1 auf nächsten Vertrauens-Check mit betroffener Person
+* _Story_: Kleine Skepsis, aber nicht lebensverändernd
+
+
+=== Loyal+5 verrat
+
+
+* _Reaktion_: Existenzielle Krise
+* _Mechanik_: Temporär ALLE Loyalty-Bonusse verlieren, Disadvantage für EINE komplette Session
+* _Story_: Deep betrayal, massive Konsequenzen mit Heilungs-Arc
+
+
+=== Regel
+
+
+Höhere Level = mehr Power, aber auch mehr _Verantwortung_. Ein Loyal+5 Charakter mit seinen Bonussen ist sehr mächtig — aber die Folgen eines Betrayals sind verheerend. Das ist das Tradings des Systems.
+
+
+== Exclusion-Rules: Welt-Level Inkompabilität
+
+
+Bestimmte Trait-Kombinationen sind auf höheren Levels unmöglich oder erzeugen Konflikte:
+
+
+=== Drei Exclusion-Typen
+
+
+
+==== Hard Exclusion (Unmöglich)
+
+Unterhalb von Schwellenwert koexistierbar, ab Schwellenwert gegenseitig ausschließend.
+* _Loyal +3_ schließt _Ruchlos_ aus (ab +3 kann kein Ruchlos existieren)
+* Spieler versucht beides: System erlaubt nicht, Shift in eine Richtung forciert
+
+
+==== Soft Exclusion (Möglich aber Konflikt)
+
+Beide Traits existieren, erzeugen aber inneren Konflikt-Penalty:
+* Gierig+3 und Gnädig+2 → -2 auf beide Interactions bis ein Trait sich ändert
+* Represents interner Kampf zwischen widersprüchlichen Wünschen
+
+
+==== Tension Exclusion (Erzeugt Story-Hooks)
+
+Nicht unmöglich oder penalisiert, aber erzeugt automatisch Quests:
+* Mutig+4 und Feige-2 → Charakter konfrontiert ständig mit Situationen die beide Traits testen
+* NPC bringt "Cowardly solution" für Battle, Charakter muss wählen
+
+
+=== Unter Schwellenwert: Menschen sind Widersprüche
+
+
+Unter den Exclusion-Thresholds (typischerweise ±2) können gegensätzliche Traits koexistieren. Das ist normal und menschlich. Loyal+1 und Treulos-1 kann gleichzeitig existieren — einfach leicht widersprüchlich sein.
+
+
+== Sichtbarkeit: Öffentliches Bild vs. Realität
+
+
+Nicht alle Traits sind public knowledge. Jeder Trait hat:
+
+
+=== Visibility Scope
+
+
+----
+Private → Local → City → Regional → Kingdom → World
+----
+
+* _Private_: Nur Charakter + vertraute Personen kennen
+* _Local_: In der unmittelbaren Siedlung bekannt
+* _City_: Stadtrat/Gilde-Leader kennen
+* _Regional_: Alle dieser Region kennen den Namen + Ruf
+* _Kingdom_: Königlicher Hof kennt
+* _World_: Überregionale Bekanntheit (Dragon-Slayer, etc.)
+
+
+=== Accuracy Level
+
+
+Jeder Trait hat auch `accuracy`:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Accuracy | Bedeutung | Beispiel
+
+| Accurate | Öffentliches Bild stimmt überein | Herbert ist Loyal+4 AND privat loyal
+| Exaggerated | Öffentliches Bild ist übertrieben | Elenor ist Loyal+3 aber öffentlich als Loyal+5 bekannt (Held der Stadt)
+| Understated | Öffentliches Bild ist unterschätzt | Karger ist Gierig+4 aber nur als "sparsam" bekannt
+| False | Öffentliches Bild ist völlig falsch | Meredith ist Treulos-3 aber öffentlich als loyal+2 bekannt
+|===
+
+
+
+=== Praktische Auswirkungen
+
+
+* _Herbert_: Loyal+4 private → NPCs reagieren neutral (kennen ihn nicht)
+* _Elenor_: Loyal+4 regional und accuracy=accurate → NPCs reagieren VOR dem Treffen positiv (name recognition)
+* _Meredith_: Treulos-3 aber public=false → Niemand kennt diese Seite, alle Disposition-Checks asumen Loyalität
+
+
+== Blender-System: Widerspruch erkannt?
+
+
+Der interessanteste Fall: Charakter SAGT "Ich bin loyal" aber HANDELT illoyal. Kein Fehler — das ist genau das Blender-System.
+
+
+=== Blender-Erkennung
+
+
+----
+Public Persona: Loyal+2
+Actual Behavior: Treulos-1
+Accuracy: False (widersprüchlich)
+----
+
+Das System markiert diese Widersprüche automatisch:
+. _Story-Hook-Generator_: "Was wenn die Gruppe es merkt? Wenn Evidence-Trait erreicht wird?"
+. _NPCs React_: Bei wiederholtem Verhalten merken NPCs eventuell die Wahrheit
+. _Characterization Depth_: Der Spieler muss _aktiv_ die Persona aufrechterhalten
+
+
+=== Wie das funktioniert
+
+
+* Spieler sagt "Ich bin loyal" (setting Persona)
+* Spieler handelt illoyal (Verrat an Quelle)
+* Wenn Nat 20 oder Evidence-Schwellenwert: NPC beginnt zu zweifeln
+* Trait-Check würfelt ab: Spieler vs. NPC Insight
+* Falls NPC gewinnt: NPC erkennt wahren Trait, Disposition ändert sich basierend auf ECHTER Trait
+* Story kann jetzt in neue Richtung gehen ("Du bist nicht so treu wie du vorgibst zu sein")
+
+Das ist nicht punishment — das ist narratives Tiefe und Charakteren-Komplikation, genau wie ein D&D Roman.
+
+
+== Implementation Details
+
+
+
+=== DB-Struktur
+
+
+----
+character_traits
+├── character_id (FK)
+├── trait_id (FK → traits Tabelle)
+├── current_level (-5 to +5)
+├── evolution_history (jsonb: [{date, shift, trigger, gm_note}])
+├── public_level (sichtbare Level — kann anders sein)
+├── visibility_scope (enum)
+├── accuracy (enum: accurate|exaggerated|understated|false)
+└── locked (bool — GM kann trait temporär lockern bei speziellen Geschichten)
+----
+
+
+=== Evolution-Triggering
+
+
+Jeder relevante Wurf wird markiert. Bei Nat 1/20 + trait_relevance → automatischer Trait-Evolution-Check:
+. System prüft Gegenpol-Ausrichtung
+. System schlägt +0.5 oder +1 Shift vor
+. GM bestätigt oder überschreibt mit Custom-Shift
+. Evolution wird in history geloggt
+
+
+=== Exclusion-Enforcement
+
+
+Bei Charakter-Load: System validiert gegen exclusion_rules. Falls Violation:
+. System warnt GM
+. Nur GM kann Lösung erzwingen (Force-Lock aktuellen Trait, deaktiviere Gegenpol)
+. Warnt vor nächstem Level-Up

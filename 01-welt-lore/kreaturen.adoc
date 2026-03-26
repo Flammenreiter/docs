@@ -1,0 +1,562 @@
+
+= Kreaturen: Bestiar-System & Katalog
+
+
+Das Flammenreiter-Bestiar organisiert alle Kreaturen nach einer kohärenten Taxonomie und verknüpft sie mit der Welt-Lore durch Epochen-Herkunften.
+
+'''
+
+
+== Taxonomie: 4 Ebenen
+
+
+Jede Kreatur wird nach 4 Ebenen klassifiziert:
+
+
+=== Ebene 1: TYP (D&D 5e Klassifikation)
+
+
+Die _14 Grund-Kategorien_ der D&D 5e Anatomie:
+
+. _Aberration_ — Überbleibsel der Epoche der Kriege, göttliche Magie zerriss die Realität
+. _Beast_ — Natürliche Tiere, Rückgrat der Wildnis
+. _Celestial_ — Extrem selten, wenige direkte Diener der Sieben
+. _Construct_ — Relikte der Kriege, keine aktive Erschaffung (kein Artificer)
+. _Dragon_ — Eigenes Kapitel, Schöpfung aller 7 Götter
+. _Elemental_ — An Orten hoher magischer Konzentration
+. _Fey_ — Verbunden mit alten Wäldern und Epoche vor den Kriegen
+. _Fiend_ — Korruptionen aus dem Götterkrieg, Tiefling-Vorfahren
+. _Giant_ — Riesenvölker in Bergen, eigene Hierarchie
+. _Humanoid_ — Spielbare Rassen + NPC-Völker
+. _Monstrosity_ — Magisch veränderte Tiere/Chimären aus den Kriegen
+. _Ooze_ — Dungeons und unterirdische Ruinen
+. _Plant_ — Belebte Pflanzen, Thalendis-Verbindung
+. _Undead_ — Nekromantie existiert, meist illegal, Nocthari-Verbindung
+
+
+=== Ebene 2: SPEZIES (Oberste Taxonomie)
+
+
+Die _Art_ — allgemeines Verhalten, Habitat, Intelligenz, Sozialstruktur:
+* Wolf
+* Bär
+* Greif
+* Troll
+* Basilisk
+
+
+=== Ebene 3: RASSE (Variante)
+
+
+Der _spezifische Typ_ — konkrete Stats (CR, AC, HP, Actions):
+* Winterwolf
+* Dire Wolf
+* Schattenwolf
+* Gray Wolf
+
+Diese Ebene wird für den _Encounter-Builder_ benutzt.
+
+
+=== Ebene 4: INDIVIDUUM (Optional)
+
+
+_Benanntes, einzigartiges Exemplar_ — nur für:
+* Boss-Monster
+* Story-NPCs
+* Legendäre Feinde
+
+'''
+
+
+== Drachen: Separat
+
+
+_Drachen folgen derselben Taxonomie konzeptuell_ (Spezies→Rasse→Individuum), leben aber in eigenem DB-Domain wegen:
+* Bond-Mechanik
+* Care-System
+* Equipment
+
+> _Wichtig_: Ein Drache taucht _NIEMALS_ als generisches Monster auf — _jeder ist ein Individuum_ mit Name, Persönlichkeit und Traits.
+
+'''
+
+
+== Herkunfts-Epochen: Welt-Lore
+
+
+
+=== Warum wichtig?
+
+
+Jede Spezies hat eine _Herkunfts-Epoche_ — das erzählt Geschichte durch Gameplay:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Epoche | Bedeutung | Beispiele
+
+| _Schöpfung_ | Natürliche Wesen der Sieben | Beasts, Plants, Fey
+| _Kriege_ | Korruptionen, Waffen, Nebenprodukte | Aberrations, Fiends, Monstrosities, Constructs
+| _Stille_ | Natürliche Evolution ohne Magie | Hochgebirgs-Tiere, Waldwesen
+| _Akademie_ | Neue Wesen durch Magie-Rückkehr, Experimente | Wiedererweichte Schlafende, magisch veränderte Tiere
+|===
+
+
+_Story-Effekt_: Wenn Spieler einen Basilisken treffen → Sie lernen, das ist ein Relikt der Kriege. Das erzählt Geschichte.
+
+'''
+
+
+== Intelligenz-Stufen
+
+
+5 Stufen der Bewusstseinskomplexität:
+
+
+=== 1. Geistlos (Mindless)
+
+
+* _Kreaturen_: Oozes, niedere Undead
+* _Verhalten_: Reine Instinkt
+* _Spiele-Effekt_: Kann nicht getäuscht werden, immun gegen psychische Effekte
+* _Interaktion_: Keine Verhandlung möglich
+
+
+=== 2. Tierisch (Animal)
+
+
+* _Kreaturen_: Beasts (Wolf, Bär, Adler)
+* _Verhalten_: Instinktiv mit Learning
+* _Spiele-Effekt_: Animal Handling möglich, Domestizierbar
+* _Interaktion_: Unterordnung oder Aggression
+
+
+=== 3. Listig (Cunning)
+
+
+* _Kreaturen_: Wölfe, Trolle, Kobolde
+* _Verhalten_: Taktisch, plant Hinterhalte
+* _Spiele-Effekt_: Pack Tactics, strategische Anordnung
+* _Interaktion_: Verhandlung schwierig, Respekt durch Kraft
+
+
+=== 4. Fühlend (Sentient)
+
+
+* _Kreaturen_: Goblins, Giants, kultivierte Bestien
+* _Verhalten_: Emotionen, Motivation, Kultur
+* _Spiele-Effekt_: Disposition-System greift, können als NPCs mit Traits auftreten
+* _Interaktion_: Dialog möglich, Diplomatie wirkt
+
+
+=== 5. Weise (Sapient)
+
+
+* _Kreaturen_: Drachen, uralte Fey, Sphinxe
+* _Verhalten_: Philosophie, Agenda, Weisheit
+* _Spiele-Effekt_: Volle NPC-Tiefe, Story-treibend
+* _Interaktion_: Verhandlung möglich, eigene Ziele verfolgen
+
+'''
+
+
+== Sozialstrukturen → Encounter-Design
+
+
+
+=== Einzelgänger
+
+
+_Stärker als Gruppen-Tiere gleicher CR_
+* Bären, Trolle, Drachen
+* _Encounter-Effekt_: Solo-Boss-Dynamik
+* _Loot_: Konzentriert
+
+
+=== Paar
+
+
+_Immer zu zweit_
+* Greife, Liebe oder territoriale Bindung
+* _Encounter-Effekt_: Koordinierte Taktik, Schutz des Partners
+* _Loot_: Double
+
+
+=== Rudel (4-12)
+
+
+_Pack Tactics_
+* Wölfe, Kobolde, Deinonychus
+* _Encounter-Effekt_: Численное преимущество, koordinierte Angriffe
+* _Loot_: Geteilt auf viele
+
+
+=== Herde (10-50+)
+
+
+_Keine Taktik, Trampel-Gefahr_
+* Bisons, Elefanten, Antilopen
+* _Encounter-Effekt_: Masse ist Waffe, Flucht schnell
+* _Loot_: Minimal pro Exemplar
+
+
+=== Schwarm (100+)
+
+
+_Eine Einheit, Schwarm-Regeln_
+* Bienen, Fledermäuse, Ratten
+* _Encounter-Effekt_: Immunität gegen Schäden, Schwarm-HP
+* _Loot_: Minimal
+
+
+=== Kolonie
+
+
+_Feste Basis mit Hierarchie_
+* Mykoniden, Termiten, Insekten-Staaten
+* _Encounter-Effekt_: Königin, Arbeiter, Soldaten
+* _Loot_: Licht, aber speziell (Chitinsplitter für Crafting)
+
+'''
+
+
+== Trait-Interaktionen
+
+
+Spieler-Traits beeinflussen Kreaturenverhalten:
+
+
+[cols="1,1",options="header"]
+|===
+| Trait | Effekt auf Kreatur
+
+| _Mutig_ | Advantage Initiative wenn CR ≥ Party-Level
+| _Vorsichtig_ | +2 Perception in Gebieten mit bekannter Kreatur-Aktivität
+| _Neugierig_ | Bonus Action Nature/Arcana-Check → GM gibt 1 Resistenz/Vulnerabilität preis
+| _Grausam_ | +2 Damage gegen Beasts, aber -5 Disposition bei Druid/Ranger-NPCs
+| _Mitfühlend_ | Domesticable Kreaturen leichter zähmen (DC -2)
+|===
+
+
+Alles über _EffectProcessor_ — keine Sonderfälle.
+
+'''
+
+
+== Loot & Trophäen
+
+
+
+=== Materialien fürs Crafting-System
+
+
+Jede Rasse hat _Loot-Tabelle_:
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Kreatur | Material | Qualität | Verwendung
+
+| _Wolf_ | Wolfsfell | Basic | Leder
+| _Winterwolf_ | Winterfell | Rare | Kälte-Resistenz-Rüstung
+| _Troll_ | Trollblut | Alchemie | Regeneration-Trank
+| _Basilisk_ | Basilisks Auge | Rare | Versteinerungs-Komponente
+|===
+
+
+
+=== Skill-Checks für Ernte
+
+
+* _Survival_ für Fell/Haut
+* _Nature_ für Giftstoffe
+* _Arcana_ für magische Komponenten
+* _Profession_ Jäger/Alchemist → Advantage
+
+'''
+
+
+== Domestizierung & Reittiere
+
+
+
+=== Voraussetzungen
+
+
+* Intelligence ≥ animal (mindestens Intelligenz-Stufe 2)
+* Social Structure = pack/herd (nicht Einzelgänger)
+
+
+=== Domestizierungs-Prozess
+
+
+* _Animal Handling_ über Wochen
+* _Jungtier_ ist leichter (DC -5)
+* _Wildes Adult_ ist schwer (DC 20+)
+* _Trait Mitfühlend_ → DC -2
+* _Trait Geduldig_ → Advantage
+
+
+=== Domestizierte Tiere
+
+
+Werden zu:
+* _Reittiere_ für Reise (Traglast, Geschwindigkeit)
+* _Wache-Tiere_ (Perception)
+* _Stimmungs-Komponente_ (Long Rest Comfort)
+
+> _WICHTIG_: Das ist _NICHT Kampf-Pets_ — das ist nur Reittier-Mechanik. _Drachen sind NIEMALS domestizierbar._
+
+'''
+
+
+== Flammenreiter Original-Kreaturen
+
+
+
+=== Schattenwolf
+
+
+_Spezies_: Wolf | _Rasse_: Schattenwolf | _Typ_: Beast (magisch)
+
+_Herkunft_: Epoche der Stille — Wölfe die in Höhlen/Schattengebiete abwanderten und sich magisch anpassten
+
+* _CR_: 2 | _Größe_: Medium
+* _Stats_: Pack Tactics + Shadow Stealth (Advantage bei Dämmerlicht)
+* _Augen_: Leuchten violett im Dunkeln
+* _Natur_: Nicht magisch — reine Evolution
+* _Habitat_: Alte Wälder, Höhlen, nachtaktiv
+* _Sozial_: Rudel 6-12, cunning
+* _Loot_: Schattenfell (Stealth-Bonus auf Rüstung, Rare)
+* _Trait-Reaktion_: Vorsichtig+3 → Hinterhalt-DC 12 statt 16
+
+
+=== Sturmgreif
+
+
+_Spezies_: Greif | _Rasse_: Sturmgreif | _Typ_: Monstrosity
+
+_Herkunft_: Schöpfung von Aeolyn (Luft/Himmel)
+
+* _CR_: 5 | _Größe_: Large
+* _Fluggeschwindigkeit_: 120ft
+* _Verhalten_: Fliegt in Gewittern
+* _Resistenz_: Lightning
+* _Fähigkeit_: 1×/Tag Sturmschrei (15ft Kegel, 3d8 Thunder, CON DC 14)
+* _Habitat_: Hochgebirge, Klippen, nur bei Stürmen aktiv
+* _Sozial_: Paar (lebenslang gebunden)
+* _Loot_: Sturmfeder (Initiative-Bonus Helm, Rare)
+* _Trait-Reaktion_: Mutig+3 → Sturmgreif zeigt Respekt statt Aggression
+
+
+=== Erdenwächter
+
+
+_Spezies_: Ent | _Rasse_: Erdenwächter | _Typ_: Plant
+
+_Herkunft_: Schöpfung von Verathos + Thalendis zusammen
+
+* _CR_: 9 | _Größe_: Huge
+* _Regeneration_: 10 HP/Runde (nicht bei Feuer)
+* _Besonderheit_: Verschmilzt mit Bäumen, Tremorsense 120ft
+* _Intelligenz_: Sapient — Jahrtausende alt, spricht in Metaphern
+* _Habitat_: Uralte Wälder, nur 3-5 Orte weltweit
+* _Sozial_: Einzelgänger
+* _Loot_: KEINS (töten = moralische Konsequenz, Disposition-Verlust bei Natur-NPCs)
+* _Story_: Kennen Dinge die niemand weiß — Götterkrieg, Sigillen-Orte, Gründer-Namen
+* _Trait-Reaktion_: Geduldig+3 → Info-Schwelle sinkt um 15
+
+
+=== Nebelstalker
+
+
+_Spezies_: Nebelstalker (eigenständig) | _Typ_: Aberration
+
+_Herkunft_: Kriege — göttliche Magie machte Realität 'dünn'
+
+* _CR_: 7 | _Größe_: Large (formlos)
+* _Körper_: Dichter Nebel mit festen Klauen
+* _Resistenz_: Nicht-magisch physisch
+* _Sinne_: Blindsight 60ft
+* _Aura_: Frightened-Aura 30ft (WIS DC 15)
+* _Tarnung_: Tarnt sich als normaler Nebel (INT DC 18)
+* _Wetter-Interaktion_: Bei Nebel → Blindsight verdoppelt, DC +2
+* _Habitat_: Nebelfelder, Sümpfe, Ruinen, nur nachts/bei Nebel
+* _Sozial_: Einzelgänger, geistlos oder unbegreiflich fremd
+* _Loot_: Nebelkern (Stealth/Illusion Crafting, Arcana DC 16)
+
+
+=== Aschegeist
+
+
+_Spezies_: Aschegeist (eigenständig) | _Typ_: Undead
+
+_Herkunft_: Kriege — Seelen toter Magier, gefangen in Asche und Energie
+
+* _CR_: 4 | _Größe_: Medium
+* _Form_: Incorporeal, Resistance gegen nicht-magisch physisch
+* _Fähigkeit_: Life Drain (3d6 Necrotic)
+* _Schwäche_: Existiert NICHT im Sonnenlicht
+* _Intelligenz_: Sentient — erinnert sich fragmentarisch
+* _Sprache_: Spricht archaisch
+* _Habitat_: Ruinen, Schlachtfelder, Krypten, nachts
+* _Loot_: Asche-Essenz (Nekromantie-Komponente)
+* _Story-Ethik_: Manche sind nicht aggressiv sondern verwirrt
+** Dialog möglich
+** Können Hinweise auf Sigillen/Götterkrieg geben
+** Friedlichen töten = kein XP, -10 Disposition Nocthari-Priester
+
+
+=== Sigillen-Verderber
+
+
+_Spezies_: Sigillen-Verderber (eigenständig) | _Typ_: Aberration
+
+_Herkunft_: JETZT — entsteht wo göttliche Macht in die Welt sickert
+
+* _CR_: 10 | _Größe_: Variabel (instabil, shapeshifter)
+* _Besonderheit_: Passt sich Sigillen-Aspekt an
+** Feuer-Sigille: brennend
+** Schatten-Sigille: unsichtbar
+* _Schwäche_: Anti-Magic Field = CR halbiert
+* _Erkennung_: Magie-Sensitive und Drachen spüren es
+* _Habitat_: NUR nahe aktiver/erwachender Sigillen (extrem selten — Arc 1 höchstens 1-2 Begegnungen)
+* _Loot_: Sigillen-Fragment (Hinweis, kein Item)
+* _Story-Rolle_: Auftauchen = Zeichen einer erwachenden Sigille
+** _Kein Random Encounter_
+** _Story-Beat_
+** Spieler werden nervös wenn sie einen sehen
+
+'''
+
+
+== SRD-Integration: 300+ Standard-Kreaturen
+
+
+
+=== Import-Strategie
+
+
+_Bulk-Import_: D&D 5e SRD (300+ Kreaturen) → `creature_species` + `creature_races` automatisch
+
+GM-Aufgaben danach:
+. _origin_epoch_ setzen (Schöpfung, Kriege, Stille, Akademie)
+. _Trait-Interaktionen_ per CRUD hinzufügen
+. _Loot-Tabellen_ mit Item-System verknüpfen
+. _creature_race_habitats_ regional zuweisen
+. Lore-Anpassung (optional aber empfohlen für Story-Kreaturen)
+
+
+=== Beispiel: Goblin
+
+
+_SRD Import_: Goblin CR 1/4
+
+_Flammenreiter-Anpassung_:
+* _Origin Epoch_: Stille (einfache Evolution ohne Magie)
+* _Intelligenz_: Cunning (nicht böse, nur listig)
+* _Kultur_: "Kleine listige Wesen in Randzonen mit eigener Stammeskultur"
+* _Loot_: Gobling-Messer (Basic), gelegentlich Alchemie-Material
+* _Habitat_: Waldränder, Höhlen, besiedelte Grenzgebiete
+* _Trait-Reaktion_: Vorsichtig+3 → erkennt Hinterhalt DC 12
+
+
+=== Beispiel: Basilisk
+
+
+_SRD Import_: Basilisk CR 3
+
+_Flammenreiter-Anpassung_:
+* _Origin Epoch_: Kriege (magische Waffe, künstlich erschaffen)
+* _Intelligenz_: Animal
+* _Besonderheit_: Versteinerungs-Blick ist Kriegs-Relikt
+* _Loot_: Basilisks Auge (Rare, wertvollste Alchemie-Zutat)
+* _Habitat_: Bergkampen, unterirdische Ruinen
+* _Story_: Relikt der göttlichen Kriege — erzählt Geschichte
+
+'''
+
+
+== Bestiarum-Katalog: SRD Klassiker (Angepasst)
+
+
+
+=== Große Klassen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Kategorie | Beispiele | Anpassung
+
+| _Klein (SRD)_ | Fledermaus, Ratte, Rabe, Schlange, Spinne, Katze, Eule, Falke | Keine Änderung — standard Fauna
+| _Mittel (SRD)_ | Wolf, Wildschwein, Panther, Adler, Gift-Schlange | Werden mit Epoch-Lore erweitert
+| _Groß (SRD)_ | Braunbär, Eisbär, Löwe, Tiger, Dire Wolf | Teilweise Flame-Original-Rassen
+| _Riesig (SRD)_ | Mammut, Riesenhai, Wal | Seltene Begegnung
+|===
+
+
+
+=== Klassiker mit Story-Twist
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Kreatur | SRD-Stats | Flammenreiter-Lore
+
+| _Goblin_ | CR 1/4 | Nicht böse, sondern listige Kultur
+| _Orc_ | CR 1/2 | Krieger-Stämme mit Ehren-Kodex
+| _Troll_ | CR 5 | Regeneration ist göttliche Fluch/Segen
+| _Basilisk_ | CR 3 | Kriegs-Waffe, Auge ist wertvoll
+| _Greif_ | CR 2 | Verwandte der Drachen? (Gelehrte debattieren)
+| _Owlbear_ | CR 3 | Magische Chimäre, Jungtiere zähmbar
+|===
+
+
+'''
+
+
+== Habitat-Zonen
+
+
+Kreaturen sind regional gebunden über `creature_race_habitats`:
+
+----
+Schattenwolf
+├─ Habitat: Alte Wälder (Region A, B, C)
+├─ Häufigkeit: Common
+└─ Difficulty: Medium
+
+Sturmgreif
+├─ Habitat: Hochgebirge (nur 2 Regionen)
+├─ Häufigkeit: Rare
+└─ Difficulty: Hard
+----
+
+GM kann Habitate regional konfigurieren → _die gleiche Rasse kann in verschiedenen Regionen unterschiedliche Häufigkeit haben_.
+
+'''
+
+
+== Encounter-Builder Integration
+
+
+Das Bestiar-System verknüpft mit Encounter-Builder:
+
+* _GM wählt Region/Gelände_
+* _System suggests creature_races_ basierend auf habitat
+* _GM kann manuell Rassen hinzufügen/entfernen_
+* _System berechnet Encounter-Difficulty_ (XP-Wert, Action Economy)
+* _Loot wird automatisch generiert_ aus creature_race Loot-Tabellen
+
+'''
+
+
+== Siehe auch
+
+
+* link:./geschichte.adoc[Geschichte] — Epochen verstehen
+* link:./pantheon-sigillen.adoc[Pantheon] — Göttliche Aberrationen
+* link:./geographie.adoc[Geographie] — Habitate und Gefahrenstufen
+

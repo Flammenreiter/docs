@@ -1,0 +1,388 @@
+= Flammenreiter — Projekt-Dokumentation
+:toc: left
+:toclevels: 3
+:sectnums:
+:icons: font
+:source-highlighter: highlight.js
+:imagesdir: ../assets
+:author: Flammenreiter Team
+:revdate: 2026-03-26
+:revnumber: 9
+:description: Vollständige Dokumentation der D&D-Kampagnen-Plattform Flammenreiter — arc42 + D&D Template
+
+// ============================================================
+// arc42 + D&D — Erweiterte Architektur-Dokumentation
+//
+// Standard arc42 Sektionen (1-12) für Software-Architektur
+// D&D-Erweiterungen (D1-D4) für Spielwelt und Game-Design
+// ============================================================
+
+[NOTE]
+====
+Dieses Dokument folgt dem *arc42 + D&D Template*: arc42-Architektur-Sektionen für die Software-Plattform, ergänzt um D&D-spezifische Sektionen für Spielwelt, Mechaniken und Content.
+====
+
+'''
+
+// ============================================================
+// D1: SPIELWELT-KONTEXT (D&D-Erweiterung)
+// ============================================================
+
+== D1: Spielwelt-Kontext
+
+_Weltgeschichte, Pantheon, Geographie und Kreaturen — die Domäne, die das System abbildet._
+
+include::01-welt-lore/index.adoc[leveloffset=+1]
+
+include::01-welt-lore/geschichte.adoc[leveloffset=+2]
+
+include::01-welt-lore/pantheon-sigillen.adoc[leveloffset=+2]
+
+include::01-welt-lore/geographie.adoc[leveloffset=+2]
+
+include::01-welt-lore/kreaturen.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// D2: SPIELMECHANIKEN (D&D-Erweiterung)
+// ============================================================
+
+== D2: Spielmechaniken-Katalog
+
+_Alle 27+ Spielmechaniken — Traits, Kampf, Ökonomie, Crafting, Dragon Bond und mehr._
+
+include::02-spielmechaniken/index.adoc[leveloffset=+1]
+
+include::02-spielmechaniken/traits.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/kampf-system.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/items-inventar.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/oekonomie-handel.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/professionen-crafting.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/dragon-bond.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/beziehungen-renown.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/organisationen.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/npc-reaktion-dc.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/quest-szenen.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/wuerfel-system.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/kalender-zeit.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/recht-dialog.adoc[leveloffset=+2]
+
+include::02-spielmechaniken/reise-wetter.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// D3: RASSEN, KLASSEN & CONTENT (D&D-Erweiterung)
+// ============================================================
+
+== D3: Rassen, Klassen & Content-Pipeline
+
+_10 Rassen, 12 Klassen, 19 Abstammungen, Akademie-Lehrplan — der spielbare Content._
+
+include::06-rassen-klassen/index.adoc[leveloffset=+1]
+
+include::06-rassen-klassen/rassen.adoc[leveloffset=+2]
+
+include::06-rassen-klassen/klassen.adoc[leveloffset=+2]
+
+include::06-rassen-klassen/herkunft.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// 1: EINFÜHRUNG & ZIELE (arc42)
+// ============================================================
+
+== 1: Einführung & Ziele
+
+Flammenreiter ist eine vollständige D&D-Kampagnen-Plattform, die Pen-&-Paper-Rollenspiel in das digitale Zeitalter überführt. Das System kombiniert bewährte D&D 5e Mechaniken mit Elementen aus Baldur's Gate 3.
+
+=== Aufgabenstellung
+
+Digitale Plattform für Spielleiter (GM) und Spieler mit drei Kanälen: Web-Portal (React/FSD), Mobile App (Unreal Engine 5), Discord Bot.
+
+=== Qualitätsziele
+
+[cols="1,3",options="header"]
+|===
+| Ziel | Beschreibung
+
+| Informationsasymmetrie | Spieler sollen nicht alles wissen, aber alles soll korrekt berechnet sein
+| Echtzeit-Sync | Alle Spieler sehen Änderungen sofort (Supabase Realtime)
+| Charakter-Autonomie | Ein Charakter existiert in der Welt, nicht am einzelnen Spieler gebunden
+| Strikte Ebenen-Trennung | Welt-Ebene und Kampagnen-Ebene bleiben völlig unabhängig
+|===
+
+=== Stakeholder
+
+[cols="1,2",options="header"]
+|===
+| Rolle | Erwartungen
+
+| Spielleiter (GM) | Session-Planung, NPC-Management, Szenen-Steuerung, Post-Session-Auswertung
+| Spieler | Charakter-Sheet, In-Session-Interaktion, Downtime-Aktivitäten, Drachen-Pflege
+| Entwickler | Klare Architektur, typsichere Schnittstellen, wartbarer Code
+|===
+
+'''
+
+// ============================================================
+// 2: RANDBEDINGUNGEN (arc42)
+// ============================================================
+
+== 2: Randbedingungen
+
+=== Technische Randbedingungen
+
+[cols="1,2",options="header"]
+|===
+| Constraint | Beschreibung
+
+| React + FSD | Web-Frontend mit Feature-Sliced Design Architektur
+| Supabase | PostgreSQL, Auth, Realtime, Storage — managed Platform
+| Hono | Lightweight API Layer für EffectProcessor und Business Logic
+| Unreal Engine 5 | Mobile App mit 3D-Visualisierung
+| TypeScript | Durchgängig typsicher (Web + API)
+| Online-Pflicht | Kein Offline-Modus, immer verbunden
+|===
+
+=== Organisatorische Randbedingungen
+
+[cols="1,2",options="header"]
+|===
+| Constraint | Beschreibung
+
+| Solo-Entwickler | Glenn als einziger Entwickler — Architektur muss wartbar bleiben
+| D&D 5e Basis | Regelwerk-Kompatibilität mit D&D 5e, erweitert um Custom-Mechaniken
+| BG3 Inspiration | UI/UX orientiert sich an Baldur's Gate 3
+|===
+
+'''
+
+// ============================================================
+// 3: KONTEXTABGRENZUNG (arc42)
+// ============================================================
+
+== 3: Kontextabgrenzung
+
+=== Fachlicher Kontext
+
+[source]
+----
+                    ┌─────────────────────┐
+     Spieler ──────>│                     │
+                    │   Flammenreiter      │──────> Foundry VTT
+     GM ───────────>│   Plattform          │
+                    │                     │──────> Discord
+     Discord Bot <──│   (Web + Mobile)     │
+                    └─────────────────────┘
+                              │
+                              v
+                    ┌─────────────────────┐
+                    │    Supabase          │
+                    │  (PostgreSQL + Auth  │
+                    │   + Realtime)        │
+                    └─────────────────────┘
+----
+
+=== Technischer Kontext
+
+[cols="1,1,2",options="header"]
+|===
+| Kanal | Technologie | Beschreibung
+
+| Web-Portal | React/FSD + Supabase JS | Charakter-Sheets, GM-Dashboard, Wiki
+| Mobile App | Unreal Engine 5 + REST/WebSocket | Drachen-Pflege, Crafting, 3D-Visualisierung
+| Discord Bot | Discord.js + Supabase | Schnell-Abfragen, Notifications, In-Game-Events
+| Foundry VTT | REST API (ThreeHats Modul) | Pre/Post-Sync für Combat
+|===
+
+'''
+
+// ============================================================
+// 4: LÖSUNGSSTRATEGIE (arc42)
+// ============================================================
+
+== 4: Lösungsstrategie
+
+include::04-architektur/index.adoc[leveloffset=+1]
+
+include::04-architektur/backend.adoc[leveloffset=+2]
+
+include::04-architektur/repo-struktur.adoc[leveloffset=+2]
+
+include::04-architektur/shared-types.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// 5: BAUSTEINSICHT (arc42)
+// ============================================================
+
+== 5: Bausteinsicht
+
+=== Charakter-Sheet (9 Domains, 4 Modi)
+
+include::05-charakter-sheet/index.adoc[leveloffset=+2]
+
+include::05-charakter-sheet/architektur.adoc[leveloffset=+2]
+
+include::05-charakter-sheet/domains.adoc[leveloffset=+2]
+
+=== GM-Dashboard
+
+include::07-gm-dashboard/index.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// 6: LAUFZEITSICHT (arc42) — Use Cases
+// ============================================================
+
+== 6: Laufzeitsicht — Use Cases
+
+_50+ dokumentierte Workflows: vom Login über Session-Planung bis Post-Session-Auswertung._
+
+include::05-charakter-sheet/use-cases.adoc[leveloffset=+1]
+
+'''
+
+// ============================================================
+// 7: VERTEILUNGSSICHT (arc42)
+// ============================================================
+
+== 7: Verteilungssicht
+
+include::10-infrastruktur/index.adoc[leveloffset=+1]
+
+'''
+
+// ============================================================
+// 8: QUERSCHNITTLICHE KONZEPTE (arc42)
+// ============================================================
+
+== 8: Querschnittliche Konzepte
+
+=== Datenbank-Schema (~203 Tabellen, 5NF)
+
+include::03-datenbank/index.adoc[leveloffset=+2]
+
+include::03-datenbank/schema-uebersicht.adoc[leveloffset=+2]
+
+include::03-datenbank/schema-details.adoc[leveloffset=+2]
+
+=== Design System
+
+include::08-design-system/index.adoc[leveloffset=+2]
+
+'''
+
+// ============================================================
+// 9: ARCHITEKTURENTSCHEIDUNGEN (arc42)
+// ============================================================
+
+== 9: Architekturentscheidungen
+
+_26 dokumentierte Entscheidungen — siehe Charakter-Sheet Architektur._
+
+Kern-Entscheidungen:
+
+. Mobile=Unreal, Web=React, kein gemeinsames UI
+. 1 Web-Portal mit Rollen-basierten Routes
+. Code-Generator Zod→C++ Structs für Shared Types
+. Web MVP zuerst, Mobile Phase 2
+. Online-Pflicht (kein Offline-Modus)
+. Supabase Realtime in Session, Async zwischen Sessions
+. Foundry trackt Combat, Sheet nur Pre/Post-Sync
+. JEDES Entity braucht `mechanical_effects[]`
+. Universelles 5-Stufen-System für Items, Traits, Professionen, Beziehungen
+
+'''
+
+// ============================================================
+// 10: QUALITÄTSANFORDERUNGEN (arc42)
+// ============================================================
+
+== 10: Qualitätsanforderungen
+
+[cols="1,2,2",options="header"]
+|===
+| Qualität | Szenario | Maßnahme
+
+| Performance | Sheet lädt in <2s auch bei 200+ Tabellen | Supabase Views, selektive Queries, FSD Lazy Loading
+| Echtzeit | GM ändert NPC-Disposition → Spieler sieht Emoji in <500ms | Supabase Realtime Channels
+| Konsistenz | EffectProcessor berechnet immer korrekte Modifier | Serverseitige Berechnung, keine Client-Logik
+| Sicherheit | Spieler sehen nur eigene + erlaubte Daten | RLS auf allen Kampagnen/Charakter-Tabellen
+| Wartbarkeit | Solo-Dev kann System alleine warten | FSD-Architektur, TypeScript, Shared Types
+|===
+
+'''
+
+// ============================================================
+// 11: RISIKEN & TECHNISCHE SCHULDEN (arc42)
+// ============================================================
+
+== 11: Risiken & Technische Schulden
+
+include::AUDIT.adoc[leveloffset=+1]
+
+'''
+
+// ============================================================
+// 12: GLOSSAR (arc42)
+// ============================================================
+
+== 12: Glossar
+
+[cols="1,3",options="header"]
+|===
+| Begriff | Beschreibung
+
+| GM | Game Master / Spielleiter — steuert die Kampagne
+| Session | Eine Spielsitzung (typisch 3-5 Stunden)
+| Scene | Einzelne Szene innerhalb einer Session (social, combat, explore, etc.)
+| Story Arc | Handlungsbogen über mehrere Sessions
+| Campaign | Übergeordneter Container für alles (Party, Sessions, Kalender, etc.)
+| FSD | Feature-Sliced Design — Frontend-Architektur-Methodik
+| EffectProcessor | Serverseitige Engine für Modifier-Berechnung
+| RLS | Row Level Security — PostgreSQL Zugriffskontrolle
+| Dragon Bond | Charakter-Drachen-Beziehung (inspiriert von Fourth Wing)
+| Harptos | Vergessene-Reiche-Kalender (12 Monate, 30 Tage, 5 Feiertage)
+| Bounded Accuracy | D&D 5e Prinzip: Modifier bleiben in engen Grenzen
+| Disposition | NPC-Haltung gegenüber Spieler (-100 bis +100)
+| Trait Spectrum | Persönlichkeitsachse mit zwei Polen (-5 bis +5)
+| Mechanical Effect | Spielmechanische Auswirkung (z.B. +2 auf Charisma-Checks)
+|===
+
+'''
+
+// ============================================================
+// D4: ROADMAP & ENTWICKLUNGSPLAN (D&D-Erweiterung)
+// ============================================================
+
+== D4: Roadmap & Entwicklungsplan
+
+include::ROADMAP.adoc[leveloffset=+1]
+
+'''
+
+// ============================================================
+// MOBILE (arc42 Deployment-Erweiterung)
+// ============================================================
+
+== Anhang: Mobile App (Unreal Engine 5)
+
+include::09-mobile/index.adoc[leveloffset=+1]

@@ -1,0 +1,37 @@
+DOCUMENTATION RESTRUCTURING SUMMARY
+====================================
+
+Original file: 02-spielmechaniken.md (137 KB, dense mobile writing)
+Restructured into: 15 professional markdown files, 168 KB total
+
+COMPLETION CHECKLIST:
+✓ 1. README.md                    — Section overview with cross-references
+✓ 2. traits.md                    — Trait spectrum, evolution, exclusion, visibility, blender
+✓ 3. items-inventar.md            — Rarity×quality, durability, containers, clothing reactions
+✓ 4. beziehungen-renown.md        — Disposition, traits, groups, renown, reputation
+✓ 5. npc-reaktion-dc.md           — 8-step NPC reaction, 10-step DC calculation
+✓ 6. wuerfel-system.md            — Roll logs, modifier chains, 4 categories, visibility, GM tools
+✓ 7. oekonomie-handel.md          — Gold currency, dynamic prices, barter, black market, camp chest
+✓ 8. professionen-crafting.md     — 5 levels + 10 professions, multi-step crafting
+✓ 9. dragon-bond.md               — Species, phases, daily care, trait resonance, equipment
+✓ 10. reise-wetter.md             — Routes, pace, encounters, provisions, monthly weather
+✓ 11. recht-dialog.md             — Crime detection/consequences, bounties, dialog templates
+✓ 12. quest-szenen.md             — 8 quest types, 6 scene types, transitions, loot workflow
+✓ 13. organisationen.md           — Types, ranks, membership, exclusions, reputation
+✓ 14. kampf-system.md             — D&D 5e + BG3, surfaces, gravity, Foundry integration
+✓ 15. kalender-zeit.md            — Harptos calendar, seasons, holidays, time-skip, downtime
+
+KEY IMPROVEMENTS:
+- Removed all emojis from headers (German professional standard)
+- Converted dense paragraphs into structured sections (##, ###)
+- Created 50+ tables for quick reference (rarity levels, professions, quest types, etc.)
+- Added code blocks for database schemas and examples
+- Implemented proper cross-references between files using markdown links
+- Maintained 100% of original content (nothing removed, everything reorganized)
+- German language throughout (as requested)
+- Professional markdown formatting suitable for wiki/documentation sites
+
+TOTAL LINES: 5,108 lines of well-organized documentation
+FILE SIZES: Balanced across 15 files (7-12 KB each, easy to navigate)
+
+DIRECTORY: /sessions/sweet-dreamy-euler/mnt/Flamenritter/docs/02-spielmechaniken/

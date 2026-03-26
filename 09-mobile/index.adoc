@@ -1,0 +1,204 @@
+
+= Mobile App — Unreal Engine 5
+
+
+_PLACEHOLDER — Wird nach Web MVP Architektur-Design befüllt_
+
+'''
+
+
+== Status
+
+
+Diese Dokumentation wird nach Abschluss des Web MVP mit detaillierten Spezifikationen gefüllt. Derzeit sind nur die grundlegenden Architektur-Entscheidungen dokumentiert.
+
+'''
+
+
+== Architektur-Entscheidungen (bereits getroffen)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Entscheidung | Wert
+
+| _Engine_ | Unreal Engine 5 (C++ / Blueprints)
+| _UI Framework_ | UMG (Unreal Motion Graphics) oder Slate (TBD)
+| _Code-Sharing_ | Nur Shared API + Types (kein Shared UI)
+| _Type Safety_ | Zod→C++ Code-Generator
+| _Offline-Modus_ | Nicht unterstützt — Online-Pflicht
+| _Backend-Kommunikation_ | REST/WebSocket Client → Supabase API
+| _Push-Notifications_ | FCM (Android) / APNs (iOS)
+|===
+
+
+'''
+
+
+== Geplante Features
+
+
+
+=== Downtime-Loop (Haupt-Feature)
+
+
+Das zentrale Gameplay-Loop zwischen Sessions:
+
+* _Tägliche Drachen-Pflege_
+** MVP: Button-basiert
+** Future: Touch-Gesten am 3D-Drachen-Modell
+
+* _Crafting-Schritte als Mini-Games_
+** Interaktive Arbeitsschritte visualisieren
+** Progress tracking
+
+* _Profession-Training_
+** XP pro Profession sammeln
+** Skill-Tree erkunden
+
+* _Item-Reparatur_
+** Durability-Management
+** Crafting-Material-Nutzung
+
+* _Journal lesen/schreiben_
+** Campaign-Journal synchronisieren
+** Persönliche Notizen
+
+
+=== 3D-Assets
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Asset-Typ | Menge | Spezifikation
+
+| _Drachen-Modelle_ | 9-12 | 3 Spezies × Farbvarianten
+| _Character-Modelle_ | Pro Class | Mit Equipment-Slots (Paper-Doll in 3D)
+| _Umgebung_ | 1 | Stall/Lager für Drachen-Pflege
+| _VFX_ | TBD | Spell-Effekte, Buffs, Damage Numbers
+|===
+
+
+
+=== Dragon Bond
+
+
+* _Bond-Phase-Übergang_
+** Narrative Cutscene (Unreal Cinematic Sequence)
+** Emotionaler Höhepunkt
+
+* _Pflege-Interaktionen_
+** Füttern
+** Striegeln
+** Rüstung anlegen/abnehmen
+** MVP: Button-basiert
+** Future: 3D-Interaktion mit Touch-Gesten
+
+* _Trait-Resonanz Visualisierung_
+** Glüheffekte basierend auf Trait-Match
+** Resonanz-Level visuell darstellen
+
+
+=== Charakter-Sheet (Mobile Version)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Beschreibung
+
+| _Default-Modus_ | Downtime-Modus (nicht Combat)
+| _Hero-Element_ | Spider-Chart als zentrale Visualisierung
+| _Navigation_ | Swipe zwischen Domains (Abilities, Combat, Spells, etc.)
+| _Floating Button_ | Schneller Zugriff auf Würfel-Roller
+|===
+
+
+'''
+
+
+== Technische Fragen (offen)
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Frage | Auswirkung | Status
+
+| _UMG vs. Slate?_ | Performance, Komplexität | TBD nach Prototyp
+| _3D-Komplexität_ | Asset-Pipeline, Performance | Abhängig von Gameplay-Entscheidungen
+| _Asset-Pipeline_ | Entwicklungs-Workflow | Blender → UE5 definieren
+| _Zod→C++ Generator_ | Type-Safety-Strategie | Existierendes Tool oder Custom Implementation
+| _Performance-Target_ | 60 FPS 1080p? | Mobile-Plattformen definieren (iOS/Android)
+| _Offline-Caching_ | Limited Offline-Mode? | Entgegen Online-Pflicht?
+|===
+
+
+'''
+
+
+== Abhängigkeiten
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Abhängigkeit | Status | Notes
+
+| _Web MVP fertig_ | _Erforderlich_ | Stabile API notwendig
+| _Shared Types (@flammenreiter/shared-types)_ | _Erforderlich_ | NPM Package mit Zod Schemas
+| _Drachen-3D-Assets_ | _Erforderlich_ | 9-12 Modelle für Dev/QA
+| _UE5 Setupanleitung_ | _Optional_ | Entwickler-Onboarding
+| _Zod→C++ Generator_ | _Erforderlich_ | Entweder Tool suchen oder bauen
+|===
+
+
+'''
+
+
+== Development Roadmap (vorläufig)
+
+
+
+=== Phase 1: MVP (nach Web MVP)
+
+* [ ] UE5 Projekt-Setup
+* [ ] REST Client für Supabase
+* [ ] Type-Safety via Zod→C++ Generator
+* [ ] Basic Character Sheet UI (UMG)
+* [ ] Downtime-Loop Basics (Button-basiert)
+* [ ] Single Dragon Model (als Proof-of-Concept)
+
+
+=== Phase 2: Content & Polish
+
+* [ ] Alle 9-12 Dragon Models
+* [ ] Crafting Mini-Games
+* [ ] Dragon Bond Cinematics
+* [ ] Journal Synchronisation
+* [ ] Push Notifications
+
+
+=== Phase 3: Performance & Publishing
+
+* [ ] Performance Optimization
+* [ ] iOS/Android Build & Testing
+* [ ] App Store / Google Play Submission
+
+'''
+
+
+== Nächste Schritte
+
+
+. Web MVP fertigstellen und API stabilisieren
+. Architektur-Review mit UE5-Experten
+. Prototype für UMG vs. Slate Entscheidung
+. Asset-Pipeline definieren und starten
+. Zod→C++ Generator Lösung auswählen/bauen
+
+'''
+
+_Diese Dokumentation ist ein PLACEHOLDER. Sie wird nach Abschluss des Web MVP befüllt. Stand: 2026-03-26_

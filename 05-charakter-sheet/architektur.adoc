@@ -1,0 +1,495 @@
+
+= Architektur & Entscheidungen
+
+
+Technische Grundlagen des Charakter-Sheets mit 26 dokumentierten Architektur-Entscheidungen.
+
+
+== Plattform-Split
+
+
+
+=== Web (React/FSD)
+
+
+* _Zielgruppe_: In-Session Spielen
+* _Features_: Spieler-Sheets, GM-Dashboard, Wiki
+* _Routing_: 1 Portal mit Rollen-basiertem Routing
+** `/lore` — Wiki-Zugang
+** `/player` — Spieler-Sheet
+** `/gm` — GM-Dashboard
+* _Tech_: React, FSD-Architektur, Supabase JS Client
+
+
+=== Mobile (Unreal Engine 5)
+
+
+* _Zielgruppe_: Zwischen-Session Downtime
+* _Features_: Drachen-Pflege, Crafting, Profession, Item-Reparatur
+* _Tech_: Unreal 5, C++ mit Code-Generated Types
+* _Shared Types_: Zod→C++ Code-Generator
+
+
+=== Shared Layer
+
+
+_@flammenreiter/shared-types_ (npm-Paket)
+
+[source,typescript]
+----
+// Web: npm install
+import { Character, Dragon, Item } from '@flammenreiter/shared-types'
+
+// Mobile: Code-Generated C++ Structs
+// zod-to-cpp.ts generiert automatisch:
+// struct FCharacter { ... };
+// struct FDragon { ... };
+----
+
+
+== 26 Architektur-Entscheidungen
+
+
+
+=== Architektur-Layer (6 Entscheidungen)
+
+
+. _Plattformen sind getrennt_ — Mobile=Unreal, Web=React, KEIN shared UI
+. _1 Web-Portal mit Rollen-Routing_ — alle Rollen im gleichen Frontend
+. _Code-Generator Zod→C++ Structs_ — Datentypen-Synchronisation
+. _Web MVP zuerst_ — Desktop spielen vor Mobile-Downtime
+. _Kein Offline-Modus_ — Online-Pflicht (Realtime Collaboration)
+. _Supabase Realtime in Session, Async dazwischen_ — Hybrid-Sync-Strategie
+
+
+=== UI-Layer (9 Entscheidungen)
+
+
+. _4 Kontext-Modi, Scene pusht Default_ — Automatischer Kontext-Wechsel
+. _Social = Priorität #1_ — Spider-Chart zuerst, höchste Komplexität
+. _Modifier aufklappbar (Kompakt + Detail)_ — Transparenz ohne Unordnung
+. _BG3 Paper-Doll auf Gear-Page_ — Visuelle Equipment-Verwaltung
+. _Level-Up = eigene Seite_ — `/character/:id/level-up` dedicated Workflow
+. _Klassenspezifisches Spell-UI_ — Wizard≠Cleric≠Druid Interfaces
+. _Party-View minimal_ — keine versteckten Attribute
+. _Multiclassing als Tabs pro Klasse_ — Clarity über Vermischung
+. _GM-Pop-up System_ — Realtime Info an einzelne/Gruppe/alle
+
+
+=== Social-Layer (3 Entscheidungen)
+
+
+. _Spider-Chart dynamisch kontext-relevant_ — Social/Combat/Explore zeigen verschiedene Traits
+. _Blender-System: wahrer vs. öffentlicher Wert_ — Spieler sieht beide
+. _NPC-Disposition Live-Emoji in Session_ — Realtime Feedback der Stimmung
+
+
+=== Dragon-Layer (4 Entscheidungen)
+
+
+. _Dragon Bond = Top-Level Sektion_ — neben Sheet, nicht darin
+. _Pflege MVP = Buttons, später 3D_ — iteratives UI-Ramp-Up
+. _9-12 Drachen-Modelle_ — 3 Spezies × Farbvarianten
+. _Bond-Phase-Übergang = Unreal Cutscene_ — narrative Transition
+
+
+=== MVP-Scope (3 Entscheidungen)
+
+
+. _6 Domains im MVP_ — Identity, Social, Combat, Equipment, Downtime, Dragon Bond
+. _Phase 2 Domains_ — Journal, Lore, Legal
+. _Sigils/Artefakte = Endgame_ — nicht MVP, nicht Phase 2, Zukunft
+. _Foundry Integration_ — Pre/Post-Sync, keine Live-Sync im MVP
+
+'''
+
+
+== 4 Kontext-Modi
+
+
+
+=== Social-Modus
+
+
+_Trigger_: Social-Szene oder manuell
+_Fokus_: "Wer bin ich in dieser Welt?"
+
+
+[cols="1,1,1",options="header"]
+|===
+| Element | Anzeige | Priorität
+
+| Spider-Chart | Groß, 6-8 Traits | #1
+| NPC-Dispositionen | Emoji + Historie | #2
+| Renown-Badges | Scope + Score | #3
+| Org-Mitgliedschaften | Ränge + Boni | #4
+| Sprachen | Liste | #5
+| Gerüchte | Bekannte Items | #6
+| Ability Scores | CHA/WIS/INT prominent | —
+|===
+
+
+
+=== Combat-Modus
+
+
+_Trigger_: Kampf-Szene
+_Fokus_: "Was kann ich JETZT tun?"
+
+
+[cols="1,1,1",options="header"]
+|===
+| Element | Anzeige | Priorität
+
+| HP-Bar + AC | Prominent, Farb-Gradient | #1
+| Spell-Slot-Pips | 1-9 + Cantrips | #2
+| Waffen-Attacks | Bonus + Damage | #3
+| 18 Skills | Grouped by Ability | #4
+| Conditions | Active Badges | #5
+| Death Saves | 3+3 Checkboxes (bei 0 HP) | #6
+| Ability Scores | Alle 6, Modifier-fokus | —
+|===
+
+
+
+=== Explore-Modus
+
+
+_Trigger_: Erkundungs-Szene
+_Fokus_: "Was sehe/finde/weiß ich?"
+
+
+[cols="1,1,1",options="header"]
+|===
+| Element | Anzeige | Priorität
+
+| Passive Scores | Alle 6 Passive-Varianten | #1
+| Mini-Karte | Discovered Nodes | #2
+| Survival/Nature/Stealth | Fokussierte Skills | #3
+| Senses (Darkvision, etc.) | Speed + Senses zeigen | #4
+|===
+
+
+
+=== Downtime-Modus
+
+
+_Trigger_: Zwischen Sessions (Mobile Default)
+_Fokus_: "Was mache ich bis zur nächsten Session?"
+
+
+[cols="1,1,1",options="header"]
+|===
+| Element | Anzeige | Priorität
+
+| Crafting-Projekte | Multi-Step Progress | #1
+| Drachen-Pflege | Aufgaben + Care Score | #2
+| Item-Reparatur | Queue + Durability | #3
+| Profession-Training | XP + Level | #4
+| Sprach-Training | Progress | #5
+| Downtime-Tage | Verbrauchtes Tracking | #6
+|===
+
+
+'''
+
+
+== Domain × Modus Sichtbarkeits-Matrix
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Domain | Social | Combat | Explore | Downtime
+
+| _Identity_ | VOLL (Header) | VOLL (Header) | VOLL (Header) | VOLL (Header)
+| _Social_ | VOLL | MINI | MITTEL | MITTEL
+| _Combat_ | MINI | VOLL | MITTEL | MINI
+| _Equipment_ | MINI | MITTEL | MITTEL | VOLL
+| _Downtime_ | HIDDEN | HIDDEN | MINI | VOLL
+| _Dragon Bond_ | MINI | MITTEL | MITTEL | VOLL
+| _Journal_ | MINI | HIDDEN | MITTEL | MITTEL
+| _Lore_ | MITTEL | MINI | VOLL | MITTEL
+| _Legal_ | KONTEXTUAL | HIDDEN | KONTEXTUAL | HIDDEN
+|===
+
+
+_Legende:_
+* _VOLL_ — Komplette Domain, größter Fokus
+* _MITTEL_ — Reduzierte Ansicht, wichtige Elemente
+* _MINI_ — Kompakte Ansicht, Header oder Badges
+* _HIDDEN_ — Nicht sichtbar in diesem Modus
+* _KONTEXTUAL_ — Nur sichtbar wenn relevant (z.B. bei Wanted-Status)
+
+'''
+
+
+== Realtime & Sync-Strategie
+
+
+
+=== In Session (Web)
+
+
+_Realtime Events via Supabase:_
+
+. _Scene-Wechsel_: GM startet Scene → Realtime Event an alle Spieler
+. _NPC-Disposition Updates_: GM ändert Wert → Emoji-Update live
+. _GM-Pop-ups_: Einzeln, Gruppe oder alle → Overlay erscheint
+. _HP/Condition-Änderungen_: Würfelergebnisse, Effekte
+. _Spell-Slot-Verbrauch_: Sofort sichtbar bei Caster
+
+_Autom. Kontext-Wechsel:_
+
+----
+GM-Action: "Scene starten (Type: combat)"
+↓
+Realtime Event: { scene_type: "combat", updated_at: now }
+↓
+Spieler-Sheet: Kontext wechselt zu Combat-Modus
+----
+
+Spieler kann manuell über Mode-Switcher wechseln.
+
+
+=== Zwischen Sessions (Mobile/Async)
+
+
+* Drachen-Pflege geloggt, täglich Zustandsdaten
+* Crafting-Schritte: Datum + Ergebnis
+* Profession-Training: XP täglich hinzugefügt
+* Item-Reparatur: Queue-Updates
+* Alles schreibt asynchron zu Supabase nach
+
+
+=== Foundry-Integration
+
+
+_PRE-SYNC (vor Combat):_
+
+[source,json]
+----
+{
+  "character_id": "...",
+  "snapshot": {
+    "hp_current": 45,
+    "ac": 16,
+    "ability_scores": { "STR": 16, "DEX": 14, ... },
+    "spell_slots": { "1": 3, "2": 2, ... },
+    "conditions": ["prone", "concentration"],
+    "initiative": 5,
+    "speed": 30,
+    "senses": ["darkvision 60ft"]
+  }
+}
+----
+
+_COMBAT IN FOUNDRY_ (nativ, Foundry-Maschine)
+
+_POST-SYNC (nach Combat):_
+
+[source,json]
+----
+{
+  "character_id": "...",
+  "changes": {
+    "hp_current": 22,
+    "spell_slots_used": { "1": 1, "2": 1 },
+    "conditions_new": ["exhaustion_1"],
+    "xp_gained": 250
+  }
+}
+----
+
+_Sheet wird aktualisiert_, `combat_encounters` Eintrag erstellt.
+
+'''
+
+
+== 3 Workflows
+
+
+
+=== Workflow 1 — In-Session (Web)
+
+
+----
+1. Spieler öffnet Portal → Web
+2. GM startet Session → Session-State in Supabase
+3. Spieler lädt Charakter → Initial-Data
+4. GM startet Scene (Type: combat) → Realtime Event
+5. Spieler-Sheet: Combat-Modus aktiviert
+6. Spieler wirkt Spell → Slot-Check, dann Spell-Zweck
+7. Würfelergebnis → Realtime an GM
+8. GM nutzt GM-Dashboard für Effekte
+9. Effekt-Processor berechnet Modifier → Spieler sieht Ergebnis
+10. GM setzt Condition → Realtime Badge im Sheet
+11. Scene endet → Realtime Event mit neuer Scene oder "Free Mode"
+----
+
+
+=== Workflow 2 — Zwischen Sessions (Mobile/Downtime)
+
+
+----
+1. Spieler öffnet Mobile App (Default: Downtime-Modus)
+2. Drachen-Pflege: Tägliche Aufgaben als Checkliste
+3. Spieler tippt "Füttern" → Quality-Rating (1-5)
+4. Log + Care-Score Update → lokal gecacht
+5. Sync → Supabase nach Netzwerk-Verfügbarkeit
+6. Crafting-Projekt: Schritt auswählen
+7. Skill-Check durchführen (lokal würfeln)
+8. Materialien verbraucht → Sync
+9. Profession-Training: "5 Tage trainieren?" → XP-Berechnung
+10. Alles persistiert zwischen Sessions
+----
+
+
+=== Workflow 3 — GM-Dashboard (Web)
+
+
+----
+1. GM öffnet Dashboard → alle Spieler-Sheets als Cards
+2. Pro Spieler: HP, AC, Spell-Slots, Conditions, Initiative
+3. EffectProcessor-Chain visible → zeigt wie Modifier berechnet werden
+4. GM klickt Spieler → erweiterte View
+5. Trait-Markierung: "Das war courage-relevant" → Trait-Evolution triggert
+6. Scene-Typ setzen: → Realtime an Spieler
+7. Disposition tracken: GM ändert NPC-Wert → Emoji updatet live
+8. Entscheidungen loggen: 'Party akzeptiert Zauber-Ritual'
+9. Post-Session: Alle Entscheidungen einsehbar für KI-Journaling
+----
+
+'''
+
+
+== Datenfluss-Architektur
+
+
+
+=== Komponenten
+
+
+----
+📱 Unreal Mobile App
+   ├─ REST Calls → /api/character/:id
+   └─ WebSocket (für Sync-Status)
+
+⚡ Hono API Layer (EffectProcessor)
+   ├─ POST /api/effects/calculate
+   ├─ Modifier-Chain Berechnung
+   └─ RLS-Prüfung
+
+🗄️ Supabase
+   ├─ PostgREST API
+   ├─ Realtime Subscriptions
+   ├─ Row-Level Security (RLS)
+   └─ Tables (characters, traits, spells, ...)
+
+🖥️ React Web Portal
+   ├─ Supabase JS Client
+   ├─ Realtime Subscribe
+   └─ Mutations (Character Updates)
+
+🎲 Foundry (via GM Dashboard)
+   ├─ Pre-Sync Snapshot
+   ├─ Combat System (nativ)
+   └─ Post-Sync Results
+----
+
+
+=== Datenflussmuster
+
+
+_Read-Path (Spieler öffnet Sheet):_
+
+----
+Supabase.RLS.characters
+  ↓ (WHERE user_id = current_user_id)
+Supabase.RLS.character_traits
+Supabase.RLS.character_spells
+Supabase.RLS.character_active_effects
+Supabase.RLS.character_known_spells
+  ↓ (Aggregiert in Frontend)
+React Component (Spider-Chart, Combat, etc.)
+----
+
+_Write-Path (Spieler würfelt Check):_
+
+----
+Spieler-Action: "Skill Check (Perception)"
+  ↓
+EffectProcessor.calculateModifier({
+  ability: "WIS",
+  character_id: "...",
+  trait_bonuses: true,
+  item_bonuses: true,
+  weather_modifiers: true
+})
+  ↓ (Hono API berechnet serverseitig)
+Result: { base: 3, prof: 2, trait: 1, weather: -1, total: 5 }
+  ↓
+Spieler-App rendert: "+5 (3 base + 2 prof + 1 courage + -1 fog)"
+  ↓
+session_mechanical_log.insert({ ... })
+Realtime → GM-Dashboard
+----
+
+_Realtime-Path (NPC-Disposition ändert sich):_
+
+----
+GM-Dashboard: NPC-Disposition +5
+  ↓
+world_npcs.update({ disposition: 42 })
+  ↓
+Supabase Realtime Event (Broadcast)
+  ↓
+Spieler-Sheet: Subscription triggert
+Emoji updated: 😊 → 😃
+Disposition-History aktualisiert
+----
+
+'''
+
+
+== EffectProcessor-Chain (Beispiel)
+
+
+Für einen Perception-Check in Nebelwetter:
+
+[source,typescript]
+----
+// Input
+{
+  character_id: "player_1",
+  ability: "WIS",
+  skill: "perception",
+  situation: { weather: "fog", light: "dim" }
+}
+
+// Calculation (Hono API)
+{
+  base: 3,                    // WIS-Modifier (15 WIS)
+  proficiency: 2,             // Prof Bonus bei Level 5
+  trait_bonus: 1,             // Careful (Trait) +1 WIS Checks
+  item_bonus: 0,              // Kein Equipment-Bonus
+  weather_modifier: -4,       // Fog: -4 bis 20ft Sicht
+  condition_modifier: 0,      // Keine relevanten Conditions
+  bless_bonus: 0              // Kein aktiver Spell-Effekt
+  ────────────────────────────
+  total: +2
+}
+
+// Output (Spieler sieht im Sheet)
+Perception +2
+├─ Base WIS +3
+├─ Proficiency +2
+├─ Careful (Trait) +1
+├─ Fog (Wetter) -4
+└─ Subotal: +2
+
+Tap zum Würfeln:
+[d20] + [+2] = [16] ✓ SUCCESS (DC 14)
+----
+
+Dieser Prozess ist vollständig transparent für den Spieler, alle Quellen sichtbar mit farbigen Tags.

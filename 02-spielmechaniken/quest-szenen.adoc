@@ -1,0 +1,448 @@
+
+= Quest & Szenen-System
+
+
+Acht Quest-Typen mit Story-Hooks, sechs Szenen-Typen, strukturierte Übergänge.
+
+
+== Quest-System
+
+
+
+=== Acht Quest-Typen
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Quest-Typ | Struktur | Beispiel | Reward
+
+| Fetch | Bringe Item von A zu B | Deliver potion to healer | Gold + Disposition
+| Kill | Defeat specific creature | Slay the corrupted wolf | Gold + renown
+| Discover | Find location or info | Locate the hidden temple | Info + loot
+| Protect | Defend person/place | Guard caravan overnight | Gold + faction rep
+| Rescue | Save someone | Free captured merchant | Gold + personal quest
+| Gather | Collect multiple items | Gather herbs for potion | Gold + crafting mats
+| Infiltrate | Sneak into location | Spy on bandit camp | Gold + info
+| Custom | GM-defined | Anything else | Variable
+|===
+
+
+
+=== Quest-Struktur
+
+
+----
+quests (Welt)
+├── id (PK)
+├── name
+├── giver_npc_id (FK)
+├── quest_type (enum: 8 types above)
+├── description (narrative)
+├── objectives[] (jsonb)
+│   ├── {objective_text, type, target, completed: bool}
+├── reward_gold
+├── reward_items[] (potential loot)
+├── reward_xp
+├── reward_reputation (faction_id, amount)
+├── pre_requirements (level, traits, quest chain)
+├── success_condition (all|any|specific_count)
+└── failure_condition (time limit? person dies? etc.)
+----
+
+
+=== Objectives (strukturiert)
+
+
+Jedes Quest hat 1-5 Objectives:
+
+----
+Objective 1: "Travel to Blackwood Forest"
+  Type: LOCATION
+  Target: blackwood_forest_id
+  Completed when: Player arrives
+
+Objective 2: "Find the Shrine of Moonlight"
+  Type: DISCOVER
+  Target: shrine_location_id
+  Hint available: If requested, "In the eastern glen"
+
+Objective 3: "Collect 5 moonflowers"
+  Type: GATHER
+  Target: item_moonflower (need 5 quantity)
+  Completed when: Inventory contains ≥5
+
+Objective 4: "Return to Elara"
+  Type: DELIVER
+  Target: npc_elara_id
+  Completed when: At same location
+----
+
+
+=== Quest Rewards
+
+
+----
+Reward Gold: 50 GP (variable by difficulty)
+Reward Items: Loot table (random or fixed)
+Reward XP: 100-500 XP (party divided)
+Reward Reputation: "Farmer's Guild" +10
+Reward Disposition: Elara's disposition +20
+Reward Faction Membership: Automatically joined "Farmer's Guild"
+Reward Quest Hook: Next quest unlocked
+----
+
+
+=== Quest Chain (Sequential)
+
+
+----
+Quest 1: "Investigate bandits"
+  Reward: → Unlocks Quest 2
+
+Quest 2: "Gather evidence"
+  Reward: → Unlocks Quest 3
+
+Quest 3: "Confront bandit leader"
+  Success: → Complete chain, faction reputation +50
+  Failure: → Alternative Quest 3b: "Flee and rebuild"
+----
+
+'''
+
+
+== Szenen-Typen
+
+
+
+=== Sechs Szenen-Kategorien
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Szene-Typ | Struktur | Beispiel | Resolution
+
+| Social | Conversation-based | Persuading merchant | Disposition +/-, info gained
+| Combat | Fight-based | Battle with bandits | Loot, HP changes
+| Discovery | Exploration-based | Finding hidden room | New map area, loot
+| Chase | Movement-based | Fleeing from guards | Success/failure on Athletics
+| Moral | Decision-based | Save ally or village? | Consequence cascade
+| Environmental | Obstacle-based | Bridge collapsed, need cross | Various solutions
+|===
+
+
+
+=== Szenen-Struktur
+
+
+----
+scenes (Kampagne)
+├── id (PK)
+├── session_id (FK)
+├── scene_type (enum: 6 types)
+├── title
+├── description (mood, NPCs, setting)
+├── objectives[] (what needs to happen)
+├── reveal_elements (jsonb)
+│   ├── {condition, element_description}
+│   └── "If PC searches room: Find diary with clue"
+├── complications[] (optional twists)
+├── resolution_type (enum: combat_victory|negotiated|avoided|custom)
+└── transition_to_scene_id (next scene)
+----
+
+
+=== Reveal Elements (Conditional Info)
+
+
+----
+Reveal Elements sind versteckte Info die sich offenbaren wenn:
+  a) Spieler sucht aktiv (Search-Action)
+  b) Ein Skilcheck erfolgt (Natural 20)
+  c) Ein Trait-relevant Moment passiert
+  d) Dracheninstinkt triggert (Dragon senses danger)
+----
+
+'''
+
+
+== Szenische Übergänge
+
+
+Szenen fließen nicht abrupt ineinander. Übergänge haben _dramatische Struktur_:
+
+
+=== Übergangs-Struktur
+
+
+----
+Scene A ends (e.g., Combat resolved)
+  ↓ [Transition Phase]
+Brief pause. "The fight is over. What do you do?"
+  ↓ [Decision Point]
+Players choose next action or GM offers directions
+  ↓ [Transition Narration]
+"You rest for an hour. As night falls, you hear hoofbeats..."
+  ↓
+Scene B begins (e.g., Mysterious Riders approach)
+----
+
+
+=== Automatische Übergänge (based on Outcome)
+
+
+----
+Combat Victory:
+  → Loot Phase (5 min)
+  → Rest / Recovery (if needed)
+  → Travel or Encounter next location
+
+Negotiated Success:
+  → Dialog conclusion / Disposition update
+  → NPC provides information / quest hook
+  → Party decides next move
+
+Failure / Defeat:
+  → Consequences (captured? fled? death?)
+  → New Scene based on failure
+  → Alternative path opens
+----
+
+'''
+
+
+== Session-Workflow mit Szenen
+
+
+
+=== Standard Session Structure
+
+
+----
+[0-10 min] Opening Recap
+  GM: "Last session you defeated the bandits..."
+  System optionally: AI-generated recap from previous session-log
+
+[10-120 min] Active Scenes
+  Typically 2-4 scenes per 3-hour session
+  Each scene 20-40 minutes depending on complexity
+
+[5 min] End-of-Session Bookkeeping
+  - XP awarded
+  - Treasure distributed
+  - Traits evaluated for evolution
+  - Decision-logging (if story-important choices made)
+
+[Optional] AI Session Recap
+  Craig-Pipeline: Audio → Whisper/Gemini Transkript → AI Zusammenfassung
+  GM reviews + approves
+  Published in session-log
+----
+
+
+=== Optional: AI Recap Generation
+
+
+----
+System Requirements:
+  - Session was audio-recorded (optional)
+  - Whisper/Gemini transcription (if audio)
+  - Campaign database access
+
+Process:
+  1. Audio → Transcript
+  2. AI extracts key moments:
+     ├─ Major decisions made
+     ├─ Trait-relevant triggers
+     ├─ Combat results
+     ├─ NPC interactions
+     ├─ New information
+     └─ Hooks for next session
+
+  3. AI generates summary (~500 words)
+  4. GM reviews + edits
+  5. Published in campaign-log + sent to players
+
+Features:
+  - Automatic journal entries suggested
+  - Trait-evolution flagged
+  - Decision-logging pre-filled
+  - "Next time on Flamenritter..." teaser optional
+----
+
+'''
+
+
+== Loot-Verteilung (nach Kampf)
+
+
+
+=== Kampf-Loot-Workflow
+
+
+----
+SCHRITT 1: Kampf-Ende
+  Spieler haben Gegner besiegt
+  Combat-Fenster zeigt: "Kampf beendet. Feinde fallen."
+
+SCHRITT 2: Automatischer Loot-Vorschlag
+  System generiert Loot:
+  - Creature Drop Table (basierend auf CR)
+  - Random Rarity/Quality Items
+  - Gold (basierend auf Creature Wealth)
+
+  Beispiel:
+  "2 Banditen (CR 1/8) each drop:
+    - 15 GP
+    - Leather armor (Common Q2)
+    - (30% chance) Dagger (Common Q1)"
+
+SCHRITT 3: GM Review
+  GM sieht Vorschlag
+  Options:
+    a) Accept loot as-is
+    b) Remove specific items (didn't make sense)
+    c) Add items (creature had special treasure)
+    d) Replace with custom items
+
+SCHRITT 4: Spieler sehen Loot
+  "You see: 30 GP, 2 leather armors, 1 dagger"
+
+SCHRITT 5: Spieler-Discussion
+  Spieler discutieren in-character:
+  "I get the gold, you take the armor?"
+  Oder: "Let me roll for the dagger"
+
+SCHRITT 6: Loot-Verteilung
+  GM assigns items (Dropdown oder Drag-Drop)
+  System moves items to inventories
+  Gold shared or manually divided
+
+SCHRITT 7: Confirmation
+  GM: "Loot distributed. What's next?"
+  Alles geloggt in combat_loot_logs
+----
+
+
+=== Loot-Tables
+
+
+----
+random_encounter_loot (Welt)
+├── creature_id (FK) oder cr_rating
+├── drop_chance (0-100%)
+├── rarity_ranges (jsonb)
+│   ├── {rarity, drop_chance%, quantity_range}
+├── gold_amount (dice formula)
+├── unique_items[] (special loot)
+└── quest_item_chance (% it contains relevant quest item)
+----
+
+'''
+
+
+== Decision-Logging
+
+
+
+=== Wenn Entscheidung wichtig ist
+
+
+GM kann Decision loggen:
+
+----
+decision_logs (Kampagne)
+├── id (PK)
+├── session_id (FK)
+├── scene_id (FK)
+├── decision_text ("Save the village or pursue bandit leader?")
+├── decision_type (moral|tactical|roleplay|consequence)
+├── severity (1-5: 1=minor, 5=campaign-altering)
+├── who_decided (party_vote|single_character|group_consensus)
+├── chosen_option ("Save the village")
+├── consequences (jsonb)
+│   ├── { system: quest|disposition|reputation|bounty|criminal|trait_shift|event,
+│   │    reference_id, description }
+└── follow_up_decision_id (wenn diese Entscheidung später Konsequenzen hat)
+----
+
+
+=== Beispiel-Decision-Konsequenz-Kette
+
+
+----
+DECISION 1: "Do you save the captured merchant or protect the caravan?"
+  Choice: "Protect caravan"
+  Consequence: Merchant dies (NPC death) → Disposition -50 with Merchant's Guild
+
+FOLLOW-UP: Merchant's Guild contacts party, DECISION 2 created:
+DECISION 2: "Will you atone by hunting the bandits who killed him?"
+  Choice: "Yes"
+  Consequence: Quest "Avenge the merchant" created, Reputation +20 with Guild
+
+FOLLOW-UP: Success on DECISION 2's quest, DECISION 3:
+DECISION 3: "Guild offers position - accept membership?"
+  Choice: "Accept"
+  Consequence: Official Guild Member, passive income, reputation locked at +80
+----
+
+'''
+
+
+== DB-Struktur
+
+
+----
+quests (Welt)
+├── id (PK)
+├── name
+├── giver_npc_id (FK)
+├── quest_type
+├── description
+├── objectives[] (jsonb)
+├── reward_gold
+├── reward_items[] (jsonb: {item_id, rarity, quality})
+├── reward_xp
+├── reward_reputation (jsonb: {faction_id, amount})
+├── pre_requirements (jsonb: {level, traits, quests})
+└── success_condition
+
+scenes (Kampagne)
+├── id (PK)
+├── session_id (FK)
+├── scene_type
+├── title
+├── description
+├── objectives[] (jsonb)
+├── reveal_elements (jsonb: [{condition, description}])
+├── complications[] (jsonb)
+├── resolution_outcomes (jsonb)
+└── transition_to_scene_id (FK)
+
+combat_loot_pools (Kampagne-Log)
+├── id (PK)
+├── combat_id (FK)
+├── creature_drops[] (jsonb: [{creature_id, items[], gold}])
+└── gm_adjustments (jsonb)
+
+combat_loot_claims (Kampagne-Log)
+├── id (PK)
+├── loot_pool_id (FK)
+├── character_id (FK)
+├── item_id (FK)
+├── claimed_at_harptos
+└── in_inventory (bool)
+
+decision_logs (Kampagne)
+├── id (PK)
+├── session_id (FK)
+├── scene_id (FK)
+├── decision_text
+├── decision_type
+├── severity (1-5)
+├── who_decided
+├── chosen_option
+├── consequences (jsonb: [{system, reference_id, description}])
+└── follow_up_decision_id (FK)
+----

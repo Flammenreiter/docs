@@ -1,0 +1,180 @@
+
+= 05 Charakter-Sheet Design
+
+
+Umfassende Dokumentation des Charakter-Sheets für Flammenreiter. Das System verbindet Spieler-Management mit Web und Mobile Plattformen.
+
+
+== Überblick
+
+
+_9 Domains_ · _4 Kontext-Modi_ · _26 Architektur-Entscheidungen_ · _28+ Use Cases_ · _MVP: 6 Domains_
+
+Das Charakter-Sheet ist das zentrale Interface für Spieler-Erfahrung:
+
+* _Web Portal_ (React/FSD): Rollenbasiertes Routing für Spieler, GM und Wiki
+* _Mobile App_ (Unreal Engine 5): Downtime-Aktivitäten zwischen Sessions
+* _Echtzeit-Synchronisation_: Supabase Realtime für In-Session Updates
+
+
+== Plattform-Architektur
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Plattform | Nutzung | Tech Stack | Features
+
+| Web | Session-Spielen | React/FSD | Sheets, GM-Dashboard, Wiki, Würfel, Realtime-Sync
+| Mobile | Zwischen-Sessions | Unreal 5 | Drachen-Pflege, Crafting, Downtime, 3D-Ansichten
+|===
+
+
+_Shared Layer_: `@flammenreiter/shared-types` (npm für Web, Code-Generator Zod→C++ für Unreal)
+
+
+== 9 Domains
+
+
+. _Identity_ — Charakteridentität (Header, immer sichtbar)
+. _Social_ — Traits, Dispositionen, Renown (Priorität #1)
+. _Combat_ — Fähigkeiten, HP, Zauberschlitze (Priorität #2)
+. _Equipment_ — Inventar, Paper-Doll, Ausrüstung (Priorität #3)
+. _Downtime_ — Crafting, Professionen, Reparatur (Priorität #4)
+. _Dragon Bond_ — Drachen-Management (Top-Level Sektion)
+. _Journal_ — Quests, Notizen (Phase 2)
+. _Lore_ — Entdecktes Wissen (Phase 2)
+. _Legal_ — Wanted-Level, Bounties (Phase 2)
+
+
+== 4 Kontext-Modi
+
+
+Das Sheet passt sich automatisch an den Spiel-Kontext an:
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Modus | Trigger | Fokus | Standard-Domain-Anzeige
+
+| _Social_ | Social-Szene | "Wer bin ich?" | Spider-Chart groß, NPCs prominent
+| _Combat_ | Kampf-Szene | "Was kann ich?" | HP, AC, Spellslots prominent
+| _Explore_ | Erkundung | "Was sehe ich?" | Passive Scores, Karte, Sinne
+| _Downtime_ | Zwischen Sessions (Mobile) | "Was mache ich?" | Crafting, Drachen-Pflege, Training
+|===
+
+
+
+== 26 Architektur-Entscheidungen
+
+
+Siehe `architektur.adoc` für vollständige Dokumentation.
+
+_Kern-Entscheidungen:_
+. Mobile=Unreal, Web=React, kein gemeinsames UI
+. 1 Web-Portal mit Rollen-basierten Routes
+. Code-Generator Zod→C++ Structs für Shared Types
+. Web MVP zuerst, Mobile Phase 2
+. Online-Pflicht (kein Offline-Modus)
+. Supabase Realtime in Session, Async zwischen Sessions
+. Foundry trackt Combat, Sheet nur Pre/Post-Sync
+
+
+== Use Cases
+
+
+Das System beinhaltet 50+ dokumentierte Workflows:
+
+* _Plattform UCs_ (4): Auth/Login, Kampagne anlegen, Spieler einladen, Session-Lifecycle → link:../07-gm-dashboard/[07-gm-dashboard/]
+* _Social UCs_ (5): Trait-Spider-Chart, NPC-Disposition, Renown, Org-Mitgliedschaften, Blender-System
+* _Combat UCs_ (6): Ability Scores, Zaubern, HP-Management, Waffen, Skill-Checks, Conditions
+* _Equipment UCs_ (4): Gear-Page, Item-Ausrüstung, Inventar, Camp-Truhe
+* _Downtime UCs_ (3): Crafting, Professionen, Reparatur
+* _Dragon Bond UCs_ (4): Drachen-Sheet, tägliche Pflege, Equipment, Trait-Resonanz
+* _Identity & Level-Up UCs_ (2): Charakter-Header, Level-Up Dialog
+* _System UCs_ (6): Kontext-Wechsel, GM-Pop-ups, Party-View, Foundry-Sync, Rast
+* _GM-Dashboard UCs_ (20+): Party, Story, Szenen, Post-Session, Kalender, Random Tables, Loot, Reise, Wetter, etc. → link:../07-gm-dashboard/[07-gm-dashboard/]
+* _Weitere UCs_ (15+): Notizen, Spells, Attunement, Trades, Reisen, etc.
+
+Siehe `use-cases.adoc` für Charakter-Sheet-Workflows und `../07-gm-dashboard/index.adoc` für Plattform- und GM-Workflows.
+
+
+== 9 Domains — Detailübersicht
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Domain | Sichtbarkeit | Komplexität | Status
+
+| Identity | Immer (Header) | Niedrig | MVP
+| Social | Social=VOLL, andere MINI | Hoch | MVP
+| Combat | Combat=VOLL, andere MINI | Hoch | MVP
+| Equipment | Downtime=VOLL, andere MITTEL | Mittel | MVP
+| Downtime | Downtime=VOLL, andere HIDDEN | Mittel | MVP
+| Dragon Bond | Alle Modi MITTEL | Hoch | MVP
+| Journal | Explore=VOLL, andere MITTEL | Mittel | Phase 2
+| Lore | Explore=VOLL, andere MITTEL | Niedrig | Phase 2
+| Legal | Kontextual | Niedrig | Phase 2
+|===
+
+
+Siehe `domains.adoc` für Domain-Detailspezifikationen.
+
+
+== Datenfluss-Architektur
+
+
+----
+📱 Unreal Mobile
+   ↔ REST/WebSocket
+⚡ Hono API (EffectProcessor)
+   ↔ Supabase (PostgREST + Realtime + RLS)
+🖥️ React Web (Supabase JS Client)
+----
+
+_EffectProcessor_: Zentrale Komponente für alle Modifier-Berechnungen (serverseitig).
+
+
+== MVP-Scope (Phase 1)
+
+
+_Domains im MVP:_
+. Identity
+. Social
+. Combat
+. Equipment
+. Downtime
+. Dragon Bond
+
+_Nicht im MVP (Phase 2):_
+* Journal & Quests
+* Entdecktes Wissen (Lore)
+* Recht & Status (Legal)
+* Sigils/Artefakte (Endgame)
+
+
+== Realtime & Sync-Strategie
+
+
+_In Session (Web):_
+* Supabase Realtime für Szenen-Wechsel, NPC-Dispositionen, GM-Pop-ups
+* GM startet Szene → Sheet wechselt automatisch Modus
+* Spieler kann manuell switchen
+
+_Zwischen Sessions (Mobile):_
+* Async: Änderungen werden nach Supabase geschrieben
+* Drachen-Pflege, Crafting, Profession im Downtime-Modus
+
+_Foundry-Integration:_
+* Pre-Sync: Charakter-Snapshot → Foundry
+* Combat in Foundry (nativ)
+* Post-Sync: Ergebnisse zurück ins Sheet
+
+
+== Navigation
+
+
+* link:architektur.adoc[Architektur Decisions] — 26 Entscheidungen, 4 Modi, Workflows, Datenfluss
+* link:domains.adoc[9 Domains] — Detaillierte Domain-Spezifikationen mit DB-References
+* link:use-cases.adoc[Use Cases] — Alle 28+ dokumentierten Workflows

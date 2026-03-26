@@ -1,0 +1,358 @@
+
+= Beziehungen & Renown-System
+
+
+Individuelle Dispositionen, Gruppen-Disposition, öffentliche Bekanntheit und Ruf.
+
+
+== Individuelle Disposition
+
+
+Jede Beziehung Character ↔ NPC hat einen _disposition_ Wert:
+
+
+=== Disposition-Skala
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Wert | Status | Beschreibung
+
+| -100 | Todfeind | Aktiv feindselig, töten auf Sicht möglich
+| -50 | Feindselig | Vorsicht, keine Zusammenarbeit
+| 0 | Neutral | Indifferent, professionell
+| +50 | Freundlich | Kooperativ, hilfreich
+| +100 | Unerschütterlich loyal | Opfert sich ggf. auf
+|===
+
+
+
+=== Spieler-Sichtbarkeit
+
+
+Spieler sehen nur Stimmungs-Icon, NICHT die Zahlenwert:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Icon | Bedeutung | Zahlen-Range
+
+| 😠 Wut | Feindselig | -100 bis -50
+| 😕 Skeptisch | Ungünstig | -49 bis -20
+| 😐 Neutral | Indifferent | -19 bis +19
+| 🙂 Wohlwollend | Positiv | +20 bis +49
+| 😊 Loyal | Freundlich bis loyal | +50 bis +100
+|===
+
+
+_GM sieht_: Volle Aufschlüsselung (Basiswert, alle Modifikatoren, wie Wert kam zustande)
+
+
+=== Mechanische Auswirkung
+
+
+Disposition modifiziert Social Checks:
+----
+Final DC = Base DC + (NPC Insight Bonus) - (PC Disposition Modifier)
+
+Beispiel:
+- Persuasion gegen Händler, Base DC 12
+- Spieler hat +10 Disposition (wohlwollend)
+- Final DC = 12 - 2 = 10 (easier)
+
+- Persuasion gegen Feind, -80 Disposition
+- Final DC = 12 + 2 = 14 (harder)
+----
+
+
+== Trait-Interaktionen (Live während Dialog)
+
+
+NPC-Traits reagieren auf PC-Handlungen während eines Gesprächs in Echtzeit:
+
+
+=== Beispiel-Szene
+
+
+_NPC-Traits_: Loyal+3, Ehrlich+4, Großzügig-2
+_PC zeigt Verhalten_: Spricht Wahrheit, gibt geschenk
+
+----
+→ Loyal+3 (Spieler erscheint treu) = +15 Disposition
++ Ehrlich+4 (Spieler ist ehrlich) = +10 Disposition
++ Großzügig-2 trigger kann reagieren aber ist nicht positiv
+= Net +25 Disposition-Shift
+----
+
+_PC zeigt Verhalten_: Lügt den NPC an
+
+----
+→ Ehrlich+4 (Spieler lügt) = -20 Disposition
+= Net -20 Disposition-Shift
+----
+
+
+=== Permanent vs. Flüchtig
+
+
+* _Permanent_: Verrat, Unehrlichkeit, Bruch von Versprechen
+* _Flüchtig_: Kleine Lügen, versteckte Wahrheiten (können später korrigiert werden)
+* _Threshold-Effekte_: disposition < -50 → NPC verweigert Handel, disposition > +80 → NPC bietet kostenlose Dienste
+
+
+== Gruppen-Disposition (Welt-Ebene)
+
+
+Nicht nur Individuelle Beziehungen — auch strukturelle Prejudices zwischen Gruppen:
+
+
+=== Rasse ↔ Rasse
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Rasse-Paar | Base Disposition | Grund
+
+| Elf ↔ Zwerg | -20 | Historische Rivalität
+| Mensch ↔ Drachenblütiger | +0 | Neutral
+| Tiefling ↔ Geistliche | -30 | Religiöse Vorurteile
+| Ork ↔ Zivile | -25 | Kriegshistorie
+|===
+
+
+Diese Base-Werte werden zu individuellen Beziehungen ADDIERT:
+
+----
+Final Disposition = Race Base + Individual Override (if set) + Dialog Shifts
+
+Beispiel:
+- Elf trifft Zwerg
+- Race Base = -20
+- Kein Individual Override → use race base
+- Elf spricht höflich = +5 local
+- Final: -20 + 5 = -15 (still wary but not hostile)
+----
+
+
+=== Organisation ↔ Organisation
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Org-Paar | Base Disposition | Grund
+
+| Akademie ↔ Diebesgilde | -40 | Moral Opposition
+| Königliche Armee ↔ Räuber | -75 | Direct Conflict
+| Handelsgilde ↔ Bauern-Kooperative | +10 | Economic Benefit
+|===
+
+
+
+=== Generationen-Effekt bei Rassen
+
+
+Manche Prejudices schwinden über Zeit:
+----
+Base Disposition = -20 for Elf-Dwarf historically
+Aber wenn viele Generationen gelebt haben = GM kann auf -10 senken
+----
+
+
+== Renown / Bekanntheit: Öffentliches Image
+
+
+Nicht jeder kennt jeden. Bekanntheit hat _geografische Reichweite_:
+
+
+=== Renown Scope (Kaskade)
+
+
+----
+Local (Stadt)
+  ↓ Automatisch in
+Region (alle Siedlungen dieser Region)
+  ↓ Automatisch in
+Kingdom (überregional bekannt)
+  ↓ Automatisch in
+World (legendär, wenige erreichen diese Stufe)
+----
+
+_Wichtig_: Kaskade = if regional known, automatically local known EVERYWHERE in region.
+
+
+=== Renown Score
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Scope | Score | Beschreibung
+
+| local | 0-100 | Stadtrat, Gilde kennen Namen
+| city | 0-100 | Mehrere Siedlungen wissen
+| regional | 0-100 | Ganze Region kennt Ruf
+| kingdom | 0-100 | Hohe Beamte, Adel kennen
+| world | 0-100 | Legendarisch (selten)
+|===
+
+
+
+=== Renown-Typ (Qualität des Rufs)
+
+
+[source,json]
+----
+{
+  "renown_scope": "regional",
+  "renown_score": 65,
+  "renown_type": "hero",    // or: villain, celebrity, infamous, specialist, unknown
+  "known_traits": ["Mutig+4", "Loyal+3"],  // Was weiß Öffentlichkeit?
+  "accuracy": "accurate"    // oder: exaggerated, understated, false
+}
+----
+
+
+[cols="1,1",options="header"]
+|===
+| Renown-Typ | Auswirkung
+
+| hero | +10 zu Disposition mit Civs, Advantage bei Persuasion
+| villain | -10 zu Disposition mit Civs, Guards anrufen
+| celebrity | +5 zu Disposition, aber konstante Aufmerksamkeit
+| infamous | -15 zu Disposition, aber Respekt bei Criminals
+| specialist | +5 bei Checks in Spezialgebiet, sonst neutral
+| unknown | Neutral, kein Bonus/Malus
+|===
+
+
+
+=== Wie Renown Steigt
+
+
+Nur durch _öffentliche_ Aktionen mit Zeugen:
+* Heldentaten vor Zeugen (Drache besiegen, Stadt retten)
+* GM-Story-Events (Offizielle Bekanntmachung)
+* Explizite "Ruf verbreiten"-Aktionen (Geschichten erzählen in Tavernen)
+
+Geheim-Aktionen = kein Renown-Gewinn (Private Rettungen erhöhen nicht öffentlich Reputation)
+
+
+== Gruppen-Reputation
+
+
+Gesamte Party hat Ruf bei Fraktionen, nicht nur einzeln:
+
+
+=== Reputation Zahlen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Wert | Status | Auswirkung
+
+| -100 bis -50 | Verbannung | KOS (Kill On Sight), Ausschaffung
+| -49 bis -20 | Feindselig | Höhere Preise, Zugang verweigert, Warnung
+| -19 bis +19 | Neutral | Normal
+| +20 bis +49 | Freundlich | -10% Preise, Zugang zu Gilde-Ressourcen
+| +50 bis +79 | Verbündet | -20% Preise, Rabatte bei Aufträgen, Militär-Hilfe möglich
+| +80 bis +100 | Held | Kostenlose Services möglich, Ehrenmitgliedschaft, Politische Unterstützung
+|===
+
+
+
+=== Mechanische Auswirkungen
+
+
+_Handels-Rabatte_:
+----
+Final Price = Base Price × (1 - reputation_discount)
+
+-100 bis -50: ×1.5 (50% Aufschlag!)
++20 bis +49: ×0.9 (10% Rabatt)
++50 bis +79: ×0.8 (20% Rabatt)
++80 bis +100: Free bei einfachen Items
+----
+
+_Zugang_:
+* Neutral/Negativ: Barred entry to guild halls, military camps
+* Freundlich+: Access to restricted areas, training opportunities
+* Verbündet+: Political favors, emergency aid
+
+_Militär-Hilfe_ (bei Militär-Org):
+* Negativ: None
+* +50+: Können Soldaten-Verstärkung anfordern (kleine Patrouille)
+* +80+: Können größere Unterstützung anfordern (Quests mit Platoon)
+
+
+== Disposition-Vererbung
+
+
+Wenn Party-Mitglied hohe Individual Disposition hat, profitiert ganze Party:
+
+----
+Party Effective Reputation =
+  (Average Individual Reputations) × 0.5 +
+  (Known Group Reputations) × 0.5
+
+Beispiel:
+- Elenor +80 bei Akademie
+- Marcus -20 bei Akademie
+- Average = +30
+- Group Known Rep bei Akademie = +40
+- Party Effective = (+30 × 0.5) + (+40 × 0.5) = +35
+----
+
+Das bedeutet: Die Party profitiert von Einzelnen-Erfolgen, aber können auch sabotiert werden durch einzelne negative Mitglieder.
+
+
+== Implementation: DB-Struktur
+
+
+----
+character_relationships
+├── character_id (FK)
+├── npc_id (FK)
+├── disposition (-100 to +100)
+├── last_interaction_harptos
+├── interaction_history (jsonb: [{date, action, trait_trigger, disposition_shift, gm_note}])
+├── is_locked (bool — GM can lock für special stories)
+└── notes (GM-Anmerkungen)
+
+faction_relationships
+├── party_group_id (FK)
+├── faction_id (FK)
+├── reputation (-100 to +100)
+├── rank (if applicable)
+├── membership_status (none|member|officer|leader)
+└── known_traits[] (was faction über party weiß)
+
+character_renown
+├── character_id (FK)
+├── scope (local|city|regional|kingdom|world)
+├── score (0-100)
+├── renown_type (hero|villain|celebrity|infamous|specialist|unknown)
+├── known_traits[]
+├── accuracy (accurate|exaggerated|understated|false)
+└── propagation_date (wann wurde dieses renown aktiv)
+
+character_public_perception
+├── character_id (FK)
+├── observer_npc_id (FK or null für "allgemeine Öffentlichkeit")
+├── perceived_traits (jsonb: [trait, perceived_level] — kann falsch sein)
+├── perceived_renown_type
+└── last_update
+----
+
+
+== Cross-System: Wie diese Systeme zusammenwirken
+
+
+_Disposition_ → modifiziert Social DC
+_Renown_ → ändert Initial-Disposition von neuen NPCs
+_Traits_ → trigger Disposition-Shifts während Dialog
+_Reputation_ → handels-Rabatte, Zugang, Militär-Unterstützung
+_Public Perception_ → NPCs behandeln PC anders basierend auf (falsches) Verständnis

@@ -1,0 +1,981 @@
+
+= Use Cases — Alle 50+ Workflows
+
+
+Dokumentation aller dokumentierten Use Cases gruppiert nach Domain mit ID, Akteur, Plattform, Modus, Trigger und Ablauf.
+
+_Hinweis:_ Plattform- und GM-spezifische Use Cases (Auth, Kampagne, Einladung, Session-Lifecycle, Party, Story, Szenen, Post-Session, etc.) sind in link:../07-gm-dashboard/index.adoc[07-gm-dashboard/index.adoc] dokumentiert.
+
+'''
+
+
+== Social Domain (5 UCs)
+
+
+
+=== UC-SOC-01: Trait-Spektrum anzeigen (Spider-Chart)
+
+
+_ID_: UC-SOC-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Social
+
+_Trigger_: Sheet öffnen oder Social-Modus wechseln
+
+_Ablauf_:
+. System lädt `character_trait_levels`
+. Spider-Chart rendert kontext-relevante Traits
+. Jeder Punkt zeigt Pol-Labels + aktuellen Wert
+. Tap auf Trait → Detail-Panel:
+** Slider -5/+5 für Visualisierung
+** Farb-Gradient, Pol-Beschreibungen
+** Aktive MechanicalEffects
+** Evolution-History (letzte 5)
+. Blender-Info: wahrer + öffentlicher Wert nebeneinander
+
+_Ergebnis_: Vollständiges Trait-Profil mit Kontext-Tiefe
+
+_Alternative_: Im Combat-Modus nur kampfrelevante Traits → größeres Chart
+
+'''
+
+
+=== UC-SOC-02: NPC-Disposition prüfen (Live-Emoji)
+
+
+_ID_: UC-SOC-02 | _Akteur_: Spieler | _Plattform_: Web (Session) | _Modus_: Social
+
+_Trigger_: Social-Szene mit NPC
+
+_Ablauf_:
+. GM startet Social-Scene mit `primary_npc_id`
+. Supabase Realtime pusht NPC-Daten
+. Sheet zeigt: NPC-Name, Portrait, _Stimmungs-Emoji_
+. Emoji wechselt LIVE wenn GM Disposition ändert
+. Tap auf NPC → Detail-Card:
+** Rasse, Profession, bekannte Traits
+** Disposition-History
+. Optional: Insight-Check durchführen
+** Bei Erfolg: zusätzliche Hinweise
+. GM sieht volle 8-Schritte Aufschlüsselung
+** Spieler sieht NUR Emoji + Insight
+
+_Ergebnis_: Live-Feedback über NPC-Stimmung, transparent gespielt
+
+'''
+
+
+=== UC-SOC-03: Renown & Bekanntheit prüfen
+
+
+_ID_: UC-SOC-03 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Social, Explore
+
+_Trigger_: Spieler will Bekanntheit in Region wissen
+
+_Ablauf_:
+. Social-Bereich zeigt Renown-Badges pro Scope:
+** local, city, regional, kingdom, world
+. Jeder Badge: Score 0-100, Typ (hero/villain/celebrity/infamous/specialist/unknown)
+. `known_traits[]` als Tags angezeigt
+. Tap → Detail: Regionen, bekannte Traits, Typ-Beschreibung
+
+_Ergebnis_: Öffentliche Wahrnehmung pro Region verstanden
+
+'''
+
+
+=== UC-SOC-04: Organisations-Mitgliedschaften
+
+
+_ID_: UC-SOC-04 | _Akteur_: Spieler (read-only) + GM (write) | _Plattform_: Web | _Modus_: Social, Downtime
+
+_Trigger_: Org-Zugehörigkeiten prüfen
+
+_Ablauf_:
+. Org-Badges im Social-Bereich: Name, Rang, is_public Icon
+. Tap → Detail: Rang-Beschreibung, mechanische Boni, Services, Aufstiegs-Voraussetzungen
+. Bei is_public=false: "GEHEIM" Badge + Exclusion-Risiko Warnung
+. GM kann Rang ändern, Mitgliedschaft verwalten via Dashboard
+
+_Ergebnis_: Übersicht aller Mitgliedschaften + mechanische Auswirkungen
+
+'''
+
+
+=== UC-SOC-05: Blender-System (Wahres vs. Öffentliches Selbst)
+
+
+_ID_: UC-SOC-05 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Social
+
+_Trigger_: Traits betrachten
+
+_Ablauf_:
+. Trait-Detail zeigt neben wahrem Wert die öffentliche Wahrnehmung
+** z.B. "Public: Loyal +2 / Actual: Treacherous -2"
+. Widersprüche visuell markiert (roter Indikator)
+. Visibility-Scope zeigt WO falsche Wahrnehmung gilt
+. Story-Hook Warnung: "Was wenn die Gruppe es merkt?"
+
+_Ergebnis_: Spieler versteht Selbstbild vs. Fremdwahrnehmung
+
+_Hinweis_: Andere Spieler sehen NUR öffentliche Wahrnehmung
+
+'''
+
+
+== Combat Domain (6 UCs)
+
+
+
+=== UC-CMB-01: Ability Score + Modifier (EffectProcessor)
+
+
+_ID_: UC-CMB-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle
+
+_Trigger_: Tap auf Ability Score
+
+_Ablauf_:
+. 6 Ability Scores als Boxen: Modifier groß (+3), Score klein (16)
+. Tap → Aufklapp-Panel: _EffectProcessor-Chain_
+. Zeigt: Base Score, Proficiency, Trait-Bonus, Item-Bonus, Wetter-Modifier, Situational = Total
+. Jeder Eintrag mit farbigem Quellen-Tag (Trait=pink, Item=teal, Wetter=blau)
+
+_Ergebnis_: Volle Transparenz über Modifier-Herkunft
+
+'''
+
+
+=== UC-CMB-02: Spell casten und Slot verbrauchen
+
+
+_ID_: UC-CMB-02 | _Akteur_: Spieler | _Plattform_: Web (Session) | _Modus_: Combat
+
+_Vorbedingung_: Caster-Klasse, Slots verfügbar
+
+_Ablauf_:
+. Spell-Slot-Pips zeigen Stand (●●○ = 2/3)
+. Klassenspezifische Spell-Liste:
+** Wizard: Spellbook-Browser
+** Cleric: Prepared-Toggle
+** Sorcerer: Known-Spells
+. Filter: Level, School, Concentration, Ritual, Damage Type, Suche
+. Spell wählen → Detail: Casting Time, Range, Components, Duration, Upcasting
+. "Casten" → Prüfung: Slot da? Concentration-Konflikt?
+. Spell geloggt (`character_id, spell_id, slot_level, session_id`)
+. Pip wird leer
+
+_Ergebnis_: Spell gewirkt, Slot verbraucht, geloggt
+
+_Alternative_: Cantrip=kein Slot, Ritual=kein Slot aber 10 Min
+
+'''
+
+
+=== UC-CMB-03: HP-Management (Damage, Healing, Temp HP)
+
+
+_ID_: UC-CMB-03 | _Akteur_: Spieler + GM | _Plattform_: Web (Session) | _Modus_: Combat
+
+_Ablauf_:
+. HP-Bar prominent: aktuell/max mit Farb-Gradient (grün→gelb→rot)
+. Temp HP als hellblauer Overlay
+. Click → Input: '+' (Heal) oder '-' (Damage)
+. Berechnung: Temp HP zuerst, dann Current HP
+. Bei 0 HP: Death Save UI (3+3 Checkboxes + Würfel)
+. Bei Massive Damage (>HP+MaxHP): Sofort-Tod Warnung
+. Änderung geloggt + Realtime an GM
+
+_Ergebnis_: HP aktuell, Death Saves bei 0 HP sichtbar
+
+_Hinweis_: Foundry trackt HP während Combat, Sheet Pre/Post-Sync
+
+'''
+
+
+=== UC-CMB-04: Waffe/Angriff würfeln
+
+
+_ID_: UC-CMB-04 | _Akteur_: Spieler | _Plattform_: Web (Session) | _Modus_: Combat
+
+_Ablauf_:
+. Actions zeigt equipped Waffen: Name, Attack Bonus, Damage
+. Click → d20 + Attack Modifier → Animation
+. Ergebnis + Modifier-Chain (aufklappbar)
+. Bei Treffer: Damage Roll (Dice + Mod + Quality%)
+. Nat 20 = Crit (Dice×2), Nat 1 = Miss
+. Geloggt
+. Durability -1-3% (Hintergrund)
+
+_Ergebnis_: Angriff gewürfelt, transparent, geloggt
+
+_Hinweis_: Item Quality = PROZENTUAL auf Damage, NICHT auf Attack (Bounded Accuracy)
+
+'''
+
+
+=== UC-CMB-05: Skill-Check durchführen
+
+
+_ID_: UC-CMB-05 | _Akteur_: Spieler | _Plattform_: Web (Session) | _Modus_: Alle
+
+_Trigger_: GM fordert Check oder Spieler proaktiv
+
+_Ablauf_:
+. 18 Skills gruppiert nach Ability Score
+. Jeder: Name, Proficiency-Pip, Total Modifier
+. Click → d20 + Modifier → Animation
+. Modifier-Chain aufklappbar
+. Ergebnis Realtime an GM
+. GM kann nachträglich als trait_relevant markieren → Evolution-Trigger
+
+_Ergebnis_: Check gewürfelt, Ergebnis sichtbar
+
+'''
+
+
+=== UC-CMB-06: Conditions & Exhaustion tracken
+
+
+_ID_: UC-CMB-06 | _Akteur_: GM (setzt) + Spieler (sieht) | _Plattform_: Web (Session) | _Modus_: Combat
+
+_Ablauf_:
+. GM setzt Condition via Dashboard (14 D&D + BG3 Conditions)
+. Badge erscheint sofort im Sheet (Realtime)
+. Tap → mechanische Auswirkungen
+. Exhaustion als 6-Stufen-Meter neben HP
+. Stufe zeigt Penalties (z.B. Stufe 3: Disadvantage Attacks+Saves)
+. Concentration-Badge: aktiver Spell + CON Save DC
+
+_Ergebnis_: Conditions/Exhaustion sofort sichtbar mit Auswirkungen
+
+'''
+
+
+== Equipment Domain (4 UCs)
+
+
+
+=== UC-EQP-01: Gear-Page (BG3 Paper-Doll)
+
+
+_ID_: UC-EQP-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile (Unreal 3D) | _Modus_: Downtime (voll), alle (quick access)
+
+_Ablauf_:
+. Paper-Doll zeigt 15+ Slots um Silhouette
+. Slots klassenspezifisch (`class_equipment_profiles`)
+. Jeder Slot: Item-Icon mit Rarity-Rahmen
+. Leere Slots gestrichelt
+. Click → Item-Detail: Name, Rarity, Quality, Durability%, Stats
+. Rechts: Inventar-Grid
+. Gold + Attunement Slots (3 max)
+
+_Ergebnis_: Visuelle Equipment-Übersicht
+
+_Mobile_: 3D-Modell statt 2D
+
+'''
+
+
+=== UC-EQP-02: Item ausrüsten via Slot-Click
+
+
+_ID_: UC-EQP-02 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Downtime, Explore
+
+_Ablauf_:
+. Click auf Slot → Filter-Popup: NUR passende Items
+. Filter via `class_equipment_profiles` + Slot-Typ
+. Sortiert nach Rarity (absteigend), dann Quality
+. Hover → Comparison-Tooltip: Side-by-Side mit equipped Item
+. Wählen → Attunement-Prüfung (3/3 voll?)
+. Item equipped, _EffectProcessor rechnet AC/Attack/Modifier neu_
+. Altes Item → Inventar
+
+_Ergebnis_: Item equipped, Werte aktualisiert
+
+_Hinweis_: BG3 Click-Slot-to-Browse = Key UX Innovation
+
+'''
+
+
+=== UC-EQP-03: Inventar durchsuchen
+
+
+_ID_: UC-EQP-03 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle
+
+_Ablauf_:
+. Grid/Liste: Icon, Name (Rarity-Farbe), Quantity, Weight
+. Filter: Typ, Rarity, Suchtext. Sort: Name, Rarity, Weight, Value
+. Container-System: Rucksack als Parent
+. Tap → Detail: Quality, Durability%-Bar, Marktwert, Special Abilities
+. Kleidung extra: Appearance, Formality, NPC-Reaktion
+. Gesamt-Gewicht / Traglast (STR×15)
+
+_Ergebnis_: Volle Inventar-Übersicht mit Filter
+
+'''
+
+
+=== UC-EQP-04: Camp-Truhe (Party Storage)
+
+
+_ID_: UC-EQP-04 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Downtime
+
+_Vorbedingung_: Charakter am Lager-Ort
+
+_Ablauf_:
+. System prüft `location_node_id` Match
+. Wenn nicht: "Truhe nicht erreichbar"
+. Wenn ja: Split-View (Inventar links, Truhe rechts)
+. Drag-Drop Transfer
+. Truhe = KEIN Gewichtslimit
+. Alle Party-Mitglieder teilen sich die Truhe
+
+_Ergebnis_: Items transferiert
+
+_Hinweis_: Truhe ist an Ort gebunden — auf Reise nur Inventar
+
+'''
+
+
+== Downtime Domain (3 UCs)
+
+
+
+=== UC-DWN-01: Crafting-Schritt ausführen
+
+
+_ID_: UC-DWN-01 | _Akteur_: Spieler | _Plattform_: Mobile (Hauptfokus) + Web | _Modus_: Downtime
+
+_Vorbedingung_: Projekt aktiv, Materialien da, Profession-Level ok
+
+_Ablauf_:
+. Aktive Projekte als Cards (Rezept, Schritt/Total, Fortschritt)
+. Tap → Schritt-Detail: Materialien, Skill-DC, Dauer
+. "Ausführen" → Skill-Check
+** DC = Standard
+** DC+5 = gut
+** DC+10 = exzellent
+** Nat 20 = Meisterwerk
+** Nat 1 = Pfusch
+. Materialien verbraucht, Ergebnis in `step_results`
+. Nächster Schritt oder Fertigstellung → Item mit individuellen Properties
+
+_Ergebnis_: Schritt abgeschlossen, Fortschritt aktualisiert
+
+_Hinweis_: Mobile-Hauptfeature, zwischen Sessions
+
+'''
+
+
+=== UC-DWN-02: Profession trainieren
+
+
+_ID_: UC-DWN-02 | _Akteur_: Spieler | _Plattform_: Mobile + Web | _Modus_: Downtime
+
+_Vorbedingung_: Lehrer-NPC am POI, Gold, Downtime-Tage
+
+_Ablauf_:
+. Profession als Progress-Card (Name, Level 1-5, XP-Balken, Boni)
+. "Trainieren" → Prüfung: Lehrer, Gold, Downtime
+. Pro Tag: XP-Zugewinn nach Lehrer-Qualität
+. Bei Level-Up: Neue Boni + neue Rezepte
+
+_Ergebnis_: Profession-XP gestiegen
+
+'''
+
+
+=== UC-DWN-03: Item reparieren
+
+
+_ID_: UC-DWN-03 | _Akteur_: Spieler | _Plattform_: Mobile + Web | _Modus_: Downtime
+
+_Trigger_: Durability < 70%
+
+_Ablauf_:
+. Items als "reparaturbedürftig" markiert (gelb/rot)
+. Optionen:
+** Short Rest Pflege (+5-10%, kostenlos)
+** Selbst-Reparatur (Profession, Skill-Check, Material)
+** NPC-Schmied (Gold)
+. Durability aktualisiert, Condition ändert sich
+
+_Ergebnis_: Durability wiederhergestellt
+
+'''
+
+
+== Dragon Bond Domain (4 UCs)
+
+
+
+=== UC-DRG-01: Drachen-Sheet anzeigen
+
+
+_ID_: UC-DRG-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle (eigene Sektion)
+
+_Vorbedingung_: Aktiver Dragon Bond
+
+_Ablauf_:
+. Web: Route `/character/:id/dragon`
+. Lädt `dragon_instances` + traits + care_score + bond_phase
+. Header: Name, Spezies-Icon, Alter, Status
+. Portrait (AI oder Placeholder pro Spezies+Farbe)
+. Sections: Bond-Info, Traits (eigenes Spider-Chart), Equipment, Pflege-Status
+. Care Score als Meter (0-100, grün/gelb/rot)
+. Bond-Phase visuell (Reittier vs. Vertieft + Fähigkeiten)
+
+_Ergebnis_: Vollständige Drachen-Übersicht als eigenständiges Wesen
+
+'''
+
+
+=== UC-DRG-02: Tägliche Drachen-Pflege
+
+
+_ID_: UC-DRG-02 | _Akteur_: Spieler | _Plattform_: Mobile (Hauptfokus) + Web | _Modus_: Downtime
+
+_Trigger_: Täglicher Login / Push
+
+_Ablauf_:
+. Tägliche Aufgaben als Checkliste (nach Spezies+Alter)
+. Füttern (Menge, Futterart), Striegeln, Rüstung kontrollieren, Stallung
+. MVP: Button pro Aufgabe mit Qualitäts-Bewertung (1-5)
+. Später: Unreal Touch-Gesten am 3D-Modell
+. Log in `dragon_care_log`
+. Care Score steigt/sinkt
+. Vernachlässigung (3+ Tage): Warnung, Trait-Shift, Bond-XP Stagnation
+
+_Ergebnis_: Pflege erledigt, Bond gepflegt
+
+_Hinweis_: DAS Mobile-Feature. 5-Min täglich
+
+'''
+
+
+=== UC-DRG-03: Drachen-Equipment verwalten
+
+
+_ID_: UC-DRG-03 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Downtime
+
+_Ablauf_:
+. Slots nach Spezies:
+** Kampfdrache: saddle+armor(3)+claw
+** Taschendrache: focus_crystal+collar
+** Schattendrache: camouflage+collar+venom
+. Slot-Click → passende Items (wie UC-EQP-02)
+. Durability-Tracking für Drachen-Equipment
+. Schuppen-Ernte bei saisonaler Häutung → Crafting-Material
+
+_Ergebnis_: Drachen-Equipment verwaltet
+
+'''
+
+
+=== UC-DRG-04: Trait-Resonanz (Dual Spider-Chart)
+
+
+_ID_: UC-DRG-04 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Social, Downtime
+
+_Trigger_: Kompatibilität verstehen
+
+_Ablauf_:
+. Dual Spider-Chart: Reiter-Traits links, Drachen-Traits rechts
+. Resonanz-Linien zwischen kompatiblen Achsen
+. Farben: Grün=verstärkend, Gelb=neutral, Rot=Spannung
+. Tap auf Linie → mechanische Effekte der Kompatibilität
+. Beispiel: Mutig+3 + Aggressiv+3 = Grün, +2 Kampf
+
+_Ergebnis_: Reiter-Drache-Dynamik visuell verstanden
+
+_Hinweis_: Einzigartiges Feature, kein anderes RPG hat das
+
+'''
+
+
+== Identity & Level-Up (2 UCs)
+
+
+
+=== UC-IDN-01: Character Identity Header
+
+
+_ID_: UC-IDN-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle (immer sichtbar)
+
+_Ablauf_:
+. Sticky Header: Portrait, Name, Klasse+Level, Rasse
+. Kontext-Anpassung:
+** Social: +Haus+Titel
+** Combat: +HP+AC
+** Explore: +Senses
+** Downtime: +Profession
+. XP-Balken als dünne Progress-Bar
+. Proficiency Bonus Badge
+. Level-Up Button bei XP >= Schwelle
+
+_Ergebnis_: Kern-Identität immer sichtbar
+
+'''
+
+
+=== UC-IDN-02: Level-Up durchführen (mit Drachen-Dialog)
+
+
+_ID_: UC-IDN-02 | _Akteur_: Spieler + AI (Drache) + GM (Bestätigung) | _Plattform_: Web + Mobile | _Modus_: Eigene Seite `/character/:id/level-up`
+
+_Trigger_: XP-Schwelle erreicht
+
+_Ablauf_:
+. XP >= Schwelle → Drache-Icon pulsiert im Header
+. Klick → Level-Up-Seite mit _AI-Chat-Interface_
+. Drache eröffnet: "Ich spüre etwas in dir..." (AI-generiert)
+. Dialog über 3-5 Nachrichten:
+** Drache reflektiert Verhalten
+** Trait-Entwicklung erwähnt
+** Key Moments referenziert
+. Drache schlägt 2-3 Optionen vor (Features, Feats, Spells — gewichtet nach Verhalten)
+. HP-Wahl narrativ verpackt: Würfeln oder Durchschnitt
+. Bei ASI/Feat-Level (4/8/12/16/19): 2-3 Feats vorgeschlagen
+. Bei studierten Spells: "Du hast etwas Neues gelernt..."
+. Zusammenfassung: "Du hast gelernt: [Features], [Spells], [HP+X]"
+. Status: `pending_gm_approval` → GM reviewed + bestätigt
+
+_Ergebnis_: Level-Up abgeschlossen, narrativ erlebt
+
+_Fallback_: GM kann `level_up_mode=manual` setzen für klassische Wahl
+
+_Hinweis_: Dialog darf NIE failen. Charakter bekommt IMMER Level-Up
+
+'''
+
+
+== System & Plattform (6 UCs)
+
+
+
+=== UC-SYS-01: Automatischer Kontext-Modus Wechsel
+
+
+_ID_: UC-SYS-01 | _Akteur_: System (GM-getriggert) | _Plattform_: Web (Session)
+
+_Trigger_: GM startet Scene
+
+_Ablauf_:
+. GM wählt Scene-Typ: social/combat/explore/puzzle/chase/narrator
+. Mapping:
+** social → Social
+** combat → Combat
+** explore → Explore
+** puzzle → Explore
+** chase → Combat
+** narrator → kein Wechsel
+. Realtime Event an alle Spieler
+. Sheet wechselt sanft (Animation)
+. Notification: "Scene: Soziale Begegnung"
+. Spieler kann JEDERZEIT manuell wechseln (Mode-Switcher im Header)
+
+_Ergebnis_: Alle Sheets wechseln gleichzeitig
+
+_Hinweis_: Narrator = kein Wechsel. Puzzle = Explore-Modus
+
+'''
+
+
+=== UC-SYS-02: GM-Pop-up an Spieler
+
+
+_ID_: UC-SYS-02 | _Akteur_: GM | _Plattform_: Web (Session) | _Modus_: Alle
+
+_Ablauf_:
+. GM klickt "Pop-up senden"
+. Empfänger wählen: Einzelner, Gruppe, Alle
+. Nachricht schreiben (Freitext, optional NPC-Portrait)
+. Supabase Realtime + RLS filtert Empfänger
+. Spieler sieht Overlay (nicht modal, dismissible)
+. Geloggt
+
+_Ergebnis_: Gezielte Info nur an vorgesehene Empfänger
+
+_Hinweis_: Killer-Feature. "Nur du merkst dass er nervös wird"
+
+'''
+
+
+=== UC-SYS-03: Party-View (Mitspieler-Sheets)
+
+
+_ID_: UC-SYS-03 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle
+
+_Ablauf_:
+. Kompakte Leiste oder Tab
+. Pro Mitspieler: Mini-Portrait, Name, Klasse, Level
+. HP-Bar als schmaler Balken (grün/gelb/rot) OHNE Zahlen
+. KEINE Traits, Disposition, Inventar, Spells
+. Tap → keine zusätzlichen Details (bewusst)
+
+_Ergebnis_: Minimale Party-Übersicht
+
+_Hinweis_: Spieler sollen IN-CHARACTER über Mitspieler lernen
+
+'''
+
+
+=== UC-FND-01: Foundry Pre/Post-Sync
+
+
+_ID_: UC-FND-01 | _Akteur_: System + GM | _Plattform_: Web (GM Dashboard) | _Modus_: Combat
+
+_Ablauf PRE-SYNC_:
+. GM klickt "Combat vorbereiten"
+. System exportiert Snapshots: HP, AC, Stats, Slots, Conditions, Initiative, Waffen
+. JSON an Foundry
+
+_COMBAT IN FOUNDRY_ (nativ, kein Live-Sync)
+
+_POST-SYNC_:
+. GM klickt "Combat beenden"
+. System liest: HP-Verlust, verbrauchte Slots, neue Conditions, XP
+. Sheet wird aktualisiert
+. `combat_encounters` Eintrag erstellt
+
+_Ergebnis_: Post-Combat-Zustand im Sheet
+
+_Hinweis_: MVP-Strategie. Live-Sync = Zukunft
+
+'''
+
+
+== Rest System (2 UCs)
+
+
+
+=== UC-RST-01: Short Rest durchführen
+
+
+_ID_: UC-RST-01 | _Akteur_: Party (alle aktiven Spieler) | _Plattform_: Web (Session) | _Modus_: Alle
+
+_Trigger_: Spieler oder GM schlägt Rast vor
+
+_Ablauf_:
+. Initiator klickt "Rast vorschlagen"
+. Pop-up (rest_vote) an alle: "Arik schlägt Short Rest vor. Zustimmen?"
+. Erst bei Zustimmung aller → Workflow startet für gesamte Party
+. Hit Dice Panel: Verfügbare Dice, Spieler wählt Anzahl, automatische HP-Berechnung
+. Klassenressourcen mit `recharge_on=short_rest` automatisch aufgeladen (Ki, Action Surge, etc.)
+. Optional: Item-Pflege (+5-10% Durability)
+. Optional: Drachen-Pflege wenn Drache anwesend
+. Alles geloggt in `rest_log` + `session_mechanical_log`
+
+_Ergebnis_: Party hat gerastet, Ressourcen aufgeladen
+
+_Hinweis_: Rest ist IMMER Party-Entscheidung
+
+'''
+
+
+=== UC-RST-02: Long Rest durchführen
+
+
+_ID_: UC-RST-02 | _Akteur_: Party | _Plattform_: Web + Mobile | _Modus_: Downtime
+
+_Ablauf_:
+1-3. Wie Short Rest (Party-Abstimmung)
+. System prüft: Bereits heute Long Rest? → Block
+. Wetter-Check + Ort-Check → bei Regen ohne Schutz: Warnung an GM
+. Nachtwache: System fragt wer Wache hält → Wächter nur Short Rest Benefit. Keine Wache → Encounter-Check
+. HP auf Maximum (automatisch)
+. ALLE Spell Slots zurück
+. ALLE Klassenressourcen zurück (auch `long_rest`-only)
+. Hit Dice: Hälfte zurück (aufgerundet)
+. Exhaustion -1 Stufe (nur mit Nahrung — Ration verbraucht oder Warnung)
+. Inspiration: Menschen bekommen Heroic Inspiration
+. Prepared Spells: Spieler kann Spell-Vorbereitung ändern
+. Alles geloggt
+
+_Ergebnis_: Vollständige Regeneration, neuer Tag
+
+'''
+
+
+== Spells & Attunement (3 UCs)
+
+
+
+=== UC-SPL-01: Spells vorbereiten (Wizard/Cleric/Druid/Paladin)
+
+
+_ID_: UC-SPL-01 | _Akteur_: Spieler (Caster) | _Plattform_: Web + Mobile | _Modus_: Downtime (bei Long Rest)
+
+_Trigger_: Long Rest abgeschlossen oder manuell
+
+_Ablauf_:
+. System zeigt: Bekannte Spells (Spellbook für Wizard, volle Klassenliste für Cleric/Druid)
+. Prepared-Limit: INT/WIS/CHA-Modifier + Klassen-Level
+. Spieler togglet `is_prepared` per Spell
+. Domain/Oath Spells automatisch prepared, zählen NICHT gegen Limit
+. Counter zeigt "7/10 Spells vorbereitet"
+. Bestätigen → gespeichert bis nächster Long Rest
+
+_Ergebnis_: Prepared Spells aktualisiert
+
+'''
+
+
+=== UC-SPL-02: Spell aus Scroll ins Spellbook kopieren (Wizard only)
+
+
+_ID_: UC-SPL-02 | _Akteur_: Wizard-Spieler | _Plattform_: Web + Mobile | _Modus_: Downtime
+
+_Vorbedingung_: Spell Scroll im Inventar, Spell muss auf Wizard-Liste sein
+
+_Ablauf_:
+. Item-Detail → "Ins Spellbook kopieren"
+. Kosten: 50 GP × Spell-Level + 2h × Spell-Level
+. Gold-Check + Downtime-Tage-Check
+. Arcana-Check DC 10 + Spell-Level
+. Erfolg: Spell zu `character_known_spells` (source=scroll_copy). Scroll verbraucht
+. Fail: Scroll verbraucht, Spell NICHT gelernt
+
+_Ergebnis_: Neuer Spell im Spellbook (oder Scroll verloren)
+
+'''
+
+
+=== UC-ATT-01: Item Attunement
+
+
+_ID_: UC-ATT-01 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Downtime
+
+_Trigger_: Item mit `requires_attunement` ausrüsten
+
+_Ablauf_:
+. System prüft: Attuned Count < 3?
+. Wenn ja: "Abstimmung erfordert Short Rest. Fortfahren?" → `is_attuned=true`
+. Wenn 3/3: "3 Items abgestimmt. Welches lösen?" → Auswahl → altes `is_attuned=false`, neues true
+
+_Ergebnis_: Item attuned, Effekte aktiv
+
+'''
+
+
+== Notes & Quest (3 UCs)
+
+
+
+=== UC-NTS-01: Session-Notiz erstellen
+
+
+_ID_: UC-NTS-01 | _Akteur_: Spieler oder GM | _Plattform_: Web (Session) | _Modus_: Alle
+
+_Trigger_: Jederzeit während Session
+
+_Ablauf_:
+. Notiz-Button → Editor öffnet sich (nicht-modal, neben Sheet)
+. Freitext schreiben
+. Optional: Entity-Referenzen anhängen (Quest, NPC, Ort, Item, etc.)
+. Optional: Tags zuweisen (bestehend oder neu)
+. "Speichern" → sofort persistiert
+. Session + Szene automatisch verknüpft
+. Notiz erscheint in persönlicher Notiz-Liste
+
+_Ergebnis_: Notiz gespeichert mit Kontext
+
+'''
+
+
+=== UC-NTS-02: Notiz mit Party teilen
+
+
+_ID_: UC-NTS-02 | _Akteur_: Spieler | _Plattform_: Web + Mobile | _Modus_: Alle
+
+_Ablauf_:
+. Auf eigener Notiz: "Mit Party teilen"
+. Bestätigung: "Diese Notiz wird für alle Mitspieler sichtbar"
+. `is_shared=true` → Notiz erscheint bei allen unter "Geteilte Notizen"
+
+_Ergebnis_: Party sieht die Notiz
+
+_Hinweis_: Einmal geteilt, nicht rücknehmbar
+
+'''
+
+
+=== UC-NTS-03: Notizen durchsuchen
+
+
+_ID_: UC-NTS-03 | _Akteur_: Spieler (eigene + geteilte) oder GM (alle) | _Plattform_: Web + Mobile | _Modus_: Alle
+
+_Ablauf_:
+. Notiz-Seite: Volltextsuche + Filter nach Tags + Filter nach Entity-Referenz
+. "Alle meine Notizen zu NPC Gundrik" → Filter reference_type=npc, reference_id=gundrik
+. "Alle Notizen mit Tag 'verdächtig'" → Filter tag
+. "Alle Notizen aus Session 5" → Filter session_id
+. GM sieht zusätzlich: Filter nach Spieler
+
+_Ergebnis_: Gefilterte Notiz-Liste
+
+'''
+
+
+== Quest & Trading (4 UCs)
+
+
+
+=== UC-QST-01: Quest-Belohnung verteilen (GM-Workflow)
+
+
+_ID_: UC-QST-01 | _Akteur_: GM + Spieler (Diskussion) | _Plattform_: Web (Session) | _Modus_: Alle
+
+_Trigger_: GM markiert Quest als completed
+
+_Ablauf_:
+. GM klickt "Quest abschließen" im Dashboard
+. System zeigt alle `quest_rewards`
+. Pop-up an alle Spieler: "Quest [Titel] abgeschlossen!"
+. Spieler diskutieren (Voice Chat)
+. GM-Dashboard: Pro Reward eine Zuweisungs-Ansicht
+. distribution_type bestimmt Verteilung:
+** group: Alle anwesenden bekommen es
+** individual: GM wählt pro Spieler
+** quest_owner: geht automatisch an personal_character_id
+. Trait-Shifts: GM setzt `assigned_character_ids`
+. GM bestätigt → System verteilt (Items→Inventar, Gold→gold, XP→xp_current, Reputation→org_reputation, Traits→trait_levels)
+. Alles geloggt
+
+_Ergebnis_: Belohnungen verteilt, alle Systeme aktualisiert
+
+_Hinweis_: KEINE automatische Verteilung. Immer GM-Entscheidung + Spieler-Diskussion
+
+'''
+
+
+=== UC-TRD-01: Item bei Händler kaufen/verkaufen
+
+
+_ID_: UC-TRD-01 | _Akteur_: Spieler + GM | _Plattform_: Web | _Modus_: Social/Explore
+
+_Ablauf_:
+. NPC-Händler ansprechen → Trade Offer Menu Pop-up
+. Links: Händler-Waren, Rechts: Spieler-Inventar
+. Items auswählen
+. Dynamische Preise (base × rarity × quality × region × aufschlag)
+. Bilanz unten
+. "Gold ausgleichen" Schnellauswahl oder manuell
+. Optional: Feilschen (UC-TRD-02)
+. Bestätigen → GM-Bestätigung
+. Items tauschen → `trade_transactions` geloggt
+
+_Ergebnis_: Handel abgeschlossen
+
+'''
+
+
+=== UC-TRD-02: Feilschen
+
+
+_ID_: UC-TRD-02 | _Akteur_: Spieler | Im Trade Offer Menu
+
+_Ablauf_:
+. Contested Roll: Persuasion vs Händler Insight
+. Erfolg: -5-15% Aufschlag
+. Nat 1: Disposition -5, Preise +5%
+. 1× pro Transaktion
+
+_Ergebnis_: Verhandelte Preise
+
+'''
+
+
+== Additional Mechanics (10+ UCs)
+
+
+
+=== UC-CON-01: Standardmunition automatisch auffüllen
+
+
+_ID_: UC-CON-01 | _Akteur_: System | _Trigger_: Kampf-Ende, Rast, Session-Start
+
+_Ablauf_: Alle Items mit `is_standard_ammo=true` → quantity auf 99 setzen. Kein Log.
+
+_Ergebnis_: Spieler kümmern sich nie um Standardmunition
+
+'''
+
+
+=== UC-CON-02 bis UC-RMR-01
+
+
+_Weitere Use Cases_ im Original-Dokument:
+* UC-CON-02: Trank benutzen im Kampf
+* UC-CON-03: Trank benutzen außerhalb Combat
+* UC-CON-04: Schriftrolle benutzen
+* UC-CON-05: Aktive Effekte automatisch beenden
+* UC-CNC-01: Concentration-Spell außerhalb Combat
+* UC-ENC-01 bis UC-ENC-03: Gewicht & Belastung
+* UC-FOW-03: Kartenansicht mit Fog of War
+* UC-SAV-01: Saving Throw außerhalb Kampf
+* UC-RMR-01: Gerücht aktiv suchen
+
+Siehe Original-Dokument für vollständige Spezifikationen.
+
+'''
+
+
+== Character Creation (1 UC)
+
+
+
+=== UC-CHR-01: Charakter-Erstellungs-Wizard (End-to-End)
+
+
+_ID_: UC-CHR-01 | _Akteur_: Spieler + GM | _Trigger_: Neu oder nach Tod
+
+_10 SCHRITTE_:
+. Startauswahl (Akademie/Quereinsteiger)
+. Rasse + Subrasse (auto race_traits, race_languages)
+. Abstammung (+1 Ability + Vorteil)
+. Klasse + Subklasse (auto Proficiencies)
+. AI-Interview Kindheit (Gespräch + Hauszuweisung bei Akademie)
+. Ability Scores (Standard Array/Point Buy/Würfeln)
+. Equipment
+. Zusammenfassung
+. Charakter erstellen (`pending_gm_approval`)
+. GM bestätigt + Party-Zuweisung
+
+_Ergebnis_: Spielbereiter Charakter Level 1
+
+'''
+
+
+== Reise & Exploration (3 UCs)
+
+
+
+=== UC-TRV-01: Reise-Animation auf Karte
+
+
+_ID_: UC-TRV-01 | _Akteur_: Spieler (Sicht) | _Plattform_: Web + Mobile | _Modus_: Explore
+
+_Ablauf_:
+* Reise-Animation auf der Karte
+* Marschordnung-Auswahl per Pop-up
+* Wetter-Anzeige pro Tag
+* Encounter-Ausrufezeichen bei Zwischenereignis
+* Proviant-Status
+
+_Ergebnis_: Reise visuell dargestellt, Spieler reagiert
+
+'''
+
+
+=== UC-BNT-02: Bounty entdecken und annehmen
+
+
+_ID_: UC-BNT-02 | _Akteur_: Spieler | _Modus_: Explore
+
+_Ablauf_:
+. POI mit Schwarzem Brett besuchen
+. Kein Check nötig (öffentlich)
+. Aktive Bounties anzeigen (Beschreibung, Zustand, Belohnung, Beweis)
+. "Annehmen" → `character_quests` (type=bounty) erstellt
+. Im Quest-Log sichtbar
+
+_Ergebnis_: Bounty getrackt

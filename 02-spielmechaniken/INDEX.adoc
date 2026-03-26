@@ -1,0 +1,108 @@
+
+= Spielmechaniken — Übersicht
+
+
+Umfassende Dokumentation aller Kern-Systeme des Flamenritter-RPGs. Jede Mechanik ist designed für tiefere narrative Integration statt reiner Regeltechnische Abwicklung.
+
+
+== Dokumentstruktur
+
+
+
+=== [1. Traits — Persönlichkeitsspektren](./traits.adoc)
+
+Das Fundament der Charakterentwicklung: Spektren zwischen gegensätzlichen Polen (-5 bis +5), natürliche Evolution durch Entscheidungen und Geschichten, Exclusion-Rules für Widersprüche, öffentliche Sichtbarkeit vs. private Realität. Das Blender-System erkennt Widersprüche zwischen Selbstbild und Verhalten.
+
+
+=== [2. Items & Inventar](./items-inventar.adoc)
+
+Rarity×Quality-Matrix (7 Raritäten × 5 Qualitätsstufen = 35 Power-Level), Durability-System mit realistische Abnutzung, Container-basiertes realistisches Inventar, Kleidung→NPC-Reaktion direkt gekoppelt. Items sind nicht abstrakt sondern sozial wahrnehmbar.
+
+
+=== [3. Beziehungen & Renown](./beziehungen-renown.adoc)
+
+Individuelle Dispositionen (-100 bis +100) mit Trait-Reaktionen, Gruppen-Disposition zwischen Rassen/Organisationen, Renown-System mit Kaskaden-Effekt, Renown-Typ (Hero/Villain/Celebrity). Öffentliches Bild kann völlig falsch sein.
+
+
+=== [4. NPC-Reaktion & DC-Berechnung](./npc-reaktion-dc.adoc)
+
+8-Schritte-NPC-Reaktion-Pipeline: Wo → Wer → Bekannt? → Basis-Disposition → Trait-Match → Kleidung → Override → Emotion für Spieler. 10-Schritte-DC-Berechnung: Basis DC dynamisch modifiziert durch 9 Faktoren. Beide vollständig transparent für GM, Spieler sehen nur Endergebnis.
+
+
+=== [5. Würfel-System](./wuerfel-system.adoc)
+
+Rolllog mit 3-facher Verlinkung (Charakter-Statistik, Session, Gruppe), Modifier-Chain vollständig aufschlüsselbar, 4 Kategorien (Standard/Save/Hidden/Contested), variable Sichtbarkeit, GM-Werkzeuge für Batch-Rolls und automatische NPC-Rolls.
+
+
+=== [6. Ökonomie & Handel](./oekonomie-handel.adoc)
+
+Nur Gold (keine SP/CP), dynamische Preise durch 6 Multiplikatoren pro Region, Tauschhandel als NORMALE Handelsform (nur Händler haben Gold), Feilschen mit Contested Rolls, Schwarzmarkt, Party-Lager mit unbegrenzter Truhe.
+
+
+=== [7. Professionen & Crafting](./professionen-crafting.adoc)
+
+5 Professions-Level (Lehrling bis Legendär) mit 10 Basis-Professionen, mechanische Boni + Einkommen pro Level. Multi-Step Crafting: Jedes Rezept hat mehrere Handlungsschritte, jeder Schritt generiert optionale Bonus-/Nachteil-Eigenschaften, Ergebnis ist eindeutig individuell.
+
+
+=== [8. Dragon Bond](./dragon-bond.adoc)
+
+Dragon-Spezies und Bindungsphasen, tägliche Pflege mit Konsequenzen bei Vernachlässigung, Trait-Resonanz zwischen Rider und Dragon, spezielle Dragon-Equipment, Dialog-Level-Up mit Dragon statt klassische Listenwahlmenü.
+
+
+=== [9. Reise & Wetter](./reise-wetter.adoc)
+
+Reise-Routen mit Pacing-Optionen, tägliche Encounters nach Typ-Verteilung, Proviant-Verbrauch, monatliches dynamisches Wetter mit Region/Jahreszeit-Kalibrierung, Fog of War pro Charakter mit Party-Teilen.
+
+
+=== [10. Rechtssystem & Dialog](./recht-dialog.adoc)
+
+Straftat-Workflow: Detection → Konfliktsituation → Konsequenzen, wanted_level und Bounties, regionale Gesetzestexte. Dialog-Templates mit bekannten Infos und Emotions-Auslösern, Gerüchte-System mit Netzwerk-Propagation.
+
+
+=== [11. Quest & Szenen](./quest-szenen.adoc)
+
+8 Quest-Typen mit Story-Hooks, strukturierte Objectives und Rewards, 6 Szenen-Typen (Social/Combat/Discovery/Chase/Moral/Environmental), Übergänge mit reveal_elements, Session-Workflow mit optionaler AI-Recap.
+
+
+=== [12. Organisationen](./organisationen.adoc)
+
+Organisations-Typen (Akademie/Gilde/Militär/Adel/Kult/Informal), Rang-Systeme mit mechanischen Boni, Mitgliedschafts-Anforderungen (Traits/Level), Exclusion-Regeln, automatische Reputations-Vererbung.
+
+
+=== [13. Kampf-System](./kampf-system.adoc)
+
+D&D 5e + BG3 Adaptation: Surfaces, Gravity, Cover, Reaction-Economy, Foundry VTT Integration, Encounter-Generierung mit Difficulty-Skalierung, Loot-Workflow mit GM-Review.
+
+
+=== [14. Kalender & Zeit](./kalender-zeit.adoc)
+
+Harptos-Kalender (12 Monate, 30 Tage) mit akademischen Phasen und Holidays, Jahreszeiten und regionale Auswirkungen, Tageszeiten (Dawn/Morning/Afternoon/Evening/Night), Time-Skip-Mechanik, dynamische Kalender-Events.
+
+
+== Cross-System-Referenzen
+
+
+* _Traits_ beeinflussen: Disposition, NPC-Reaktion, DC-Modifizierung, Crafting-Checks, Combat-Checks, Dialog-Erfolg
+* _Disposition_ beeinflusst: Feilschen-DC, Reputation bei Organisationen, Quest-Zugang, NPC-Hilfsbereitschaft
+* _Renown_ bestimmt: NPC-Wissen über Spieler, Automatische Dispositions-Bonusse, Zugang zu Lokationen, Quest-Skalierung
+* _Items_ ändern: NPC-Reaktion direkt, Crafting-Möglichkeiten, Kampf-Taktik, Dragon-Glück
+* _Professions_ geben: Crafting-Rezepte frei, Mechanische Boni bei Checks, Einkommen in Downtime, Handels-Rabatte
+* _Dragon Bond_ verstärkt: Combat-Power progressiv, Travel-Geschwindigkeit, Pacing von Sessionen
+
+
+== Regelwerk-Philosophie
+
+
+. _Narratives First_: Jede Mechanik dient der Geschichte, nicht umgekehrt
+. _Transparent für GMs, Opaque für Spieler_: GM sieht Zahlen und Formeln, Spieler sehen emotionale Icons
+. _Realismus über Abstraktion_: Container, Gewicht, Essen, Wetter sind alle RELEVANT
+. _Konsequenzen haben Geschichtliche Bedeutung_: Ein Nat 1 bei Stealth ist keine Fehler, sondern Story-Moment
+. _Welt ist nicht fair_: NPC-Reaktion hängt von Aussehen, Rasse, Kleidung ab; Spieler müssen Kontext berücksichtigen
+. _Progression ist graduell_: Traits, Disposition, Renown ändern sich LANGSAM über Sessions
+. _Choices matter_: Entscheidungs-Tracking mit strukturierten Konsequenz-Verknüpfungen
+
+
+== Implementierungs-Status
+
+
+Alle Systeme sind voll dokumentiert und spielbar. Einige Features (Immobilien, Karawanen-Ownership) sind architectural geplant aber nicht für v1 implementiert.

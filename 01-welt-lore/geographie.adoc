@@ -1,0 +1,505 @@
+
+= Geographie: Das Multi-Layer Welt-System
+
+
+Die Flammenreiter-Welt funktioniert auf einem innovativen _Multi-Layer System_: Mehrere unabhängige Ebenen (politisch, kulturell, religiös, handelsmäßig) überlagern sich und schaffen lokale Eigenschaften an jedem Punkt der Welt.
+
+'''
+
+
+== Das Multi-Layer Konzept
+
+
+
+=== 4 Unabhängige Layer
+
+
+
+==== 1. Politische Regionen
+
+
+Hierarchische Verwaltungsgrenzen:
+* _Empire_ → _Kingdom_ → _County_ → _Barony_ → _City_ → _Town_ → _Village_ → _Outpost_ → _Wilderness_
+
+Jede Region hat:
+* Herrscher/Vorsteher (NPC)
+* Rechtssystem
+* Dominante Rasse
+* Rasse-Verteilung
+* Polygon-Grenze (PostGIS)
+
+_Kaskade-Effekt_: Gesetze des Königreichs gelten in allen untergeordneten Grafschaften.
+
+
+==== 2. Kulturelle Zonen
+
+
+_UNABHÄNGIG von politischen Grenzen_ — Kultur-Polygone können politische Grenzen schneiden:
+
+* Gefrenki-Kultur erstreckt sich über _3 Königreiche_
+* Jede Kultur hat `cultural_values[]` (geschätzte Trait-Spektren)
+* Jede Kultur hat `cultural_taboos[]` (verachtete Traits)
+* Kultur-Match gibt Modifier auf Social Checks
+* _Beispiel_: In Gefrenki-Gebieten +2 auf Persuasion wenn Träger Mutig ist (Gefrenki-Wert)
+
+
+==== 3. Religiöse Zonen
+
+
+Einfluss-Stärke (jeweils ein eigenes Polygon):
+* `dominant` — Theokratie, religiöses Recht > politisches Recht
+* `strong` — Großer Einfluss, Priester haben Macht
+* `present` — Normal
+* `minority` — Kleine Präsenz, toleriert
+* `underground` — Verboten, Anhänger verstecken sich
+* `forbidden` — Verfolgt, Todesstrafe möglich
+
+_Lokale Effekte_:
+* `religious_law_override` — Religiöses Recht überschreibt politisches Recht
+* `heresy_reaction` — tolerance bis death_penalty
+* Einflussgebiet auf Kleriker/Priester-Boni
+
+
+==== 4. Handelszonen
+
+
+_Gilden-Einflussgebiete_ über politische Grenzen:
+
+* Handelsrouten-Zentren
+* `price_modifier_percent` — Lokale Preise
+* `available_services[]` — Was ist hier erhältlich?
+* `reputation_required` — Gilt für Premium-Dienste
+* _Beispiel_: Alchemisten-Gilde hat Headquarters in Stadt A, Branch in Stadt B, Influence Only in Region C
+
+'''
+
+
+== Punkt-Berechnung (PostGIS)
+
+
+
+=== Die Magie dahinter
+
+
+An jedem Punkt der Welt wird berechnet:
+. _Welche politische Region?_ → NPC-Generierung, Gesetze
+. _Welche Kultur?_ → Trait-Modifizierer, Social Checks
+. _Welche Religion(en)?_ → Priester-Macht, Tempel, Reaktionen
+. _Welche Handelsgilde(n)?_ → Preise, verfügbare Dienste
+
+
+=== Ergebnis: Lokale Eigenschaften
+
+
+Der Schnitt aller Layer bestimmt:
+* _NPC-Generierung_ — Welche Traits sind lokale Werte?
+* _Preise_ — Trank kostet 50gp hier, 200gp dort
+* _Gesetze_ — Nekromantie ist hier okay, dort Todesstrafe
+* _Verfügbare Services_ — Heilung wird gesucht, magische Items sind selten
+* _Disposition-Modifizierer_ — Ein brutaler Charakter verliert Disposition bei kultursensiblen NPCs
+
+'''
+
+
+== Die 5-Ebenen Ort-Hierarchie
+
+
+
+=== Ebene 1: WELT (1 Entity)
+
+
+* Name
+* Größe-Beschreibung
+* Bevölkerungsschätzung
+* Erstellungs-Lore
+* Map-Bild
+
+Beispiel: "Flammenreiter-Welt — ein Kontinent mit ~50 Millionen Einwohnern"
+
+
+=== Ebene 2: POLITISCHE REGIONEN
+
+
+Hierarchisch von Empire zu Wilderness:
+* Empire (höchste Ebene)
+* Kingdom
+* County
+* Barony
+* (cities/towns/villages sind POIs, nicht Regionen)
+
+Jede Region hat:
+* `ruling_npc_id` — Wer regiert?
+* `legal_system` — Gesetze hier
+* `dominant_race` — Mehrheit
+* `population` — Einwohnerzahl
+* `geographic_polygon` — PostGIS Shape
+
+
+=== Ebene 3: SIEDLUNGEN & LANDMARKS (Travel Nodes)
+
+
+_travel_nodes_ mit subtypes:
+
+
+==== Siedlungen (node_subtype=settlement)
+
+
+* _capital_ — Hauptstadt eines Königreichs
+* _city_ — Große Stadt (1000-10000 Einwohner)
+* _town_ — Kleinere Stadt (100-1000)
+* _village_ — Dorf (10-100)
+* _hamlet_ — Weiler (5-10)
+* _outpost_ — Militärposten
+* _fortress_ — Burg/Festung
+
+Felder pro Siedlung:
+* `population` — Einwohnerzahl
+* `wealth_level` (1-5) — Reichtum und Ressourcen
+* `governing_npc_id FK` — Bürgermeister/Vorsteher
+* `has_walls` (bool)
+* `has_port` (bool)
+* `dominant_race_id FK`
+* `description_gm` — GM-Notizen
+* `description_player` — Spieler-sichtbar
+* `visual_description` — Wie sieht es aus?
+* `lore_text` — Historischer Hintergrund
+
+_Hierarchie_: Eine Hauptstadt hat alles — Mauern, Hafen, viele POIs. Ein Weiler hat vielleicht nur eine Taverne und einen Schmied.
+
+
+==== Landmarks (node_subtype=landmark)
+
+
+Keine Siedlung, keine Zivilisation:
+* _mountain_ — Berg
+* _forest_ — Wald
+* _swamp_ — Sumpf
+* _lake_ — See
+* _desert_ — Wüste
+* _cave_ — Höhle
+* _ruins_ — Ruinen
+* _volcano_ — Vulkan
+* _glacier_ — Gletscher
+* _island_ — Insel
+* _canyon_ — Schlucht
+* _plains_ — Flachland
+
+Felder pro Landmark:
+* `danger_level` (1-5) — Wie gefährlich?
+* `terrain_type_id FK` — Waldtyp, Gestein, etc.
+* `is_magical` (bool) — Magische Effekte?
+* `discovery_dc` — Wie schwer zu finden?
+* `description_gm` — GM-Notizen
+* `description_player` — Spieler-sichtbar
+* `lore_text` — Wo ist dieser Berg im weltlichen Kontext?
+
+_POIs in Landmarks_: Landmarks KÖNNEN POIs haben (Einsiedler-Hütte im Wald, Höhleneingang im Berg, Altar auf Gipfel)
+
+
+=== Ebene 4: POINTS OF INTEREST (POIs)
+
+
+_Das Herzstück des Orte-Systems_ — Konkrete Orte INNERHALB einer Siedlung oder eines Landmarks.
+
+
+==== 28 POI-Typen
+
+
+
+[cols="1,1",options="header"]
+|===
+| Typ | Beschreibung
+
+| _tavern_ | Kneipe, Unterkunft, soziales Zentrum
+| _inn_ | Gasthaus
+| _smithy_ | Schmied
+| _armorer_ | Waffenschmied
+| _general_store_ | Laden
+| _market_ | Marktplatz
+| _temple_ | Göttlicher Tempel (eine Gott)
+| _shrine_ | Kleineres Heiligtum
+| _guild_hall_ | Gildensitz
+| _library_ | Bücherei, Archiv
+| _guard_post_ | Wachhaus, Polizei
+| _prison_ | Gefängnis
+| _notice_board_ | Schwarzes Brett (Quests, Bulletin)
+| _harbor_ | Hafen
+| _stable_ | Pferdebestand
+| _academy_building_ | Akademie-Gebäude (Lehrräume, Studentenwohnheim)
+| _arena_ | Kampfarena
+| _underground_entrance_ | Zugang zu Dungeon/Katakomben
+| _residential_ | Wohnhaus
+| _warehouse_ | Lagerhaus
+| _monument_ | Statue, Denkmal
+| _cemetery_ | Friedhof
+| _hermit_hut_ | Einsiedlerhütte (Landmark-POI)
+| _cave_entrance_ | Höhleneingang (Landmark-POI)
+| _altar_ | Freier Altar (Landmark-POI)
+| _camp_ | Lager, Zeltstadt
+| _bandit_hideout_ | Räuber-Versteck
+| _dragon_nest_ | Drachennest
+| _ruins_entrance_ | Zugang zu antiken Ruinen
+|===
+
+
+
+==== POI-Felder
+
+
+Jeder POI hat:
+* `travel_node_id FK` — Welche Siedlung/Landmark?
+* `name` — Name des Ortes
+* `poi_type` — Einer der 28 Typen
+* `description_gm` — GM-Notes
+* `description_player` — Spieler-Sichtbar
+* `owner_npc_id FK` — Wem gehört es? (z.B. Tavernenwirt)
+* `organization_id FK` — Welche Org kontrolliert es? (z.B. Diebesgilde)
+* `deity_id FK` — Welchem Gott geweiht? (Tempel/Schrein)
+* `services[]` jsonb — Was kann man hier tun? (z.B. ["buy_food", "rest", "gather_info"])
+* `price_modifier_pct` — Lokale Preisabweichung
+* `is_public` (bool) — Kann jeder rein?
+* `required_org_id FK` — Muss in dieser Org sein
+* `required_org_rank_level` — Mindest-Rang
+* `entry_cost_gp` — Eintritt?
+* `discovery_dc` — Wie geheim?
+* `operating_hours` jsonb — Öffnungszeiten
+* `visibility` — hidden|secret|known|famous
+
+
+=== Ebene 5: ROUTEN
+
+
+_travel_routes_ verbinden Nodes mit:
+* `distance_miles` — Entfernung
+* `travel_time_hours` — Zu Fuß
+* `travel_time_mounted` — Zu Pferd/Drache
+* Gefahren/Wendepunkte unterwegs
+
+'''
+
+
+== POIs: Das Herzstück des Systems
+
+
+
+=== Warum POIs so wichtig sind
+
+
+POIs verbinden _ALLE Systeme_ mit konkreten Orten:
+
+
+==== Informations-Netzwerk
+
+* `information_sources +poi_id` → "Die Taverne Zum Goldenen Drachen" statt nur "in der Stadt"
+
+
+==== Bounty-System
+
+* `bounty_board +poi_id` → "am Schwarzen Brett im Wachhaus"
+
+
+==== Handelssystem
+
+* `trade_transactions +poi_id` → "beim Schmied Gundrik"
+
+
+==== Organisationen
+
+* `organization_locations` → Gildenhalle der Diebesgilde = konkreter POI
+
+
+==== Rechtssystem
+
+* `guard_post` und `prison` als POIs
+
+
+==== Religion
+
+* Tempel/Schreine als POIs mit `deity_id`
+
+
+==== Quests
+
+* `quest_giver_poi_id` → "Quest vom Wirt der Rattentaverne"
+
+
+==== NPCs
+
+* `world_npcs` hat `home_node_id` (wo LEBT er?) und `work_poi_id` (wo ARBEITET er?)
+
+
+==== **Alles hat einen Ort**
+
+
+Wenn Spieler einen POI anklicken → sehen sie wer dort ist
+Wenn Spieler auf einen NPC klicken → sehen sie wo er zu finden ist
+
+'''
+
+
+== NPC ↔ Ort Zuordnung
+
+
+`world_npcs` wird erweitert:
+* `home_node_id FK` — Welche Siedlung/Landmark? (wo LEBT der NPC?)
+* `work_poi_id FK` — Welcher POI? (wo ARBEITET er?)
+* `schedule_description` TEXT — 'Tagsüber in der Schmiede, abends in der Taverne'
+
+_Beispiel_: "Gundrik der Schmied"
+* home_node_id → Stadt Sturmfels
+* work_poi_id → Schmied 'Zur Glühenden Esse'
+* schedule → "Montag-Freitag 06:00-18:00 in der Schmiede, Samstag auf dem Markt"
+
+'''
+
+
+== Organisation ↔ Ort Zuordnung
+
+
+Neue Tabelle: `organization_locations`
+
+* `org_id FK` — Welche Organisation?
+* `poi_id FK` — Welcher POI?
+* `presence_type` — headquarters | branch | outpost | secret_hideout | controlled_territory | influence_only
+* `is_public` (bool) — Wissen alle davon?
+* `member_count_estimate` — Wie viele Mitglieder hier?
+
+_Beispiel_: "Diebesgilde"
+* headquarters → "Keller unter der Rattentaverne"
+* branch → Filiale in Stadt Y
+* influence_only → Kontrolle in Region Z
+
+Verknüpft Organisationen mit _konkreten Orten_ — nicht nur 'in der Region' sondern 'in DIESEM Gebäude'.
+
+'''
+
+
+== Entfernungen & Reisezeiten
+
+
+
+=== Zwischen Orten
+
+
+`travel_routes` hat:
+* `distance_miles` — Distanz
+* `travel_time_hours` — Zu Fuß
+* `travel_time_mounted` — Zu Pferd/Drache
+
+_Berechnung_: Graph-Algorithmus (Dijkstra) berechnet kürzesten Pfad über `travel_nodes` + `travel_routes`.
+
+Berechnung passiert in Hono-Service, NICHT in DB.
+
+Quest-Ziele zeigen geschätzte Reisezeit an: "Die Höhle ist ~3 Tagesreisen entfernt"
+
+
+=== Innerhalb einer Stadt
+
+
+_Keine Mechanik-Wert_ — Flavor basiert auf Beschreibung:
+* "'am Marktplatz"
+* 'auf dem Hügel'
+* 'in der Hafengasse'
+
+'''
+
+
+== Status: Struktur vs. Content
+
+
+
+=== Struktur: Vollständig
+
+
+Das _Multi-Layer-System_ ist komplett designed:
+* Politische Ebenen
+* Kulturelle Overlay-Zonen
+* Religiöse Einflussgebiete
+* Handelszonen
+* PostGIS Punkt-Berechnung
+* 5-Ebenen Ort-Hierarchie
+* 28 POI-Typen
+* NPC & Organisations-Zuordnung
+
+
+=== Content: Noch zu erstellen
+
+
+* _Keine konkreten Regionen, Städte, Routen_ definiert
+* Die Welt ist strukturell bereit aber inhaltlich leer
+* Fehlt: Sub-Location-Ebene Details (exakte POI-Layouts in Städten)
+* Betrifft viele Systeme: Infos, Shops, Recht, NPCs, Akademie-Gebäude
+
+'''
+
+
+== Kulturelle Zonen — Beispiele (Konzept)
+
+
+Kulturelle Zonen KÖNNTEN nach Regionen strukturiert werden:
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Kultur | Charakteristika | Traits | Werte
+
+| _Gefrenki_ | Händler-Nomaden | Ehrgeizig, Praktisch | Reichtum, Handelskunst
+| _Dunmar_ | Bergleute & Zwergisch | Standhaft, Loyal | Handwerk, Beständigkeit
+| _Celestis_ | Hochelfen & Akademie | Weise, Neugierig | Wissen, Magie
+| _Duskrim_ | Krieger & Ehre | Mutig, Stolz | Kriegerischer Ruhm, Ehre
+|===
+
+
+_Details folgen in Kampagnen-spezifischen Dokumentationen_
+
+'''
+
+
+== Religiöse Zonen — Beispiele (Konzept)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Gott | Dominante Regionen | Einflusstyp | Reaktion auf Häresie
+
+| _Pyrathis_ | Militärische Regionen | strong | Verachtung
+| _Solveris_ | Nördliche Kingdoms | dominant | Verfolgung
+| _Aeolyn_ | Akademie-Gebiet | strong | Toleranz
+| _Nocthari_ | Urbane Schatten | minority | Verfolgung
+| _Aethyran_ | Überall verstreut | mystery | Furcht
+|===
+
+
+_Details folgen in regionalen Erkundungen_
+
+'''
+
+
+== Handelszonen — Beispiele (Konzept)
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Gilde | Sitz | Branches | Einfluss
+
+| _Schmied-Zunft_ | Stadt A | Überall | Handwerk-Preise -10%
+| _Alchemisten_ | Akademie-Stadt | Major cities | Tränke verfügbar
+| _Diebesgilde_ | Urban-Zentren | Überall | Illegale Services
+| _Händler-Caravan_ | Nomadisch | Handelsrouten | Reisekosten +5%
+|===
+
+
+_Details folgen in wirtschafts-spezifischen Dokumentationen_
+
+'''
+
+
+== Siehe auch
+
+
+* link:./geschichte.adoc[Geschichte] — Die historischen Layer verstehen
+* link:./pantheon-sigillen.adoc[Pantheon] — Religiöse Zonen und göttliche Macht
+* link:./kreaturen.adoc[Kreaturen] — Gefährliche Gebiete und Bestiary-Habitate
+

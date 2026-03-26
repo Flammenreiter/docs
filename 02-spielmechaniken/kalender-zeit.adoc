@@ -1,0 +1,540 @@
+
+= Kalender & Zeit-System
+
+
+Harptos-Kalender mit akademischen Phasen, Jahreszeiten, Holidays, Tageszeiten, Time-Skip-Mechanik.
+
+
+== Harptos-Kalender
+
+
+
+=== Struktur
+
+
+----
+1 Jahr = 12 Monate × 30 Tage = 360 Tage
+
+Monate:
+  1. Hammer (Winter)
+  2. Alturiak (Winter)
+  3. Ches (Spring)
+  4. Tarsakh (Spring)
+  5. Mirtul (Spring)
+  6. Kythorn (Summer)
+  7. Flamerule (Summer)
+  8. Eleasias (Summer)
+  9. Eleint (Autumn)
+  10. Marpenoth (Autumn)
+  11. Uktar (Autumn)
+  12. Nightal (Winter)
+
+Jahreszeiten:
+  Winter: Months 1-2, 12 (3 months)
+  Spring: Months 3-5 (3 months)
+  Summer: Months 6-8 (3 months)
+  Autumn: Months 9-11 (3 months)
+----
+
+
+=== Tageszeiten
+
+
+----
+Per Day:
+  Dawn (5:00-7:00)
+  Morning (7:00-12:00)
+  Afternoon (12:00-17:00)
+  Evening (17:00-21:00)
+  Night (21:00-5:00)
+
+Game Default: Start session at Morning
+But flexible per scene (ambush at night, dawn patrol, etc.)
+----
+
+'''
+
+
+== Jahreszeiten & Effekte
+
+
+
+=== Winter (Hammer, Alturiak, Nightal)
+
+
+----
+Weather: Snow common, cold always
+Travel Speed: -20% (snow slows movement)
+Provisions: Food scarce, prices +30% (preserved goods)
+Monsters: Polar predators appear, fewer humanoids outside
+Agriculture: No farming, hunting/fishing reduced
+Festivals: Winter Solstice (Midwinter, month 12, day 20)
+
+Difficulty: Hard
+----
+
+
+=== Frühling (Ches, Tarsakh, Mirtul)
+
+
+----
+Weather: Rain common, temperatures moderate
+Travel Speed: Normal
+Provisions: Normal prices (fields being planted)
+Monsters: Normal distribution
+Agriculture: Spring planting
+Festivals: Spring Equinox (Greengrass, month 3, day 20)
+
+Difficulty: Easy
+----
+
+
+=== Sommer (Kythorn, Flamerule, Eleasias)
+
+
+----
+Weather: Heat, drought possible
+Travel Speed: Normal (heat -10% in desert)
+Provisions: Fresh food abundant, prices -20%
+Monsters: Normal, some aggressive due to heat
+Agriculture: Crops growing, harvest approaching
+Festivals: Summer Solstice (Midsummer, month 6, day 20)
+
+Difficulty: Medium
+----
+
+
+=== Herbst (Eleint, Marpenoth, Uktar)
+
+
+----
+Weather: Mild, rain occasional
+Travel Speed: Normal
+Provisions: Harvest time, prices vary (some cheap, some abundant)
+Monsters: Normal + migration patterns
+Agriculture: Harvest season
+Festivals: Autumn Equinox (Highharvestide, month 9, day 20)
+
+Difficulty: Medium
+----
+
+'''
+
+
+== Akademie-Phasen (wenn Akademie-based Campaign)
+
+
+Akademie hat Academic Calendar separiert vom Welt-Kalender:
+
+
+=== Semester-Struktur
+
+
+----
+Fall Semester:
+  Weeks 1-4: Introductions, basic classes
+  Weeks 5-9: Core curriculum
+  Weeks 10-13: Midterms + practical exams
+  Break: 2 weeks (Holidays)
+
+Spring Semester:
+  Weeks 1-4: New year, advanced classes
+  Weeks 5-9: Project-based learning
+  Weeks 10-13: Finals + thesis defense
+  Break: 4 weeks (Summer break)
+
+Summer Programs (optional):
+  Weeks 1-6: Specialized training
+  Weeks 7-8: Internship/practicum
+----
+
+
+=== Akademie-Events
+
+
+----
+Year 1 Induction: Month 3 (Spring, mid-month)
+  → New students arrive, sorting hat ceremony, first classes
+
+Midterm Exams: Month 6 (Summer, week 3)
+  → Practical + written tests
+  → Determines class advancement
+
+Winter Festival: Month 12, days 20-25
+  → Campus celebration, parties, competitions
+  → Trading with visiting merchants
+
+Spring Graduation: Month 3 (next year), day 30
+  → Advanced students graduate/specialize
+  → Newcomers can be promoted
+
+Orientation Week: Month 4 (Spring, weeks 1-2)
+  → New program induction
+  → Classes resume full strength
+----
+
+
+=== Non-Akademie Characters
+
+
+Non-akademie PCs are free of this calendar. They:
+* Can visit akademie during breaks (social opportunity)
+* Can attend parties/festivals (if invited)
+* Can't participate in classes (unless became member)
+
+'''
+
+
+== Notable Holidays
+
+
+
+=== Kingdom-wide Holidays
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Holiday | Month | Day | Significance | Effects
+
+| Midwinter | 12 | 20 | Dark goddess celebration | Festivals, reduced guards
+| Greengrass | 3 | 20 | Fertility/spring rite | Agriculture-focused
+| Midsummer | 6 | 20 | Peak of light | Fairs, markets open late
+| Highharvestide | 9 | 20 | Harvest thanksgiving | Reduced prices on food
+|===
+
+
+
+=== Region-Specific Holidays
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Region | Holiday | Effect
+
+| Dwarven Kingdoms | Stone-day (Month 7, day 15) | Dwarves celebrate craftsmanship
+| Elvish Enclaves | Starfall (Month 11, day 10) | Elves have night ceremonies
+| Merchant Cities | Trade Fair (Month 5, day 1) | NPC merchants come to sell
+| Holy Sites | Pilgrimage (Variable) | Temples full, quests available
+|===
+
+
+
+=== Party-Created Holidays
+
+
+GM can create personal holidays:
+
+----
+"On this date last year, you defeated the Dragon!"
+Anniversary of Dragon Slaying celebrated yearly
+NPCs remember: gifts, gratitude, quests
+Party reputation boost around this time
+----
+
+'''
+
+
+== Time-Skip Mechanics (wie bereits in reise-wetter.adoc)
+
+
+Kurz zusammengefasst:
+
+----
+GM sagt: "3 weeks pass"
+
+System führt automatisch aus:
+  ├─ Daily weather rolls (3 weeks worth)
+  ├─ Crafting projects continue + auto-rolled
+  ├─ Dragon care runs at ×0.25 impact (some neglect possible)
+  ├─ Provisions consumed per day
+  ├─ Travel progress (if party moving)
+  ├─ Item durability: NO natural decay (only use-based)
+  ├─ Profession training continues
+  ├─ Org reputation interactions (passive)
+  └─ Events in period trigger at END of skip
+
+Optional:
+  → AI-summary of time skip
+  → "For 3 weeks, you trained in the city..."
+  → Brief scene descriptions
+----
+
+'''
+
+
+== Downtime Tracking
+
+
+
+=== Activities Available During Downtime
+
+
+----
+Per Downtime Day (non-session day):
+
+Character can do ONE of:
+
+1. Profession Work
+   Earn X GP for that profession level
+
+2. Crafting Project
+   Work on 1 item (1 step, if recipe known)
+
+3. Training / Learning
+   Learn new skill, language, or profession
+   Requires trainer NPC + gold
+
+4. Dragon Care
+   (if has dragon)
+   Mandatory 2 hours, optional +2 hours activities
+
+5. Social Activities
+   Visit NPC, increase disposition
+   Gain rumors, intel, quest hooks
+
+6. Research
+   Spend time in library
+   Discover secrets, lore, recipe books
+
+7. Rest / Recovery
+   Heal exhaustion, meditation
+   Prepare spells/rituals
+----
+
+
+=== App-Integration: Downtime Tracking
+
+
+Mobile App allows PCs to:
+* Log downtime activities between sessions
+* See crafting progress
+* Check dragon bond status
+* Review profession earnings
+* Manage reputation changes
+
+GM gets notifications:
+* "Player A finished crafting project"
+* "Party dragon is hungry (-5 BP)"
+* "NPC reputation updated for Player B"
+
+'''
+
+
+== Specific Time Mechanics
+
+
+
+=== Short Rest (1 hour)
+
+
+----
+Character can:
+  ├─ Spend 1 Hit Die to recover HP (Roll Hit Die + CON)
+  ├─ Light meal + water
+  ├─ Light equipment maintenance (+5-10% durability to one item)
+  ├─ Meditation / prayer
+  └─ Can short rest anywhere (usually)
+
+Class Features:
+  ├─ Warlocks: Refresh pact magic slots
+  ├─ Monks: Refresh Ki points
+  └─ Rogues: No special mechanic, just healing
+
+Interruptions:
+  Heavy combat/stress → short rest becomes invalid
+  Must find safe location
+----
+
+
+=== Long Rest (8 hours)
+
+
+----
+Character must:
+  ├─ Sleep 8 hours uninterrupted
+  ├─ Have adequate shelter (no hostile creatures)
+  ├─ Have provisions (food + water)
+  └─ Not have been severely wounded
+
+Upon completion:
+  ├─ Restore HP to max
+  ├─ Restore all expended hit dice
+  ├─ Prepare spells (casters)
+  ├─ Refresh abilities (recharge)
+  └─ Gain 1 level of Exhaustion recovery (max 1/long rest)
+
+Location-specific bonuses:
+  ├─ Comfortable inn: +1d6 HP recovery (total)
+  ├─ Soft bedroll in camp: Normal healing
+  ├─ Sleeping on ground: Disadvantage on first CON save next day
+  ├─ Sacred site (temple): +1d8 HP + spiritual boost
+----
+
+
+=== Exhaustion Tracking
+
+
+----
+Exhaustion Levels: 1-6
+
+1 Disadvantage on ability checks
+2 Speed halved
+3 Disadvantage on attack rolls and saves
+4 HP maximum halved
+5 Speed reduced to 0
+6 Death
+
+Recovery:
+  1 level per Long Rest (in safe location)
+  Special features can recover more:
+    Healing spell (Greater Restoration)
+    Magical item with restoration
+    Monk feature: spend Ki points
+----
+
+'''
+
+
+== Session Planning with Calendar
+
+
+
+=== GM Calendar Tools
+
+
+----
+Campaign Overview:
+  Big calendar showing:
+  ├─ Session dates (in real world)
+  ├─ In-game time progression
+  ├─ Major holidays approaching
+  ├─ Crafting deadlines
+  ├─ Dragon bond milestones
+  └─ Org events scheduled
+
+Planning Assistance:
+  System suggests:
+  "In 2 weeks, Greengrass festival arrives"
+  "Crafting project finishes in 5 days"
+  "Dragon's Phase-Up is imminent (3 more successful encounters needed)"
+----
+
+
+=== Event Calendar
+
+
+----
+calendar_events (Kampagne)
+├── event_type (holiday|deadline|crafting_end|festival|npc_arrival|quest_deadline)
+├── harptos_date (month, day)
+├── description
+├── auto_trigger (bool — does system handle it?)
+├── notification_days_ahead (3, 7, 14, 30 days warning?)
+├── affected_characters[] (who cares about this?)
+└── mechanical_effect (if any)
+
+Examples:
+  Holiday "Greengrass" → Market prices -20% for food
+  Crafting End → Item appears in inventory
+  NPC Arrival → Quest-giver appears in tavern
+  Deadline → If not completed, reputation loss
+----
+
+'''
+
+
+== Multiple Calendars (if World has them)
+
+
+
+=== Elven Calendar (Different from Harptos)
+
+
+----
+Some campaigns have:
+  ├─ Human calendar (Harptos)
+  ├─ Elven calendar (Corellon-based, longer cycles)
+  ├─ Dwarven calendar (Stone-year based)
+  ├─ Dragonborn calendar (Epoch-based)
+
+Cross-reference available:
+  "In Harptos: Month 3, Day 15"
+  "In Elven: Starfall Cycle, 247th day"
+  "In Dwarvish: Stone-Year 1,247, Season 3"
+
+But campaign typically uses ONE primary calendar
+Others are just for flavor
+----
+
+'''
+
+
+== DB-Struktur
+
+
+----
+harptos_calendar (Welt)
+├── year (current campaign year, e.g., 1372)
+├── month (1-12)
+├── day (1-30)
+├── dayofweek (Monday-Sunday, derived)
+├── season (winter|spring|summer|autumn)
+└── current_time_of_day (dawn|morning|afternoon|evening|night)
+
+calendar_events (Kampagne)
+├── id (PK)
+├── event_type
+├── harptos_month
+├── harptos_day
+├── description
+├── is_recurring (bool)
+├── affected_characters[] (jsonb)
+├── mechanical_effects (jsonb)
+├── notification_sent (bool)
+└── notification_dates (jsonb: [{date, sent_at}])
+
+session_logs (Kampagne)
+├── id (PK)
+├── date_real_world (YYYY-MM-DD)
+├── date_in_game_start (harptos date)
+├── date_in_game_end (harptos date, after time skip)
+├── time_elapsed_days
+├── scenes[] (scene_ids)
+├── downtime_activities[] (jsonb per character)
+└── notes (recap, major events)
+
+downtime_log (Kampagne)
+├── character_id (FK)
+├── activity_type (profession|crafting|training|dragon|social|research|rest)
+├── date_start (harptos)
+├── date_end (harptos)
+├── gold_earned (if profession work)
+├── craft_step_completed (if crafting)
+├── relationship_change (if social)
+└── result_description
+----
+
+
+== Session Pacing with Calendar
+
+
+
+=== Recommended Session Timeline
+
+
+----
+Session 1: Month 1, days 1-5 (introduction, first encounter)
+Session 2: Month 1, days 5-8 (dungeon delve)
+Session 3: Month 1, days 8-12 (travel + social)
+Session 4: Month 1, days 12-15 (combat challenge)
+Session 5: Month 1, days 15-20 (climax, downtime planning)
+[DOWNTIME: 10 days, Month 1, days 20-30]
+Session 6: Month 2, days 1-5 (new arc begins)
+...
+[HOLIDAY: Greengrass, Month 3, day 20]
+[MAJOR EVENT: Dragon Phase-Up anticipated]
+----
+
+This gives players sense of progression and allows GM to plan accordingly.

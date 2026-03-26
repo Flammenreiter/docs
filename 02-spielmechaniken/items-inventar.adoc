@@ -1,0 +1,360 @@
+
+= Items & Inventar-System
+
+
+Realistische Gegenstände mit Rarity-Qualitäts-Matrix, Verschleiß, Container-Systemen und sozialer Wahrnehmbarkeit.
+
+
+== Rarity × Quality Matrix (7×5 = 35 Power-Level)
+
+
+
+=== Raritäten-Stufen
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Rarity | Beschreibung | Beispiel | Markt-Multiplikator
+
+| Common | Alltägliche Gegenstände | Eisenschwert, Lederjacke | ×1
+| Uncommon | Qualitätsware, Handwerk | Gutes Schwert mit Verzierung | ×3
+| Rare | Selten, oft magisch | Verzaubertes Schwert | ×10
+| Epic | Stark selten, legendär | Flammenzunge-Schwert | ×50
+| Legendary | Weltberühmt, sehr mächtig | Excalibur-Äquivalent | ×200
+| Mystic | Existiert nur wenige Male | Drachenschuppen-Rüstung | ×1000
+| Divine | Unverkäuflich, nur Quest-Reward | Gott-Waffe | unbezahlbar
+|===
+
+
+
+=== Qualitäts-Stufen pro Rarität
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Quality | Beschreibung | Bonus auf Schaden/Heilung | Durability-Modifier
+
+| Q1 | Schlecht gemacht | +6% | ×1.0 (schneller Verschleiß)
+| Q2 | Durchschnitt | +12% | ×0.9
+| Q3 | Gut | +18% | ×0.8
+| Q4 | Sehr gut | +24% | ×0.7
+| Q5 | Meisterwerk | +30% | ×0.5 (sehr haltbar)
+|===
+
+
+
+=== Bonus-Berechnung
+
+
+----
+Final Bonus = Base Rarity % × Quality Multiplier
+
+Beispiele:
+- Common Q3: 18% Bonus
+- Rare Q5: 30% Bonus auf +300% Base = +90% Endbonus
+- Legendary Q5: 30% Bonus auf +1000% Base = +300% Endbonus
+----
+
+
+=== Wichtig: Prozent statt feste Boni
+
+
+* _Warum_: Bounded Accuracy auf Attack Rolls beibehalten
+* _Wo Prozent angewendet_: Schaden (würfel), Heilung (würfel), Spell-Effekt-Stärke
+* _Wo NICHT_: Attack Rolls, AC, DCs (würden game breaken)
+
+
+== Durability & Pflege
+
+
+Jedes Item mit physischer Form hat Durability (0-100%):
+
+
+=== Durability-Zustände
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Condition | Durability | Effekt | Reparierbar
+
+| Pristine | 90-100% | +5% auf Effektivität | Ja (Vorbeugung)
+| Good | 70-89% | Normal | Ja
+| Worn | 50-69% | -10% Effektivität | Ja
+| Damaged | 25-49% | -25% Effektivität | Ja
+| Broken | 1-24% | Nicht nutzbar | Nur Vollreparatur
+| Destroyed | 0% | Permanent unbrauchbar | Nein
+|===
+
+
+
+=== Pflege und Reparatur
+
+
+_Short Rest_: Leichte Ausrüstungs-Pflege, kostenlos
+* Reinigung, ölen, spannen
+* Restores +5-10% Durability
+
+_Downtime (Schmied-NPC)_:
+* Kostet Gold (% des Originalpreises × Schadensprozent)
+* Vollständige Reparatur möglich
+* Senkt `max_durability` leicht (je höher Rarity, desto vernachlässigbarer)
+
+_Irreparabel_: Wenn `max_durability` zu weit gesunken ist
+
+
+=== Verschleißmechanik
+
+
+Jede Nutzung im Kampf: Durability -0% bis -1.5% (Zufallswert)
+* Quality-Modifier: Q1=×1.0, Q2=×0.9, Q3=×0.8, Q4=×0.7, Q5=×0.5
+* Kann 0 sein = keine Beschädigung an diesem Tag
+* Higher Rarity = langsamerer Degradation
+
+_Beispiel_: Rare Q3 Schwert: -0% bis -1.2% pro Nutzung durchschnittlich
+
+
+== Container-System: Realistisches Inventar
+
+
+Nicht: "Magischer Rucksack fasst alles"
+Ja: "Du hast Hände, Gürtel, Rucksack mit einzelnen Slot-Kapazitäten"
+
+
+=== Physische Realität
+
+
+_Ohne Container_:
+* Hände (2 Items getragen)
+* Gürtel (1-3 Items an Schlaufen)
+* Summe: 3-5 Items schnell erreichbar
+
+_Mit Rucksack_:
+* weight_capacity (z.B. 40 lbs)
+* slot_capacity (z.B. 20 Slots)
+* own_weight (z.B. 5 lbs leerer Rucksack)
+* is_bulky (true = sperrig, -1 zu Stealth, begrenzt manche Plätze)
+
+
+=== Container-Hierarchie
+
+
+----
+character_inventory (Charakter)
+├── Self-Reference Item (Träger-Charakter)
+├── hand_slots (2)
+├── belt_slots (1-3)
+├── back_slot (für Rucksack)
+├── ring_slots (1-2)
+├── neck_slot (1 Amulett/Kette)
+└── container_inventory
+    ├── container_id (FK → Rucksack)
+    ├── items[] (jsonb Items darin)
+    ├── weight_total
+    └── slot_used / slot_capacity
+----
+
+
+=== Equipment Slots
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Slot | Anzahl | Beschreibung
+
+| head | 1 | Helm, Krone, Brille
+| torso | 1 | Rüstung, Tunika, Umhang
+| legs | 1 | Beinkleider, Stiefel-Kombo
+| feet | 1 | Spezielle Stiefel
+| hands | 2 | Handschuhe (both slots)
+| main_hand | 1 | Waffe/Schild dominant
+| off_hand | 1 | Nebenhand-Waffe oder Schild
+| belt | 1-3 | Gürteltaschen, Waffen-Halter
+| back | 1 | Rucksack, Schwertgurt
+| ring | 1-2 | Zauberringe, Schmuck
+| neck | 1 | Amulett, Halskette
+| cloak | 1 | Umhang (optional, styled über torso)
+|===
+
+
+
+== Kleidung → NPC-Reaktion (direkt gekoppelt)
+
+
+Das innovativste Feature: Kleidung verändert wie NPCs reagieren, _BEVOR_ das Gespräch beginnt.
+
+
+=== Appearance Categories
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Category | Formality | Beispiel | NPC-Reaktion
+
+| peasant | 1 | Lumpen, Arbeitskleid | Ignoriert oder bemitleidet
+| commoner | 2 | Reisekleid, Tunika | Normal, unbemerkt
+| merchant | 2 | Gutes Tuch, Wolle | Handels-respekt
+| noble | 4 | Seide, Gold, Wappen | Höflichkeit oder Skepsis
+| military | 4 | Uniform, Rüstung | Respekt oder Feindschaft
+| arcane | 4 | Roben, Magische Symbole | Akademie-respekt
+| religious | 4 | Priester-Gewand, Heilige Symbole | Geistliche Deference
+| criminal | 4 | Leder, dunkle Farben, Waffen | Misstrauen oder Gemeinschaft
+| exotic | 5 | Ausland-Kleidung, Drachenmaßstab | Faszination oder Xenophobia
+|===
+
+
+
+=== Mechanik
+
+
+Jedes Kleidungsstück hat:
+[source,json]
+----
+{
+  "appearance_category": "military",
+  "formality_level": 4,
+  "npc_reaction_modifier": {
+    "guards": +3,
+    "commoners": -1,
+    "merchants": 0,
+    "rogues": -2
+  }
+}
+----
+
+_Praktische Auswirkung_:
+* Ritterrüstung in der Stadt = military/4 = Automatische Aufmerksamkeit von Wachen
+* Akademie-Robe bei Akademie-Mitglied = arcane/3 = Respekt bevor NPCs sprechen
+* Gefangenen-Lumpen = peasant/1 = Verachtung oder Mitleid
+
+NPCs führen kurze Reactions aus Ihrer Datenbank:
+* Guard sieht Ritterrüstung → "Halt! Eine Königliche Patrouille?"
+* Bauer sieht fremde exotische Kleidung → "Woher kommst du, Fremder?"
+* Händler sieht noble/merchant Kleid → Respektvolles Lächeln, Angebot von besserem Lagerbestand
+
+
+== Item-Datenstruktur
+
+
+
+=== Kern-Tables
+
+
+----
+items (Welt: Basis-Definitionen)
+├── id (PK)
+├── name
+├── category (weapon, armor, clothing, container, potion, material, etc.)
+├── weight_lbs
+├── description
+└── base_price_gp
+
+item_rarity_variants (pro Rarity: Name & Aussehen ändern sich)
+├── item_id (FK)
+├── rarity (Common, Uncommon, Rare, etc.)
+├── variant_name (z.B. "Einfaches Eisenschwert" → "Verchromtes Adelsschwert")
+├── variant_description
+├── market_base_price_gp (Rarity-angepasster Preis)
+└── q1_to_q5_bonuses (% per quality level)
+
+item_weapon_stats / item_armor_stats / item_clothing_social / item_container_stats
+├── specific mechanical/social properties
+├── damage_dice (weapons only)
+├── ac_bonus (armor only)
+├── appearance_category, formality_level (clothing only)
+└── weight_capacity, slot_capacity (containers only)
+
+item_special_abilities (ab min_rarity threshold)
+├── name (z.B. "Flaming Blade")
+├── charges_per_rest (0 = unlimited)
+├── mechanical_effects[] (jsonb:
+│   ├── effect_type (damage, healing, attribute_bonus, condition)
+│   ├── value_dice (2d6 Fire, etc.)
+│   └── trigger (activation, on_hit, on_miss, etc.)
+└── visual_effect_tag (Web-Animation)
+
+character_inventory (Kampagne: was trägt der Charakter)
+├── character_id (FK)
+├── item_id (FK → items.id)
+├── item_instance_id (eindeutige Instanz für Persistenz)
+├── quality_level (1-5)
+├── durability_current / durability_max (0-100%)
+├── equipped_slot (enum: main_hand, head, etc. oder null)
+├── container_ref (FK if inside container)
+└── special_properties (jsonb: Crafting-Boni, individualisierte Namen, etc.)
+----
+
+
+=== Crafting Integration
+
+
+Gecraftete Items sind IMMER individuell:
+[source,json]
+----
+{
+  "item_instance_id": "sword_elara_001",
+  "base_item_id": 42,  // "Longsword"
+  "quality_level": 4,
+  "is_crafted": true,
+  "crafting_project_id": 158,
+  "bonus_properties": [
+    {
+      "step_number": 1,
+      "bonus": "Flexible Blade",
+      "mechanical_effect": "advantage on disarm"
+    },
+    {
+      "step_number": 3,
+      "penalty": "Heavy Guard",
+      "mechanical_effect": "attack -1"
+    }
+  ],
+  "crafter_npc": "Meister Brogan Stonefist",
+  "crafted_at_harptos": "1372-03-15"
+}
+----
+
+
+== Überlastung & Tragkapazität
+
+
+
+=== Drei BG3-Stufen
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Stufe | Gewicht | Speed | Penalties
+
+| Normal | < STR×5 | Normal | Keine
+| Belastet | STR×5 bis STR×10 | -10ft | Disadvantage auf Acrobatics, Athletics, Stealth
+| Schwer belastet | STR×10 bis STR×15 | -20ft | Disadvantage auf ALL Attack Rolls, alle STR/DEX/CON Ability Checks, alle STR/DEX/CON Saves
+| Über Traglast | ≥ STR×15 | 0 (immobilisiert) | Items ablegen ERFORDERLICH
+|===
+
+
+
+=== Kapazitäts-Boni durch Ausrüstung
+
+
+Kleine Gürteltasche: +2 lbs Kapazität / kein Stealth-Malus
+Reiserucksack klein: +15 lbs / Stealth -1
+Reiserucksack mittel: +25 lbs / Stealth -2
+Abenteurerrucksack groß: +40 lbs / Stealth -3
+Mantel mit Innentaschen: +5 lbs / kein Stealth-Malus
+Hose mit Taschen: +3 lbs / kein Stealth-Malus
+
+Diese Boni sind _statisch_ und nicht füllungsabhängig. Beim Ablegen des Items fallen Boni sofort weg.
+
+
+=== Unterschied: Kapazität vs. Traglast
+
+
+* _Kapazität_ (Platz): Was organisiert verstaut werden kann (20 Slots)
+* _Traglast_ (Gewicht): Was physisch geschleppt werden kann (STR×5 bis STR×15 lbs)
+* Items über Kapazität = in Händen getragen (belegt Hand-Slot)

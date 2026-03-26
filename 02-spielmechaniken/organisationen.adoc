@@ -1,0 +1,470 @@
+
+= Organisations-System
+
+
+Organisations-Typen mit Rang-Systemen, Membership-Anforderungen, Exclusion-Regeln, automatische Reputation-Vererbung.
+
+
+== Organisations-Typen
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Typ | Beispiel | Struktur | Membership
+
+| Akademie | Mage's Guild, University | Hierarchisch, Level-based | Earned through training
+| Gilde | Thieves Guild, Blacksmith Guild | Rank-based, meritocratic | Sponsor-required
+| Militär | Royal Army, City Guard | Military hierarchy | Application + background check
+| Adel | Noble Houses, Royal Court | Bloodline | Birth or marriage
+| Kult | Religious order, Dark Sect | Devoted, ideological | Initiation ritual
+| Informal | Merchant caravan, gang | Loose, skill-based | Reputation-based
+|===
+
+
+'''
+
+
+== Rang-Systeme (Organisation-spezifisch)
+
+
+
+=== Akademie-Beispiel (5 Ränge)
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Rang | Titel | Anforderung | Mechanische Boni | Privilege
+
+| 0 | Student | Level 1 | - | Library access
+| 1 | Adept | Level 3 + Spell Know. | +1 Spell Save DC | Cheaper potions
+| 2 | Mage | Level 5 + Mastery | +2 Spell Save DC | Can teach students
+| 3 | Archmagus | Level 8 + Rare Item | +2 Spell Damage | Can research spells
+| 4 | High Archmage | Level 10 + Legendary Feat | +3 All Arcane | Chair a department
+|===
+
+
+
+=== Gilde-Beispiel (5 Ränge)
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Rang | Titel | Anforderung | Mechanische Boni | Privilege
+
+| 0 | Apprentice | Pay fee | - | Access to guild hall
+| 1 | Journeyman | 100 XP + quest | +1 Skill related | Cheap supplies
+| 2 | Master | 300 XP + teaching 1 person | +2 Skill + Can teach | Can sell guild hall
+| 3 | Grandmaster | 500 XP + major quest | +3 Skill + Authority | Set prices in guild
+| 4 | Legendary | 1000+ XP + unique achievement | +4 Skill + Rare Items | Run entire branch
+|===
+
+
+
+=== Militär-Beispiel (7 Ränge — Traditional Military)
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Rang | Titel | Anforderung | Mechanische Boni | Privilege
+
+| 0 | Recruit | Enlist | - | Basic equipment
+| 1 | Soldier | 50 XP | +1 Attack | Barracks access
+| 2 | Sergeant | 150 XP + leadership | Command 1-2 soldiers | Officer quarters
+| 3 | Lieutenant | 300 XP + tactical knowledge | Command 5-10 | Authority in camp
+| 4 | Captain | 500 XP + major victory | Command 20+ | Small garrison
+| 5 | Major | 750 XP + rare feat | Command 100+ | Regional command
+| 6 | General | 1000+ XP + legend status | Command 500+ | War plans access
+|===
+
+
+'''
+
+
+== Membership-System
+
+
+
+=== Beitrittsprozess
+
+
+----
+Character wants to join "Thieves Guild":
+
+Step 1: Sponsor finden
+  - Muss jemand kennen der "Thieves Guild" member ist
+  - Oder Reputation 40+ mit Guild
+  - Sponsor-NPC führt ein Interview
+
+Step 2: Anforderungen überprüfen
+  System prüft:
+  ├─ Trait-Requirements (Gierig+ maybe, Ehrlich NOT)
+  ├─ Level Minimum (usually 1+)
+  ├─ Exclusion-Rules (not member of rival org)
+  ├─ Criminal record (might be okay? depends)
+
+Step 3: Initiation-Quest
+  GM creates custom quest based on org type:
+  - Akademie: "Write thesis on your school"
+  - Gilde: "Craft item for guild show"
+  - Militär: "Survive training montage"
+  - Kult: "Prove faith through trial"
+
+Step 4: Acceptance
+  Once completed:
+  ├─ Character gains Rank 0 (lowest)
+  ├─ Reputation auto-set to +10 with org
+  ├─ Mechanical bonuses activate
+  ├─ Access to org resources
+----
+
+
+=== In-Org-Advancement (Rank-Up)
+
+
+----
+To advance rank within org:
+
+Character-Level Requirements:
+  ├─ Reach X XP / Level
+  └─ Complete advancement quest
+
+Social Requirements:
+  ├─ Disposition +30+ with leadership NPC
+  └─ No disciplinary incidents
+
+Performance Requirements:
+  ├─ Complete X tasks for org
+  └─ Demonstrate mastery (skill checks)
+
+Advancement Quest:
+  ├─ Sponsor NPC proposes challenge
+  ├─ Character completes
+  ├─ Org leaders formally vote
+  └─ Ceremony (roleplay moment)
+----
+
+'''
+
+
+== Exclusion-Regeln (Org-Level)
+
+
+
+=== Hard Exclusion (Absolute)
+
+
+----
+Character cannot be member of BOTH simultaneously:
+
+Example:
+  - Royal Army (Kingdom Military) ↔ Thieves Guild
+  - Paladins' Order ↔ Dark Cult
+  - Merchant's Guild ↔ Thieves Guild (maybe)
+
+Rules:
+  - Joining Organization A auto-removes from Organization B
+  - If already member: Must quit before joining new
+  - Some orgs don't allow dual-membership (Akademie often strict)
+----
+
+
+=== Soft Exclusion (Penalty)
+
+
+----
+Can be member of both, but penalties apply:
+
+Example:
+  - Holy Priesthood + Arcane Mages' Guild
+  - Allowed but: -2 on both orgs' checks during conflict
+
+Represents:
+  - Ideological conflict
+  - Divided loyalty (both orgs know you're in both)
+  - Must declare allegiance during org conflict
+----
+
+
+=== Temporal Exclusion (Time-based)
+
+
+----
+Can't rejoin same org for X time after leaving:
+
+Example:
+  - Leave Army (dishonorably): 1 year ban
+  - Leave Guild (resigned): 6 months
+  - Leave Akademie (expelled): 2 years
+
+Represents:
+  - Reputation damage
+  - Trust broken
+  - Must prove worthiness to re-enter
+----
+
+'''
+
+
+== Reputation Auto-Inheritance
+
+
+Character has individual Reputation with org. But Party also has Org Reputation.
+
+
+=== Calculation
+
+
+----
+Character Individual Reputation:
+  - What THIS character has earned through actions
+  - Ranges -100 to +100 per org
+
+Party Org Reputation:
+  - What GROUP has earned (average)
+  - Ranges -100 to +100 per org
+
+When interacting with Org:
+  Effective Reputation = 60% (individual) + 40% (party)
+
+Example:
+  Character: +60 with Royal Army
+  Party: +30 with Royal Army (others don't have high rep)
+  Effective: 0.6(60) + 0.4(30) = 36 + 12 = +48
+----
+
+
+=== Contagion
+
+
+High party reputation helps, but also can hurt:
+
+----
+If Party has +80 reputation with Thieves Guild:
+  All NEW members benefit (+20 automatic bonus on first impression)
+  But if one character commits crime:
+    Whole party reputation takes hit (-30 for major crime)
+    "You're part of that guild that betrayed us"
+----
+
+'''
+
+
+== Org-Specific Mechanics
+
+
+
+=== Akademie (Learning)
+
+
+----
+Members can:
+  - Use library (free research)
+  - Buy potions cheaply (-30%)
+  - Request NPC casting (50+ GP)
+  - Learn new spells (from library)
+  - Attend lectures (roleplay, minor XP)
+
+Higher Ranks:
+  - Can teach others (passive income)
+  - Can request scribing services
+  - Can access restricted sections (dangerous knowledge)
+  - Can propose research projects
+----
+
+
+=== Gilde (Crafting)
+
+
+----
+Members can:
+  - Sell items in guild shop
+  - Buy materials cheaply (-20%)
+  - Commission crafting (guild crafters do work for you)
+  - Share knowledge (learn new recipes)
+  - Participate in guild competitions (prizes)
+
+Higher Ranks:
+  - Can lead guild projects
+  - Set local prices/standards
+  - Can reject members (enforcement)
+  - Earn passive income from guild activities
+----
+
+
+=== Militär (Combat)
+
+
+----
+Members can:
+  - Use military resources
+  - Request support (soldiers, equipment)
+  - Get paid for patrols/quests
+  - Immunity from city guards (up to rank 2)
+  - Stable housing
+
+Higher Ranks:
+  - Can command soldiers
+  - Access to war strategy info
+  - Can requisition equipment
+  - Make strategic decisions
+  - Lead military operations
+----
+
+
+=== Kult (Powers)
+
+
+----
+Members gain:
+  - Ritual access (once per week)
+  - Divine/arcane connection bonuses
+  - Sanctuary in cult sites
+  - Dark knowledge (secrets)
+  - Passive abilities (ex: See in Darkness)
+
+Higher Ranks:
+  - Can perform rituals FOR others (cost)
+  - Can communicate with deity/patron
+  - Can induct new members
+  - Access to forbidden spells
+  - Special items
+
+Costs:
+  - Must attend religious services (monthly minimum)
+  - Cannot break oath (violation = permanent damage)
+  - Conflicting orgs automatically excluded
+----
+
+'''
+
+
+== Org-Related Quests
+
+
+
+=== Org Quests (Repeatable)
+
+
+----
+Each org offers repeatable quests:
+
+Akademie Quest:
+  "Research component: Fetch moonstone from mountain cave"
+  Reward: 50 GP + org XP
+
+Gilde Quest:
+  "Deliver order to neighboring town"
+  Reward: 75 GP + org XP
+
+Militär Quest:
+  "Patrol border for bandits"
+  Reward: 100 GP + org XP
+
+Kult Quest:
+  "Retrieve ritual component (rare)"
+  Reward: 50 GP + mysterious power + org XP
+----
+
+
+=== Org-Rank-Up Quests
+
+
+----
+To reach Rank 2, might get quest:
+  "Prove your worth: Defeat apprentice mage in duel"
+  OR
+  "Create masterwork item for showcase"
+  OR
+  "Lead soldiers in battle"
+  OR
+  "Survive ritual of revelation"
+
+Custom-generated per org/rank
+----
+
+'''
+
+
+== Org Hierarchy Visualization
+
+
+----
+AKADEMIE (Top-Down):
+  Archmagus (1)
+    └─ Mages (3-5)
+      └─ Adepts (10-20)
+        └─ Students (50-100)
+
+GILDE (Flat with Masters):
+  Legendary (1)
+    ├─ Grandmasters (2-3)
+    │   └─ Masters (5-10)
+    │     └─ Journeymen (20-50)
+    │       └─ Apprentices (50-100)
+
+MILITÄR (Pyramid):
+  General (1)
+    └─ Majors (3-5)
+      └─ Captains (10-15)
+        └─ Lieutenants (30-50)
+          └─ Sergeants (100+)
+            └─ Soldiers (500+)
+
+KULT (Secret, Decentralized):
+  High Priest/Priestess (1)
+    └─ Priests (3-7)
+      └─ Initiates (12-30)
+        └─ Seekers (?) [hidden count]
+----
+
+'''
+
+
+== DB-Struktur
+
+
+----
+organizations (Welt)
+├── id (PK)
+├── name
+├── type (enum: academy|guild|military|noble|cult|informal)
+├── description
+├── leader_npc_id (FK)
+├── headquarters_location_id (FK)
+├── rank_system[] (jsonb: [{rank_number, title, requirements, bonuses}])
+├── exclusion_rules[] (jsonb: [{org_id, exclusion_type}])
+├── membership_requirements (jsonb: {min_level, trait_requirements[]})
+└── quests[] (jsonb: [quest_id])
+
+character_organization_membership (Kampagne)
+├── character_id (FK)
+├── organization_id (FK)
+├── current_rank (0-max)
+├── rank_progress_xp (towards next rank)
+├── joined_date_harptos
+├── individual_reputation (-100 to +100)
+├── rank_quests_completed[] (jsonb)
+└── status (active|suspended|expelled)
+
+faction_relationships (Kampagne)
+├── party_group_id (FK)
+├── organization_id (FK)
+├── party_reputation (-100 to +100)
+├── last_interaction_harptos
+└── interaction_history (jsonb)
+
+organization_ranks (Welt)
+├── id (PK)
+├── organization_id (FK)
+├── rank_number (0-N)
+├── title
+├── description
+├── xp_requirement
+├── mechanical_bonuses[] (jsonb)
+├── privileges[] (jsonb)
+└── responsibilities[] (jsonb: what must rank do)
+----

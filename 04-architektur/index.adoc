@@ -1,0 +1,167 @@
+
+= Architektur und Technologie
+
+
+Architektur-Übersicht des Flammenreiter-Systems mit Backend-Schichten, Repo-Struktur und Shared Types.
+
+
+== Überblick
+
+
+Das Flammenreiter-Projekt nutzt eine moderne, polyglotte Architektur mit mehreren spezialisieren Repositorien statt eines Monorepos. Das Backend folgt einer 3-Schichten-Hybrid-Architektur:
+
+. _Supabase PostgREST_ — Auto-CRUD für ~70% der Requests
+. _Hono Application Layer_ — Business Logic, Validierung, Workflows in TypeScript
+. _Supabase Edge Functions_ — Externe Integrationen (KI, Discord, etc.)
+
+
+== Backend-Architektur
+
+
+Siehe link:./backend.adoc[backend.adoc] für detaillierte Erklärung der 3-Schichten, warum Hono statt NestJS/.NET, und den EffectProcessor Service.
+
+
+== Repository-Struktur
+
+
+Siehe link:./repo-struktur.adoc[repo-struktur.adoc] für die Multi-Repo-Anatomie:
+
+* `shared` — API Types und OpenAPI Specs
+* `api` — Hono Business Logic
+* `session-gm` — React Web für GM
+* `session-player` — React Web für Spieler
+* `lore-admin` — React Admin Interface
+* `ue5` — Unreal Engine 5 Mobile Client
+* `docs` — Diese Dokumentation
+* `orchestrator` — Central coordination repository
+
+
+== Shared Types & Enums
+
+
+Siehe link:./shared-types.adoc[shared-types.adoc] für:
+
+* _MechanicalEffect_ — Der universelle Typ für alle Effekte
+* _Enums_ — ~50 feste Enums vs. ~15 CRUD-Lookup-Tabellen
+* _Zod Schemas_ — Typ-Validierung in allen Apps
+
+
+== Typ-Flow
+
+
+----
+PostgreSQL Schema
+  ↓
+supabase gen types (Supabase CLI)
+  ↓
+@flammenreiter/shared-types (TypeScript)
+  ↓
+Zod Schemas (Validierung)
+  ↓
+npm publish @flammenreiter/*
+  ↓
+Alle Apps importieren
+----
+
+
+== Authentifizierung & RLS
+
+
+* _Auth_: Supabase Auth (Email/OAuth)
+* _RLS_: Row Level Security auf `auth.uid()` und `campaign_id`
+* _Tokens_: JWT in Session + Refresh Tokens in HttpOnly Cookies
+
+
+== Hosting & Infrastruktur
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Komponente | Platform | Plan
+
+| Datenbank | Supabase PostgreSQL | Pro (100GB, 250GB BW)
+| API | Supabase Edge Functions | Included
+| File Storage | Supabase Storage | 100GB + CDN
+| Frontend Web | Vercel | Pro
+| Frontend Mobile | EAS Build + EAS Update | Free/Paid
+| Logging | Sentry | Standard
+| Analytics | PostHog | Startup
+|===
+
+
+
+== Tech Stack Überblick
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Layer | Technologie | Grund
+
+| _Database_ | PostgreSQL 16 + PostGIS | 5NF Normalform, geographische Daten
+| _Backend API_ | Hono.js + TypeScript | Leicht (14KB), Zod-native, Edge-kompatibel
+| _Web Frontend_ | React 18 + TypeScript | SPA mit Redux-wie State
+| _Mobile_ | Expo (React Native) | Code-Sharing mit Web
+| _State Management_ | Zustand + TanStack Query | Reaktiv ohne Redux-Komplexität
+| _API Client_ | Supabase JS Client + Fetch | PostgREST + Hono dual-mode
+| _UI Components_ | shadcn/ui + Tailwind | Accessible, customizable
+| _Schema Validation_ | Zod | TypeScript-native, leicht
+| _Bot_ | discord.js | Standard für Discord Bots
+|===
+
+
+
+== Design-Prinzipien
+
+
+
+=== 1. Separation of Concerns
+
+
+* _DB macht nur_: Datenspeicherung, FK-Constraints, RLS, Realtime Events
+* _Business Logic_: NICHT in Triggers/Stored Procedures, sondern in Hono Services
+* _Edge Functions_: NUR für externe Integrationen (KI, Webhooks)
+
+
+=== 2. Type Safety durch die ganze Chain
+
+
+[source,typescript]
+----
+PostgreSQL → TypeScript Types → Zod Schemas → Runtime Validierung
+----
+
+Jeder Layer validiert; niemand vertraut auf vorherige Ebene.
+
+
+=== 3. Multi-Repo statt Monorepo
+
+
+* _Grund_: 200 DB-Tabellen + 5 Apps → zu viel für ein Repo
+* _Lösung_: Separate Repos mit shared npm packages
+* _Vorteil_: Unabhängige Deployments, klare Boundaries
+
+
+=== 4. No Stored Procedures (Mostly)
+
+
+Geschäftslogik gehört in Hono, nicht in SQL. Ausnahmen:
+* RLS Policies (Sicherheit)
+* Trigger für Auditing (session_mechanical_log)
+* Realtime Event Publishing
+
+
+=== 5. Progressive Offenbarung
+
+
+Szenen-Elemente werden progressiv revealed (Title → Description → Image → NPCs). DB speichert JSON mit `is_revealed` Boolean.
+
+
+== Weitere Ressourcen
+
+
+* link:../03-datenbank/[Datenbank-Schema] — ~200 Tabellen Referenz
+* link:../02-spielmechaniken/[Spielmechaniken] — Regeln und Systeme
+* link:../07-gm-dashboard/[GM Dashboard] — UI/UX für GMs
+* link:../08-design-system/[Design System] — UI-Komponenten & Branding

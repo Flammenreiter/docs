@@ -1,0 +1,283 @@
+
+= Datenbank-Schema
+
+
+Umfassende Referenz für die PostgreSQL-Datenbankarchitektur des Flammenreiter-Systems.
+
+
+== Überblick
+
+
+Das Flammenreiter-Datenbank-Schema ist eine hochgradig normalisierte (5NF) PostgreSQL-Datenbank mit PostGIS-Erweiterung für geografische Daten. Die Architektur teilt sich in drei Ebenen nach Scope und Zugriff:
+
+* _User-Ebene_: 3 Tabellen (Profile, Kampagnen-Mitgliedschaft, Einladungen)
+* _Welt-Ebene_: ~80 Tabellen (kampagnenunabhängig, alle Spieler lesen mit `player_visible`-Filter)
+* _Kampagnen-Ebene_: ~10 Tabellen (RLS-isoliert pro Kampagne)
+* _Charakter-Ebene_: ~15 Junction-Tabellen (Verknüpfungen zwischen Charakteren und World-Daten)
+
+_Gesamt_: ~200 Tabellen · PostgreSQL 16+ · Supabase gehostet
+
+
+== Infrastruktur
+
+
+
+[cols="1,1",options="header"]
+|===
+| Aspekt | Details
+
+| _DBMS_ | PostgreSQL 16+
+| _Erweiterungen_ | PostGIS (Geographie), UUID-ossp, JSON-Erweiterungen
+| _Normalisierung_ | 5NF (Fifth Normal Form)
+| _Hosting_ | Supabase Pro Plan
+| _RLS_ | Row Level Security auf Kampagnen/Charakter-Daten
+| _Realtime_ | Supabase Realtime Events für Live-Sync
+|===
+
+
+
+== Tabellenverteilung nach Domäne
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Domäne | Welt-Tabellen | Kampagnen-Tabellen | Charakter-Tabellen | Gesamt
+
+| User & Onboarding | - | - | - | 3
+| Basis-Mechanik | 2 | - | - | 2
+| Rassen & Herkunft | 7 | - | - | 7
+| Klassen & Features | 8 | - | - | 8
+| Zauber & Magie | 5 | - | - | 5
+| Schaden & Zustände | 3 | - | - | 3
+| Items & Ausrüstung | 10 | - | - | 10
+| Feats & Fähigkeiten | 1 | - | - | 1
+| Kreaturen | 8 | - | - | 8
+| Geographie & Reise | 11 | 2 | - | 13
+| Organisationen | 5 | 3 | 3 | 11
+| Traits & Entwicklung | 3 | - | 3 | 6
+| NPCs & Welt | 5 | - | 2 | 7
+| Akademie | 8 | - | 2 | 10
+| Charaktere | - | - | 12 | 12
+| Kampagnen | - | 4 | - | 4
+| Kalender & Zeit | 4 | 1 | - | 5
+| Wetter | 2 | - | - | 2
+| Professions | 2 | - | 1 | 3
+| Crafting | 6 | 2 | 2 | 10
+| Economies & Handel | 3 | 2 | 1 | 6
+| Recht & Kriminalität | 7 | 3 | 3 | 13
+| Dialog-System | 6 | 3 | - | 9
+| Gerüchte & Info | 6 | 4 | 1 | 11
+| Session-Verwaltung | 1 | 4 | - | 5
+| Session-Planer | 1 | 6 | - | 7
+| Notizen & Logging | 4 | 4 | - | 8
+| Pantheon & Sigillen | 5 | 2 | 2 | 9
+| Dragon Bonds | 9 | 4 | 1 | 14
+| Bilder & Assets | - | 1 | - | 1
+| Karten & Räume | - | 3 | - | 3
+| Quests & Ziele | 3 | 5 | 2 | 10
+| Kampf-System | 2 | 2 | - | 4
+| Events & Discoveries | - | 5 | 2 | 7
+| Zufallstabellen | 2 | 2 | - | 4
+|===
+
+
+
+== Dateistruktur dieser Dokumentation
+
+
+* _link:./schema-uebersicht.adoc[schema-uebersicht.adoc]_ — Vollständiges Schema nach Domäne organisiert mit Tabellen-Übersichten
+* _link:./schema-details.adoc[schema-details.adoc]_ — Detaillierte Dokumentation komplexer Subsysteme (Items, Dragon Bonds, Rechtssystem, etc.)
+
+
+== Designprinzipien
+
+
+
+=== Feste Enums vs. Lookup-Tabellen
+
+
+_FESTE ENUMS_ (Direkter ENUM-Type in PostgreSQL):
+* TypeScript enum + PostgreSQL enum type + Zod z.enum()
+* Für Dinge die sich praktisch nie ändern (Fähigkeitsscores, Schadenstypen, etc.)
+* ~50 Enums in `@flammenreiter/shared-types/enums.ts`
+
+_LOOKUP-TABELLEN_ (CRUD-erweiterbar):
+* Eigene Tabelle mit id + name + description
+* JOIN nötig
+* Für Systeme die wachsen sollen (Spells, Creatures, Professionen, etc.)
+* ~15 Lookup-Tabellen
+
+
+=== MechanicalEffect: Der universelle Typ
+
+
+Jedes Entity mit mechanischen Auswirkungen nutzt denselben Zod-Schema:
+
+[source,typescript]
+----
+type MechanicalEffect = {
+  target: EffectTarget        // WAS wird beeinflusst
+  operation: EffectOperation  // WIE (add, set, multiply, etc.)
+  value: number               // WIEVIEL
+  condition?: EffectCondition // WANN (z.B. bei Regen)
+  duration?: EffectDuration   // WIE LANGE
+  description: string         // UI-Text für Transparenz
+}
+----
+
+Verwendet in:
+* Traits & Spektren
+* Items & Ausrüstung
+* Spells
+* Race/Class-Features
+* Feats
+* Wetter & Jahreszeiten
+* Gelände
+* Folgen & Bestrafungen
+* Professionen
+* Dragon Bonds
+
+
+=== RLS (Row Level Security)
+
+
+* _User-Daten_: `user_profiles` nur eigenes Profil schreibbar, lesbar für Kampagnen-Mitglieder
+* _Welt-Daten_: `player_visible` Filter auf Lesezugriff
+* _Kampagnen-Daten_: `campaign_id` Isolation mit `auth.uid()` Validierung über `campaign_members`
+* _Einladungen_: Erstellen nur GM, Lesen via `invite_code` für Beitritt
+* _Charakter-Daten_: Lesezugriff nur für Charakter-Besitzer + GM
+
+
+== Abhängigkeiten & Foreign Keys
+
+
+Die Datenbankstruktur folgt einer klaren Hierarchie:
+
+----
+auth.users (Supabase managed)
+  └── user_profiles (1:1)
+
+campaign_members (User ↔ Campaign)
+  ├── role: gm | player
+  └── campaign_invitations (Einladungs-Lifecycle)
+
+campaigns (Root)
+  ├── campaign_members
+  ├── campaign_characters
+  ├── sessions
+  ├── campaign_calendar_state
+  └── [alle Kampagnen-Tabellen]
+
+characters (unter campaign_characters)
+  ├── character_ability_scores
+  ├── character_trait_levels
+  ├── character_spell_slots
+  ├── character_inventory (Self-Ref für Container)
+  └── [alle Charakter-Junction-Tabellen]
+
+world_data (kampagnenunabhängig)
+  ├── races, classes, spells, items, ...
+  ├── [mit player_visible Flags]
+  └── [RLS-protected Zugriff]
+----
+
+
+== Typ-Flow: DB zu Apps
+
+
+----
+DB-Schema (PostgreSQL)
+  ↓
+supabase gen types (Supabase CLI)
+  ↓
+@flammenreiter/shared-types (TypeScript Interfaces)
+  ↓
+Zod Schemas (Validierung)
+  ↓
+npm publish @flammenreiter/*
+  ↓
+Alle Apps (Web, Mobile, Discord Bot)
+----
+
+
+== Wichtige Systeme
+
+
+
+=== Das Trait-Spektren-System
+
+
+Traits sind nicht einfache Boolean-Flags, sondern kontinuierliche Spektren von -5 bis +5 mit stufengesteuerten Effekten:
+
+----
+trait_spectrums (Welt)
+  ├── trait_spectrum_effects (pro Level -5...+5, mit MechanicalEffects)
+  └── trait_exclusion_rules (Hard/Soft-Ausschlüsse)
+
+character_trait_levels (Kampagnen)
+  └── Dezimalwerte -5.0 bis +5.0
+----
+
+Siehe link:./schema-details.adoc[schema-details.adoc] für vollständige Dokumentation.
+
+
+=== Das Items-System (10 Tabellen)
+
+
+Hochgradig normalisiert mit Varianten-Support:
+
+* _items_: Basis-Definition
+* _item_rarity_variants_: 7 Seltenheitsstufen pro Item (Damage-, AC-Skalierung)
+* _item_weapon_stats_, _item_armor_stats_: Typ-spezifische Stats
+* _item_container_stats_: Volumen & Stealth-Modifikatoren
+* _item_special_abilities_: Magische Fähigkeiten als MechanicalEffects
+
+Siehe link:./schema-details.adoc[schema-details.adoc] für die vollständige Item-Dokumentation.
+
+
+=== Das Dragon-Bond-System (9 Tabellen)
+
+
+Komplette Drachen-Verwaltung mit Phasen, Care-Tasks und Equipment:
+
+* _dragon_instances_: Einzelne Drachen mit Persönlichkeit
+* _character_dragon_bonds_: Rider ↔ Dragon Beziehung
+* _dragon_bond_events_: Phasen-Fortschritt und Vertrauen-Milestones
+* _dragon_care_tasks_: Daily/Weekly/Seasonal Pflichten
+* _dragon_equipment_: Sattel, Rüstung, Fokus-Kristalle
+
+Siehe link:./schema-details.adoc[schema-details.adoc] für die vollständige Dragon-Bond-Dokumentation.
+
+
+== Performance & Indizes
+
+
+Kritische Indizes sind in der Schema-Definition enthalten:
+
+* `(campaign_id, character_id)` für Charakter-Lookup
+* `(entity_type, entity_id)` für polymorphe Abfragen
+* `(created_at)` für Session-Logs
+* PostGIS Spatial Indizes auf geography-Spalten
+
+
+== Migrationen & Versionierung
+
+
+Alle DB-Änderungen sind in `flammenreiter-supabase/migrations/` dokumentiert. Migrationen folgen dem Format:
+
+----
+migrations/
+  ├── 001_initial_schema.sql
+  ├── 002_add_traits_system.sql
+  ├── 003_add_dragon_bonds.sql
+  └── ...
+----
+
+
+== Weitere Ressourcen
+
+
+* link:../04-architektur/[Architektur & Tech] — Backend-Schichten, Hono, Shared Types
+* link:../02-spielmechaniken/[Spielmechaniken] — Regeln und Mechanik-Details
+* link:../07-gm-dashboard/[GM Dashboard] — Wie die Datenbank im UI genutzt wird

@@ -1,0 +1,364 @@
+
+= NPC-Reaktion & DC-Berechnung
+
+
+Two parallel pipelines: How NPCs react emotionally, and how difficulty is calculated for any check.
+
+
+== NPC-Reaktion: 8-Schritte Pipeline
+
+
+Wenn Spieler einen NPC trifft, geht System durch diese Schritte:
+
+
+=== 1. Kontext: Wo findet das statt?
+
+
+_Location-Layer bestimmen_:
+* Settlement (City / Town / Village / Outpost)
+* POI-Typ (Tavern / Market / Guard Post / Temple / Guild Hall)
+* Zeit des Tages (Dawn / Morning / Afternoon / Evening / Night)
+* Sicherheit (Guard Presence 1-5: 1=none, 5=militant)
+
+Diese Layer beeinflussen automatisch welche NPC-Traits relevant sind.
+
+Beispiel: Tavern at Night in City → Guard Presence 2 → Criminals feel safe, Nobles feel threatened
+
+
+=== 2. Wer ist der NPC?
+
+
+Alle sein Basis-Eigenschaften:
+* Rasse + Subrasse
+* Klasse + Level (wenn combat-relevant)
+* Profession + Level (handels-relevant)
+* _Top 3-4 aktive Traits_ (mit Wert, z.B. Loyal+3, Gierig-1)
+* Familie / Organisation zugehörigkeit
+
+
+=== 3. Kennt der NPC den PC?
+
+
+_Renown-Scope-Check_:
+
+----
+NPC Wohnort = Stadt X
+PC ist lokal (local scope) → NPC könnte gehört haben (30-60% Chance)
+PC ist regional (regional scope) → NPC kennt wahrscheinlich Namen (80%+)
+PC ist kingdom-wide → NPC kennt sicher (95%+)
+----
+
+Falls ja: Welche Traits kennt die Öffentlichkeit? (from character_public_perception)
+Falls nein: Nur physische Beschreibung zählt
+
+
+=== 4. Basis-Disposition (Struktur-Ebene)
+
+
+Startwert aus mehreren Schichten:
+
+----
+disposition = 0
+
+// Rassen-Prejudice
++ race_disposition_modifier (z.B. Elf trifft Zwerg = -20)
+
+// Org-Prejudice
++ org_disposition_modifier (Akademie trifft Diebesgilde = -40)
+
+// Kultur-Match
++ culture_modifier (Fremde in Fremdes Land = -10)
+
+// Religion-Match
++ religion_modifier (Gläubiger trifft Heretiker = -15)
+
+// Renown-Bonus
++ renown_initial_bonus (Hero? +20 automatic)
+
+= Base Disposition
+----
+
+
+=== 5. Trait-Match: PC bekannte Traits
+
+
+Wenn NPC die PC-Traits kennt (oder beobachtet):
+
+_Trait-Synchrony_:
+
+
+[cols="1,1",options="header"]
+|===
+| Situation | Modifier
+
+| NPC ist Loyal+3, PC zeigt Loyalität | +10 disposition
+| NPC ist Loyal+3, PC zeigt Disloyalty | -20 disposition
+| NPC ist Gierig+2, PC ist Großzügig+3 | -5 (values clash)
+| NPC ist Neugierig+4, PC ist Geheimnisvoll | -3 (PC frustrates NPC)
+|===
+
+
+Diese Shifts passieren _in Echtzeit_ während Conversation.
+
+
+=== 6. Kleidung / Aussehen
+
+
+----
+PC trägt Ritterrüstung
++ appearance_category = military/4
++ npc_reaction_modifier für diesen NPC-Typ (z.B. Guard +3, Criminal -2)
+----
+
+
+=== 7. Individuelle Override (Campaign-Ebene)
+
+
+GM kann manuell setzen:
+----
+"Dieser Schmied mag dich egal wie du aussiehst"
+override: +15 disposition permanent
+----
+
+
+=== 8. → Stimmungs-Icon für Spieler
+
+
+Final Disposition → Icon anzeigen:
+
+----
+-100 to -50: 😠 WÜTEND
+-49 to -20: 😕 Skeptisch
+-19 to +19: 😐 Neutral
++20 to +49: 🙂 Wohlwollend
++50 to +100: 😊 Loyal
+----
+
+_GM sieht_: Volle Aufschlüsselung aller Berechnungsschritte
+
+'''
+
+
+== DC-Berechnung: 10-Schritte Pipeline
+
+
+Wenn ein Spieler einen Check macht, wird DC dynamisch kalkuliert:
+
+
+=== Base-DC pro Skill (Welt-definiert)
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Skill | Base DC | Context
+
+| Persuasion | 12 | Convince someone
+| Deception | 12 | Lie convincingly
+| Intimidation | 10 | Threaten someone
+| Perception | 10 | Notice things
+| Investigation | 12 | Find clues
+| Athletics | 10 | Physical feat
+| Stealth | 10 | Hide
+| Arcana | 15 | Magical knowledge
+| Lockpicking | 15 | Pick lock
+| Medicine | 12 | Heal someone
+|===
+
+
+Diese sind _Welt-definiert_, nicht hart-codiert. GM kann anpassen.
+
+
+=== 10-Schritte DC-Modifikierung
+
+
+----
+FINAL DC = Base DC
+  + NPC-Profession-Bonus (Schritt 2)
+  + NPC-Trait-Modifier (Schritt 3)
+  + Rassen-Disposition (Schritt 4)
+  + Bekanntheit/Renown (Schritt 5)
+  + Org-Reputation (Schritt 6)
+  + Kultur-Match (Schritt 7)
+  + Kleidungs-Kontext (Schritt 8)
+  + GM-Situations-Modifier (Schritt 9)
+  + Persönliche-History (Schritt 10)
+----
+
+
+=== Detail: Jeder Modifier
+
+
+_Schritt 2: NPC-Profession_
+
+----
+Merchant Persuasion = +3 DC (hard to convince, experienced negotiator)
+Guard Intimidation = -2 DC (easy, they respect authority)
+Scholar Arcana = -3 DC (loves to share knowledge)
+----
+
+_Schritt 3: NPC-Traits_
+
+----
+Misstrauisch+4 (bei Persuasion/Deception) = +4 DC
+Vertrauenselig-3 (bei Persuasion) = -3 DC
+----
+
+_Schritt 4: Rassen-Disposition_
+
+----
+Elf+Dwarf = -20 disposition = +2 DC (grudging, harder to convince)
+Mensch+Ork = +0 = no change
+----
+
+_Schritt 5: PC-Renown_
+
+----
+PC ist local hero +50 renown = -3 DC (people want to help)
+PC ist notorious villain -60 = +4 DC (people resist)
+----
+
+_Schritt 6: Org-Reputation_
+
+----
+Party +80 mit Akademie → Akademie-NPC = -2 DC (allies)
+Party -70 mit Gilde → Gilde-NPC = +3 DC (enemies)
+----
+
+_Schritt 7: Kultur-Match_
+
+----
+PC ist aus dieser Region = -1 DC (familiar)
+PC ist compleet outsider = +2 DC (suspicious)
+----
+
+_Schritt 8: Kleidungs-Kontext_
+
+----
+PC trägt noble Kleidung bei Adeligen = -2 DC (respect)
+PC trägt peasant Kleidung bei merchant = +1 DC (slight dismissal)
+----
+
+_Schritt 9: GM-Situations-Modifier_
+
+----
+"Die Stadt wurde gerade überfallen" = +3 DC (paranoia)
+"Der NPC ist betrunken" = -2 DC (lowered inhibitions)
+"Der NPC owe dem Spieler einen Gefallen" = -3 DC
+----
+
+_Schritt 10: Persönliche History_
+
+----
+PC hat diesen NPC einmal gerettet = -4 DC (debt of gratitude)
+PC hat diesen NPC bestohlen = +5 DC (betrayal)
+PC ist Feind des NPC-Feindes = -2 DC (enemy of enemy)
+----
+
+
+=== Beispiel: Volle Berechnung
+
+
+----
+Spieler: Elenor (Hero+60 renown)
+Aktion: Persuasion gegen Kaufmann wegen Preis-Rabatt
+
+Base DC (Persuasion): 12
+
++ Profession (Kaufmann ist erfahren): +2 = 14
++ Traits (Gierig+3 NPC): +2 = 16
++ Rassen-Disposition (Elf-Mensch): +0 = 16
++ PC Renown (Hero+60): -2 = 14
++ Org-Reputation (Party +40 bei Händler-Gilde): -1 = 13
++ Kultur-Match (gleiche Region): -1 = 12
++ Kleidung (merchant-Kleidung): -1 = 11
++ GM Modifier ("Kaufmann ist in gutem Laune"): -2 = 9
++ History (Elenor kauft hier regelmäßig): -1 = 8
+
+FINAL DC: 8 (very easy)
+----
+
+GM sieht diese Aufschlüsselung. Spieler sieht nur: "Würfle Persuasion, DC 8"
+
+
+=== GM-Overrides
+
+
+GM kann jederzeit:
+* Einen einzelnen Modifier überschreiben
+* Den Final DC komplett überschreiben
+* Sagen "Auto-success" oder "Auto-fail" (sehr selten)
+
+'''
+
+
+== Fixed DC vs. Contested
+
+
+
+=== Fixed DC (Umwelt, keine aktiven Gegner)
+
+
+Stein wegschieben, Schloss knacken, Rätsel lösen:
+
+----
+Roll: 1d20 + Modifier vs. Base DC
+Erfolg: Beschreibung
+Misserfolg: beschreibung
+----
+
+Kein Gegner würfelt gegen dich.
+
+
+=== Contested Roll (Aktiver Gegner)
+
+
+Überzeugen vs. Widerstand, Lügen vs. Durchschauen, Armdrücken:
+
+----
+Spieler würfelt: 1d20 + Persuasion Modifier
+NPC würfelt: 1d20 + NPC Insight Modifier
+
+Höher gewinnt.
+----
+
+_Wichtig_: BEIDE Seiten kriegen Modifier-Kette:
+
+----
+Spieler:
+  d20 + CHA +3 + Proficiency +3 + Trait-Loyal+3 +2 + Renown-Hero +2 = "Ich habe +10"
+
+NPC:
+  d20 + WIS +2 + Insight-Proficiency +2 + Trait-Misstrauisch+4 +4 = "NPC hat +8"
+----
+
+System würfelt NPC-Seite automatisch (GM sieht im Hintergrund). Im Zweifel: _Contested ist IMMER spannender_ als Fixed.
+
+'''
+
+
+== Special Cases
+
+
+
+=== Group Checks
+
+
+Alle würfeln einen Skill gleichzeitig (z.B. alle Perception checken). System aggregiert:
+* Need >50% Success: At least 2 von 4 = success
+* Or use strictest standard: All must succeed
+
+
+=== Advantage / Disadvantage
+
+
+Mit Advantage: Rolle 2d20, nimm höher
+Mit Disadvantage: Rolle 2d20, nimm niedriger
+
+Modifiers apply to einzelnem Wurf, nicht beide.
+
+
+=== Nat 1 / Nat 20 bei Trait-Relevanz
+
+
+(siehe traits.adoc) — automatischer Trait-Evolution-Trigger

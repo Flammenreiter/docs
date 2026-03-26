@@ -1,0 +1,205 @@
+
+= FLAMMENREITER — Projekt-Dokumentation
+
+
+
+== Projektüberblick
+
+
+Flammenreiter ist eine vollständige D&D-Kampagnen-Plattform, die das Pen-&-Paper-Rollenspiel in das digitale Zeitalter überführt. Das System kombiniert bewährte D&D 5e Mechaniken mit Elementen aus Baldur's Gate 3, um ein tiefes, narratives und strategisches Spielerlebnis zu schaffen.
+
+_Kernmerkmale:_
+* Soziale Spielmechaniken mit Beziehungssystem
+* Vollständiges Wirtschaftssystem mit dynamischen Marktpreisen
+* Detailliertes Handwerkssystem (Crafting) mit Ressourcenmanagement
+* Dragon Bond Mechanik für tiefe Charakter-Drachen-Beziehungen
+* Drei Plattformen: Web-Portal, Mobile App, Discord Bot
+* Strikte Trennung von Welt-Ebene und Kampagnen-Ebene
+
+'''
+
+
+== Kern-Prinzipien
+
+
+. _JEDES Entity braucht `mechanical_effects[]`_ — Pflichtfeld für alle spielrelevanten Objekte
+. _Universelles 5-Stufen-System_ — Einheitliche Mechanik für Items, Traits, Professionen und Beziehungen
+. _Informationsasymmetrie_ — Spieler sollen nicht alles wissen, aber alles soll korrekt berechnet sein
+. _Strikte Ebenen-Trennung_ — Welt-Ebene und Kampagnen-Ebene bleiben völlig unabhängig
+. _Charakter-Autonomie_ — Ein Charakter existiert in der Welt, nicht am einzelnen Spieler gebunden
+
+'''
+
+
+== Dokumentationsstruktur
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| # | Ordner | Inhalt | Status
+
+| 01 | link:01-welt-lore/[01-welt-lore/] | Weltgeschichte, Pantheon, Sigillen, Geographie, Kreaturen | ✅
+| 02 | link:02-spielmechaniken/[02-spielmechaniken/] | Traits, Items, Beziehungen, Ökonomie, Crafting, Magie, Kampf, Dragon Bond, Reise, Recht | ✅
+| 03 | link:03-datenbank/[03-datenbank/] | DB-Schema (~200 Tabellen, PostgreSQL, 5NF) | ✅
+| 04 | link:04-architektur/[04-architektur/] | Backend (Supabase+Hono), Repo-Struktur, Shared Types | ✅
+| 05 | link:05-charakter-sheet/[05-charakter-sheet/] | 9 Domains, 4 Kontext-Modi, 26 Entscheidungen, 50+ Use Cases | ✅
+| 06 | link:06-rassen-klassen/[06-rassen-klassen/] | 10 Rassen, 12 Klassen, 19 Abstammungen, Akademie-Lehrplan | ✅
+| 07 | link:07-gm-dashboard/[07-gm-dashboard/] | Auth, Kampagne, Einladung, Session-Lifecycle, Session-Planer, Szenen-Steuerung, Map-Viewer, Foundry-Sync | ✅
+| 08 | link:08-design-system/[08-design-system/] | Design Tokens, Component Library, FSD-Struktur | 📝
+| 09 | link:09-mobile/[09-mobile/] | Unreal Engine 5 Mobile App | 📝
+| 10 | link:10-infrastruktur/[10-infrastruktur/] | CI/CD, Testing, Deployment, Monitoring | 📝
+|===
+
+
+'''
+
+
+== Tech-Stack
+
+
+
+=== Frontend & Web
+
+* _React_ mit _Feature-Sliced Design (FSD)_ Architektur
+* _Zustand_ für State Management
+* _D3.js_ für Datenvisualisierung
+* _Leaflet_ für Kartendarstellung
+* _TypeScript_ für Type Safety
+
+
+=== Backend & Infrastruktur
+
+* _Supabase_ (PostgreSQL, Echtzeit-Updates)
+* _Hono_ (Lightweight Web Framework)
+* _PostgreSQL 5NF_ Datenbankdesign
+
+
+=== Mobile & 3D
+
+* _Unreal Engine 5_ für native Mobile App
+
+
+=== Integration
+
+* _Discord Bot_ für In-Game-Kommunikation
+* _Foundry VTT_ Synchronisation
+
+'''
+
+
+== Plattformen
+
+
+
+=== Web-Portal (React/FSD)
+
+Haupt-Interface für Spieler und Spielleiter. Charakter-Management, Kampagnen-Verwaltung und GM-Dashboard.
+
+
+=== Mobile App (Unreal Engine 5)
+
+Native Mobile Experience mit 3D-Visualisierung, Echtzeit-Updates und optimierter Touch-Bedienung.
+
+
+=== Discord Bot
+
+Integration für Schnell-Abfragen, Character Sheets, Session-Benachrichtigungen und In-Game-Events.
+
+'''
+
+
+== Projektstatistiken
+
+
+
+[cols="1,1",options="header"]
+|===
+| Metrik | Wert
+
+| Datenbank-Tabellen | ~203
+| Spielmechaniken | 27+
+| Charakter-Domains | 9
+| Spielbare Rassen | 10
+| Klassen | 12
+| Enums | 50+
+| Use Cases | 50+
+|===
+
+
+'''
+
+
+== Inspirationen
+
+
+Flammenreiter wird von folgenden Werken inspiriert:
+
+* _D&D 5e_ — Bewährte Regelwerk-Basis
+* _Baldur's Gate 3_ — Mechaniken und Storytelling
+* _Fourth Wing_ von Rebecca Yarros — Dragon Bond Konzept
+* _Rabenschatten_ (Fabian & Florian) — Narrative Tiefe
+* _Mistborn_ Lebenssystem — Progression und Konsequenzen
+* _The Witcher 3_ — Questline-Design
+
+'''
+
+
+== Schnellstart
+
+
+
+=== Neue zur Dokumentation?
+
+Beginnen Sie mit link:01-welt-lore/[01-welt-lore/], um die Welt zu verstehen.
+
+
+=== Spielmechaniken verstehen?
+
+Siehe link:02-spielmechaniken/[02-spielmechaniken/] für alle 27+ Systeme.
+
+
+=== Charakter erstellen?
+
+link:06-rassen-klassen/[06-rassen-klassen/] + link:05-charakter-sheet/[05-charakter-sheet/]
+
+
+=== Kampagne leiten?
+
+link:07-gm-dashboard/[07-gm-dashboard/] für Session-Planung und Szenen-Management.
+
+
+=== Entwicklung?
+
+link:03-datenbank/[03-datenbank/] und link:04-architektur/[04-architektur/] für technische Details.
+
+'''
+
+
+== Zusätzliche Ressourcen
+
+
+* _link:AUDIT.adoc[AUDIT.adoc]_ — Vollständiger Projekt-Audit und Konsistenz-Bericht
+* _link:ROADMAP.adoc[ROADMAP.adoc]_ — Zukünftige Features und Release-Planung
+
+'''
+
+
+== Stand & Version
+
+
+* _Letztes Update:_ 25.03.2026
+* _Wiki Version:_ 8
+* _Status:_ In aktiver Entwicklung
+
+'''
+
+
+== Lizenz & Attributionen
+
+
+Dieses Projekt basiert auf D&D 5e Regeln, modifiziert und erweitert für die digitale Plattform. Alle Original-Content von Flammenreiter unterliegt dem Projekt-Lizenzmodell.
+
+'''
+
+_Fragen oder Feedback?_ Kontaktieren Sie das Development-Team über die interne Dokumentation oder das Projekt-Repository.

@@ -1,0 +1,887 @@
+
+= 9 Domains — Detaillierte Spezifikation
+
+
+Vollständige Dokumentation aller Domains mit Kontext-Verhalten, Interaktionen und Datenbank-Referenzen.
+
+
+== Domain 1: Identity (Header, immer sichtbar)
+
+
+
+=== Was wird angezeigt?
+
+
+* Name + Portrait
+* Rasse + Subrasse
+* Klasse + Subklasse + Level
+* Abstammung + Kindheitserlebnis
+* Akademie-Haus + Flamme
+* XP-Balken
+* Proficiency Bonus
+
+
+=== Wo wird es angezeigt?
+
+
+_Sticky Header-Bar_ auf ALLEN Modi (Social, Combat, Explore, Downtime)
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Modus | Header-Inhalt | Zusätze
+
+| _Social_ | Name + Titel + Haus | +Renown Badge
+| _Combat_ | Name + Klasse + Level + HP | +AC Badge, +Initiative
+| _Explore_ | Name + Rasse + Senses | +Speed, +Darkvision Status
+| _Downtime_ | Name + Profession | +Profession-Level
+|===
+
+
+
+=== Kern-Interaktionen
+
+
+* Klick auf Portrait → Charakter-Details Modal
+* Klick auf XP-Balken → Level-Up Button falls verfügbar
+* Klick auf Proficiency Bonus → Erklärung per Tooltip
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- characters
+SELECT
+  id, name, portrait_url,
+  race_id, subrace_id,
+  class_id, subclass_id, level, xp_current,
+  ancestry_id, childhood_id,
+  academy_house_id, academy_flamme_id
+FROM characters
+WHERE id = ?;
+
+-- Proficiency Bonus
+SELECT proficiency_bonus
+FROM class_levels
+WHERE level = characters.level;
+----
+
+'''
+
+
+== Domain 2: Social (Prio #1)
+
+
+
+=== Was wird angezeigt?
+
+
+_Hauptelement im Social-Modus_
+
+* _Trait-Spider-Chart_ — 6-8 kontextrelevante Traits als Radar-Diagramm
+* _Blender-System_ — Wahrer vs. öffentlicher Wert jedes Traits
+* _NPC-Dispositionen_ — Stimmungs-Emojis für Session-NPCs (Live-Updates)
+* _Renown pro Scope_ — Local/City/Regional/Kingdom/World Bekanntheit
+* _Org-Mitgliedschaften_ — Ränge, Boni, Geheim-Status
+* _Sprachen_ — Liste bekannter Sprachen
+* _Gerüchte_ — Bekannte Gerüchte pro Region
+* _Kultureller Kontext_ — Region-spezifische Modifiers
+
+
+=== Kern-Interaktionen
+
+
+
+==== UC-SOC-01: Trait-Spider-Chart anzeigen
+
+
+. System lädt `character_trait_levels`
+. Spider-Chart rendert kontext-relevante Traits
+. Jeder Punkt zeigt Pol-Labels + aktuellen Wert
+. _Tap auf Trait_ → Detail-Panel:
+** Slider -5/+5 für Visualisierung
+** Farb-Gradient (negative ← neutral → positive)
+** Pol-Beschreibungen (z.B. "Courageous ↔ Fearful")
+** Aktive MechanicalEffects von diesem Trait
+** Evolution-History (letzte 5 Änderungen)
+** Blender-Info: "Public: Courageous +3 / Actual: Fearful -1"
+
+
+==== UC-SOC-02: NPC-Disposition (Live-Emoji)
+
+
+. GM startet Social-Scene mit `primary_npc_id`
+. Supabase Realtime pusht NPC-Daten
+. Sheet zeigt: NPC-Name, Portrait, _Stimmungs-Emoji_
+. _Emoji wechselt LIVE_ wenn GM Disposition ändert
+. Tap auf NPC → Detail-Card:
+** Rasse, Profession, bekannte Traits
+** Disposition-History (letzte 10 Änderungen)
+** Optional: Insight-Check ausführen
+** Bei Erfolg: Zusätzliche Hinweise freigeschaltet
+. _Nur Spieler_: sieht Emoji + Insight
+   _GM sieht_: volle 8-Schritte Aufschlüsselung
+
+
+==== UC-SOC-03: Renown & Bekanntheit
+
+
+. Social-Bereich zeigt Renown-Badges pro Scope
+. Jeder Badge: Score 0-100, Typ (hero/villain/celebrity/infamous/specialist/unknown)
+. `known_traits[]` als Tags angezeigt
+. Tap → Detail: Regionen, bekannte Traits, Typ-Beschreibung
+
+
+==== UC-SOC-04: Organisations-Mitgliedschaften
+
+
+. Org-Badges im Social-Bereich mit Name, Rang, is_public Icon
+. Tap → Detail:
+** Rang-Beschreibung + mechanische Boni
+** Services + Aufstiegs-Voraussetzungen
+** Bei is_public=false: "GEHEIM" Badge + Exclusion-Risiko Warnung
+. GM kann Rang ändern via Dashboard
+
+
+==== UC-SOC-05: Blender-System
+
+
+. Trait-Detail zeigt neben _wahrem Wert_ die _öffentliche Wahrnehmung_
+** Beispiel: "Public: Loyal +2 / Actual: Treacherous -2"
+. Widersprüche visuell markiert (roter Indikator)
+. Visibility-Scope zeigt WO falsche Wahrnehmung gilt
+. Story-Hook Warnung: "Was wenn die Gruppe es merkt?"
+. _Andere Spieler sehen NUR öffentliche Wahrnehmung_
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Modus | Spider-Chart | NPC-Emojis | Renown | Org-Info
+
+| _Social_ | VOLL (Fokus) | VOLL + Emoji Live | VOLL | VOLL
+| _Combat_ | MINI (Sidebar) | MINI | HIDDEN | HIDDEN
+| _Explore_ | MINI | HIDDEN | MITTEL | MINI
+| _Downtime_ | MINI (Sidebar) | HIDDEN | MITTEL | MINI
+|===
+
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Traits
+SELECT * FROM character_trait_levels
+WHERE character_id = ?
+ORDER BY trait_id;
+
+-- Trait-Evolutionen
+SELECT * FROM character_trait_evolution_log
+WHERE character_id = ?
+ORDER BY created_at DESC LIMIT 5;
+
+-- NPC-Dispositionen (Real-time)
+SELECT * FROM world_npcs
+WHERE id = ?
+LISTEN (realtime channel);
+
+-- Renown
+SELECT * FROM character_renown
+WHERE character_id = ?
+AND scope IN ('local', 'city', 'regional', 'kingdom', 'world');
+
+-- Org-Mitgliedschaften
+SELECT om.*, o.name, o.is_public
+FROM organization_memberships om
+JOIN organizations o ON om.organization_id = o.id
+WHERE om.character_id = ?;
+
+-- Blender-System
+SELECT
+  ct.trait_id, ct.value AS actual_value,
+  ctb.value AS blended_value, ctb.visibility_scope,
+  ctb.discovered_by
+FROM character_trait_levels ct
+LEFT JOIN character_trait_blends ctb
+  ON ct.character_id = ctb.character_id
+  AND ct.trait_id = ctb.trait_id
+WHERE ct.character_id = ?;
+----
+
+'''
+
+
+== Domain 3: Combat (Prio #2)
+
+
+
+=== Was wird angezeigt?
+
+
+_Hauptelement im Combat-Modus_
+
+* _6 Ability Scores_ + Modifier (aufklappbar: EffectProcessor-Chain)
+* _HP-Bar_ — Aktuell/Max mit Farb-Gradient (grün→gelb→rot)
+* _Temp HP_ — hellblauer Overlay
+* _AC_ — Schild-Icon, aufklappbar für Zusammensetzung
+* _Initiative_ — Bonus
+* _Speed + Senses_ — Darkvision, Tremorsense, etc.
+* _Saving Throws_ — 6 pro Ability
+* _18 Skills_ — gruppiert nach Ability Score
+* _Spell Slots_ — Pip-Tracker 1-9 + Cantrips
+* _Prepared/Known Spells_ — klassenspezifisch
+* _Waffen + Angriffe_ — Attack Bonus + Damage
+* _Conditions_ — aktive Badges (14 D&D + 5 BG3)
+* _Death Saves_ — nur bei 0 HP (3+3 Checkboxes)
+* _Exhaustion_ — 6-Stufen-Meter neben HP
+* _Class Features + Feats_ — Zusammenfassung
+
+
+=== Kern-Interaktionen
+
+
+
+==== UC-CMB-01: Ability Score + Modifier
+
+
+. 6 Ability Scores als Boxen: Modifier groß (+3), Score klein (16)
+. Tap → Aufklapp-Panel: _EffectProcessor-Chain_
+. Zeigt:
+** Base Score
+** Proficiency (wenn relevant)
+** Trait-Bonus (farbig markiert: pink)
+** Item-Bonus (teal)
+** Wetter-Modifier (blau)
+** Situational/Conditions
+** _= Total_
+. Jeder Eintrag hat Quellen-Tag (Trait=pink, Item=teal, Wetter=blau, Condition=rot)
+
+
+==== UC-CMB-02: Spell casten & Slot verbrauchen
+
+
+. Spell-Slot-Pips zeigen Stand (●●○ = 2/3)
+. Klassenspezifische Spell-Liste:
+** _Wizard_: Spellbook-Browser (alle gelernten Spells)
+** _Cleric/Druid/Paladin_: Prepared-Toggle (max 1+Ability-Mod+Level)
+** _Sorcerer/Warlock/Bard_: Known-Spells Auswahl
+. Filter: Level, School (Evocation, Abjuration, etc.), Concentration, Ritual, Damage Type, Suche
+. Spell wählen → Detail: Casting Time, Range, Components, Duration, Upcasting
+. "Casten" → Prüfung:
+** Slot verfügbar?
+** Concentration-Konflikt? (Warnung falls aktiv)
+** Components-Check (Material verfügbar?)
+. Spell geloggt in `session_mechanical_log`
+. Pip wird leer, Spell-Slot-Pips aktualisiert
+. _Cantrip_ = kein Slot, immer verfügbar
+. _Ritual_ = kein Slot aber +10 Minuten Casting Time
+
+
+==== UC-CMB-03: HP-Management
+
+
+. HP-Bar prominent: aktuell/max mit Farb-Gradient
+** Grün: >75%
+** Gelb: 50-75%
+** Orange: 25-50%
+** Rot: <25%
+** Grau: 0 HP (Death Saves aktiviert)
+. Temp HP als hellblauer Overlay auf der Bar
+. Click → Input Dialog:
+** '+' Button → Heal Input (z.B. "15 HP from Potion")
+** '-' Button → Damage Input (z.B. "8 slash damage")
+. Berechnung:
+** Temp HP zuerst abziehen
+** Dann Current HP
+. Bei 0 HP:
+** Death Save UI aktiviert (3+3 Checkboxes + Würfel)
+** Automatisch: "Unconscious" Condition
+. Bei Massive Damage (damage > HP + MaxHP):
+** Sofort-Tod Warnung
+. Alle Änderungen: Realtime an GM + `session_mechanical_log`
+
+
+==== UC-CMB-04: Waffe/Angriff würfeln
+
+
+. Actions-Sektion zeigt equipped Waffen: Name, Attack Bonus, Damage
+. Click → Attack Roll Animation
+** d20 + Attack Modifier
+** Modifier-Chain aufklappbar (wie UC-CMB-01)
+. Ergebnis mit Transparenz zeigen
+. Bei Erfolg: Damage Roll
+** Dice (z.B. 1d8) + Modifier + Quality%
+** Nat 20 = Crit (Dice×2)
+** Nat 1 = Miss (Fumble optional)
+. Durability -1-3% (Hintergrund, subtil)
+. Alles geloggt + Realtime an GM
+
+
+==== UC-CMB-05: Skill-Check
+
+
+. 18 Skills gruppiert nach Ability Score:
+** STR: Athletics
+** DEX: Acrobatics, Sleight of Hand, Stealth
+** CON: (keine)
+** INT: Arcana, History, Investigation, Nature, Religion
+** WIS: Insight, Medicine, Perception, Survival
+** CHA: Deception, Intimidation, Performance, Persuasion
+. Pro Skill: Name, Proficiency-Pip (ja/nein), Total Modifier
+. Click → d20 + Modifier → Animation
+. Modifier-Chain aufklappbar
+. Ergebnis Realtime an GM
+. GM kann nachträglich als "trait_relevant" markieren → Trait-Evolution triggert
+
+
+==== UC-CMB-06: Conditions & Exhaustion
+
+
+. GM setzt Condition via Dashboard (14 D&D 5e Standard + BG3 Varianten)
+. Badge erscheint sofort im Sheet (Realtime)
+. Tap → mechanische Auswirkungen zeigen (z.B. "Prone: Angriffe gegen dich mit Vorteil")
+. Exhaustion als 6-Stufen-Meter neben HP:
+** Stufe 1: Disadvantage Checks
+** Stufe 2: Disadvantage Attacks + Saves
+** Stufe 3: -2 AC
+** etc.
+. Concentration-Badge: aktiver Spell + CON Save DC bei Damage
+. Mehrere Conditions aufstapelbar (z.B. Prone + Blinded)
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1,1,1",options="header"]
+|===
+| Modus | Combat-Info | HP-Bar | Spells | Skills
+
+| _Social_ | MINI | HIDDEN | HIDDEN | HIDDEN
+| _Combat_ | VOLL | VOLL (prominent) | VOLL | VOLL
+| _Explore_ | MITTEL | MINI (Sidebar) | MINI | MITTEL
+| _Downtime_ | MINI | MINI (Header) | HIDDEN | HIDDEN
+|===
+
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Ability Scores (inkl. Modifier-Chain)
+SELECT * FROM character_ability_scores
+WHERE character_id = ?
+ORDER BY ability_id;
+
+-- Skills mit Proficiency
+SELECT
+  s.id, s.name, s.ability_id,
+  COALESCE(csp.is_proficient, false) AS is_proficient,
+  csp.expertise
+FROM skills s
+LEFT JOIN character_skill_proficiencies csp
+  ON s.id = csp.skill_id AND csp.character_id = ?
+ORDER BY s.ability_id, s.name;
+
+-- Spell Slots
+SELECT slot_level, max_slots, used_slots
+FROM character_spell_slots
+WHERE character_id = ?
+ORDER BY slot_level;
+
+-- Known/Prepared Spells (klassenspezifisch)
+SELECT cks.*, s.name, s.level, s.school
+FROM character_known_spells cks
+JOIN spells s ON cks.spell_id = s.id
+WHERE cks.character_id = ?
+  AND (s.class_id = characters.class_id OR is_prepared = true);
+
+-- Waffen & Angriffe
+SELECT * FROM character_weapon_attacks
+WHERE character_id = ?
+AND equipped = true;
+
+-- Active Conditions (Realtime)
+SELECT * FROM character_conditions
+WHERE character_id = ?
+AND is_active = true
+LISTEN (realtime channel);
+
+-- Exhaustion Level
+SELECT exhaustion_level FROM characters
+WHERE id = ?;
+----
+
+'''
+
+
+== Domain 4: Equipment (Prio #3)
+
+
+
+=== Was wird angezeigt?
+
+
+_Hauptelement im Downtime-Modus_
+
+* _Equipment Slots_ — BG3 Paper-Doll mit 15+ Slots
+* _Rucksack-Inventar_ — Container-System, Items mit Quantity
+* _Item-Details_ — Rarity-Farbe, Quality, Durability%
+* _Waffen/Rüstung/Kleidung-Stats_ — Attack/AC/Ability-Boni
+* _Gold_ — verbleibendes Geld
+* _Attunement_ — 3 Max, attuned Items zeigen
+* _Camp-Truhe_ — Party-Storage
+
+
+=== Zwei Ansichten
+
+
+_Normal-Modus_: Spell/Action-Auswahl mit Equipment-Sidebar
+_Gear-Page_: Dediziert zur Equipment-Verwaltung (`/character/:id/gear`)
+
+
+=== Kern-Interaktionen
+
+
+
+==== UC-EQP-01: Gear-Page (BG3 Paper-Doll)
+
+
+. Paper-Doll zeigt 15+ Slots:
+** Head, Torso, Legs, Feet, Hands
+** Main Hand, Off Hand
+** Belt (1-3 slots, Ring-Äquivalent)
+** Back, Cloak
+** Ring (1-2), Neck, Shoulders
+. Slots klassenspezifisch via `class_equipment_profiles`
+. Jeder Slot:
+** Item-Icon mit Rarity-Rahmen (weiß/grün/blau/lila/gold)
+** Leere Slots gestrichelt
+. Click → Item-Detail:
+** Name, Rarity, Quality%, Durability%
+** Stats (AC, Attack, Damage, Ability-Boni)
+** Special Abilities
+. Rechts: Inventar-Grid mit Filter + Sort
+. Gold + Attunement Slots (3 max) angezeigt
+. _Mobile_: 3D-Modell statt 2D (Unreal)
+
+
+==== UC-EQP-02: Item ausrüsten via Slot-Click
+
+
+. Click auf Slot → Filter-Popup: _NUR passende Items_
+. Filter via `class_equipment_profiles` + Slot-Typ
+. Sortiert nach Rarity (absteigend), dann Quality
+. Hover → _Comparison-Tooltip_: Side-by-Side mit equipped Item
+. Wählen:
+** Attunement-Prüfung: 3/3 voll?
+** Falls ja: "Welches Item lose abstimmen?" oder "Nicht mehr tragen"
+. Item equipped, _EffectProcessor rechnet AC/Attack/Modifier neu_
+. Altes Item → Inventar
+. Durability-Tracking aktiv
+
+
+==== UC-EQP-03: Inventar durchsuchen
+
+
+. Grid/Liste: Icon, Name (Rarity-Farbe), Quantity, Weight
+. Filter: Typ (Weapon, Armor, Potion, etc.), Rarity, Suchtext
+. Sort: Name, Rarity, Weight, Value
+. Container-System: Rucksack als Parent
+. Tap → Detail:
+** Quality, Durability%-Bar
+** Marktwert (Value in GP)
+** Special Abilities
+** Kleidung extra: Appearance, Formality, NPC-Reaktion
+. _Gesamt-Gewicht / Traglast_ (STR×15) angezeigt
+
+
+==== UC-EQP-04: Camp-Truhe (Party Storage)
+
+
+. System prüft: `location_node_id` Match?
+. Wenn nicht: "Truhe nicht erreichbar"
+. Wenn ja: _Split-View_ (Inventar links, Truhe rechts)
+. Drag-Drop Transfer
+. Truhe = _KEIN Gewichtslimit_
+. _Alle Party-Mitglieder_ teilen sich die Truhe
+. Truhe ist an Ort gebunden — auf Reise nur Inventar
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Modus | Paper-Doll | Inventar | Truhe
+
+| _Social_ | MINI | HIDDEN | HIDDEN
+| _Combat_ | MINI | HIDDEN | HIDDEN
+| _Explore_ | MITTEL (Sidebar) | MITTEL | HIDDEN
+| _Downtime_ | VOLL (Fokus) | VOLL (Fokus) | VOLL
+|===
+
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Equipment Slots & Ausrüstung
+SELECT * FROM class_equipment_profiles
+WHERE class_id = characters.class_id;
+
+SELECT * FROM character_equipment
+WHERE character_id = ?;
+
+-- Inventar Items (mit Qualities)
+SELECT
+  ci.id, ci.item_id, ci.quantity, ci.durability_percent,
+  i.name, i.rarity, i.weight_lbs, i.value_gp
+FROM character_inventory ci
+JOIN items i ON ci.item_id = i.id
+WHERE ci.character_id = ?
+ORDER BY i.rarity DESC, i.name;
+
+-- Attunement
+SELECT
+  ci.id, i.name, i.rarity,
+  ci.is_attuned
+FROM character_inventory ci
+JOIN items i ON ci.item_id = i.id
+WHERE ci.character_id = ?
+  AND i.requires_attunement = true
+  AND ci.is_attuned = true
+LIMIT 3;
+
+-- Camp-Truhe (an Location gebunden)
+SELECT * FROM party_camp_storage
+WHERE location_node_id = ?
+  AND party_id = characters.party_id;
+----
+
+'''
+
+
+== Domain 5: Downtime (Prio #4)
+
+
+
+=== Was wird angezeigt?
+
+
+_Nur im Downtime-Modus vollständig sichtbar_
+
+* _Profession_ — Name, Level 1-5, XP, Boni
+* _Aktive Crafting-Projekte_ — Multi-Step, aktueller Schritt, Fortschritt
+* _Bekannte Rezepte_ — Liste + Filter
+* _Verfügbare Materialien_ — Inventar-Filterung
+* _Sprach-Training_ — Progress pro Sprache
+* _Item-Reparatur Queue_ — Durability-Items priorisieren
+* _Downtime-Tage_ — Verfügbar vs. verwendet
+
+
+=== Kern-Interaktionen
+
+
+
+==== UC-DWN-01: Crafting-Schritt ausführen
+
+
+. Aktive Projekte als Cards:
+** Rezept-Name, Schritt/Total (z.B. "Step 2/5")
+** Fortschritts-Bar
+. Tap → Schritt-Detail:
+** Materialien (Verfügbarkeit geprüft)
+** Skill-DC (z.B. "Blacksmithing DC 12")
+** Dauer (z.B. "2 hours")
+** Tools benötigt (Hammer, Anvil, etc.)
+. "Ausführen" → _Skill-Check_:
+** DC = Standard
+** DC+5 = gut (bessere Qualität)
+** DC+10 = exzellent (beste Qualität)
+** Nat 20 = Meisterwerk (bonus properties)
+** Nat 1 = Pfusch (defekt oder Material verloren)
+. Materialien verbraucht (sofort ins Log)
+. Ergebnis in `crafting_project_step_results`
+. Nächster Schritt oder Fertigstellung
+** Fertig: Item mit individuellen Properties
+** Properties basierend auf Step-Ergebnisse
+
+
+==== UC-DWN-02: Profession trainieren
+
+
+. Profession als Progress-Card:
+** Name, Level 1-5
+** XP-Balken
+** Boni (z.B. "+1 Crafting checks", "+10% Speed")
+. "Trainieren" → Prüfung:
+** Lehrer-NPC am POI verfügbar?
+** Gold verfügbar (Kosten variabel)?
+** Downtime-Tage verfügbar?
+. Pro Tag: XP-Zugewinn nach Lehrer-Qualität
+. Bei Level-Up:
+** Neue Boni freigeschaltet
+** Neue Rezepte hinzugefügt
+** Crafting-Time reduziert
+
+
+==== UC-DWN-03: Item reparieren
+
+
+. Items als "reparaturbedürftig" markiert:
+** Durability < 70% = gelb
+** Durability < 30% = rot
+. Optionen:
+** _Short Rest Pflege_ (+5-10%, kostenlos)
+** _Selbst-Reparatur_ (Profession-Check, Skill-DC, Material)
+** _NPC-Schmied_ (Gold, Zeit, automatisch)
+. Durability aktualisiert
+. Condition ändert sich (broken flag gefällt)
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Modus | Profession | Crafting | Reparatur
+
+| _Social_ | HIDDEN | HIDDEN | HIDDEN
+| _Combat_ | HIDDEN | HIDDEN | HIDDEN
+| _Explore_ | MINI | MINI | MINI
+| _Downtime_ | VOLL | VOLL | VOLL
+|===
+
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Profession
+SELECT * FROM character_professions
+WHERE character_id = ?
+ORDER BY level DESC;
+
+-- Crafting Projects (aktiv)
+SELECT
+  cp.id, cp.recipe_id, cp.current_step, cp.total_steps,
+  r.name, r.output_item_id
+FROM crafting_projects cp
+JOIN recipes r ON cp.recipe_id = r.id
+WHERE cp.character_id = ?
+  AND cp.completed = false
+ORDER BY cp.created_at;
+
+-- Bekannte Rezepte
+SELECT r.* FROM character_known_recipes ckr
+JOIN recipes r ON ckr.recipe_id = r.id
+WHERE ckr.character_id = ?;
+
+-- Item-Reparatur Queue
+SELECT * FROM character_inventory ci
+WHERE ci.character_id = ?
+  AND ci.durability_percent < 70
+ORDER BY ci.durability_percent ASC;
+----
+
+'''
+
+
+== Domain 6: Dragon Bond (Top-Level)
+
+
+
+=== Was wird angezeigt?
+
+
+_EIGENE Top-Level Sektion NEBEN dem Sheet_ (`/character/:id/dragon`)
+
+* _Drache_ — Name, Spezies, Alter, Status, Portrait
+* _Drachen-Traits_ — Eigenes Spider-Chart!
+* _Bond-Phase_ — (Reittier/Vertieft) + Bond-XP
+* _Care Score_ — 0-100 Meter (grün/gelb/rot)
+* _Pflege-Aufgaben_ — täglich/wöchentlich/saisonal
+* _Pflege-Log_ — Historie mit Qualitäten-Noten
+* _Drachen-Equipment_ — spezies-spezifisch
+* _Schuppen-Ernte_ — saisonale Materialien
+* _Trait-Resonanz_ — Reiter ↔ Drache Kompatibilität
+
+
+=== Kern-Interaktionen
+
+
+
+==== UC-DRG-01: Drachen-Sheet anzeigen
+
+
+. Web: Route `/character/:id/dragon`
+. Lädt:
+** `dragon_instances` + traits + care_score + bond_phase
+. Header: Name, Spezies-Icon, Alter, Status (healthy/sick/weak)
+. _Portrait_:
+** AI-generiert oder Placeholder
+** Pro Spezies + Farbvariante
+. Sections:
+** Bond-Info (Phase, XP-Bar, Fähigkeiten)
+** Traits (eigenes Spider-Chart, 6-8 Traits)
+** Equipment (spezies-spezifisch)
+** Pflege-Status (Care Score, letzte Aufgaben)
+. Care Score als Meter (0-100):
+** Grün: 70-100
+** Gelb: 30-70
+** Rot: 0-30
+. Bond-Phase visuell:
+** Phase 1 "Erste Bindung": Neue Fähigkeiten
+** Phase 2 "Reiter": Combat-Fähigkeiten
+** Phase 3 "Vertieft": Legendäre Fähigkeiten (optional)
+
+
+==== UC-DRG-02: Tägliche Drachen-Pflege
+
+
+. Tägliche Aufgaben als Checkliste (nach Spezies + Alter):
+** Füttern (Menge, Futterart variiert nach Spezies)
+** Striegeln (Schuppen reinigen)
+** Rüstung kontrollieren (wenn equipped)
+** Stallung/Unterkunft kontrollieren
+. _MVP: Button pro Aufgabe_ mit Qualitäts-Bewertung (1-5 Sterne)
+. Später: Unreal Touch-Gesten am 3D-Modell
+. Log in `dragon_care_log`:
+** Aufgabe, Qualität, Zeitstempel
+. _Care Score_ steigt/sinkt:
+** Qualität 5: +5 Care
+** Qualität 1: +1 Care
+** Verpasst (0): -10 Care
+. _Vernachlässigung_ (3+ Tage):
+** Warnung in Mobile App
+** Trait-Shift: aggressive/depressed
+** Bond-XP Stagnation
+** Eventually: Bond broken wenn >30 Tage
+
+
+==== UC-DRG-03: Drachen-Equipment verwalten
+
+
+. Slots nach Spezies:
+** _Kampfdrache_: saddle, armor (3 slots: torso/head/legs), claw_wraps
+** _Taschendrache_: focus_crystal, collar, perch
+** _Schattendrache_: camouflage_cloak, collar, venom_sac
+. Slot-Click → passende Items (wie UC-EQP-02)
+. Durability-Tracking für Drachen-Equipment
+. _Schuppen-Ernte_ bei saisonaler Häutung:
+** Automatisch wenn Care Score > 60
+** Material in Inventar: "Dragon Scales (Färbung)"
+** Crafting-Material für hochwertige Items
+
+
+==== UC-DRG-04: Trait-Resonanz (Dual Spider-Chart)
+
+
+. _Dual Spider-Chart_:
+** Reiter-Traits links
+** Drachen-Traits rechts
+. _Resonanz-Linien_ zwischen kompatiblen Achsen:
+** _Grün_: Verstärkend (z.B. Courageous+3 + Aggressive+3)
+** _Gelb_: Neutral
+** _Rot_: Spannung (z.B. Patient+3 + Impulsive+4)
+. Tap auf Linie → mechanische Effekte:
+** "Courageous + Aggressive = +2 Initiative, +1 Damage in charge"
+** "Patient + Impulsive = Slower Reaction but Stronger Bonds"
+. _Resonanz-Score_: 0-100 (entwickelt sich über Zeit)
+. Höhere Resonanz = Bond-Phase schneller erreichbar
+
+
+=== Kontext-Verhalten
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Modus | Dragon-Info | Care-Aufgaben | Traits
+
+| _Social_ | MINI (Badge) | HIDDEN | HIDDEN
+| _Combat_ | MITTEL (Sidebar) | HIDDEN | MINI
+| _Explore_ | MITTEL | MINI | MINI
+| _Downtime_ | VOLL | VOLL | MITTEL
+|===
+
+
+
+=== Datenbank-Referenzen
+
+
+[source,sql]
+----
+-- Dragon Instance
+SELECT * FROM dragon_instances
+WHERE character_id = ?
+  AND is_active = true;
+
+-- Dragon Traits
+SELECT * FROM dragon_trait_levels
+WHERE dragon_id = ?
+ORDER BY trait_id;
+
+-- Bond Info
+SELECT * FROM character_dragon_bonds
+WHERE character_id = ?
+  AND dragon_id = (SELECT id FROM dragon_instances
+                   WHERE character_id = ? AND is_active = true);
+
+-- Care Tasks
+SELECT * FROM dragon_care_tasks
+WHERE dragon_id = ?
+ORDER BY (CASE recurrence
+  WHEN 'daily' THEN 1
+  WHEN 'weekly' THEN 2
+  WHEN 'seasonal' THEN 3 END);
+
+-- Care Log
+SELECT * FROM dragon_care_log
+WHERE dragon_id = ?
+ORDER BY performed_at DESC;
+
+-- Trait Resonance
+SELECT
+  cdb.resonance_score,
+  cdb.resonance_harmony,
+  JSON_AGG(DISTINCT dtr.trait_id) as dragon_traits,
+  JSON_AGG(DISTINCT ctr.trait_id) as character_traits
+FROM character_dragon_bonds cdb
+JOIN dragon_trait_levels dtr ON cdb.dragon_id = dtr.dragon_id
+JOIN character_trait_levels ctr ON cdb.character_id = ctr.character_id
+WHERE cdb.character_id = ? AND cdb.dragon_id = ?;
+----
+
+'''
+
+
+== Domains 7-9: Phase 2 (Journal, Lore, Legal)
+
+
+Diese Domains sind im MVP nicht enthalten. Dokumentation folgt in Phase 2 Spezifikation.
+
+* _Journal & Quests_: Aktive Quests, Quest-History, Entscheidungs-Journal
+* _Lore / Entdecktes Wissen_: Orte, NPCs, Organisationen, Götter-Wissen
+* _Legal_: Wanted-Level, Bounties, Criminal Record
+

@@ -1,0 +1,643 @@
+
+= Shared Types & Enums
+
+
+Zentrale Typ-Definitionen und Enums für das gesamte System.
+
+
+== MechanicalEffect: Das Universelle System
+
+
+Jedes Spielelement mit mechanischen Auswirkungen verwendet denselben Typ:
+
+[source,typescript]
+----
+interface MechanicalEffect {
+  target: EffectTarget
+  operation: EffectOperation
+  value: number
+  condition?: EffectCondition
+  duration?: EffectDuration
+  description: string
+}
+----
+
+
+=== target: EffectTarget
+
+
+_WAS wird beeinflusst:_
+
+[source,typescript]
+----
+type EffectTarget =
+  // Fähigkeiten (Ability Scores)
+  | 'strength'
+  | 'dexterity'
+  | 'constitution'
+  | 'intelligence'
+  | 'wisdom'
+  | 'charisma'
+
+  // Skills (Checks)
+  | 'acrobatics'
+  | 'animal_handling'
+  | 'arcana'
+  | 'athletics'
+  | 'deception'
+  | 'history'
+  | 'insight'
+  | 'intimidation'
+  | 'investigation'
+  | 'medicine'
+  | 'nature'
+  | 'perception'
+  | 'performance'
+  | 'persuasion'
+  | 'religion'
+  | 'sleight_of_hand'
+  | 'stealth'
+  | 'survival'
+
+  // Rettungswürfe
+  | 'saving_throw_strength'
+  | 'saving_throw_dexterity'
+  | 'saving_throw_constitution'
+  | 'saving_throw_intelligence'
+  | 'saving_throw_wisdom'
+  | 'saving_throw_charisma'
+
+  // Kampf
+  | 'armor_class'
+  | 'attack_roll'
+  | 'damage_roll'
+  | 'initiative'
+  | 'hit_points'
+  | 'hit_dice'
+
+  // Zauber
+  | 'spell_save_dc'
+  | 'spell_attack_bonus'
+  | 'spell_slots'
+  | 'spell_slot_recovery'
+
+  // Ressourcen
+  | 'action_surge'
+  | 'channel_divinity'
+  | 'wildshape_uses'
+  | 'divine_intervention'
+
+  // Sensoren
+  | 'vision_range'
+  | 'darkvision_range'
+  | 'truesight_range'
+  | 'blindsight_range'
+  | 'tremorsense_range'
+
+  // Bewegung
+  | 'walking_speed'
+  | 'flying_speed'
+  | 'swimming_speed'
+  | 'climbing_speed'
+  | 'burrowing_speed'
+
+  // Status
+  | 'exhaustion_level'
+  | 'death_save_threshold'
+
+  // Spezial
+  | 'custom_mechanic_<name>'
+----
+
+
+=== operation: EffectOperation
+
+
+_WIE wird es beeinflusst:_
+
+[source,typescript]
+----
+type EffectOperation =
+  | 'add'           // +3 (stapelbar)
+  | 'set'           // = 15 (höchster gewinnt)
+  | 'multiply'      // × 1.5 (kombiniert)
+  | 'advantage'     // Roll 2d20 take higher
+  | 'disadvantage'  // Roll 2d20 take lower
+  | 'immunity'      // Keine Effekte dieser Art
+  | 'resistance'    // Halbier Schaden
+  | 'vulnerability' // Doppel Schaden
+  | 'reroll'        // Re-roll failed check
+  | 'critical_range_expand' // 19-20 statt 20
+----
+
+
+=== value: number
+
+
+_WIEVIEL:_
+
+----
+add: value = +3
+set: value = 15
+multiply: value = 1.5 (× 50%)
+advantage/disadvantage: value = 1 (boolean flag)
+immunity: value = 1 (boolean)
+----
+
+
+=== condition?: EffectCondition
+
+
+_WANN gilt der Effekt:_
+
+[source,typescript]
+----
+type EffectCondition =
+  // Wetter
+  | { type: 'weather', weather_id: UUID, operator: 'during' | 'not_during' }
+
+  // Zeit
+  | { type: 'time_of_day', time: 'dawn'|'morning'|'afternoon'|'dusk'|'night'|'deep_night' }
+  | { type: 'season', season: 'winter'|'spring'|'summer'|'autumn' }
+
+  // Gelände
+  | { type: 'terrain', terrain_id: UUID, operator: 'in' | 'not_in' }
+
+  // Status
+  | { type: 'condition', condition_id: UUID, operator: 'has' | 'not_has' }
+
+  // Kampf
+  | { type: 'in_combat', value: true | false }
+  | { type: 'initiative_order', position: 'first' | 'first_half' | 'second_half' }
+
+  // Beziehungen
+  | { type: 'vs_creature_type', creature_type_id: UUID }
+  | { type: 'vs_alignment', alignment: string }
+  | { type: 'vs_trait_level', spectrum_id: UUID, operator: 'gt'|'lt'|'eq', threshold: number }
+
+  // Charakter-States
+  | { type: 'hp_threshold', operator: 'below'|'above', threshold: number }
+  | { type: 'spell_slots_available', min_level: number }
+
+  // Logik
+  | { type: 'and', conditions: EffectCondition[] }
+  | { type: 'or', conditions: EffectCondition[] }
+  | { type: 'not', condition: EffectCondition }
+----
+
+
+=== duration?: EffectDuration
+
+
+_WIE LANGE gilt der Effekt:_
+
+[source,typescript]
+----
+type EffectDuration =
+  // Kampf
+  | { type: 'rounds', value: number }              // 3 Runden
+  | { type: 'concentration', max_duration?: number } // Solange konzentriert (max 1 Minute)
+
+  // Ruhen
+  | { type: 'short_rest' }                         // Bis kurze Rast
+  | { type: 'long_rest' }                          // Bis lange Rast
+
+  // Zeit
+  | { type: 'hours', value: number }               // 8 Stunden
+  | { type: 'days', value: number }                // 1 Tag
+  | { type: 'scene' }                              // Diese Szene
+
+  // Auf Ablauf
+  | { type: 'until_condition', condition: EffectCondition } // Bis Bedingung erfüllt
+
+  // Permanent
+  | { type: 'permanent' }
+
+  // Sofort/Einmalig
+  | { type: 'instant' }
+----
+
+
+=== description: string
+
+
+_UI-Text für Spieler:_
+
+----
+"Perception +2 in dim light"
+"Gain advantage on Stealth checks"
+"Roll damage twice, use higher"
+----
+
+
+== Zod Schemas
+
+
+Alle Types haben entsprechende Zod Schemas für Validierung:
+
+[source,typescript]
+----
+import { z } from 'zod';
+
+export const EffectTargetSchema = z.enum([
+  'strength',
+  'dexterity',
+  // ... all 50+ targets
+]);
+
+export const EffectOperationSchema = z.enum([
+  'add',
+  'set',
+  'multiply',
+  // ...
+]);
+
+export const MechanicalEffectSchema = z.object({
+  target: EffectTargetSchema,
+  operation: EffectOperationSchema,
+  value: z.number(),
+  condition: z.object({
+    type: z.string(),
+    // ... conditional fields
+  }).optional(),
+  duration: z.object({
+    type: z.string(),
+    // ... duration fields
+  }).optional(),
+  description: z.string().min(1).max(200),
+});
+----
+
+
+== Feste Enums (PostgreSQL ENUM Types)
+
+
+~50 Enums die sich praktisch nie ändern und direkt im Code definiert sind.
+
+
+=== Organisationen & Sozial
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `OrganizationType` | guild, noble_house, order, military, underworld, cult, academy, trade_network | Org-Klassifizierung
+| `AllianceType` | allied, neutral, rival, hostile | Org-Beziehungen
+| `ExclusionType` | hard, soft, none | Membership-Konflikte
+| `NpcTier` | named, recurring, background | NPC-Wichtigkeit
+| `WantedLevel` | suspected, wanted, highly_wanted, kill_on_sight | Bounty-Status
+| `MembershipType` | npc, character | Wer kann Mitglied sein
+| `PartyReputationType` | heroic, infamous, reliable, chaotic, unknown | Gruppenstatus
+| `RenownType` | hero, villain, celebrity, infamous, specialist, unknown | Persönliches Ansehen
+|===
+
+
+
+=== Kalender & Zeit
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `TimeOfDay` | dawn, morning, afternoon, dusk, night, deep_night | Tageszeit
+| `Season` | winter, spring, summer, autumn | Jahreszeit
+| `AcademyPhase` | knowledge, teaching, exam, rest | Schuljahr-Phasen
+| `WeatherCategory` | natural, magical | Wetter-Typ
+| `VisibilityModifier` | normal, reduced, heavily_reduced, zero | Sicht-Einfluss
+| `SpreadSpeed` | fast, normal, slow | Wie schnell Gerüchte sich verbreiten
+| `AccuracyDegradation` | none, slight, heavy | Fehlerrate beim Weitersagen
+|===
+
+
+
+=== Reise & Welt
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `TravelPace` | fast, normal, cautious | Reise-Geschwindigkeit
+| `TravelStatus` | planned, active, completed, abandoned | Reisen-Status
+| `RouteType` | highway, road, path, trail, waterway, none | Weg-Typ
+| `MountVehicleCategory` | mount, cart, wagon, ship, flying | Fortbewegung
+| `NodeType` | city, town, village, outpost, crossroads, landmark, dungeon | Orts-Typ
+| `TravelDayStatus` | auto_calculated, gm_confirmed, gm_overridden | Wie wurde Reisetag berechnet
+| `RouteFamiliarity` | unknown, heard_of, traveled_once, familiar, expert | Wie gut bekannt
+| `TerrainType` | road, path, open_land, forest, mountain, swamp, wilderness, desert, tundra | Gelände
+|===
+
+
+
+=== Kampf & Encounter
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `EncounterType` | combat, social, discovery, environmental, omen, trap | Encounter-Klassifizierung
+| `EncounterResolution` | combat_victory, combat_defeat, skill_success, skill_fail, negotiated, fled, avoided, gm_custom | Wie endete Encounter
+| `RollVisibility` | public, player_only, gm_only, delayed | Würfel-Transparenz
+| `RollCategory` | standard, saving_throw, hidden, contested, group_check, damage | Würfel-Typ
+| `RestType` | short, long | Rast-Länge
+| `SpellComponent` | V, S, M | Zauberkomponenten
+|===
+
+
+
+=== Items & Inventar
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `RarityTier` | common, uncommon, rare, epic, legendary, mystic, divine | Item-Seltenheit
+| `ItemType` | weapon, armor, clothing, container, consumable, misc, provision, material | Item-Kategorie
+| `ContainerVisibility` | hidden, subtle, visible, obvious | Behälter-Auffälligkeit
+| `ClothingAppearance` | peasant, commoner, merchant, noble, military, arcane, religious, criminal, exotic | Outfit-Stil
+| `ProfessionCategory` | craft, trade, military, academic, service, criminal | Beruf-Sparte
+|===
+
+
+
+=== Equipment Slots
+
+
+[source,typescript]
+----
+// Global definiert, aber Klassen restringieren Verfügbarkeit
+enum EquipmentSlot {
+  // Körper
+  HEAD = 'head',
+  TORSO = 'torso',
+  LEGS = 'legs',
+  FEET = 'feet',
+  HANDS = 'hands',
+
+  // Waffen
+  MAIN_HAND = 'main_hand',
+  OFF_HAND = 'off_hand',
+
+  // Zubehör
+  BELT_1 = 'belt_1',
+  BELT_2 = 'belt_2',
+  BELT_3 = 'belt_3',
+  BACK = 'back',
+  RING_1 = 'ring_1',
+  RING_2 = 'ring_2',
+  NECK = 'neck',
+  CLOAK = 'cloak',
+}
+----
+
+
+=== Traits & Beziehungen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `TraitExclusionType` | hard, soft, tension | Trait-Konflikte
+| `TraitVisibilityScope` | private, local, city, regional, kingdom, world | Wie weit Trait bekannt
+| `TraitAccuracy` | accurate, exaggerated, understated, false | Wie wahr ist Wissen über Trait
+|===
+
+
+
+=== Recht & Kriminalität
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `CrimeSeverity` | infraction, misdemeanor, crime, felony, capital | 1-5 Schweregrad
+| `JusticeType` | trial, summary, elder_council, military, none | Rechtssystem
+| `ConsequenceType` | fine, confiscation, short_arrest, prison, banishment, forced_labor, bounty, public_punishment, marking, reputation_loss, service, acquittal | Straf-Optionen
+| `BountyStatus` | active, claimed, expired, cancelled | Kopfgeld-Status
+| `BountyCondition` | alive, dead, either | Fangbedingung
+| `CriminalRecordStatus` | active, served, pardoned, escaped, appealed, undetected | Straf-Status
+|===
+
+
+
+=== Dialog-System
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `DialogMode` | free, structured, negotiation, interrogation | Gespräch-Typ
+| `DialogSituation` | casual, professional, quest, conflict | Dialog-Kontext
+| `DialogDetailLevel` | shallow, medium, deep | NPC-Reaktions-Tiefe
+| `DialogEventType` | skill_check, trait_trigger, info_revealed, disposition_shift, speaker_change, pop_up_sent, topic_discussed | Was passiert im Dialog
+| `NpcEmotion` | neutral, happy, angry, fearful, suspicious, impressed | Emotionale Reaktion
+| `KnowledgeType` | rumor, secret, local_info, personal, quest_hook | Info-Kategorie
+|===
+
+
+
+=== Dragon Bond
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `DragonSpecies` | kampfdrache, taschendrache, schattendrache | Drachen-Art
+| `DragonAgeCategory` | juvenile, young_adult, adult, elder | Drachen-Alter
+| `DragonStatus` | wild, bonded, grieving, dead | Drachen-Status
+| `BondPhase` | reittier, vertieft | Bond-Entwicklung
+| `BondStatus` | active, broken_by_rider_death, broken_by_dragon_death | Bond-Status
+| `BondEventType` | bonding_ritual, phase_advance, shared_combat, trust_moment, trait_resonance, neglect, care | Event-Typ
+| `CareTaskType` | daily, weekly, seasonal | Pflicht-Häufigkeit
+| `DragonEquipmentSlot` | saddle, armor_head, armor_body, armor_tail, claw_enhancement, focus_crystal, camouflage_cloth, collar, venom_vial | Ausrüstungs-Platz
+|===
+
+
+
+=== Charakter-Mechaniken
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `HpMethod` | roll, average | Wie HP bei Level-Up
+| `AsiOrFeat` | asi, feat | Was bei Abilities Increase
+| `DeathType` | unconscious, dead, permadeath | Tod-Kategorie
+| `ResurrectionType` | revivify, raise_dead, true_resurrection, none | Wie auferstanden
+| `XpSource` | combat, social, exploration, quest, gm_bonus | Wo kommt XP her
+|===
+
+
+
+=== Pantheon & Sigillen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `DeityId` | pyrathis, thalendis, verathos, aeolyn, nocthari, solveris, aethyran | Gott-IDs (Enums statt UUIDs)
+| `SigilStatus` | lost, held, dormant, active | Sigil-Status
+| `SigilBondPhase` | touching, phase1, phase2, phase3 | Bond-Fortschritt
+| `SigilEventType` | discovery, attunement_attempt, phase_advance, active_use, trait_drift, resonance | Event-Typ
+| `SigilPowerTier` | touched, awakened, divine | Power-Level
+|===
+
+
+
+=== Gerüchte
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Enum | Werte | Zweck
+
+| `RumorAccuracy` | accurate, exaggerated, understated, false, partial | Wahr-Anteil
+| `RumorTone` | neutral, alarming, dismissive, conspiratorial, hopeful | Emotional-Färbung
+| `GroundTruthStatus` | active, resolved, expired, superseded | Fakten-Status
+| `InformationSourceType` | notice_board, tavern, market, guild_hall, library, temple, underground, npc_contact | Rumor-Quelle
+|===
+
+
+
+== Lookup-Tabellen (CRUD-erweiterbar)
+
+
+Diese sind eigene DB-Tabellen, nicht Enums. Wachsen über Zeit:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Tabelle | Beispiel-Einträge | Erweiterbar?
+
+| `effect_targets` | acrobatics, animal_handling, ... | Ja (neue Systeme)
+| `effect_operations` | add, set, multiply, ... | Ja (neue Operationen)
+| `effect_condition_types` | weather, terrain, condition, ... | Ja
+| `effect_duration_types` | rounds, hours, scene, ... | Ja
+| `skills` | 18 D&D + Custom | Ja
+| `damage_types` | 13 D&D + magical | Ja
+| `conditions` | 15+ D&D/BG3 | Ja
+| `spells` | 500+ | Ja
+| `races` | 5+ | Ja
+| `subraces` | 10+ | Ja
+| `classes` | 12+ | Ja
+| `subclasses` | 40+ | Ja
+| `creatures` | 400+ | Ja
+| `professions` | 10+ | Ja
+| `dialog_templates` | Casual, Quest, Conflict, ... | Ja
+| `organization_subtypes` | Military→Army, Guard, ... | Ja
+| `random_tables` | NPC names, Loot tables, ... | Ja
+|===
+
+
+
+== Typ-Generierung aus DB
+
+
+[source,bash]
+----
+# CLI command
+supabase gen types typescript --project-id $PROJECT_ID > database.types.ts
+----
+
+Generiert automatisch TypeScript Interfaces für alle Tabellen und ihre Spalten:
+
+[source,typescript]
+----
+// Generiert automatisch:
+export interface Database {
+  public: {
+    Tables: {
+      characters: {
+        Row: {
+          id: string
+          user_id: string | null
+          campaign_id: string
+          name: string
+          level: number
+          hp_current: number
+          hp_max: number
+          // ... alle Spalten
+        }
+        Insert: { /* ohne id, created_at */ }
+        Update: { /* alle optional */ }
+      }
+      // ... 200 weitere Tabellen
+    }
+  }
+}
+----
+
+Diese generieren Types werden dann in `@flammenreiter/shared-types` handbearbeitet und validiert.
+
+
+== Best Practices
+
+
+
+=== 1. Validierung auf jedem Layer
+
+
+[source,typescript]
+----
+// API-Eingabe
+const input = CharacterSchema.parse(req.body);
+
+// DB-Query
+const character = await db.characters.findById(input.id);
+
+// Output
+const response = CharacterSchema.parse(character);
+return res.json(response);
+----
+
+
+=== 2. Nie auf Generierte Types verlassen
+
+
+Die generierten Database Types sind für IDE-Autocomplete, aber für Business Logic nutze explizite Schemas.
+
+
+=== 3. MechanicalEffect überall nutzen
+
+
+Nicht: `item.perception_bonus: 2`
+Sondern: `item.mechanical_effects: [{ target: 'perception', operation: 'add', value: 2 }]`
+
+
+=== 4. Enum statt String
+
+
+[source,typescript]
+----
+// Gut
+const season: Season = 'winter';
+
+// Nicht
+const season: string = 'winter';
+----
+
+'''
+
+Siehe auch: link:./backend.adoc[backend.adoc] für Hono Service-Integration.

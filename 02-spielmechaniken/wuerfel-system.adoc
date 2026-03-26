@@ -1,0 +1,399 @@
+
+= Würfel-System
+
+
+Transparente Roll-Logs, Modifier-Chains, vier Kategorien, variable Sichtbarkeit.
+
+
+== Roll-Log: Dreifach verlinkt
+
+
+Jeden Wurf tracken wir in drei Dimensionen:
+
+
+=== 1. Charakter-Statistik
+
+
+----
+character_roll_history
+├── character_id (FK)
+├── roll_date
+├── roll_type (standard_check|saving_throw|hidden|contested|damage)
+├── skill_used (if applicable)
+├── final_roll_result (d20 result + total)
+├── dc (was die DC)
+├── success (bool)
+└── notes
+----
+
+Pro Charakter: Durchschnittliche Erfolgsrate, Nat 1/20 Quote, beste/schlechteste Skills.
+
+
+=== 2. Session/Szene-Kontext
+
+
+----
+session_rolls
+├── session_id (FK)
+├── rolls[] (Verweise zu roll_history)
+├── scene_context (was passierte in diesem Moment)
+├── player_decision (falls Entscheidung getroffen)
+└── story_impact
+----
+
+Spieler können zurückgehen: "Was war nochmal der Check in der Kaverne?"
+
+
+=== 3. Gruppe (Vergleich + Leaderboard)
+
+
+----
+party_roll_statistics
+├── party_group_id (FK)
+├── month (welcher Monat)
+├── luckiest_player
+├── highest_single_roll
+├── most_failures_in_session
+├── most_nat_20s
+----
+
+Spielerisches Leaderboard — wer war am luckiest diesen Monat?
+
+
+=== Nat 1/20 + Trait-Relevanz → Auto-Trigger
+
+
+Wenn `trait_relevance = true` UND (d20 result = 1 OR d20 result = 20):
+
+----
+System triggers automatic:
+- Trait-Evolution calculation
+- Potential story-beat reveal
+- Audio notification ("Critical moment!")
+----
+
+'''
+
+
+== Modifier-Chain: Transparent
+
+
+Jeder Wurf zeigt die komplette Berechnung, optional aufklappbar:
+
+
+=== Kompakte Ansicht (Spieler standard)
+
+
+----
+d20 + 7 = 19 ✓
+----
+
+Grüner Haken = Erfolg
+
+
+=== Aufgeklappte Ansicht
+
+
+----
+Base Roll:                1d20 = 14
+  Ability Score:          +3 (DEX)
+  Proficiency:            +3 (trained in Stealth)
+  Trait-Bonus:            +2 (Mutig+3 on initiative)
+  Magic Item:             +1 (Ring of Swiftness)
+  Environmental:          -2 (Dunkelheit)
+  ─────────────────────────────
+TOTAL:                    +7
+─────────────────────────────
+FINAL ROLL:               14 + 7 = 21
+
+vs. DC 15 → SUCCESS ✓
+----
+
+_Farbcodierung_:
+* Grün: Ability Scores, Proficiency
+* Blau: Trait-Modi (und welcher Trait)
+* Gold: Magische Gegenstände
+* Rot: Umgebungs-Penalty
+* Orange: Conditionals (Diseased, Exhausted, etc.)
+
+'''
+
+
+== 4 Roll-Kategorien
+
+
+
+=== 1. Standard Check
+
+
+----
+1d20 + Modifier vs. DC
+
+Beispiel: "Würfle Perception gegen DC 12"
+
+Rollout:
+  1d20 = 8
+  + WIS +2
+  + Proficiency +2
+  + Trait-Neugierig+1 +1
+  = 13 vs. DC 12 → SUCCESS
+----
+
+
+=== 2. Saving Throw
+
+
+----
+Charakter ist reaktiv gegen Effekt
+1d20 + Ability Modifier + Proficiency (if trained) vs. DC
+
+Beispiel: Feuerball
+  Dex Save DC 14
+  Spieler würfelt: 1d20 + DEX +3 = 18 → SUCCESS
+  Effekt: Half damage instead of full
+----
+
+
+=== 3. Hidden Roll
+
+
+----
+Nur GM sieht das Ergebnis.
+
+Beispiel: "Insider-Check ob NPC lügt"
+  Spieler: "Ich mache einen Insight Check"
+  GM: "Okay, würfle"
+  Spieler würfelt (Ergebnis sichtbar)
+  GM sieht intern (GM-only): Ergebnis war 7, unter DC 12
+  → NPC gelang es zu lügen
+
+GM kann später später "Delayed Reveal":
+"Erinnerst du dich an den Insight-Check vorhin?
+Es stellt sich heraus, du hast eine 7 gewürfelt.
+Der Schatten war wirklich real — du warst nicht getäuscht."
+----
+
+
+=== 4. Contested Roll
+
+
+----
+Beide Seiten würfeln, höher gewinnt.
+
+Beispiel: Persuasion vs. Insight (Lüge erkennen)
+  Spieler würfelt: 1d20 + CHA +3 + Proficiency +3 = d20 + 6
+  NPC würfelt: 1d20 + WIS +2 + Insight Prof +2 = d20 + 4
+
+  Spieler: 8 + 6 = 14
+  NPC: 12 + 4 = 16 → NPC GEWINNT
+
+  Resultat: "Der Kaufmann durchschaut deine Täuschung. Er lächelt.
+  'Ich habe sowas schon hundertmal gehört, Freund.'"
+----
+
+
+=== Bonus: Group Check
+
+
+----
+Alle würfeln Skill, threshold bestimmt.
+
+Variante 1 (Cooperation):
+  "Ihr braucht mindestens 2 erfolgreiche Perception-Checks"
+  3 Spieler würfeln. 2 bestehen, 1 nicht → Group Success
+
+Variante 2 (Strict):
+  "Ihr müsst alle konzentriert bleiben" → All 4 must succeed
+
+Variante 3 (Leader):
+  "Der beste Tracker macht einen Check" → Only highest roll counts
+----
+
+
+=== Bonus: Damage Roll
+
+
+----
+Kein d20 — reine Würfel-Berechnung.
+
+Beispiel: Schwert-Angriff (erfolgreich)
+  Weapon Dice: 1d8
+  Ability Modifier: +3 (STR)
+  Magic Bonus: +1 (Enchanted +1)
+  Item Quality Bonus: +18% (Rare Q3)
+
+  Roll: 1d8 = 6
+  Base Damage: 6 + 3 + 1 = 10
+  With Quality: 10 × 1.18 = 11.8 ≈ 12
+
+  Resultat: "12 damage"
+----
+
+'''
+
+
+== Sichtbarkeit: Vier Level
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Visibility | Wer sieht? | Use Case
+
+| public | Alle (Spieler + GM) | Standard Checks, Dinge die öffentlich sind
+| player_only | Nur Würfelnder Spieler + GM | Heimliche Wahrnehmung deines Charakters
+| gm_only | Nur GM | Lügen-Checks, versteckte Info
+| delayed | GM lagert Reveal auf später | Story-reveal später in Session
+|===
+
+
+
+=== Praktische Beispiele
+
+
+_Public_: "Ich treffe das Ziel" — alle sehen den Roll
+
+_Player Only_: "Ich habe einen privaten Gedanken" — nur dieser Spieler + GM sehen
+
+_GM Only_: "Ist der NPC ehrlich?" — GM sieht Resultat sofort, Spieler erfährt es später durch Konsequenzen
+
+_Delayed_: "Du machst einen Perception Check in der dunklen Höhle. Du siehst nichts."
+Später: "Erinnerst du dich? Du hast eine 3 gewürfelt. Du bemerkst JETZT eine versteckte Tür. Zu spät — dein Freund ist in die Falle getappt."
+
+'''
+
+
+== GM-Werkzeuge
+
+
+
+=== Batch Rolls
+
+
+----
+GM: "Alle würfelt Wahrnehmung"
+
+System zeigt:
+- Basis DC (15 für diese Situation)
+- Spieler A würfelt: 1d20 + 4 = 8 (FAIL)
+- Spieler B würfelt: 1d20 + 3 = 18 (SUCCESS)
+- Spieler C würfelt: 1d20 + 5 = 11 (FAIL)
+- Spieler D würfelt: 1d20 + 2 = 17 (SUCCESS)
+
+System zeigt wer erfolgreich war und aggregiert:
+2/4 bestanden → "Spieler B und D bemerken den versteckten Hinterhalt"
+----
+
+
+=== NPC Auto-Roll (Contested)
+
+
+----
+Spieler würfelt Persuasion gegen Kaufmann.
+System würfelt automatisch NPC-Seite (basierend auf NPC-Stats):
+NPC würfelt hinter den Kulissen: 1d20 + 6 = 14
+
+Spieler sieht nur: "Der Kaufmann scheint skeptisch" + Disposition-Icon
+GM sieht volle Aufschlüsselung
+----
+
+
+=== Retroactive Trait-Check
+
+
+GM kann nach einem Wurf markieren:
+----
+"Das war tatsächlich Mutig-relevant. Markiere als trait_relevance."
+
+System:
+- Schaut Würfel-Resultat an (8, unter DC 12)
+- Mutig+3 führt zu Nat 1 Äquivalent
+- Trait-Shift von +0.5 wird angeboten
+----
+
+
+=== GM Override
+
+
+----
+GM sagt: "Nein, das DC ist nicht 14. Ich override zu 11.
+Diese Situation ist einfacher als ich dachte."
+
+GM tippt neue DC ein, System speichert ursprüngliche + override-Grund:
+  Original DC: 14 (calculated)
+  Override DC: 11 (GM decision: "situation is simpler than assumed")
+
+GM-Note optional (für Audit Trail)
+----
+
+'''
+
+
+== Modifier-Priority und Stacking
+
+
+
+=== Stacking-Regeln
+
+
+_Additive Modi stack_:
+----
++2 from Prof + +2 from Trait + +1 from Item = +5 total
+----
+
+_Multiplicative Modi multiply_:
+----
++18% Quality × +20% Magic Enchantment = 1.18 × 1.20 = 1.416 = +41.6%
+----
+
+_Advantage/Disadvantage are exclusive_:
+----
+Can't have both Advantage + Disadvantage. If both apply, they cancel.
+If multiple Advantages apply → still 2d20 high.
+If multiple Disadvantages apply → still 2d20 low.
+----
+
+'''
+
+
+== Bonus Features
+
+
+
+=== Critical Success / Failure Tracking
+
+
+----
+critical_successes (monthly leaderboard):
+  Spieler with most Nat 20s
+  Highest total roll (natural + modifiers)
+  Most critical successes on trait-relevant checks
+
+critical_failures:
+  Most Nat 1s
+  Most failures in sequence (2-3 failures in a row)
+----
+
+
+=== Roll Patterns (AI-Detected)
+
+
+----
+System notices:
+- Spieler A tends to fail Stealth → suggest DEX training
+- Spieler B incredibly lucky with Perception → track for statistical anomaly
+- Character average roll went down last session → might indicate fatigue/illness in story?
+----
+
+
+=== Historical Re-rolls
+
+
+----
+GM: "Ich hätte die DC anders gesetzt. Darf der Spieler reroller?"
+
+System zeigt ursprünglichen Wurf, GM kann erlauben:
+- Re-roll (Spieler würfelt nochmal)
+- Reinterpret (Wurf war nicht trait-relevant)
+- Automatic Success (Simplify situation)
+----

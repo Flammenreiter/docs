@@ -1,0 +1,473 @@
+
+= Rechtssystem & Dialog
+
+
+Straftat-Workflow mit Detection und Konsequenzen, Dialog-Templates mit Emotions-Auslösern.
+
+
+== Straftat-System
+
+
+
+=== Straftat-Workflow: Detection → Konflikt → Konsequenzen
+
+
+Spieler begeht Straftat (Diebstahl, Mord, Betrug):
+
+
+==== Schritt 1: Registrieren
+
+
+GM klickt "Straftat registrieren" → System prompt:
+
+----
+Was wurde gemacht?
+  ├─ Theft (Diebstahl)
+  ├─ Assault (Körperverletzung)
+  ├─ Murder (Mord)
+  ├─ Arson (Brandstiftung)
+  ├─ Fraud (Betrug)
+  ├─ Espionage (Spionage)
+  └─ Other...
+
+Wo?
+  → location_id (automatisch region_laws geleert)
+
+Zeugen?
+  → Ja/Nein (beeinflusst Detection-Chance)
+----
+
+
+==== Schritt 2: Detection Check
+
+
+System automatisch berechnet Detection-Chance:
+
+----
+Detection = Base Chance (by crime type)
+  + Guard Presence Modifier (Region/Zeit)
+  + Witness Count (pro Zeuge +10%)
+  + Visibility (was es offensichtlich?)
+  - PC Stealth Modifier (wenn applicable)
+
+Crime Detection Bases:
+  Theft: 40% base
+  Assault: 60% base
+  Murder: 90% base
+  Arson: 70% base
+  Fraud: 20% base
+  Espionage: 50% base
+----
+
+Spieler macht _Stealth-Check_ gegen Detection DC:
+
+----
+Roll: 1d20 + Stealth Modifier
+Target: Detection-Chance (als DC)
+
+Erfolg (Roll > DC):  Unentdeckt!
+Misserfolg (Roll < DC): Entdeckt!
+----
+
+
+==== Schritt 3: Unentdeckt = Criminal Record (verborgen)
+
+
+----
+criminal_record
+├── character_id
+├── crime_type
+├── location_id
+├── date_harptos
+├── detection_status: "undetected"
+├── witnesses[] (if any)
+└── potential_evidence[]
+
+Effekt: Keine unmittelbare Strafe
+Aber: Bei späterer Entdeckung verschärft sich Strafe
+"Du hast EINEN MONAT lang Diebstahl getrieben und es was keinem auffallen!"
+----
+
+
+==== Schritt 4: Entdeckt = Automatische Szene-Kette
+
+
+Entdeckung triggert sofort Szenen-Sequence:
+
+_SZENE 1: Konfliktsituation (Social)_
+
+----
+Wachen nähern sich
+Spieler-Optionen:
+  a) Rausreden (Persuasion / Deception)
+  b) Verhandeln (Persuasion / Intimidation)
+  c) Verhaftung akzeptieren (DC 10 zu vermeiden)
+  d) Flucht (Athletik / Stealth, Chase)
+  e) Gewalt (Combat)
+
+Spieler wählt Option A-D oder initiiert Combat mit D
+----
+
+_SZENE 2: Konsequenz-Branch_
+
+Branch based on Spieler-Option:
+
+a) _Rausreden erfolgreich_:
+** Wachen glauben Spieler
+** Crime bleibt in Records aber nicht "confirmed"
+** Disposition -10 mit Wache (sie trauen dir nicht)
+
+b) _Verhandlung erfolgreich_:
+** Spieler "erkauft" sich frei (Geldstrafe negotiated)
+** Geldstrafe = Crime-Severity × Region (Murder: 500+ GP)
+** Crime wird aber registriert
+
+c) _Verhaftung_:
+** Spieler wird ins Gefängnis gebracht
+** Können breakout versuchen (Hard Quest)
+** Oder auf Trial warten (Story-dependent)
+
+d) _Flucht erfolgreich_:
+** Automatische Chase-Szene
+** Wanted Level +1
+** Bounty wird gepostet
+
+e) _Gewalt_:
+** Sofort Combat mit Wachen
+** Crime escalates zu "Assault on Guard"
+** Wanted Level +2
+
+'''
+
+
+== Criminal Record System
+
+
+
+=== Wanted Level
+
+
+----
+Wanted Level 0:   No record
+Wanted Level 1:   Local bounty (200 GP)
+Wanted Level 2:   City-wide bounty (500 GP)
+Wanted Level 3:   Regional bounty (1000 GP)
+Wanted Level 4:   Kingdom-wide bounty (5000 GP)
+Wanted Level 5:   Legendary criminal (25000 GP) — very rare
+----
+
+
+=== Bounty System
+
+
+----
+bounties (Welt)
+├── character_id (FK target)
+├── wanted_level
+├── crime_type
+├── posted_by_npc_id (FK issuer)
+├── reward_gp
+├── posted_date_harptos
+├── expiration_date_harptos (6 months? varies)
+├── evidence_items[] (proof needed to collect reward)
+└── conditions (alive/dead, deliver to location, etc.)
+----
+
+
+=== Collecting Bounty
+
+
+PC kann auf Kopfgeldjäger spielen:
+
+----
+Siehe bounties table
+Evidence-Item-System:
+  proof_type: "head" | "hand" | "alive" | "item" | "token" | "none"
+
+Wenn proof-Item im Inventar:
+  → Zu Bounty-Issuer gehen
+  → NPC verifyies Proof
+  → Reward Gold gegeben
+  → Criminal-Record cleared (oder escalated)
+----
+
+'''
+
+
+== Regional Legal Code
+
+
+Jede Region hat eigene Gesetze:
+
+
+=== Region-Laws Table
+
+
+----
+region_laws (Welt)
+├── region_id (FK)
+├── crime_definitions (jsonb)
+│   ├── {crime_type, description, severity (1-5), base_punishment}
+├── punishment_types (jsonb)
+│   ├── Fine (gold amount)
+│   ├── Imprisonment (days/weeks)
+│   ├── Labor (forced work)
+│   ├── Exile (banishment)
+│   ├── Execution (bei severity 5)
+├── law_enforcement (description)
+└── corruption_level (0-100, affects Guard behavior)
+----
+
+
+=== Beispiel-Regionen
+
+
+_Königliche Hauptstadt_ (lawful, strict):
+----
+Theft: Severity 2 → Fine 50 GP or 10 days jail
+Murder: Severity 5 → Execution (no pardon)
+Fraud: Severity 2 → Fine 100 GP + public shaming
+----
+
+_Wilde Grenzstadt_ (chaotic, corrupt):
+----
+Theft: Severity 1 → Fine 20 GP (or bribe guard with 30 GP)
+Murder: Severity 3 → Fine 500 GP (if rich, no consequences)
+Fraud: Severity 1 → No one cares
+----
+
+_Mystische Akademie-Stadt_ (magical, special laws):
+----
+Spell Casting without License: Severity 2 → Magical Punishment (spell backfire)
+Breaking into Library: Severity 3 → Magical Binding (cannot lie)
+Theft from Academy: Severity 4 → Exile from magic realms
+----
+
+'''
+
+
+== Dialog-System
+
+
+
+=== Dialog-Templates
+
+
+Nicht: "NPC says whatever GM improvises"
+Ja: _Dialog-Template mit Emotion-Auslösern und Known-Info Integration_
+
+
+=== Template-Struktur
+
+
+----
+dialog_templates (Welt)
+├── npc_id (FK) oder template_id (generic)
+├── dialog_type (greeting|departure|quest_offer|bargain|threat|romance)
+├── emotion_triggers (jsonb)
+│   ├── happy: ["greeting_warm", "offer_favor"]
+│   ├── angry: ["accusations", "insults"]
+│   ├── fearful: ["backing_away", "defensive"]
+├── known_info_integration (jsonb)
+│   ├── if_PC_famous: "Aren't you the dragon slayer?"
+│   ├── if_PC_infamous: "I know who you are... stay away"
+│   ├── if_betrayed_me: "You! After what you did..."
+│   ├── if_saved_me: "My savior! How can I repay..."
+├── response_options (jsonb)
+│   ├── {option_text, pc_trait_requirement, disposition_change}
+└── outcome (quest_hook|trade_opportunity|combat|nothing)
+----
+
+
+=== Praktisches Beispiel
+
+
+_Barkeep Groin, Tavernen-Besitzer_
+
+----
+Dialog: "Customer approaches"
+NPC Traits: Gierig+2, Freundlich+1, Neugierig-1
+
+Emotion Triggers:
+  Happy: "+disposition wenn Spieler Trinket kaufen will"
+  Angry: "-disposition wenn Spieler ihn beleidigt"
+  Fear: "-disposition if armed and aggressive"
+
+Known Info Integration:
+  "Oh! You're that hero from last month! The one who saved farmers?"
+  Disposition: +15 (if PC is known hero)
+
+Dialog Template:
+  "Welcome to the Muddy Boar. What can I get ya?"
+
+  Response Options:
+    a) "A drink" → Normal trade
+    b) "Information" → DC 12 Persuasion (Gierig+2 makes +2 modifier)
+    c) "A room" → Trade 2 GP for night
+    d) "Job" → Possible quest offer
+
+Outcome:
+  If PC has saved farmers:
+    Groin offers extra discount (-20% drinks)
+    Offers to gather information about bandit gang
+----
+
+'''
+
+
+== Rumor & Gossip Network
+
+
+
+=== Rumor System
+
+
+NPCs gossip, and info spreads:
+
+----
+rumors (Welt)
+├── id (PK)
+├── origin_settlement_id
+├── rumor_text
+├── accuracy (0-100, how true is it?)
+├── created_by_npc_id
+├── created_date_harptos
+├── spread_range (local|city|regional)
+├── spread_rate (1-10 days to propagate per distance)
+└── decay_rate (1-5%, false rumors decay faster)
+----
+
+
+=== Propagation
+
+
+Rumor starts in one settlement, spreads to adjacent settlements:
+
+----
+Day 1: Settlement A has rumor
+Day 3: Adjacent settlements B & C hear rumor
+Day 6: Adjacent to B/C hear rumor
+Spread Rate determines how fast
+
+False rumors (accuracy < 30%):
+  - Decay at 5% per day
+  - Become distorted as they spread
+  - Can mutate into other rumors
+
+True rumors (accuracy > 70%):
+  - Persist longer
+  - Decay at 1% per day
+  - Become more accurate as confirmed
+----
+
+
+=== PC Leveraging Rumors
+
+
+PCs can PLANT rumors:
+
+----
+PC goes to tavern, pays Barkeep to "spread word"
+Cost: 1-10 GP depending on rumor scope
+Accuracy: Starts at 0 (pure fabrication)
+Rumor spreads like normal
+
+If rumor conflicts with reality:
+  Accuracy stays low, decays fast
+  NPC might discover truth, disposition -20
+
+Example:
+  PC plants: "Dragon is migrating north"
+  Actually true? Accuracy 90%, spreads fast, helps navigation
+  Actually false? Accuracy 10%, decays in 1 week
+----
+
+'''
+
+
+== Dialog Mechanics in Code
+
+
+
+=== Real-time Disposition-Shift during Dialog
+
+
+----
+During conversation:
+  Spieler spricht mit NPC
+
+  Spieler: "Ich bin loyal friend" (claim)
+  System: "Check NPC's Ehrlich Trait"
+  NPC Ehrlich+4: "Hmm, stimmt das?"
+
+  Spieler macht Persuasion Check
+  NPC macht Insight Check (contested)
+
+  Spieler gewinnt:
+    NPC glaubt claim
+    Disposition +10
+
+  NPC gewinnt:
+    NPC knows he's lying/exaggerating
+    Disposition -15
+----
+
+
+=== Dialog-State Machine
+
+
+----
+Dialog isn't "pick A/B/C forever"
+
+State 1: Introduction
+  NPC's opening line based on mood + known_info
+  Player: Respond with empathy/hostility/neutral
+
+State 2: Negotiation
+  NPC makes offer/request
+  Player: Accept/Reject/Counter-offer
+
+State 3: Closing
+  NPC's goodbye based on how dialog went
+  Disposition-Final modifies next interaction
+
+System prevents repeat of same dialog:
+  "Groin: Welcome!" → Player: "Hi"
+  Player: "Hi again" → Groin: "I already said hi. What do you want?"
+----
+
+'''
+
+
+== Implementation: DB-Struktur
+
+
+----
+criminal_records (Kampagne)
+├── id (PK)
+├── character_id (FK)
+├── crime_type
+├── location_id (FK)
+├── date_harptos
+├── detection_status (undetected|detected|tried|jailed|paid_fine|exile)
+├── witnesses[] (jsonb: npc_ids)
+├── bounty_id (FK if bounty exists)
+└── resolution (how was it resolved?)
+
+dialog_logs (Kampagne)
+├── session_id (FK)
+├── character_id (FK) — who initiated
+├── npc_id (FK) — who dialog-ed with
+├── initial_disposition
+├── final_disposition
+├── trait_interactions (jsonb: [{trigger, shift}])
+└── outcome (quest_offered|trade_completed|combat|nothing)
+
+rumor_propagation (Kampagne-Log)
+├── id (PK)
+├── rumor_id (FK)
+├── location_id (FK)
+├── heard_date_harptos
+├── accuracy_at_location (may differ from original)
+└── believed_by_npcs[] (jsonb)
+----

@@ -1,0 +1,847 @@
+
+= Pantheon & Sigillen: Die göttliche Kraft
+
+
+Das Pantheon der Flammenreiter-Welt basiert auf sieben Urschöpfern, deren fragmentierte Macht in 21 physischen Sigillen weiterleben.
+
+
+== Die Sieben Urschöpfer
+
+
+
+=== Übersicht
+
+
+Sieben göttliche Wesen schufen die Welt gemeinsam. Jeder verkörperte bestimmte Aspekte der Existenz. Nach der Schöpfung fragmentierte ihre Macht in physische Objekte — die _Sigillen_. Jeder Gott hinterließ _3 Sigillen_ (21 insgesamt).
+
+In der Gegenwart werden die Sieben verehrt:
+* Tempel und Schreine
+* Priester und Gläubige
+* Feiertage und Rituale
+
+Aber die _Sigillen gelten als Legende_ — verschollene Relikte einer mythischen Vergangenheit. Die Akademie lehrt die Geschichte als Theologie, nicht als praktische Magie.
+
+
+=== Die gegenwärtige Entdeckung
+
+
+Die Kampagne spielt in einer Zeit, wo _die ersten Sigillen wiederauftauchen_:
+* Nicht als massive Machtexplosion
+* Sondern schleichend
+* Ein Verbündeter findet eine und versteht kaum was er hat
+* Ein Antagonist hat vielleicht zwei und ist damit bedrohlicher als alles Bekannte
+
+Das erzeugt: _Angst, Faszination, politische Konflikte, religiöse Krisen gleichzeitig_.
+
+'''
+
+
+== Die Sieben im Detail
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Gott | Aspekt | Domains | Verehrung
+
+| _Pyrathis_ | Feuer, Leidenschaft, Zerstörung | War, Light | Kämpfer, Schmieden, leidenschaftliche Menschen
+| _Thalendis_ | Wasser, Wandel, Heilung | Life, Nature | Heiler, Reisende, Fischer
+| _Verathos_ | Erde, Ordnung, Beständigkeit | Order, Forge | Richter, Bauern, Architekten
+| _Aeolyn_ | Luft, Freiheit, Wissen | Knowledge, Tempest | Magier, Gelehrte, Entdecker
+| _Nocthari_ | Schatten, Geheimnis, Tod | Death, Trickery | Spione, Nekromanten, Trauernde
+| _Solveris_ | Licht, Wahrheit, Gerechtigkeit | Light, Life | Paladine, Inquisitoren, Richter
+| _Aethyran_ | Zeit, Schicksal, Gleichgewicht | — | Propheten, Orakel (kaum direkt verehrt)
+|===
+
+
+'''
+
+
+== Pyrathis — Feuer, Leidenschaft, Zerstörung
+
+
+_Gott der Schmiede und des Krieges_
+
+
+=== Charakterisierung
+
+
+* Mutig, Impulsiv, Entschlossen
+* Verehrt von Kämpfern, Schmieden, leidenschaftlichen Menschen
+* Cleric-Domains: War, Light
+* Symbol: Flamme über Amboss
+
+
+=== Sigillen des Pyrathis
+
+
+
+==== Sigille des Feuers
+
+
+_Physisch_: Glühender Kristall, immer warm, pulsiert wie ein Herzschlag. Flammen tanzen im Inneren.
+
+_Trait-Affinität_: Mutig, Impulsiv, Leidenschaftlich
+_Trait-Repulsion_: Feige, Gleichgültig
+
+_Passiver Bonus_: Fire Resistance + Feuer-Spells +1d6 Damage
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Flammenodem_
+30ft Kegel, 8d6 Fire, DEX Save DC 16
+
+_Trait-Adaptationen_:
+* Bei Schmied → 'Sigille der Esse' (Aktiv: Item sofort max Durability + Quality+1)
+* Bei Krieger → 'Sigille der Schlachtflamme' (Aktiv: Waffe brennt 1 Min, +2d6 Fire/Treffer)
+* Bei Gelehrtem → 'Sigille der Erleuchtung' (Aktiv: Verbündete in 30ft Advantage INT-Checks 10 Min)
+
+_Trait-Drift_: +0.2/Monat Richtung Mutig und Impulsiv
+
+
+==== Sigille der Leidenschaft
+
+
+_Physisch_: Blutroter Rubin in Form einer geballten Faust. Wird heiß wenn der Träger Wettbewerb spürt.
+
+_Trait-Affinität_: Ehrgeizig, Entschlossen, Stolz
+_Trait-Repulsion_: Bescheiden, Nachgiebig
+
+_Passiver Bonus_: +2 auf alle Contested Rolls (Feilschen, Verhöre, Armdrücken — alles GEGEN jemanden)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Unbeugsamer Wille_
+1 Minute: Immunity Frightened + Charmed, alle Saves +3
+
+_Trait-Adaptationen_:
+* Bei Anführer → 'Sigille des Feldherrn' (Verbündete in 60ft +2 Attack, 3 Runden)
+* Bei Händler → 'Sigille des Triumphes' (Nächste Verhandlung Preis -30%)
+
+_Trait-Drift_: +0.2/Monat Richtung Stolz. _Risiko_: Zunehmend kompromisslos
+
+
+==== Sigille der Zerstörung
+
+
+_Physisch_: Schwarzer, rissiger Stein mit glühenden Adern. Fühlt sich an wie verbrannte Erde nach Waldbrand — Tod und neues Leben.
+
+_Trait-Affinität_: Entschlossen, Grausam ODER Gnädig (akzeptiert beide Pole)
+_Trait-Repulsion_: Unentschlossen, Passiv
+
+_Passiver Bonus_: Wenn Träger Kreatur auf 0 HP bringt → heilt 2d8 HP (Lebenskraft aus Zerstörung)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Phönix-Explosion_
+20ft Radius, 10d6 Fire. Zerstörtes hinterlässt fruchtbare Asche, Pflanzen wachsen in 1d4 Tagen nach
+
+_Trait-Adaptationen_:
+* Bei Gnädigem → 'Sigille der Erneuerung' (Zerstörtes Gebäude repariert sich in 24h)
+* Bei Grausamem → 'Sigille der Vernichtung' (Damage verdoppelt, KEINE Regeneration)
+
+_Trait-Drift_: +0.2/Monat Richtung Entschlossen. _Risiko_: Sieht alles als 'muss zerstört werden um besser zu werden'
+
+'''
+
+
+== Thalendis — Wasser, Wandel, Heilung
+
+
+_Göttin der Flüsse und des Lebens_
+
+
+=== Charakterisierung
+
+
+* Mitfühlend, Geduldig, Flexibel
+* Verehrt von Heilern, Reisenden, Fischern
+* Cleric-Domains: Life, Nature
+* Symbol: Fließendes Wasser
+
+
+=== Sigillen der Thalendis
+
+
+
+==== Sigille des Wassers
+
+
+_Physisch_: Tropfenförmiger Saphir, immer feucht. Bei Berührung leises Wasserrauschen.
+
+_Trait-Affinität_: Geduldig, Mitfühlend, Anpassungsfähig
+_Trait-Repulsion_: Stur, Aggressiv
+
+_Passiver Bonus_: Water Breathing + Schwimm-Speed = Walking Speed + Healing-Spells +1d4
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Heilende Flut_
+30ft Radius, Verbündete heilen 4d8 HP, Gifte/Krankheiten neutralisiert
+
+_Trait-Adaptationen_:
+* Bei Heiler → +1d8 statt +1d4 Heal-Bonus
+* Bei Seefahrer → Wasser-Kontrolle 60ft (Wellen, Flutwand als Cover)
+* Bei Kämpfer → Reaction: Melee Attacks mit DEX ausweichen
+
+_Trait-Drift_: +0.2/Monat Richtung Geduldig und Mitfühlend
+
+
+==== Sigille der Heilung
+
+
+_Physisch_: Lebendiger Kristall mit winziger wachsender Pflanze im Inneren. Scheint zu atmen.
+
+_Trait-Affinität_: Fürsorglich, Geduldig, Optimistisch
+_Trait-Repulsion_: Grausam, Nihilistisch
+
+_Passiver Bonus_: Spare the Dying als Bonus Action + spürt Sterbende in 30ft (Tremorsense für 0 HP Lebewesen)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Regeneration_
+Ziel berühren, heilt 6d10 HP + entfernt 1 Condition + 1 Exhaustion. Nat 20: verlorene Gliedmaßen wachsen in 1d4 Wochen nach
+
+_Trait-Adaptationen_:
+* Bei Druide → Entangle + Healing Spirit Kombi
+* Bei Alchemist → nächster Trank automatisch Quality 5 + doppelte Wirkung
+
+_Trait-Drift_: +0.2/Monat Richtung Fürsorglich. _Risiko_: Vernachlässigt eigene Bedürfnisse
+
+
+==== Sigille des Wandels
+
+
+_Physisch_: Schillernder Opal, permanent Farbwechsel. Form verschiebt sich wenn man nicht hinsieht.
+
+_Trait-Affinität_: Flexibel, Neugierig, Veränderungsbereit
+_Trait-Repulsion_: Stur, Traditionalistisch
+
+_Passiver Bonus_: +2 Saves gegen Transmutation + 1×/Short Rest: Skill-Proficiency für 1h wechseln (z.B. Athletics → Stealth)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Formwandel_
+Polymorph Self 1h (konzentrationsfrei, nur Beasts die man gesehen hat, CR ≤ Level/3)
+
+_Trait-Adaptationen_:
+* Bei Spion → Alter Self permanent bis bewusst beendet
+* Bei Gelehrtem → 1×/LR Skill-Check mit anderem Ability Score machen
+
+_Trait-Drift_: +0.2/Monat Richtung Flexibel. _Risiko_: Identitätsverlust — wer BIN ich wenn ich alles sein kann?
+
+'''
+
+
+== Verathos — Erde, Ordnung, Beständigkeit
+
+
+_Gott der Gebirge und Gesetze_
+
+
+=== Charakterisierung
+
+
+* Ehrlich, Pflichtbewusst, Standhaft
+* Verehrt von Richtern, Bauern, Architekten
+* Cleric-Domains: Order, Forge
+* Symbol: Berg oder Steintafel mit Gesetz
+
+
+=== Sigillen des Verathos
+
+
+
+==== Sigille der Erde
+
+
+_Physisch_: Unzerstörbarer Granitblock, klein genug für eine Hand. Wiegt nichts für Träger, unbeweglich schwer für alle anderen.
+
+_Trait-Affinität_: Standhaft, Ehrlich, Pflichtbewusst
+_Trait-Repulsion_: Unzuverlässig, Flüchtig
+
+_Passiver Bonus_: +2 AC (natürliche Steinhaut, subtil) + Advantage Saves gegen Zwangsbewegung (Shove, Thunderwave)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Erdwall_
+30ft lang, 10ft hoch, Volle Deckung, 50 HP, 10 Minuten
+
+_Trait-Adaptationen_:
+* Bei Beschützer → 3 Verbündete +3 AC für 1 Min
+* Bei Baumeister → Gebäude in 60ft sofort repariert
+* Bei Richter → Immunity Charmed + Disadvantage auf Deception gegen Träger
+
+_Trait-Drift_: +0.2/Monat Richtung Standhaft. _Risiko_: Zunehmend unflexibel und stur
+
+
+==== Sigille der Ordnung
+
+
+_Physisch_: Perfekter Dodekaeder aus poliertem Obsidian. Jede Fläche ein Gesetz-Symbol. Vibriert bei Regelbrüchen in Nähe.
+
+_Trait-Affinität_: Gerecht, Ehrlich, Diszipliniert
+_Trait-Repulsion_: Chaotisch, Betrügerisch
+
+_Passiver Bonus_: Detect Lies (vages Gefühl in 30ft, kein Zone of Truth) + Insight +2
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Gebot der Ordnung_
+1 Ziel 60ft, WIS Save DC 16: 1 Min kann nicht lügen, nicht grundlos angreifen, nicht stehlen
+
+_Trait-Adaptationen_:
+* Bei Inquisitor → Zone of Truth 30ft (ALLE drin, auch Träger)
+* Bei Diplomat → magisch bindender Vertrag (Bruch = 4d10 Psychic)
+* Bei Rebell → +3 auf Checks die ungerechte Gesetze aufdecken
+
+_Trait-Drift_: +0.2/Monat Richtung Gerecht. _Risiko_: Schwarz-Weiß-Denken, Gnade wird schwer
+
+
+==== Sigille der Beständigkeit
+
+
+_Physisch_: Kristall in dem eingeschlossene Insekten seit Zehntausenden Jahren noch leben. Pulsiert wie der Herzschlag eines Berges.
+
+_Trait-Affinität_: Geduldig, Ausdauernd, Verantwortungsbewusst
+_Trait-Repulsion_: Ungeduldig, Kurzfristig
+
+_Passiver Bonus_: Lebensspanne ×2 + +1 HP/Level (permanent, retroaktiv) + Exhaustion-Recovery 1 Stufe/Short Rest statt Long Rest
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Unverwüstlich_
+1 Minute: Resistance ALLEN Schaden, kann nicht auf 0 HP fallen (Minimum 1)
+
+_Trait-Adaptationen_:
+* Bei Wächter → Gebäude 24h unzerstörbar
+* Bei Heiler → Sterbendes Ziel berühren → Tod 24h aufgehalten
+
+_Trait-Drift_: +0.2/Monat Richtung Geduldig. _Risiko_: Denkt in Jahrhunderten, verliert Verbindung zur Dringlichkeit
+
+'''
+
+
+== Aeolyn — Luft, Freiheit, Wissen
+
+
+_Göttin des Himmels und der Gelehrten_
+
+
+=== Charakterisierung
+
+
+* Neugierig, Unabhängig, Freiheitsliebend
+* Verehrt von Magiern, Gelehrten, Entdeckern
+* Cleric-Domains: Knowledge, Tempest
+* Symbol: Adler oder Kompass
+* _Spezial_: Patronin der fliegenden Wesen, besondere Drachen-Affinität
+
+
+=== Sigillen des Aeolyn
+
+
+
+==== Sigille der Luft
+
+
+_Physisch_: Schwebende Feder die nie zu Boden fällt. Bei Berührung heult Wind. Haar des Trägers bewegt sich permanent.
+
+_Trait-Affinität_: Freiheitsliebend, Unabhängig, Mutig
+_Trait-Repulsion_: Unterwürfig, Abhängig
+
+_Passiver Bonus_: Flug-Speed 30ft (10 Min/LR, aufgeteilt nutzbar) + Lightning Resistance
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Sturmruf_
+60ft Radius, 6d10 Lightning, DEX DC 16, Wind pusht Feinde 15ft weg
+
+_Trait-Adaptationen_:
+* Bei Drachenreiter → permanenter Flug-Speed 60ft + Drachen +15 Disposition in 120ft
+* Bei Dieb → Gaseous Form bei voller Geschwindigkeit durch Schlüssellöcher
+
+_Trait-Drift_: +0.2/Monat Richtung Unabhängig. _Risiko_: Erträgt keine Einschränkungen, Gefängnisse/Verträge fühlen sich erstickend an
+
+
+==== Sigille des Wissens
+
+
+_Physisch_: Kristall-Auge, zeigt Texte in jeder Sprache. Leuchtet blau bei neuem Wissen in Nähe.
+
+_Trait-Affinität_: Neugierig, Weise, Analytisch
+_Trait-Repulsion_: Gleichgültig, Willentlich Ignorant
+
+_Passiver Bonus_: Comprehend Languages (permanent) + INT-Checks +3 + kann Schrift älter als 10.000 Jahre lesen
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Allwissen_
+1 Runde: weiß ALLES in 120ft (Feinde, Fallen, Geheimnisse, Illusionen enthüllt). Danach 1 Exhaustion
+
+_Trait-Adaptationen_:
+* Bei Historiker → Psychometrie (Objekt berühren, Geschichte bis 10.000 Jahre sehen)
+* Bei Stratege → nächsten Encounter: alle Feind-Stats/Schwächen 1 Min sichtbar
+
+_Trait-Drift_: +0.2/Monat Richtung Neugierig. _Risiko_: Informationssucht, kann keine Frage unbeantwortet lassen, Geheimnisse anderer respektieren wird unmöglich
+
+
+==== Sigille der Freiheit
+
+
+_Physisch_: Zerbrochene Kette aus unbekanntem Silbermetall. Glieder bewegen sich von allein. Kein Schloss kann sie halten.
+
+_Trait-Affinität_: Rebellisch, Selbstbestimmt
+_Trait-Repulsion_: Obrigkeitshörig, Konformistisch
+
+_Passiver Bonus_: Immunity Grappled + Restrained + Paralyzed. Mundane Schlösser öffnen sich bei Berührung, magische: Dispel DC = Level + CHA
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Kettenbrecher_
+Verbündete in 60ft sofort von ALLEN Conditions befreit (Charmed, Frightened, Stunned, Petrified). Magische Fesseln/Gefängnisse zerbrechen
+
+_Trait-Adaptationen_:
+* Bei Befreier → alle Charmed/Dominated in 120ft PERMANENT befreit
+* Bei Anarchist → alle Einschränkungszauber gegen Träger haben Disadvantage
+
+_Trait-Drift_: +0.2/Monat Richtung Rebellisch. _Risiko_: Kann keine Autorität akzeptieren — auch berechtigte nicht. Regeln = Ketten
+
+'''
+
+
+== Nocthari — Schatten, Geheimnis, Tod
+
+
+_Gott der Nacht und des Übergangs_
+
+
+=== Charakterisierung
+
+
+* Vorsichtig, Listig, Geheimnisvoll
+* Verehrt von Spionen, Nekromanten (illegal in manchen Regionen), Trauernden
+* Cleric-Domains: Death, Trickery
+* Symbol: Mond oder Sensenblatt
+* _Besonderheit_: Nocthari-Sigillen erzeugen Angst bei Drachen
+
+
+=== Sigillen des Nocthari
+
+
+
+==== Sigille des Schattens
+
+
+_Physisch_: Stück absolute Dunkelheit in fester Form. Kein Licht dringt ein. Fühlt sich kalt an. Schatten des Trägers wird lebendig.
+
+_Trait-Affinität_: Vorsichtig, Listig, Geheimnisvoll
+_Trait-Repulsion_: Naiv, Offen
+
+_Passiver Bonus_: Superior Darkvision 120ft + Stealth +5 bei Dämmerlicht/Dunkelheit + Schatten kann einfache Aufgaben in 30ft erledigen
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Schattenmantel_
+1 Min Greater Invisibility + durch Schatten teleportieren (60ft zu sichtbarem Schatten)
+
+_Trait-Adaptationen_:
+* Bei Assassine → nächster Angriff aus Unsichtbarkeit = automatisch Critical
+* Bei Spion → hört Gespräche durch Schatten in 120ft
+
+_Trait-Drift_: +0.2/Monat Richtung Vorsichtig/Geheimnisvoll. _Risiko_: Paranoia, vertraut niemandem
+
+
+==== Sigille des Geheimnisses
+
+
+_Physisch_: Spiegel ohne Reflexion — zeigt stattdessen was der Betrachter NICHT sehen will. Wechselt durchsichtig/undurchsichtig.
+
+_Trait-Affinität_: Listig, Analytisch, Misstrauisch
+_Trait-Repulsion_: Vertrauensselig, Naiv-Ehrlich
+
+_Passiver Bonus_: Nondetection permanent (nicht auffindbar durch Divination) + True Seeing 30ft (durchschaut Illusionen, Unsichtbarkeit, Polymorph)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Enthüllung_
+1 Ziel 60ft: ALLE Verkleidungen/Illusionen/Shapeshifts aufgelöst, höchstes Geheimnis wird laut ausgesprochen (WIS Save DC 16)
+
+_Trait-Adaptationen_:
+* Bei Detektiv → Advantage ALLE Insight-Checks + spürt Illusionen in 60ft automatisch
+* Bei Manipulator → Aussehen + Aura eines anderen Wesens perfekt kopieren 24h
+
+_Trait-Drift_: +0.2/Monat Richtung Misstrauisch. _Risiko_: Sieht überall Betrug, kann Ehrlichkeit nicht mehr erkennen
+
+
+==== Sigille des Todes
+
+
+_Physisch_: Knochen-Fragment das leise summt. Untote in Nähe werden ruhig. Sterbende fühlen Frieden. Träger spürt jeden Tod in 1 Meile.
+
+_Trait-Affinität_: Akzeptierend, Weise, Furchtlos
+_Trait-Repulsion_: Todesangst, Leugnung
+
+_Passiver Bonus_: Speak with Dead 1×/Short Rest (ohne Slot) + Resistance Necrotic + Untote CR <5 greifen nicht an (spüren göttliche Autorität)
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Jenseitspforte_
+Geist eines Verstorbenen 10 Min manifestieren, Fragen beantworten, kann auf Wunsch endgültig verabschiedet werden (Seele findet Frieden, Undead-Bindung gelöst)
+
+_Trait-Adaptationen_:
+* Bei Nekromant → alle Untoten 120ft 1h unter Kontrolle (danach aufgelöst, befreit)
+* Bei Priester → alle Untoten 60ft sofort befreit/finden Frieden (Erlösung statt Kampf)
+
+_Trait-Drift_: +0.2/Monat Richtung Furchtlos/Akzeptierend. _Risiko_: Gleichgültigkeit gegenüber Tod auch von Verbündeten
+
+'''
+
+
+== Solveris — Licht, Wahrheit, Gerechtigkeit
+
+
+_Göttin der Sonne und des Rechts_
+
+
+=== Charakterisierung
+
+
+* Loyal, Aufrichtig, Hoffnungsvoll
+* Verehrt von Paladinen, Inquisitoren, Richtern
+* Gegenpol zu Nocthari
+* Cleric-Domains: Light, Life
+* Symbol: Sonne oder Schwert im Licht
+
+
+=== Sigillen der Solveris
+
+
+
+==== Sigille des Lichts
+
+
+_Physisch_: Goldener Kristall der permanent leuchtet wie kleine Sonne. Kann nicht verdunkelt werden, leuchtet STÄRKER in totaler Finsternis.
+
+_Trait-Affinität_: Aufrichtig, Mutig, Hoffnungsvoll
+_Trait-Repulsion_: Hinterlistig, Defätistisch
+
+_Passiver Bonus_: 60ft Bright / 120ft Dim Light (kontrollierbar) + Radiant +1d6 auf Angriffe + Advantage Saves Blinded
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Sonnenflut_
+60ft Radius: 8d8 Radiant an Fiends/Undead, CON DC 16. Magische Dunkelheit aufgelöst. Verbündete heilen 2d8
+
+_Trait-Adaptationen_:
+* Bei Paladin → Verbündete 60ft: Frightened/Charmed aufgehoben + 20 temp HP
+* Bei Künstler → 3×/LR Bardic Inspiration-Äquivalent (+1d8 auf Wurf)
+
+_Trait-Drift_: +0.2/Monat Richtung Aufrichtig/Mutig. _Risiko_: Selbstgerechtigkeit, keine Grautöne mehr
+
+
+==== Sigille der Wahrheit
+
+
+_Physisch_: Kristallklare Scheibe die nur WAHRHEIT reflektiert. Lügen in Nähe verursachen Risse die sich heilen.
+
+_Trait-Affinität_: Ehrlich, Aufrichtig, Selbstkritisch
+_Trait-Repulsion_: Verlogen, Selbsttäuschend
+
+_Passiver Bonus_: Zone of Truth 10ft permanent um Träger — AUCH der Träger kann nicht lügen! + Insight +3
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Wahrheitsblitz_
+1 Ziel 60ft, WIS DC 16: muss 1 Min wahrheitsgemäß antworten. Bei Erfolg: Träger erfährt trotzdem die EINE Sache die Ziel am meisten verbirgt
+
+_Trait-Adaptationen_:
+* Bei Richter → Wahrheit über Verbrechen als Vision für alle sichtbar
+* Bei Beichtvater → bei aufrichtiger Reue: 1 Condition/Fluch aufgehoben
+
+_Trait-Drift_: +0.2/Monat Richtung Ehrlich. _Risiko_: BRUTAL ehrlich, kein Taktgefühl, diplomatische Lügen physisch unmöglich
+
+
+==== Sigille der Gerechtigkeit
+
+
+_Physisch_: Schwebende 15cm Klinge aus reinem Licht. Folgt dem Träger. Vibriert bei Ungerechtigkeit.
+
+_Trait-Affinität_: Gerecht, Loyal, Beschützend
+_Trait-Repulsion_: Gleichgültig, Egoistisch
+
+_Passiver Bonus_: Smite-Äquivalent 1×/Turn +2d8 Radiant (ohne Spell Slot) + Advantage Attack vs. Kreatur die letzten Turn Verbündeten verletzte
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Göttliches Urteil_
+1 'schuldiges' Ziel (Trägers Moral entscheidet): 12d8 Radiant, CHA DC 16, Fail: +Stunned 1 Runde, Nat 1 des Ziels: sofortiger Tod
+
+_Trait-Adaptationen_:
+* Bei Beschützer → Reaction: zu angegriffenem Verbündeten in 30ft teleportieren, Schaden übernehmen
+* Bei Rächer → 50% erlittener Schaden wird als Radiant an Angreifer gespiegelt
+
+_Trait-Drift_: +0.2/Monat Richtung Gerecht. _Risiko_: Richter-Komplex, fühlt sich als einzige moralische Instanz
+
+'''
+
+
+== Aethyran — Zeit, Schicksal, Gleichgewicht
+
+
+_Der mysteriöseste der Sieben_
+
+
+=== Charakterisierung
+
+
+* Weise, Gelassen, Neutral
+* Kaum direkt verehrt — eher gefürchtet und respektiert
+* Kein Tempel, nur Schreine
+* Propheten und Orakel berufen sich auf ihn
+* _Mächtigster aber passivster Gott_ — hält die Waage zwischen den anderen
+* Cleric-Domains: (keine formalen Domains)
+* Symbol: Sanduhr oder Ouroboros
+
+
+=== Sigillen des Aethyran
+
+
+
+==== Sigille der Vergangenheit
+
+
+_Physisch_: Bernstein-Kristall in dem Szenen der Vergangenheit ablaufen — winzige Figuren spielen Schlachten und Feste nach, jedes Mal anders.
+
+_Trait-Affinität_: Weise, Geduldig, Nachdenklich
+_Trait-Repulsion_: Vergesslich, Gleichgültig
+
+_Passiver Bonus_: Perfektes Gedächtnis + an historischen Stätten sieht Träger Echos als transluzente Visionen
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Zeitrückblick_
+Ort berühren, Ereignisse der letzten 100 Jahre als Vision (10 Min, handlungsunfähig). Orte der Kriege: bis 80.000 Jahre, aber fragmentarisch + 1d6 Psychic
+
+_Trait-Adaptationen_:
+* Bei Historiker → Bücher durch Berührung 'lesen' (gesamter Inhalt 1 Runde)
+* Bei Detektiv → Tatort berühren, letztes Ereignis als 3D-Rekonstruktion
+
+_Trait-Drift_: +0.2/Monat Richtung Nachdenklich. _Risiko_: Lebt in der Vergangenheit, Gegenwart fühlt sich blass an
+
+
+==== Sigille der Gegenwart
+
+
+_Physisch_: Kristall in dem Staub unbeweglich schwebt — in der Zeit eingefroren. Bei Berührung: alles fühlt sich langsamer an. Schärfste Klarheit die ein Sterblicher je hatte.
+
+_Trait-Affinität_: Wachsam, Entschlossen, Präsent
+_Trait-Repulsion_: Zerstreut, Zögerlich
+
+_Passiver Bonus_: Initiative +3 + 1×/LR zusätzliche Reaction + sieht Pfeile in der Luft, Regentropfen einzeln
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Zeitstillstand_
+1 Runde: ALLE in 60ft eingefroren, nur Träger handelt. Kann sich bewegen, Items aufheben, Position wechseln — ABER: KEIN Schaden an Eingefrorenen (taktisches Tool, keine Waffe)
+
+_Trait-Adaptationen_:
+* Bei Krieger → nächster Angriff automatisch Nat 20 + doppelte Dice
+* Bei Heiler → Zeitstillstand + volle Heal-Aktion an Sterbendem ohne Feind-Reaktion
+
+_Trait-Drift_: +0.2/Monat Richtung Wachsam. _Risiko_: Ungeduld, normale Zeit fühlt sich zäh an
+
+
+==== Sigille der Zukunft
+
+
+_Physisch_: Zersprungene Glasperle, tausende mögliche Zukünfte spiegeln sich gleichzeitig. Wer länger als 1 Min hineinsieht: WIS Save DC 18 oder Wahnsinn.
+
+_Trait-Affinität_: Weise, Gelassen, Akzeptierend
+_Trait-Repulsion_: Kontrollsüchtig, Panisch
+
+_Passiver Bonus_: Advantage auf ALLE Saving Throws (sieht Gefahren vorher) + 1×/LR einen Wurf (eigenen oder Verbündeten 30ft) neu würfeln
+
+_Aktive Fähigkeit_ (1× pro Long Rest): _Schicksalsblick_
+GM EINE Ja/Nein-Frage über Zukunft stellen. Antwort IMMER korrekt aber kryptisch (Vision, nicht direkt)
+
+> Beispiel: 'Werden wir diese Schlacht überleben?' → Vision von Sonnenlicht durch Ruinen (Ja, aber hoher Preis)
+
+_Trait-Adaptationen_:
+* Bei Prophet → prophetische Träume (1 Story-Hinweis/LR)
+* Bei Stratege → nächsten Encounter: Initiative-Reihenfolge, erste Feind-Actions und versteckte Gefahr bekannt
+
+_Trait-Drift_: +0.2/Monat Richtung Gelassen. _Risiko: DIE GEFÄHRLICHSTE ALLER 21 DRIFTS_
+
+Fatalismus — 'alles passiert wie es soll.' Träger verliert Willen gegen Ungerechtigkeit zu kämpfen. Äußerster Preis. Mächtigster Effekt.
+
+'''
+
+
+== Die Sigillen-Bindungsmechanik
+
+
+
+=== Attunement: DC 18 WIS Save
+
+
+Bei Berührung einer Sigille wird eine _Trait-Kompatibilitäts-Prüfung_ durchgeführt:
+
+Jede Sigille hat:
+* `trait_affinities` — Was sie anzieht
+* `trait_repulsions` — Was sie abstößt
+
+_Ergebnis_:
+* _Kompatibel_: Bindung möglich
+* _Inkompatibel_: Sigille verweigert sich (2d10 Force Damage + 1 Exhaustion)
+
+Bei kompatibler Berührung: _WIS Save DC 18_
+
+* _Erfolg_: Kontrollierte Bindung
+* _Fail_: Unkontrollierte Bindung (Trait-Shift, Visionen, temporärer Wahnsinn)
+* _Nat 1_: Sigille überwältigt (Blackout, physische Veränderung, GM bestimmt)
+
+> _Wichtig_: Bindung ist NICHT sofort vollständig — es gibt 3 Phasen über Monate
+
+
+=== 3 Bond-Phasen
+
+
+
+==== Phase 1 — Resonanz (Wochen 1-4)
+
+* Sigille lernt den Träger kennen
+* Schwache Effekte
+* Subtile Wahrnehmung des Aspekts
+
+
+==== Phase 2 — Manifestation (Monate 1-6)
+
+* Volle Basiseffekte freigeschaltet
+* Passiver Bonus aktiv
+* 1× aktive Fähigkeit pro Long Rest möglich
+
+
+==== Phase 3 — Verschmelzung (6+ Monate)
+
+* Sigille hat sich an Traits angepasst
+* Einzigartige Ausprägung manifestiert
+* Aktive Fähigkeit wird stärker/persönlicher
+* Trait-Drift auf Maximum
+
+
+=== Mechanische Effekte
+
+
+_Passiver Aspekt-Bonus_ (permanent):
+Im Bereich des Aspekts wirken Boni. Feuer: Fire Resistance + Feuer-Spells +1d6 Damage. Wasser: Water Breathing + Healing +1d4. Etwa auf Level eines Very Rare Attunement Item.
+
+_Aktive Fähigkeit_ (1× pro Long Rest):
+Starke Aktion die den Aspekt verkörpert. Ändert sich basierend auf Träger-Traits.
+
+_Trait-Drift_:
+Sigille verschiebt Traits Richtung Affinität. 0.1-0.3 pro Monat, trackbar in App. Spieler merkt es und entscheidet ob er dagegen ankämpft.
+
+
+=== Kosten: Hit Die Verlust
+
+
+_Pro getragene Sigille verliert der Charakter 1 Hit Die Maximum_ (permanenter HP-Verlust bei Level-Up).
+
+Göttliche Energie fließt durch sterblichen Körper und zehrt ihn auf.
+
+
+=== Soziale Kosten
+
+
+* _Magie-sensitive NPCs_ erkennen Träger sofort
+* _Religiöse NPCs_ reagieren extrem (Anbetung oder Ketzerei)
+* _Drachen_ spüren die göttliche Macht und reagieren je nach Gott unterschiedlich
+
+'''
+
+
+== Sigillen-Kombinationen: Mehrfach-Trägerschaften
+
+
+
+=== Zwei Sigillen DESSELBEN Gottes (Stufe Erwacht)
+
+
+_Effekte verschmelzen_ + _Synergie-Fähigkeit_
+
+Beispiel: Pyrathis Sigille des Feuers + Sigille der Leidenschaft
+* Verbündeten in 60ft Feuerresistenz
+* Attack +2 für 1 Min
+* 1×/Tag nutzbar
+* _Legendary-Action-Niveau_
+
+
+=== Zwei Sigillen VERSCHIEDENER Götter
+
+
+_Mächtiger aber gefährlich_. Widersprüchliche Trait-Drifts:
+* CON Save/Woche oder 1 Exhaustion
+* Drift bei 2 Sigillen: 0.5-1.0/Monat statt 0.2
+* Persönlichkeit verändert sich sichtbar
+
+
+=== Drei Sigillen EINES Gottes (Stufe Göttlich)
+
+
+_Avatar-Zustand_. Nicht spielbar für PCs — Story-Event auf Kampagnen-End-Level:
+* Charakter transzendiert sterbliche Grenzen
+* Keine Stat-Block-Mechanik, nur narrativ
+* Kein Gameplay mehr, aber epische Konsequenzen
+
+
+=== Alle 21 Sigillen
+
+
+Wenn theoretisch alle 21 Sigillen von verschiedenen Trägern gemeistert würden:
+* Könnte es _theoretisch wieder 7 neue Götter geben_
+* _DAS ist das ultimative Endgame_
+* Der Rahmen für eine ewig erweiterbare Story
+
+'''
+
+
+== Sigillen in der Kampagne: Story-Einsatz
+
+
+
+=== Arc 1 (Level 1-10, Akademie)
+
+* Sigillen sind _LEGENDE_
+* Theologie-Unterricht in Geschichte & Götter
+* Spieler hören von ihnen als mythische Artefakte
+* Vielleicht sehen sie eine in einem Museum (dormant)
+
+
+=== Arc 2 (Level 11-15, Welt)
+
+* _Erste Sigille taucht auf_
+* Ein NPC findet sie
+* Sigillen-Verderber erscheinen
+* Die Welt reagiert: Angst, Faszination, politische Konflikte, religiöse Krisen
+
+
+=== Arc 3+ (Level 16-20, Krieg/Politik)
+
+* Antagonist sammelt Sigillen
+* Spieler erleben Konsequenzen
+* Machtverschiebunen in der Welt
+
+
+=== Arc Epos (Level 20+)
+
+* _PC berührt erstmals eine Sigille_
+* Trait-Resonanz bestimmt Ausgang
+* _Ab hier beginnt das wahre Endgame_
+* Göttliche Macht spielt eine Rolle in allen Entscheidungen
+
+'''
+
+
+== Drachen & das Pantheon
+
+
+
+=== Fundamentale Verbindung
+
+
+Drachen wurden von _ALLEN sieben Göttern gemeinsam_ erschaffen — deshalb sind sie _so mächtig_ (Essenz aller Götter).
+
+Dies erklärt:
+* Warum Drachen starke Magie mögen/nicht mögen
+* Warum sie zurückgekehrt sind (vor 100 Jahren)
+* Warum sie Schöpfungen aller Götter sind
+
+
+=== Magische Resonanz
+
+
+* _Aeolyn-Sigillen_ erzeugen positive Drachen-Resonanz
+* _Nocthari-Sigillen_ erzeugen Angst bei Drachen
+* Alle anderen Sigillen haben moderate bis keine Auswirkung
+
+
+=== Rückkehr vor 100 Jahren
+
+
+Als die _erste Sigille sich in der Welt zu manifestieren begann_:
+* Drachen _spürten es sofort_
+* Die Macht ihrer Schöpfer fragmentiert sich
+* Sie kehrten als instinktive Wächter zurück
+* _Dragon Bond wurde etabliert_
+
+'''
+
+
+== Siehe auch
+
+
+* link:./geschichte.adoc[Geschichte] — Die Epochen und den Götterkrieg verstehen
+* link:./geographie.adoc[Geographie] — Wie Religiöse Zonen Sigillen-Verbreitung beeinflussen
+* link:./kreaturen.adoc[Kreaturen] — Sigillen-Verderber und göttliche Aberrationen
+

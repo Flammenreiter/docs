@@ -1,0 +1,752 @@
+
+= Repository-Struktur
+
+
+Multi-Repo-Strategie mit zentralem Framework für Typ-Sharing.
+
+
+== Überblick
+
+
+Statt Monorepo: 8 spezialisierte Repositorien mit geteilten npm-Packages.
+
+----
+flammenreiter-framework/ ← Central, published as @flammenreiter/*
+├── shared-types/       → @flammenreiter/shared-types (Zod schemas, Enums, Types)
+├── shared-ui/          → @flammenreiter/shared-ui (React components)
+├── shared-api/         → @flammenreiter/shared-api (Hono middleware, services)
+└── storybook/          → Component showcase
+
+flammenreiter-supabase/ ← Database & Infra
+├── migrations/         SQL migrations
+├── functions/          Edge Functions
+├── seed/               Initial data
+└── rls/                RLS Policies
+
+api/ ← Hono Business Logic
+├── src/
+│   ├── routes/        API endpoints
+│   ├── services/      EffectProcessor, etc.
+│   ├── middleware/    Auth, validation
+│   └── types/         Local types (extends @flammenreiter/api-types)
+└── tests/
+
+session-gm/ ← React SPA (GM)
+├── src/
+│   ├── pages/         Route pages
+│   ├── components/    Local UI components
+│   ├── hooks/         Custom React hooks
+│   ├── store/         State management
+│   └── features/      API calls
+└── public/
+
+session-player/ ← React SPA (Player)
+├── src/
+│   ├── pages/         Route pages
+│   ├── components/    Local UI components
+│   ├── hooks/         Custom React hooks
+│   ├── store/         State management
+│   └── features/      API calls
+└── public/
+
+lore-admin/ ← React SPA (Admin)
+├── src/
+│   ├── pages/         Route pages
+│   ├── components/    Local UI components
+│   ├── hooks/         Custom React hooks
+│   ├── store/         State management
+│   └── features/      API calls
+└── public/
+
+ue5/ ← Unreal Engine 5 Mobile Client
+├── Source/
+│   ├── Flammenreiter/
+│   └── FlammenreiterEditor/
+├── Content/
+│   ├── Blueprints/
+│   ├── Maps/
+│   ├── UI/
+│   ├── Characters/
+│   ├── Effects/
+│   └── Audio/
+└── Config/
+
+docs/ ← Diese Dokumentation
+└── docs/              Markdown und AsciiDoc files
+----
+
+
+== flammenreiter-framework
+
+
+Zentrale Quelle der Wahrheit für Typen und Komponenten.
+
+
+=== Struktur
+
+
+----
+framework/
+├── package.json       workspace:* dependencies
+├── shared-types/
+│   ├── src/
+│   │   ├── enums.ts           ~50 feste enums
+│   │   ├── types.ts           Base types
+│   │   ├── schemas.ts         Zod schemas
+│   │   ├── mechanical-effect/ MechanicalEffect definition
+│   │   └── index.ts           Exports
+│   └── package.json           @flammenreiter/shared-types
+│
+├── shared-ui/
+│   ├── src/
+│   │   ├── components/        Reusable React components
+│   │   ├── hooks/             useCharacter, useEffects, etc.
+│   │   ├── theme/             Tailwind config, design tokens
+│   │   └── index.ts           Exports
+│   └── package.json           @flammenreiter/shared-ui
+│
+├── shared-api/
+│   ├── src/
+│   │   ├── services/          EffectProcessor (shared between API + mobile)
+│   │   ├── middleware/        Auth, validation, error handling
+│   │   ├── db/                Supabase client setup
+│   │   └── index.ts           Exports
+│   └── package.json           @flammenreiter/shared-api
+│
+└── storybook/
+    ├── stories/               Component showcase
+    └── .storybook/            Config
+----
+
+
+=== shared-types Exports
+
+
+[source,typescript]
+----
+// @flammenreiter/shared-types
+export * from './enums';          // enum OrganizationType, etc.
+export * from './types';          // interface Character, etc.
+export * from './schemas';        // const CharacterSchema = z.object(...)
+
+// Zod für Validierung in allen Apps
+import { CharacterSchema } from '@flammenreiter/shared-types';
+const validated = CharacterSchema.parse(data);
+----
+
+
+=== shared-ui Components
+
+
+[source,typescript]
+----
+// @flammenreiter/shared-ui
+export { CharacterCard } from './components/CharacterCard';
+export { EffectsBadge } from './components/EffectsBadge';
+export { TraitSpectrum } from './components/TraitSpectrum';
+export { useCharacter } from './hooks/useCharacter';
+----
+
+_Vorteil_: Web-Portal und Mobile nutzen EXAKTE SELBE Komponenten.
+
+
+=== Storybook
+
+
+[source,bash]
+----
+# Lokal entwickeln und testen
+cd framework/storybook
+npm run storybook
+# http://localhost:6006
+----
+
+Alle UI-Komponenten sind dokumentiert und testbar vor Deployment.
+
+
+== flammenreiter-supabase
+
+
+Datenbank-Definitionen und RLS.
+
+
+=== Struktur
+
+
+----
+supabase/
+├── config.toml            Projekt-Konfiguration
+├── migrations/
+│   ├── 001_initial_schema.sql
+│   ├── 002_add_traits.sql
+│   ├── 003_add_dragons.sql
+│   └── ...
+├── functions/
+│   ├── gemini-portraits/
+│   │   ├── index.ts
+│   │   └── deno.json
+│   ├── discord-webhooks/
+│   └── session-transcripts/
+├── seed/
+│   ├── 001_ability_scores.sql
+│   ├── 002_classes.sql
+│   ├── 003_spells.sql
+│   └── ...
+├── rls/
+│   ├── campaigns.sql        RLS für campaigns
+│   ├── characters.sql       RLS für characters
+│   └── ...
+└── database.types.ts        Generiert von `supabase gen types`
+----
+
+
+=== Migration Workflow
+
+
+[source,bash]
+----
+# 1. Lokales Development
+supabase start
+
+# 2. Neue Migration
+supabase migration new add_dragon_equipment
+
+# 3. Edit supabase/migrations/001_add_dragon_equipment.sql
+
+# 4. Test lokal
+supabase migration up
+
+# 5. Deploy zu Staging
+supabase db push --project-id $STAGING_PROJECT_ID
+
+# 6. Production
+supabase db push --project-id $PRODUCTION_PROJECT_ID
+----
+
+
+=== RLS Beispiel
+
+
+[source,sql]
+----
+-- supabase/rls/characters.sql
+create policy "Characters are visible to owner and their campaign GM"
+on characters for select
+using (
+  auth.uid() = user_id OR
+  auth.uid() = (
+    select created_by from campaigns where campaigns.id = characters.campaign_id
+  )
+);
+
+create policy "Characters can be updated by owner only"
+on characters for update
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+----
+
+
+=== Type Generation
+
+
+[source,bash]
+----
+supabase gen types typescript --project-id $PROJECT_ID > database.types.ts
+----
+
+Diese generiert TypeScript Typen für ALLE Tabellen, die `@flammenreiter/api-types` nutzt.
+
+
+== api
+
+
+Hono Business Logic Server.
+
+
+=== Struktur
+
+
+----
+api/
+├── src/
+│   ├── index.ts               App setup
+│   │
+│   ├── routes/
+│   │   ├── rolls.ts           POST /api/rolls
+│   │   ├── characters.ts       GET/POST /api/characters
+│   │   ├── quests.ts          GET/POST /api/quests
+│   │   └── ...
+│   │
+│   ├── services/
+│   │   ├── RollProcessor.ts
+│   │   ├── EffectProcessor.ts
+│   │   ├── TraitEvolutionEngine.ts
+│   │   ├── DCCalculator.ts
+│   │   ├── NPCDispositionEngine.ts
+│   │   └── ...
+│   │
+│   ├── middleware/
+│   │   ├── auth.ts            Supabase JWT verification
+│   │   ├── validation.ts       Zod schema validation
+│   │   ├── errorHandler.ts    Error catching
+│   │   └── logging.ts         Request logging
+│   │
+│   └── db/
+│       └── client.ts          Supabase client initialized
+│
+├── tests/
+│   ├── rollProcessor.test.ts
+│   └── effectProcessor.test.ts
+│
+└── package.json
+   dependencies:
+     - "hono": "^4.0"
+     - "zod": "^3.0"
+     - "@supabase/supabase-js": "^2.0"
+     - "@flammenreiter/shared-types": "workspace:*"
+     - "@flammenreiter/shared-api": "workspace:*"
+----
+
+
+=== Deployment
+
+
+[source,bash]
+----
+# Development
+npm run dev
+
+# Build für Supabase Edge
+npm run build:edge
+
+# Build für Node Server
+npm run build:node
+npm run start
+----
+
+
+=== Environment Variables
+
+
+----
+SUPABASE_URL=https://xxxxx.supabase.co
+SUPABASE_ANON_KEY=eyJxxx...
+SUPABASE_SERVICE_KEY=eyJxxx...
+
+GEMINI_API_KEY=AIzaSyDxxx
+DISCORD_BOT_TOKEN=NzAwNzxx...
+----
+
+
+== flammenreiter-web-portal
+
+
+React SPA für Spieler und GM.
+
+
+=== Struktur
+
+
+----
+web-portal/
+├── src/
+│   ├── main.tsx               Entry point
+│   │
+│   ├── pages/
+│   │   ├── Dashboard.tsx       Übersicht
+│   │   ├── Character/
+│   │   │   ├── index.tsx       Character Sheet
+│   │   │   ├── [id].tsx        Individual character
+│   │   │   └── Edit.tsx
+│   │   ├── Quests.tsx
+│   │   ├── Combat.tsx
+│   │   ├── Map.tsx
+│   │   └── GmDashboard/
+│   │       ├── Sessions.tsx
+│   │       ├── NPCs.tsx
+│   │       ├── Encounters.tsx
+│   │       └── ...
+│   │
+│   ├── components/
+│   │   ├── CharacterCard.tsx   (from shared-ui)
+│   │   ├── EffectsList.tsx
+│   │   ├── TraitSpectrumSlider.tsx
+│   │   ├── MapViewer.tsx       Leaflet integration
+│   │   └── ...
+│   │
+│   ├── hooks/
+│   │   ├── useCharacter.ts     (from shared-ui)
+│   │   ├── useEffects.ts
+│   │   ├── useParty.ts
+│   │   └── useSession.ts
+│   │
+│   ├── store/
+│   │   ├── characterStore.ts   Zustand
+│   │   ├── sessionStore.ts
+│   │   ├── uiStore.ts
+│   │   └── ...
+│   │
+│   ├── services/
+│   │   ├── api.ts             Fetch wrapper
+│   │   ├── auth.ts            Supabase Auth
+│   │   └── realtime.ts        Supabase Realtime
+│   │
+│   └── types/
+│       └── local.ts           Local type extensions
+│
+├── vite.config.ts
+└── package.json
+   dependencies:
+     - "react": "^18.2"
+     - "zustand": "^4.0"
+     - "@tanstack/react-query": "^5.0"
+     - "react-leaflet": "^4.0"
+     - "shadcn/ui": components via copy-paste
+     - "@flammenreiter/shared-types": "workspace:*"
+     - "@flammenreiter/shared-ui": "workspace:*"
+----
+
+
+=== State Management mit Zustand
+
+
+[source,typescript]
+----
+// store/characterStore.ts
+import { create } from 'zustand';
+
+interface CharacterStore {
+  characterId: UUID | null;
+  character: Character | null;
+  loading: boolean;
+
+  setCharacter: (id: UUID) => Promise<void>;
+  updateTrait: (traitId: UUID, level: number) => Promise<void>;
+}
+
+export const useCharacterStore = create<CharacterStore>((set) => ({
+  characterId: null,
+  character: null,
+  loading: false,
+
+  setCharacter: async (id: UUID) => {
+    set({ loading: true });
+    const res = await fetch(`/api/characters/${id}`);
+    const character = await res.json();
+    set({ character, characterId: id, loading: false });
+  },
+
+  updateTrait: async (traitId: UUID, level: number) => {
+    const res = await fetch('/api/traits', {
+      method: 'POST',
+      body: JSON.stringify({ characterId: get().characterId, traitId, level })
+    });
+    // Refetch character
+    await get().setCharacter(get().characterId!);
+  }
+}));
+----
+
+
+=== API Service
+
+
+[source,typescript]
+----
+// services/api.ts
+import { useAuth } from '@supabase/auth-helpers-react';
+
+export async function fetchCharacter(id: UUID) {
+  const { user } = useAuth();
+
+  const res = await fetch(`/api/characters/${id}`, {
+    headers: {
+      'Authorization': `Bearer ${user?.session?.access_token}`
+    }
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch');
+  return await res.json();
+}
+----
+
+
+== flammenreiter-mobile
+
+
+Expo React Native App mit Code-Sharing mit Web.
+
+
+=== Struktur
+
+
+----
+mobile/
+├── app/
+│   ├── _layout.tsx            Expo Router
+│   ├── index.tsx              Home
+│   ├── character/
+│   │   ├── _layout.tsx
+│   │   └── [id].tsx
+│   └── quests.tsx
+│
+├── components/
+│   ├── CharacterCard.tsx       (extends shared-ui with native)
+│   ├── EffectsList.tsx
+│   └── ...
+│
+├── hooks/
+│   ├── useCharacter.ts         (uses shared hook)
+│   └── useEffects.ts
+│
+├── store/
+│   ├── characterStore.ts       (shared Zustand)
+│   └── ...
+│
+├── app.json
+├── eas.json               EAS Build config
+└── package.json
+   dependencies:
+     - "expo": "^50.0"
+     - "react-native": "^0.73"
+     - "@flammenreiter/shared-types": "workspace:*"
+     - "@flammenreiter/shared-ui": "workspace:*"
+----
+
+
+=== Build & Deploy
+
+
+[source,bash]
+----
+# Local testing
+npx expo start
+
+# Build für iOS/Android
+eas build --platform ios
+eas build --platform android
+
+# Over-the-air updates
+eas update
+----
+
+
+== flammenreiter-discord
+
+
+Discord Bot für Notifications und Gameplay.
+
+
+=== Struktur
+
+
+----
+discord/
+├── src/
+│   ├── index.ts               Bot setup
+│   │
+│   ├── commands/
+│   │   ├── character.ts       /character <name>
+│   │   ├── quest.ts           /quest list
+│   │   ├── roll.ts            /roll d20+3
+│   │   └── ...
+│   │
+│   ├── events/
+│   │   ├── questComplete.ts   When quest done
+│   │   ├── sessionStart.ts    When session starts
+│   │   └── ...
+│   │
+│   ├── services/
+│   │   ├── db.ts             Supabase queries
+│   │   └── embeds.ts         Discord embed creators
+│   │
+│   └── middleware/
+│       └── auth.ts           Campaign access check
+│
+└── package.json
+   dependencies:
+     - "discord.js": "^14.0"
+     - "@supabase/supabase-js": "^2.0"
+     - "@flammenreiter/shared-types": "workspace:*"
+----
+
+
+=== Slash Commands Beispiel
+
+
+[source,typescript]
+----
+// commands/character.ts
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+
+export const data = new SlashCommandBuilder()
+  .setName('character')
+  .setDescription('View your character')
+  .addStringOption(option =>
+    option.setName('name').setDescription('Character name')
+  );
+
+export async function execute(interaction) {
+  const characterName = interaction.options.getString('name');
+  const userId = interaction.user.id;
+
+  // Query Supabase
+  const { data: character } = await supabase
+    .from('characters')
+    .select('*')
+    .eq('name', characterName)
+    .eq('user_id', userId)
+    .single();
+
+  const embed = new EmbedBuilder()
+    .setTitle(character.name)
+    .addFields(
+      { name: 'Level', value: character.level.toString() },
+      { name: 'HP', value: `${character.hp_current}/${character.hp_max}` }
+    );
+
+  await interaction.reply({ embeds: [embed] });
+}
+----
+
+
+== docs
+
+
+Diese Dokumentation.
+
+
+=== Struktur
+
+
+----
+docs/
+├── index.adoc
+├── 01-welt-lore/
+├── 02-spielmechaniken/
+├── 03-datenbank/
+├── 04-architektur/
+│   ├── index.adoc
+│   ├── backend.adoc
+│   ├── repo-struktur.adoc
+│   └── shared-types.adoc
+├── 05-charakter-sheet/
+├── 06-rassen-klassen/
+├── 07-gm-dashboard/
+├── 08-design-system/
+├── 09-mobile/
+└── 10-infrastruktur/
+----
+
+Gehostet auf GitHub Pages oder Vercel.
+
+
+== flammenreiter-content
+
+
+Kampagnen-Daten, NPC-Datenbank und Seeding.
+
+
+=== Struktur
+
+
+----
+content/
+├── campaigns/
+│   ├── academy-first-year/
+│   │   ├── config.yaml       Campaign settings
+│   │   ├── story.yaml        Story & arcs
+│   │   ├── npcs.yaml         NPC list
+│   │   ├── quests.yaml
+│   │   └── locations.yaml
+│   └── ...
+│
+├── npc-database/
+│   ├── named/                Critical NPCs
+│   ├── recurring/            Wichtige NPCs
+│   └── background/           One-time NPCs
+│
+├── lore/
+│   ├── world/
+│   ├── factions/
+│   └── history/
+│
+└── seed-scripts/
+    ├── 001_load_campaign.ts  TypeScript seed runners
+    └── 002_load_npcs.ts
+----
+
+
+=== Seeding
+
+
+[source,bash]
+----
+# Load campaign into database
+npx ts-node seed-scripts/001_load_campaign.ts academy-first-year
+----
+
+'''
+
+
+== Typ-Flow Diagramm
+
+
+----
+          flammenreiter-framework
+          ↓        ↓        ↓        ↓
+    shared-types shared-ui shared-api storybook
+          ↓
+    Zod Schemas + Enums
+          ↓
+    ┌─────┴──────┬──────────┬─────────────┐
+    ↓            ↓          ↓             ↓
+  flammenreiter  flammenreiter  flammenreiter  flammenreiter
+   -web-portal    -mobile      -discord      -api
+   (React SPA)    (Expo)       (Bot)        (Hono)
+    ↓             ↓            ↓             ↓
+    └─────────────┴────────────┴─────────────┘
+              ↓
+        flammenreiter-supabase
+        (PostgreSQL + RLS)
+----
+
+
+== Publishing Workflow
+
+
+
+=== 1. Änderung in framework
+
+
+[source,bash]
+----
+cd framework/shared-types
+npm version minor
+npm publish
+----
+
+
+=== 2. Update in anderen Repos
+
+
+[source,bash]
+----
+cd web-portal
+npm update @flammenreiter/shared-types
+npm run build
+git push
+----
+
+
+=== 3. CI/CD Triggers Deployments
+
+
+* Web-Portal → Vercel
+* Mobile → EAS Update
+* API → Edge Functions update
+* Bot → Redeployment
+
+'''
+
+Siehe auch: link:./backend.adoc[backend.adoc] für API-Details.

@@ -1,0 +1,594 @@
+
+= Backend-Architektur
+
+
+3-Schichten-Hybrid Backend mit Supabase PostgREST, Hono und Edge Functions.
+
+
+== Architektur-Überblick
+
+
+----
+┌─────────────────────────────────────────────┐
+│         Web Portal / Mobile App             │
+└────────────────┬────────────────────────────┘
+                 │
+        ┌────────┴────────┐
+        │                 │
+   PostgREST (70%)    Hono API (25-30%)
+   (Auto-CRUD)      (Business Logic)
+        │                 │
+   ┌────┴─────────────────┘
+   │
+   ↓
+┌──────────────────────────────────────┐
+│   Supabase Edge Functions (5%)       │
+│  • Gemini AI (Portraits)             │
+│  • Discord Webhooks                  │
+│  • SRD Importer                      │
+│  • Session Transcripts               │
+└──────────────────────────────────────┘
+        │
+        ↓
+┌──────────────────────────────────────┐
+│   PostgreSQL 16 + PostGIS            │
+│   • RLS Policies (Sicherheit)        │
+│   • Realtime Events (Live Sync)      │
+│   • Auditing Trigger                 │
+└──────────────────────────────────────┘
+----
+
+
+== Schicht 1: Supabase PostgREST
+
+
+
+=== Zweck
+
+
+Auto-generierter REST API für einfache Read/Write Operationen auf alle Tabellen.
+
+
+=== Umfang
+
+
+~70% aller API-Requests laufen über PostgREST:
+* Daten-Abrufen (SELECT mit Filtering, Pagination)
+* Einfache Inserts (User erstellt neuen Charakter)
+* Einfache Updates (Item-Menge im Inventar ändern)
+* Deletes (Charakter löschen)
+
+
+=== Feature
+
+
+[source,typescript]
+----
+// GET /rest/v1/characters?campaign_id=eq.abc123&select=*
+// Automatically applies RLS
+// Returns JSON, supports:
+//  - Filtering: ?level=gt.5
+//  - Ordering: ?order=name.asc
+//  - Pagination: ?limit=20&offset=40
+//  - Relationships: ?select=*,organizations(*)
+----
+
+
+=== Limitierungen
+
+
+* Keine Custom Business Logic
+* Keine Transaktionen über mehrere Tabellen hinweg
+* Keine komplexen Validierungen (Zod)
+* Kein Event Publishing
+
+_Lösung_: Für komplexe Operationen → Hono API.
+
+
+== Schicht 2: Hono Application Layer
+
+
+
+=== Zweck
+
+
+TypeScript-basierter Business Logic Layer für komplexe Operationen.
+
+
+=== Warum Hono statt NestJS/.NET?
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Kriterium | Hono | NestJS | .NET
+
+| _Bundle Size_ | 14 KB | 500 KB+ | N/A (Server)
+| _Cold Start_ | <100ms | 500ms+ | 1-2s
+| _TypeScript_ | Native | Native | C# (kein TS)
+| _Zod Integration_ | Built-in | Addon | Addon
+| _Edge Compatible_ | Ja | Nein | Nein
+| _Learning Curve_ | Flach | Steil | Steil
+| _Ideal für_ | Frontend Dev | Enterprise | Enterprise
+|===
+
+
+_Entscheidung_: Hono. Perfekt für Frontend-Entwickler die auch Backend schreiben müssen.
+
+
+=== Struktur
+
+
+[source,typescript]
+----
+// src/api/index.ts
+const app = new Hono();
+
+// Business Logic Services
+const rollProcessor = new RollProcessor(db);
+const effectProcessor = new EffectProcessor(db);
+const traitEvolutionEngine = new TraitEvolutionEngine(db);
+
+// API Routes
+app.post('/api/rolls/:characterId', async (c) => {
+  // Validierung mit Zod
+  const input = RollSchema.parse(await c.req.json());
+
+  // Business Logic
+  const result = await rollProcessor.roll(input);
+
+  // Response
+  return c.json(result);
+});
+
+// ... weitere Routes
+----
+
+
+=== Kern-Services
+
+
+
+[cols="1,1",options="header"]
+|===
+| Service | Zweck
+
+| _RollProcessor_ | Würfelwürfe mit Modifikatoren, Vorteil/Nachteil
+| _EffectProcessor_ | Sammelt alle aktiven MechanicalEffects, berechnet Modifier-Stack
+| _TraitEvolutionEngine_ | Trait-Level Änderungen, Spektren-Locks, Exklusivitäts-Checks
+| _DCCalculator_ | Dynamische DC-Berechnung basierend auf Umgebung
+| _NPCDispositionEngine_ | Disposition-Änderungen bei Interaktion
+| _InventoryValidator_ | Gewicht, Attuement, Behälter-Kapazität
+| _SpellSlotManager_ | Zauberslot-Verbrauch, Rast-Wiederherstellung
+| _ExclusionChecker_ | Org/Trait-Exklusivitäts-Regeln
+|===
+
+
+
+=== EffectProcessor Service (Herz des Systems)
+
+
+
+==== Zweck
+
+
+Zentrale Stelle wo alle mechanischen Modifikatoren eines Charakters gesammelt und berechnet werden.
+
+
+==== Quellen
+
+
+Der EffectProcessor liest MechanicalEffects aus:
+. Traits (character_trait_levels → trait_spectrum_effects)
+. Items (equipped in character_inventory → item_special_abilities)
+. Conditions (character_active_effects)
+. Wetter (campaign_calendar_state → seasons/weather → mechanical_effects)
+. Saison (mechanical_effects auf seasons)
+. Gelände (campaign_travel_days → terrain_types → mechanical_effects)
+. Buffs/Debuffs (character_active_effects)
+. Konsequenzen (character_criminal_record → legal_consequences → mechanical_effects)
+. Drachen-Bond (character_dragon_bonds → dragon_trait_levels resonance)
+
+
+==== Algorithmus
+
+
+[source,typescript]
+----
+class EffectProcessor {
+  async getModifierStack(characterId: UUID, target: EffectTarget): Promise<ModifierStack> {
+    const effects: MechanicalEffect[] = [];
+
+    // Sammle alle Effekte
+    effects.push(...await this.getTraitEffects(characterId));
+    effects.push(...await this.getItemEffects(characterId));
+    effects.push(...await this.getConditionEffects(characterId));
+    effects.push(...await this.getEnvironmentEffects(characterId));
+
+    // Filtere nach target
+    const relevantEffects = effects.filter(e => e.target === target);
+
+    // Berechne Modifier
+    const stack = this.calculateStack(relevantEffects);
+
+    // Erzeuge transparente Beschreibung
+    return {
+      finalModifier: stack.total,
+      components: [
+        { label: 'Base Ability', value: +3 },
+        { label: 'Proficiency', value: +2 },
+        { label: 'Trait (Loyal)', value: +1 },
+        { label: 'Rain Penalty', value: -2 },
+        { label: 'Dragon Resonance', value: +1 },
+      ],
+      description: 'Perception +5: Base +3, Proficiency +2, Loyal +1, Rain -2, Dragon +1'
+    };
+  }
+
+  private calculateStack(effects: MechanicalEffect[]): CalculatedStack {
+    // Vorteil/Nachteil hebt sich auf (D&D Standard)
+    const advantages = effects.filter(e => e.operation === 'advantage').length;
+    const disadvantages = effects.filter(e => e.operation === 'disadvantage').length;
+    const netAdvantage = advantages - disadvantages; // kann negativ sein
+
+    // Sorting: höchster Set-Wert gewinnt
+    const setValues = effects
+      .filter(e => e.operation === 'set')
+      .map(e => e.value)
+      .sort((a, b) => b - a);
+
+    let base = setValues.length > 0 ? setValues[0] : 0;
+
+    // Dann Adds stapeln
+    const adds = effects
+      .filter(e => e.operation === 'add')
+      .reduce((sum, e) => sum + e.value, 0);
+
+    // Dann Multiplies kombinieren
+    const multiplies = effects
+      .filter(e => e.operation === 'multiply')
+      .reduce((prod, e) => prod * e.value, 1.0);
+
+    const total = (base + adds) * multiplies;
+
+    return {
+      base,
+      adds,
+      multiplies,
+      netAdvantage,
+      total
+    };
+  }
+}
+----
+
+
+==== Output Beispiel
+
+
+[source,json]
+----
+{
+  "skill": "Perception",
+  "finalModifier": 7,
+  "hasAdvantage": false,
+  "components": [
+    { "source": "Base Ability (WIS)", "value": 3 },
+    { "source": "Proficiency", "value": 2 },
+    { "source": "Trait: Observant (+2)", "value": 2 },
+    { "source": "Item: Owl Cloak", "value": 1 },
+    { "source": "Weather: Heavy Rain", "value": -1 },
+    { "source": "Dragon Resonance", "value": 0 }
+  ],
+  "description": "Perception +7: Base +3, Proficiency +2, Observant +2, Owl Cloak +1, Heavy Rain -1"
+}
+----
+
+_Transparenz_: Spieler sehen EXAKT wo jeder Punkt herkommt.
+
+
+=== Hono Deployment
+
+
+Zwei Deployment-Optionen:
+
+
+==== Option 1: Supabase Edge Function (Standard)
+
+
+[source,typescript]
+----
+// supabase/functions/hono-api/index.ts
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+import { Hono } from "npm:hono";
+
+const app = new Hono();
+// ... routes
+
+export default serve(app.fetch);
+----
+
+* _Vorteil_: Kein Extra-Hosting, Same-Region wie DB
+* _Nachteil_: Cold Starts, Deno statt Node
+
+
+==== Option 2: Node.js Server (Für höhere Last)
+
+
+[source,bash]
+----
+# Deploy zu Render/Railway/Vercel
+npm run build
+npm run start
+----
+
+* _Vorteil_: Schneller, mehr Control, Caching
+* _Nachteil_: Extra Hosting-Kosten
+
+_Entscheidung_: Edge Function für MVP, später Node wenn nötig.
+
+
+== Schicht 3: Supabase Edge Functions
+
+
+
+=== Zweck
+
+
+Serverless Functions für Externe Integrationen außerhalb des Hono-API-Scopes.
+
+
+=== Anwendungen
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Funktion | Trigger | Zweck
+
+| _gemini-portraits_ | Manual API Call | KI-generierte Charakterportraits
+| _discord-webhooks_ | Database Trigger / Manual | Quest Complete, Session Start, etc.
+| _srd-importer_ | Manual API Call | D&D SRD Daten in DB laden
+| _session-transcripts_ | Manual API Call + Webhook | Craig Audio → Whisper → Gemini Summary
+| _email-notifications_ | Database Trigger | Quest Updates, Session Reminders
+|===
+
+
+
+=== Beispiel: Session Transcript Function
+
+
+[source,typescript]
+----
+// supabase/functions/session-transcripts/index.ts
+Supabase.functions.http('session-transcripts', async (req, context) => {
+  const { sessionId } = await req.json();
+
+  // 1. Hole Session Daten
+  const session = await db.sessions.findById(sessionId);
+
+  // 2. Lade Audio aus Google Drive (Patreon Integration)
+  const audioFile = await drive.files.get(session.craig_audio_path);
+
+  // 3. Transkribiere mit Whisper
+  const transcript = await openai.audio.transcriptions.create({
+    file: audioFile,
+    model: 'whisper-1',
+    language: 'de',
+    prompt: 'Gaming session, German language, D&D campaign'
+  });
+
+  // 4. Zusammenfasse mit Gemini
+  const summary = await gemini.generateContent({
+    prompt: `Summarize this D&D session:\n${transcript}`,
+    generationConfig: {
+      maxOutputTokens: 1000,
+      temperature: 0.5
+    }
+  });
+
+  // 5. Speichere in DB
+  await db.session_transcript.create({
+    session_id: sessionId,
+    transcript_text: transcript,
+    summary_text: summary,
+    source: 'craig',
+    processing_status: 'complete'
+  });
+
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { 'Content-Type': 'application/json' }
+  });
+});
+----
+
+_Kosten_: ~$0.10 pro Session (Whisper + Gemini).
+
+
+=== Realtime Events
+
+
+[source,typescript]
+----
+// In Hono oder Edge Function
+const subscription = supabase
+  .from('character_trait_levels')
+  .on('*', async (payload) => {
+    // Charakter-Trait geändert
+    // Trigger: Disposition-Neuberechnung
+    const npc = await db.world_npcs.findById(payload.new.npc_id);
+    const dispositionChange = npc.dispositionByTrait(payload.new.spectrum_id, payload.new.level);
+
+    // Update Disposition
+    await db.campaign_relationships.update(
+      { character_id, npc_id },
+      { disposition: dispositionChange }
+    );
+  })
+  .subscribe();
+----
+
+
+== Error Handling & Logging
+
+
+
+=== Struktur
+
+
+[source,typescript]
+----
+// Alle Errors sind strukturiert
+class GameError extends Error {
+  constructor(
+    public code: string,
+    public message: string,
+    public statusCode: number,
+    public context?: Record<string, any>
+  ) {
+    super(message);
+  }
+}
+
+// In Hono
+app.onError((err, c) => {
+  if (err instanceof GameError) {
+    return c.json({
+      error: err.code,
+      message: err.message,
+      context: err.context
+    }, err.statusCode);
+  }
+
+  // Unerwarteter Error
+  return c.json({
+    error: 'INTERNAL_ERROR',
+    message: 'Something went wrong'
+  }, 500);
+});
+----
+
+
+=== Sentry Integration
+
+
+[source,typescript]
+----
+import * as Sentry from "@sentry/node";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 0.1,
+  environment: process.env.ENVIRONMENT
+});
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
+----
+
+
+== Testing
+
+
+
+=== Unit Tests (Vitest)
+
+
+[source,typescript]
+----
+// services/__tests__/EffectProcessor.test.ts
+describe('EffectProcessor', () => {
+  it('should stack add operations correctly', async () => {
+    const processor = new EffectProcessor(mockDb);
+    const result = await processor.getModifierStack(characterId, 'perception');
+
+    expect(result.finalModifier).toBe(7);
+    expect(result.components).toHaveLength(6);
+  });
+});
+----
+
+
+=== Integration Tests
+
+
+[source,typescript]
+----
+// routes/__tests__/rolls.test.ts
+it('POST /api/rolls should apply all modifiers', async () => {
+  const res = await fetch('http://localhost:3000/api/rolls', {
+    method: 'POST',
+    body: JSON.stringify({
+      characterId: 'abc123',
+      skillId: 'perception',
+      base: 'd20'
+    })
+  });
+
+  const data = await res.json();
+  expect(data.rollTotal).toBe(15); // d20(12) + modifier(+3)
+});
+----
+
+
+== Caching-Strategie
+
+
+
+=== In-Memory Caching (Hono)
+
+
+[source,typescript]
+----
+const characterCache = new Map<UUID, Character>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 Minuten
+
+async function getCachedCharacter(id: UUID): Promise<Character> {
+  if (characterCache.has(id)) {
+    const cached = characterCache.get(id)!;
+    if (Date.now() - cached.cachedAt < CACHE_TTL) {
+      return cached;
+    }
+  }
+
+  const character = await db.characters.findById(id);
+  character.cachedAt = Date.now();
+  characterCache.set(id, character);
+  return character;
+}
+----
+
+
+=== Database Query Caching (PostgREST)
+
+
+[source,typescript]
+----
+// Cache-Control Header für GET Requests
+app.get('/api/items/:itemId', async (c) => {
+  c.header('Cache-Control', 'public, max-age=3600');
+  const item = await db.items.findById(c.req.param('itemId'));
+  return c.json(item);
+});
+----
+
+
+=== Realtime Invalidation
+
+
+[source,typescript]
+----
+// Wenn Charakter aktualisiert wird
+supabase
+  .from('characters')
+  .on('UPDATE', async (payload) => {
+    characterCache.delete(payload.new.id);
+    broadcast('character-updated', payload.new);
+  })
+  .subscribe();
+----
+
+'''
+
+Siehe auch: link:./shared-types.adoc[shared-types.adoc] für Typ-Validierung und Enums.
