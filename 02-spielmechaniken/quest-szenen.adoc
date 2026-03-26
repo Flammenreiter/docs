@@ -235,7 +235,7 @@ Failure / Defeat:
   - Decision-logging (if story-important choices made)
 
 [Optional] AI Session Recap
-  Craig-Pipeline: Audio → Whisper/Gemini Transkript → AI Zusammenfassung
+  Craig-Pipeline: Audio → Whisper/Gemini Transkript → Gemini Zusammenfassung
   GM reviews + approves
   Published in session-log
 ----

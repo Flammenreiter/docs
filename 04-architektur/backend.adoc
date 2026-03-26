@@ -23,7 +23,7 @@
    ↓
 ┌──────────────────────────────────────┐
 │   Supabase Edge Functions (5%)       │
-│  • Gemini AI (Portraits)             │
+│  • FLUX AI (Portraits)               │
 │  • Discord Webhooks                  │
 │  • SRD Importer                      │
 │  • Session Transcripts               │
@@ -347,7 +347,7 @@ Serverless Functions für Externe Integrationen außerhalb des Hono-API-Scopes.
 |===
 | Funktion | Trigger | Zweck
 
-| _gemini-portraits_ | Manual API Call | KI-generierte Charakterportraits
+| _flux-portraits_ | Manual API Call | KI-generierte Charakterportraits
 | _discord-webhooks_ | Database Trigger / Manual | Quest Complete, Session Start, etc.
 | _srd-importer_ | Manual API Call | D&D SRD Daten in DB laden
 | _session-transcripts_ | Manual API Call + Webhook | Craig Audio → Whisper → Gemini Summary
