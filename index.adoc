@@ -203,3 +203,27 @@ Dieses Projekt basiert auf D&D 5e Regeln, modifiziert und erweitert für die dig
 '''
 
 _Fragen oder Feedback?_ Kontaktieren Sie das Development-Team über die interne Dokumentation oder das Projekt-Repository.
+
+'''
+
+// === Kapitel-Includes ===
+
+include::01-welt-lore/index.adoc[leveloffset=+1]
+
+include::02-spielmechaniken/INDEX.adoc[leveloffset=+1]
+
+include::03-datenbank/index.adoc[leveloffset=+1]
+
+include::04-architektur/index.adoc[leveloffset=+1]
+
+include::05-charakter-sheet/index.adoc[leveloffset=+1]
+
+include::06-rassen-klassen/index.adoc[leveloffset=+1]
+
+include::07-gm-dashboard/index.adoc[leveloffset=+1]
+
+include::08-design-system/index.adoc[leveloffset=+1]
+
+include::09-mobile/index.adoc[leveloffset=+1]
+
+include::10-infrastruktur/index.adoc[leveloffset=+1]
