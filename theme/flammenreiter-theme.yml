@@ -2,6 +2,11 @@ extends: default
 font:
   catalog:
     merge: true
+    Noto Sans:
+      normal: NotoSans-Regular.ttf
+      bold: NotoSans-Bold.ttf
+      italic: NotoSans-Italic.ttf
+      bold_italic: NotoSans-BoldItalic.ttf
 page:
   layout: portrait
   margin: [0.75in, 0.75in, 0.75in, 0.75in]
