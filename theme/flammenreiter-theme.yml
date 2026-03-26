@@ -2,22 +2,17 @@ extends: default
 font:
   catalog:
     merge: true
-    Noto Sans:
-      normal: NotoSans-Regular.ttf
-      bold: NotoSans-Bold.ttf
-      italic: NotoSans-Italic.ttf
-      bold_italic: NotoSans-BoldItalic.ttf
 page:
   layout: portrait
   margin: [0.75in, 0.75in, 0.75in, 0.75in]
   size: A4
 base:
-  font-family: Noto Sans
+  font-family: Noto Serif
   font-size: 10.5
   line-height-length: 15
   font-color: #333333
 heading:
-  font-family: Noto Sans
+  font-family: Noto Serif
   font-style: bold
   font-color: #8B0000
   h1-font-size: 28

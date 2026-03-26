@@ -29,17 +29,6 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
-      - name: Download Noto Sans font
-        run: |
-          mkdir -p fonts
-          curl -sL -o /tmp/noto-sans.zip "https://fonts.google.com/download?family=Noto+Sans"
-          unzip -q /tmp/noto-sans.zip -d /tmp/noto-sans/
-          cp /tmp/noto-sans/NotoSans-Regular.ttf fonts/
-          cp /tmp/noto-sans/NotoSans-Bold.ttf fonts/
-          cp /tmp/noto-sans/NotoSans-Italic.ttf fonts/
-          cp /tmp/noto-sans/NotoSans-BoldItalic.ttf fonts/
-          ls -la fonts/
-
       - name: Install Asciidoctor
         run: |
           gem install asciidoctor
@@ -74,7 +63,6 @@ jobs:
             -a revdate=$(date +%Y-%m-%d) \
             -a pdf-themesdir=theme \
             -a pdf-theme=flammenreiter \
-            -a pdf-fontsdir="fonts;GEM_FONTS_DIR" \
             -D build/pdf \
             index.adoc
 
@@ -92,7 +80,6 @@ jobs:
                 -a revdate=$(date +%Y-%m-%d) \
                 -a pdf-themesdir=../theme \
                 -a pdf-theme=flammenreiter \
-                -a pdf-fontsdir="../fonts;GEM_FONTS_DIR" \
                 -D build/pdf \
                 "${dir}index.adoc"
             fi
