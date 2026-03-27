@@ -6,11 +6,15 @@
 :icons: font
 :sectanchors:
 :sectnums:
+:imagesdir: images
+:front-cover-image: image:../theme/cover-flammenreiter.png[fit=cover]
 
 [.lead]
 Dieses Handbuch erklaert die Spielregeln von Flammenreiter. Hier geht es nicht um Charaktererstellung oder Stats — sondern darum, wie die Welt funktioniert und was ihr als Spieler wissen muesst.
 
----
+image::chapter-spielmechaniken.png[Spielmechaniken,width=80%,align=center]
+
+'''
 
 == Kampf
 
@@ -85,7 +89,7 @@ TIP: Nutzt die Umgebung! Feinde in Oberflaechen stossen, Fett anzuenden, von erh
 * *Fallschaden*: 3d6 pro 10 Fuss Fallhoehe (Minimum 1d6)
 * Fliegende Kreaturen die Konzentration verlieren stuerzen ab
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Rasten
 
@@ -135,7 +139,7 @@ Ihr entfernt *1 Stufe pro Lange Rast* (mit Nahrung und Wasser). Erschoepfung ent
 * Extreme Kaelte/Hitze
 * Bestimmte Zauber oder Effekte
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Reisen
 
@@ -203,7 +207,7 @@ Auf Reisen koennen zufaellige Begegnungen auftreten — nicht nur Kaempfe:
 * Omen oder Geruechte
 * Hinterhalte
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Wuerfel & Proben
 
@@ -231,7 +235,7 @@ NOTE: Manche Wuerfe sind *verborgen* — der GM wuerfelt fuer euch, und ihr erfa
 * *Nachteil*: 2d20 wuerfeln, den niedrigeren nehmen
 * Vorteil und Nachteil heben sich gegenseitig auf — egal wie viele Quellen
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Traits (Charakterzuege)
 
@@ -259,7 +263,7 @@ Euer Charakter hat Persoenlichkeitszuege auf einer Skala von -5 bis +5, z.B.:
 
 Manche Trait-Kombinationen erzeugen innere Konflikte, die zu Story-Momenten fuehren. Zum Beispiel: Loyal und gleichzeitig Gierig kann zu Dilemma-Situationen fuehren, die der GM aufgreifen wird.
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Gegenstaende & Inventar
 
@@ -299,7 +303,7 @@ Die Gruppe hat *eine gemeinsame Truhe* mit unbegrenztem Fassungsvermoegen. Aber:
 * Zugriff nur am physischen Standort (nicht unterwegs)
 * Ihr muesst selbst im Blick behalten, was drin ist
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Wirtschaft & Handel
 
@@ -334,7 +338,7 @@ IMPORTANT: Die meisten Leute haben *kein Gold*. Nur Haendler handeln mit Muenzen
 
 Zugang nur durch kriminelle Kontakte, hohen Ruf in den richtigen Kreisen, oder eine Probe. Preise sind deutlich hoeher, und mit illegalen Waren erwischt zu werden hat Konsequenzen (Geldstrafen, Gefaengnis, Kopfgeld).
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Beziehungen & Ruf
 
@@ -379,7 +383,7 @@ Bei Organisationen (Gilden, Armeen, Akademien) habt ihr einen separaten Ruf:
 * Niedriger Ruf = hoehere Preise, Zugangsverweigerung, Feindseligkeit
 * Die Reputation der *gesamten Gruppe* zaehlt mit — ein Partymitglied mit schlechtem Ruf zieht alle runter
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Professionen & Handwerk
 
@@ -405,9 +409,11 @@ Handwerk ist ein *mehrstufiger Prozess* — kein einzelner Wurf:
 
 Jeder Gegenstand, den ihr craftet, ist *einzigartig* — mit eigenen Staerken und Schwaechen je nach eurem Wuerfelglueck.
 
----
+image::divider-dragon.png[Drachen-Trenner,width=60%,align=center]
 
 == Drachen-Bond
+
+image::diagram-dragon-bond.png[Drachen-Bindungsphasen,width=80%,align=center]
 
 === Die fuenf Bindungsphasen
 
@@ -455,7 +461,7 @@ Zusammenarbeit:
 * *Schild* (Reaktion): Drache blockt einen Angriff fuer euch
 * *Fangmanöver* (DEX DC 15): Drache faengt fallenden Reiter auf
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Kalender & Zeit
 
@@ -508,7 +514,7 @@ An freien Tagen koennt ihr *eine* dieser Aktivitaeten ausfuehren:
 * *Recherche*: In Bibliotheken nach Wissen suchen
 * *Erholung*: Erschoepfung heilen
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Recht & Ordnung
 
@@ -546,7 +552,7 @@ Gesetze variieren je nach Region:
 * *Grenzstadt*: Lascher, bestechliche Wachen
 * *Magieakademie*: Eigene magische Gesetze und Strafen
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Organisationen
 
@@ -586,7 +592,7 @@ Manche Organisationen schliessen sich *gegenseitig aus*:
 
 Andere koennen kombiniert werden, erzeugen aber *Konflikte bei geteilter Loyalitaet*.
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Kleidung & Auftreten
 
@@ -607,7 +613,7 @@ Eure Kleidung beeinflusst, wie NPCs auf euch reagieren:
 
 TIP: Denkt daran, eure Kleidung der Situation anzupassen! In Bauernkluft beim Koenig vorsprechen wird nicht gut ankommen.
 
----
+image::divider-ornament.png[Trenner,width=60%,align=center]
 
 == Geruechte
 
@@ -617,7 +623,7 @@ TIP: Denkt daran, eure Kleidung der Situation anzupassen! In Bauernkluft beim Ko
 * Ihr koennt *selbst Geruechte streuen* (kostet 1-10 GP)
 * NPCs handeln basierend auf Geruechten, auch wenn sie nicht stimmen
 
----
+image::divider-dragon.png[Drachen-Trenner,width=60%,align=center]
 
 == Zusammenfassung der wichtigsten Regeln
 

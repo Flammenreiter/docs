@@ -6,6 +6,7 @@ page:
   layout: portrait
   margin: [0.75in, 0.75in, 0.75in, 0.75in]
   size: A4
+  background-image: image:bg-parchment.png[fit=cover]
 base:
   font-family: Noto Serif
   font-size: 10.5
@@ -23,21 +24,22 @@ heading:
   margin-bottom: 5
 title-page:
   align: center
+  background-image: image:cover-flammenreiter.png[fit=cover]
   title:
-    top: 40%
+    top: 55%
     font-size: 36
     font-style: bold
-    font-color: #8B0000
+    font-color: #FFFFFF
     line-height: 1.2
   subtitle:
     font-size: 18
     font-style: italic
-    font-color: #666666
+    font-color: #F0E6D3
     margin-top: 10
   revision:
     margin-top: 20
     font-size: 12
-    font-color: #999999
+    font-color: #CCBBAA
 header:
   height: 0.5in
   font-size: 8
