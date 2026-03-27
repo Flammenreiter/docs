@@ -1,0 +1,421 @@
+= AI Prompt System — Universelles Template-Schema
+:toc:
+
+== Ueberblick
+
+Alle KI-Interaktionen in Flammenreiter laufen ueber ein einheitliches Prompt-Template-System. Ob Bild-Generierung, Character-Creation-Interview, Level-Up-Dialog oder Session-Recap — alles nutzt das gleiche Schema.
+
+[source]
+----
+ai_templates
+├── image      / portrait     → fal.ai Flux Pro      → Bild
+├── image      / banner       → fal.ai Flux Pro      → Bild
+├── image      / icon         → fal.ai Flux Pro      → Bild
+├── interview  / creation     → Gemini               → Strukturierter Dialog
+├── interview  / update       → Gemini               → Strukturierter Dialog
+├── interview  / level_up     → Gemini               → Entscheidungs-Flow
+├── interview  / dragon_bond  → Gemini               → Narrative Interaktion
+├── narrative   / session_recap → Gemini              → Text
+├── narrative   / quest_intro  → Gemini              → Text
+├── dialog     / npc          → Gemini               → NPC-Dialog
+├── dialog     / merchant     → Gemini               → Handels-Dialog
+└── analysis   / trait_eval   → Gemini               → Trait-Bewertung
+----
+
+== Schema: ai_templates
+
+Ein einziges Schema fuer ALLE KI-Prompt-Typen.
+
+=== Prisma Model
+
+[source,prisma]
+----
+model AiTemplate {
+  id          String   @id @default(uuid())
+
+  // --- Klassifizierung ---
+  aiType      String   // image, interview, narrative, dialog, analysis
+  subType     String   // portrait, creation, level_up, session_recap, npc, etc.
+  entityType  String?  // character, npc, location, item, dragon, scene (optional)
+
+  // --- Prompt ---
+  name        String   // Anzeigename: "Character Portrait (Fotorealistisch)"
+  description String?  // Erklaerung fuer Admin
+  template    String   @db.Text  // Prompt mit {{variablen}}
+  suffix      String?  @db.Text  // Standard-Suffix (optional, z.B. "photorealistic...")
+  systemPrompt String? @db.Text  // System-Prompt fuer LLM-basierte Templates (Gemini)
+
+  // --- Provider-Config ---
+  provider    String   // fal, gemini, openai
+  model       String   // flux-pro, gemini-2.5-pro, gemini-2.5-flash
+  config      Json?    // Provider-spezifisch: { width, height, temperature, maxTokens, ... }
+
+  // --- Meta ---
+  version     Int      @default(1)
+  isDefault   Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([aiType, subType, entityType, isDefault])
+  @@index([aiType, subType])
+}
+----
+
+=== Composite Key Logik
+
+Ein Template wird identifiziert durch `aiType + subType + entityType`:
+
+[cols="1,1,1,2"]
+|===
+| aiType | subType | entityType | Beschreibung
+
+| image | portrait | character | Charakter-Portrait generieren
+| image | portrait | npc | NPC-Portrait generieren
+| image | emotion_portrait | npc | NPC-Portrait mit Emotion
+| image | banner | location | Orts-Banner generieren
+| image | icon | item | Item-Icon generieren
+| image | portrait | dragon | Drachen-Portrait
+| image | illustration | scene | Szenen-Illustration
+| interview | creation | character | Charakter-Erstellungs-Interview
+| interview | update | character | Charakter-Update-Interview (zwischen Sessions)
+| interview | level_up | character | Level-Up-Dialog mit Drachen-Mentor
+| interview | dragon_bond | character | Dragon-Bond-Zeremonie Dialog
+| interview | backstory | character | Hintergrund-Interview bei Erstellung
+| narrative | session_recap | session | Session-Zusammenfassung generieren
+| narrative | quest_intro | quest | Quest-Einfuehrungstext
+| narrative | lore_entry | location | Lore-Text fuer einen Ort
+| dialog | npc | npc | NPC-Dialog generieren
+| dialog | merchant | npc | Handels-Dialog
+| dialog | interrogation | npc | Verhoer-Dialog
+| analysis | trait_eval | character | Trait-Evolution bewerten
+| analysis | disposition | npc | NPC-Dispositions-Aenderung begruenden
+|===
+
+== Provider-Konfiguration
+
+[cols="1,1,2,1"]
+|===
+| Provider | Modelle | Zweck | Config-Felder
+
+| **fal** | flux-pro, flux-dev, flux-schnell | Bild-Generierung | width, height, num_images, seed
+| **gemini** | gemini-2.5-pro, gemini-2.5-flash | Text, Dialog, Analyse | temperature, maxTokens, topP, topK
+|===
+
+=== Config-Beispiele
+
+**Bild (fal):**
+[source,json]
+----
+{
+  "width": 1024,
+  "height": 1024,
+  "num_images": 1
+}
+----
+
+**Interview (gemini):**
+[source,json]
+----
+{
+  "temperature": 0.8,
+  "maxOutputTokens": 4096,
+  "topP": 0.95,
+  "responseFormat": "structured",
+  "schema": "CharacterCreationStep"
+}
+----
+
+**Analyse (gemini):**
+[source,json]
+----
+{
+  "temperature": 0.3,
+  "maxOutputTokens": 1024,
+  "responseFormat": "json",
+  "schema": "TraitEvaluation"
+}
+----
+
+== Template-Variablen (universell)
+
+Alle Templates nutzen `{{variable}}` Syntax. Die verfuegbaren Variablen haengen vom `entityType` ab:
+
+=== Character / NPC
+[source]
+----
+{{name}}          — Name
+{{race}}          — Rasse
+{{subrace}}       — Unterrasse
+{{class}}         — Klasse
+{{level}}         — Stufe
+{{gender}}        — Geschlecht
+{{age}}           — Alter
+{{appearance}}    — Aussehen (Freitext)
+{{traits}}        — Charakter-Traits als Adjektive
+{{equipment}}     — Ausgeruestete Items
+{{background}}    — Hintergrundgeschichte
+{{house}}         — Akademie-Haus
+{{mood}}          — Aktuelle Stimmung/Emotion
+{{disposition}}   — Disposition (nur NPC)
+{{knowledge}}     — Bekanntes Wissen (nur NPC)
+----
+
+=== Location
+[source]
+----
+{{name}}          — Ortsname
+{{type}}          — Ortstyp (Stadt, Dungeon, Wildnis)
+{{description}}   — Beschreibung
+{{region}}        — Region
+{{danger_level}}  — Gefahrenstufe (0-10)
+{{season}}        — Jahreszeit
+{{weather}}       — Wetter
+{{time_of_day}}   — Tageszeit
+{{npcs_present}}  — Anwesende NPCs
+----
+
+=== Item
+[source]
+----
+{{name}}          — Item-Name
+{{type}}          — Kategorie (Waffe, Ruestung, Trank)
+{{rarity}}        — Seltenheit
+{{description}}   — Beschreibung
+{{effects}}       — Mechanische Effekte
+{{material}}      — Material
+{{origin}}        — Herkunft/Lore
+----
+
+=== Dragon
+[source]
+----
+{{name}}          — Drachen-Name
+{{species}}       — Spezies (Feuer, Frost, etc.)
+{{element}}       — Element
+{{age}}           — Alter
+{{appearance}}    — Aussehen
+{{bond_phase}}    — Bond-Phase (1-5)
+{{personality}}   — Persoenlichkeit
+{{rider_name}}    — Name des Reiters
+----
+
+=== Session / Scene
+[source]
+----
+{{session_number}} — Session-Nummer
+{{campaign_name}}  — Kampagnen-Name
+{{scene_type}}     — Szenen-Typ
+{{location}}       — Aktueller Ort
+{{characters}}     — Anwesende Charaktere
+{{description}}    — Szenen-Beschreibung
+{{events}}         — Bisherige Events (fuer Recap)
+{{time_of_day}}    — Tageszeit
+{{weather}}        — Wetter
+----
+
+== Interview-Templates (Beispiele)
+
+=== Character Creation Interview
+
+[source]
+----
+aiType: interview
+subType: creation
+entityType: character
+provider: gemini
+model: gemini-2.5-pro
+
+systemPrompt:
+"Du bist ein weiser Drachen-Mentor an der Sturmfels-Akademie. Du fuehrst einen
+neuen Schueler durch die Aufnahme-Zeremonie. Stelle Fragen die helfen, den
+Charakter zu definieren. Sprich in-character, atmosphaerisch, in der Du-Form.
+Stelle EINE Frage pro Nachricht. Fasse die Antwort als strukturierte Daten zusammen."
+
+template:
+"Der Schueler heisst {{name}} und ist ein {{race}} {{class}}.
+Bisherige Antworten: {{previous_answers}}
+Aktueller Schritt: {{current_step}} von {{total_steps}}
+Stelle die naechste Frage zu: {{step_topic}}"
+
+config:
+{
+  "temperature": 0.8,
+  "maxOutputTokens": 1024,
+  "steps": [
+    { "topic": "Herkunft und Familie", "fields": ["background", "family"] },
+    { "topic": "Motivation und Ziele", "fields": ["motivation", "goals"] },
+    { "topic": "Staerken und Schwaechen", "fields": ["strengths", "weaknesses"] },
+    { "topic": "Wichtigste Erinnerung", "fields": ["memory", "personality"] },
+    { "topic": "Beziehung zu Drachen", "fields": ["dragon_affinity"] }
+  ]
+}
+----
+
+=== Level-Up Interview
+
+[source]
+----
+aiType: interview
+subType: level_up
+entityType: character
+provider: gemini
+model: gemini-2.5-flash
+
+systemPrompt:
+"Du bist Pyrax, der Drache von {{rider_name}}. Du reflektierst mit deinem
+Reiter ueber die letzten Abenteuer und was er/sie gelernt hat. Basierend
+auf den Aktionen der letzten Sessions schlaegst du vor, welche Faehigkeiten
+sich weiterentwickelt haben. Sprich als weiser Drachen-Gefaehrte."
+
+template:
+"{{name}} steigt von Stufe {{level}} auf {{new_level}} auf.
+Klasse: {{class}}
+Letzte Session-Events: {{recent_events}}
+Aktuelle Traits: {{traits}}
+Verfuegbare Features fuer Level {{new_level}}: {{available_features}}
+Verfuegbare ASI-Optionen: {{asi_options}}
+
+Fuehre ein kurzes Reflexions-Gespraech und schlage vor:
+1. Welches Feature am besten passt (basierend auf Spielverhalten)
+2. Welche Attribute erhoehen (basierend auf Kampf-/Sozial-Fokus)
+3. Ob ein Trait sich veraendern sollte"
+
+config:
+{
+  "temperature": 0.7,
+  "maxOutputTokens": 2048,
+  "responseFormat": "structured",
+  "schema": "LevelUpSuggestion"
+}
+----
+
+=== NPC Dialog
+
+[source]
+----
+aiType: dialog
+subType: npc
+entityType: npc
+provider: gemini
+model: gemini-2.5-flash
+
+systemPrompt:
+"Du bist {{name}}, ein {{race}} {{class}} in der Welt von Flammenreiter.
+Deine Persoenlichkeit: {{traits}}. Deine aktuelle Stimmung: {{mood}}.
+Deine Disposition gegenueber dem Spieler: {{disposition}}/100.
+Du weisst: {{knowledge}}
+Du bist in: {{location}}
+
+Antworte in-character. Deine Antworten sind 1-3 Saetze lang.
+Bei Disposition <30: misstrauisch/ablehnend.
+Bei Disposition 30-60: neutral/geschaeftlich.
+Bei Disposition >60: freundlich/hilfsbereit.
+Teile Wissen nur wenn die Disposition hoch genug ist."
+
+template:
+"Der Spieler {{player_name}} ({{player_class}}) sagt: '{{player_input}}'
+Kontext: {{scene_context}}"
+----
+
+=== Session Recap
+
+[source]
+----
+aiType: narrative
+subType: session_recap
+entityType: session
+provider: gemini
+model: gemini-2.5-pro
+
+systemPrompt:
+"Du bist der Chronist der Flammenreiter-Akademie. Schreibe eine
+atmosphaerische Zusammenfassung der Session im Stil eines Fantasy-Romans.
+Nutze die dritte Person. Erwaehne alle Spieler-Charaktere namentlich.
+Hebe dramatische Momente hervor."
+
+template:
+"Kampagne: {{campaign_name}}
+Session #{{session_number}}
+Datum: {{date}}
+Ort: {{location}}
+Anwesende: {{characters}}
+Events (chronologisch): {{events}}
+Wuerfel-Highlights: {{notable_rolls}}
+Quest-Fortschritt: {{quest_updates}}
+NPC-Interaktionen: {{npc_interactions}}
+
+Schreibe eine 300-500 Woerter Zusammenfassung."
+----
+
+== API Integration
+
+=== Universeller Endpoint
+
+[source,typescript]
+----
+// POST /ai/generate
+type AiGenerateRequest = {
+  aiType: 'image' | 'interview' | 'narrative' | 'dialog' | 'analysis'
+  subType: string
+  entityType?: string
+  entityId?: string
+  templateId?: string           // Spezifisches Template (sonst Default)
+  variables?: Record<string, string>  // Ueberschreibt automatische Variablen
+  input?: string                // User-Input (fuer Dialog/Interview)
+  conversationId?: string       // Fuer mehrstufige Interviews
+}
+
+type AiGenerateResponse = {
+  requestId: string
+  status: 'completed' | 'pending'
+  result?: {
+    // Bei image:
+    imageId?: string
+    imageUrl?: string
+    blurHash?: string
+    // Bei text (interview, narrative, dialog):
+    text?: string
+    structured?: Record<string, unknown>  // Strukturierte Daten
+    // Bei interview:
+    nextStep?: { topic: string, question: string }
+    isComplete?: boolean
+  }
+  metadata: {
+    prompt: string        // Tatsaechlich verwendeter Prompt
+    model: string
+    provider: string
+    duration?: number
+    tokensUsed?: number
+  }
+}
+----
+
+=== Service-Architektur
+
+[source]
+----
+AiTemplateService
+├── resolveTemplate(aiType, subType, entityType)  → Template aus DB
+├── buildVariables(entityType, entityId)           → Variablen aus Entity-Daten
+├── renderPrompt(template, variables)              → Fertiger Prompt
+└── dispatch(provider, model, prompt, config)      → An Provider senden
+    ├── FalProvider    → Bilder (flux-pro)
+    └── GeminiProvider → Text (gemini-2.5-pro/flash)
+----
+
+== Wer darf was?
+
+[cols="1,1,1"]
+|===
+| aiType | Rolle | Kontext
+
+| image/* | GM, Admin | Alle Bild-Generierungen
+| interview/creation | Spieler | Eigene Charakter-Erstellung
+| interview/level_up | Spieler | Eigenes Level-Up (mit GM-generierten Events)
+| interview/update | Spieler | Eigenes Charakter-Update
+| dialog/npc | GM | NPC-Dialog-Generierung
+| narrative/session_recap | GM, Admin | Session-Zusammenfassungen
+| analysis/* | System | Automatische Analysen (kein manueller Trigger)
+|===
