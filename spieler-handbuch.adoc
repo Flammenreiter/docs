@@ -1,0 +1,638 @@
+= Flammenreiter — Spieler-Handbuch
+:author: Flammenreiter Team
+:revdate: 2026-03-27
+:toc: left
+:toclevels: 3
+:icons: font
+:sectanchors:
+:sectnums:
+
+[.lead]
+Dieses Handbuch erklaert die Spielregeln von Flammenreiter. Hier geht es nicht um Charaktererstellung oder Stats — sondern darum, wie die Welt funktioniert und was ihr als Spieler wissen muesst.
+
+---
+
+== Kampf
+
+=== Initiative & Reihenfolge
+
+Zu Beginn jedes Kampfes wuerfelt jeder *1d20 + DEX-Modifier*. Wer am hoechsten wuerfelt, ist zuerst dran. Die Reihenfolge bleibt fuer den gesamten Kampf bestehen.
+
+=== Was ihr pro Runde tun koennt
+
+Jede Runde besteht aus:
+
+[cols="1,3"]
+|===
+| Aktion | Euer Hauptzug: Angreifen, Zauber wirken, Ausweichen (Dodge), Sprinten (Dash), Helfen (Help), Entkommen (Disengage)
+| Bonusaktion | Nur wenn eure Klasse oder ein Zauber es erlaubt (z.B. Offhand-Angriff, bestimmte Spells)
+| Bewegung | Ihr koennt euch bis zu eurer Bewegungsreichweite bewegen (Standard: 30 Fuss). Bewegung kann *vor, nach oder zwischen* Aktionen aufgeteilt werden
+| Reaktion | Eine einzige Reaktion pro Runde — z.B. Gelegenheitsangriff wenn ein Feind wegrennt, oder Shield-Zauber
+| Freie Interaktion | Eine Kleinigkeit: Waffe ziehen, Tuer oeffnen, Trank aus dem Guertel nehmen
+|===
+
+=== Angriff & Schaden
+
+* *Angriffswurf*: 1d20 + Angriffsbonus gegen die Ruestungsklasse (AC) des Ziels
+* *Treffer*: Schadenswuerfel + Modifikatoren
+* *Nat 20*: Kritischer Treffer — Schadenswuerfel werden verdoppelt
+* *Nat 1*: Automatischer Fehlschlag, egal wie hoch der Bonus
+
+=== Zauber
+
+* Zauber verbrauchen *Spell Slots* (Stufe 1-9)
+* *Cantrips* (Stufe 0) sind unbegrenzt nutzbar und skalieren mit eurem Charakterlevel
+* *Upcasting*: Ein Slot hoeherer Stufe kann den Effekt verstaerken
+* *Bonusaktion-Zauber*: Wenn ihr einen Zauber als Bonusaktion wirkt, duerft ihr in derselben Runde nur noch einen Cantrip als Aktion wirken
+
+=== Deckung
+
+[cols="1,1,2"]
+|===
+| Halbe Deckung | +2 AC, +2 DEX-Save | Hinter Saeule, niedriger Mauer
+| Dreiviertel-Deckung | +5 AC, +5 DEX-Save | Hinter Mauer mit Luecken
+| Volle Deckung | Immun | Komplett verborgen — kein Angriff moeglich
+|===
+
+=== Zustaende (Conditions)
+
+Die wichtigsten Zustaende, die euch im Kampf treffen koennen:
+
+[cols="1,3"]
+|===
+| *Betaeubt* (Stunned) | Keine Aktionen moeglich
+| *Gelaehmt* (Paralyzed) | Keine Bewegung, nur Blick und Sprache
+| *Festgehalten* (Restrained) | Geschwindigkeit 0, Nachteil auf Angriffe
+| *Verängstigt* (Frightened) | Nachteil auf Proben, kann sich nicht zur Quelle bewegen
+| *Liegend* (Prone) | Nahkampf gegen euch hat Vorteil, Fernkampf gegen euch hat Nachteil. Aufstehen kostet halbe Bewegung
+| *Gegriffen* (Grappled) | Geschwindigkeit 0
+|===
+
+=== Umgebung & Oberflaechen
+
+Kampffelder koennen gefaehrliche Oberflaechen haben:
+
+* *Feuer*: Schaden pro Runde beim Draufstehen
+* *Eis*: Rutschig — Rettungswurf oder hinfallen
+* *Netz/Spinnweben*: Festgehalten + schwieriges Gelaende
+* *Gift*: Giftschaden pro Runde
+* *Blut/Fett*: Rutschig
+
+TIP: Nutzt die Umgebung! Feinde in Oberflaechen stossen, Fett anzuenden, von erhoehten Positionen angreifen (+2 auf Angriff von hoeherer Position).
+
+=== Fallen & Schwerkraft
+
+* *Fallschaden*: 3d6 pro 10 Fuss Fallhoehe (Minimum 1d6)
+* Fliegende Kreaturen die Konzentration verlieren stuerzen ab
+
+---
+
+== Rasten
+
+=== Kurze Rast (Short Rest) — 1 Stunde
+
+Was passiert:
+
+* Ihr koennt *Hit Dice* ausgeben, um Lebenspunkte zu heilen (1 Hit Die = 1 Wuerfel + CON-Modifier)
+* Leichte Mahlzeit + Wasser
+* Ausruestung pflegen (verbessert Haltbarkeit leicht)
+* Bestimmte Klassenfaehigkeiten laden sich auf (z.B. Warlock-Slots, Ki-Punkte)
+
+IMPORTANT: Hit Dice sind begrenzt! Ihr habt so viele wie euer Charakterlevel. Sie laden sich erst bei einer Langen Rast wieder auf.
+
+=== Lange Rast (Long Rest) — 8 Stunden
+
+Was passiert:
+
+* *Alle Lebenspunkte* werden vollstaendig wiederhergestellt
+* *Alle Hit Dice* werden wiederhergestellt
+* Zauberwirker *bereiten ihre Zauber neu vor* und erhalten alle Spell Slots zurueck
+* *1 Erschoepfungsstufe* wird entfernt
+* Je nach Rastort gibt es Bonusheilung:
+** Gasthaus: +1d6 zusaetzliche LP
+** Heiliger Ort: +1d8 LP + weiterer Bonus
+
+WARNING: Ohne Nahrung muesst ihr einen CON-Rettungswurf (DC 12) bestehen, sonst erhaltet ihr Erschoepfung statt Heilung.
+
+=== Erschoepfung (Exhaustion)
+
+Erschoepfung hat 6 Stufen und stapelt sich:
+
+[cols="1,3"]
+|===
+| Stufe 1 | Nachteil auf Faehigkeitsproben
+| Stufe 2 | Geschwindigkeit halbiert
+| Stufe 3 | Nachteil auf Angriffe und Rettungswuerfe
+| Stufe 4 | Maximale LP halbiert
+| Stufe 5 | Geschwindigkeit 0
+| Stufe 6 | Tod
+|===
+
+Ihr entfernt *1 Stufe pro Lange Rast* (mit Nahrung und Wasser). Erschoepfung entsteht durch:
+
+* Kein Essen/Trinken
+* Gewaltmarsch
+* Extreme Kaelte/Hitze
+* Bestimmte Zauber oder Effekte
+
+---
+
+== Reisen
+
+=== Reisegeschwindigkeit
+
+Ihr koennt taeglich in drei Phasen reisen: Vormittag, Nachmittag, Abend (Lager aufschlagen).
+
+[cols="1,1,3"]
+|===
+| *Vorsichtiges Tempo* | halbe Geschwindigkeit | Vorteil auf Schleichen (+2), +2 Wahrnehmung
+| *Normales Tempo* | volle Geschwindigkeit | Keine Modifikatoren
+| *Gewaltmarsch* | 1.5-fache Geschwindigkeit | Nachteil auf Schleichen (-2), -2 Wahrnehmung, 1.5× Proviantverbrauch, CON-Save (DC 10 + Reisetag) oder 1 Erschoepfung
+|===
+
+=== Gelaende
+
+[cols="1,2"]
+|===
+| Grasland | Normale Geschwindigkeit
+| Wald | -10% Geschwindigkeit
+| Gebirge | -25% Geschwindigkeit
+| Wueste | -30% Geschwindigkeit
+| Gemischt | -15% Geschwindigkeit
+|===
+
+=== Proviant
+
+* Jeder Charakter braucht *1 Ration pro Tag*
+* Standard-Ration: 0.5 GP (Brot + Wasser)
+* Qualitaets-Ration: 2 GP (frisches Essen)
+* Reise-Ration: 0.1 GP (Minimum)
+
+*Ohne Proviant*:
+
+* Kurze Rast ohne Essen: CON DC 10 oder Erschoepfung
+* Lange Rast ohne Essen: CON DC 12 oder Erschoepfung
+* Das stapelt sich schnell!
+
+*Nahrung beschaffen*:
+
+* *Sammeln* (Survival DC 12): 1d4 Rationen
+* *Jagen* (1-2 Stunden): 2d6 Rationen
+* *Fischen* (DC 10): 1d6 Rationen pro Stunde
+* *Kaufen* auf Maerkten (Preise variieren je nach Region und Jahreszeit)
+
+=== Wetter
+
+Das Wetter aendert sich taeglich und beeinflusst eure Reise:
+
+* *Leichter Regen*: -5% Reisegeschwindigkeit
+* *Starker Regen*: -15%, Survival DC 12
+* *Gewitter*: -25%, Survival DC 15
+* *Nebel*: -20% Wahrnehmung, -10% Reisegeschwindigkeit
+* *Hitzewelle*: -10% Reise, extra Wasserbedarf
+* *Schneesturm*: -50% Reise, Survival DC 15, Kaelteschaden ohne Schutz
+* *Sandsturm*: -40% Reise, -2 Wahrnehmung
+
+=== Begegnungen unterwegs
+
+Auf Reisen koennen zufaellige Begegnungen auftreten — nicht nur Kaempfe:
+
+* Haendler oder Fluechtlinge
+* Ruinen oder Schreine entdecken
+* Umwelthindernisse (eingestuerzte Bruecke, Erdrutsch)
+* Omen oder Geruechte
+* Hinterhalte
+
+---
+
+== Wuerfel & Proben
+
+=== Wie Wuerfe funktionieren
+
+*Standard-Probe*: 1d20 + Modifier gegen einen Schwierigkeitsgrad (DC)
+
+*Rettungswurf (Saving Throw)*: 1d20 + Faehigkeits-Modifier + ggf. Proficiency gegen DC
+
+*Contested Roll*: Beide Seiten wuerfeln — wer hoeher liegt, gewinnt (z.B. Ueberreden vs. Durchschauen)
+
+=== Was ihr seht
+
+Bei jedem Wurf seht ihr:
+
+* Euer Ergebnis (Kompaktansicht: `d20 + 7 = 19`)
+* Ob es Erfolg oder Misserfolg ist
+* Auf Wunsch eine *detaillierte Aufschluesselung* aller Modifikatoren (Faehigkeit, Uebung, Gegenstandsboni, Abzuege)
+
+NOTE: Manche Wuerfe sind *verborgen* — der GM wuerfelt fuer euch, und ihr erfahrt das Ergebnis erst spaeter (z.B. Wahrnehmung fuer versteckte Fallen).
+
+=== Vorteil & Nachteil (Advantage / Disadvantage)
+
+* *Vorteil*: 2d20 wuerfeln, den hoeheren nehmen
+* *Nachteil*: 2d20 wuerfeln, den niedrigeren nehmen
+* Vorteil und Nachteil heben sich gegenseitig auf — egal wie viele Quellen
+
+---
+
+== Traits (Charakterzuege)
+
+Euer Charakter hat Persoenlichkeitszuege auf einer Skala von -5 bis +5, z.B.:
+
+* Loyal ↔ Verraeterisch
+* Ehrlich ↔ Hinterhaeltig
+* Mutig ↔ Feige
+* Barmherzig ↔ Gnadenlos
+
+=== Wie Traits funktionieren
+
+* Traits sind *keine Stats* — sie entwickeln sich durch eure *Entscheidungen im Spiel*
+* Beide Enden des Spektrums haben Staerken und Schwaechen — es gibt kein "gut" oder "schlecht"
+* Hohe Werte (egal in welche Richtung) geben euch Boni auf verwandte Proben
+
+=== Wie sich Traits veraendern
+
+* *Konstante Entscheidungen* in eine Richtung: langsame Verschiebung
+* *Nat 20 gegen euren Trait*: Verschiebung zum Gegenpol
+* *Nat 1 gegen euren Trait*: Bestaetigung eures aktuellen Traits
+* *Grosse Story-Momente*: Staerkere Verschiebungen
+
+=== Trait-Konflikte
+
+Manche Trait-Kombinationen erzeugen innere Konflikte, die zu Story-Momenten fuehren. Zum Beispiel: Loyal und gleichzeitig Gierig kann zu Dilemma-Situationen fuehren, die der GM aufgreifen wird.
+
+---
+
+== Gegenstaende & Inventar
+
+=== Haltbarkeit
+
+Eure Ausruestung hat eine *Haltbarkeit* (Durability), die mit Nutzung sinkt:
+
+[cols="1,1,2"]
+|===
+| Makellos | 90-100% | +5% Effektivitaet
+| Gut | 70-89% | Normal
+| Abgenutzt | 50-69% | -10% Effektivitaet
+| Beschaedigt | 25-49% | -25% Effektivitaet
+| Kaputt | 1-24% | Nicht benutzbar (reparierbar)
+| Zerstoert | 0% | Dauerhaft zerstoert
+|===
+
+* *Kurze Rast*: Ausruestung pflegen stellt 5-10% Haltbarkeit wieder her
+* *Schmied*: Professionelle Reparatur gegen Gold
+* *Eigene Profession*: Mit passender Handwerksfaehigkeit selbst reparieren
+
+=== Traglast & Beladung
+
+* *Normal* (unter STR×5 Pfund): Keine Einschraenkungen
+* *Beladen* (STR×5 bis STR×10): -10 Fuss Geschwindigkeit, Nachteil auf Akrobatik/Athletik/Schleichen
+* *Schwer beladen* (STR×10 bis STR×15): -20 Fuss, Nachteil auf ALLE Angriffe und STR/DEX/CON-Proben
+* *Ueberladen* (ueber STR×15): Geschwindigkeit 0 — Gegenstaende muessen abgelegt werden
+
+=== Ausruestungsplaetze
+
+Euer Charakter hat feste Plaetze: Haende (2), Guertel (1-3), Ruecken (Rucksack), Ringe (1-2), Hals (1), Kopf, Torso, Beine, Fuesse, Umhang.
+
+=== Partei-Lager
+
+Die Gruppe hat *eine gemeinsame Truhe* mit unbegrenztem Fassungsvermoegen. Aber:
+
+* Zugriff nur am physischen Standort (nicht unterwegs)
+* Ihr muesst selbst im Blick behalten, was drin ist
+
+---
+
+== Wirtschaft & Handel
+
+=== Waehrung
+
+Es gibt nur *Gold (GP)* — kein Kupfer, Silber oder Platin.
+
+=== Preise sind dynamisch
+
+Preise aendern sich je nach:
+
+* Region (Kuestenstadt = billiger Fisch, Gebirge = billiges Erz)
+* Jahreszeit (Winter = teurere Lebensmittel)
+* Ereignisse (Krieg = alles teurer, Festival = manche Dinge billiger)
+* Euer Ruf beim Haendler
+
+=== Tauschhandel — die Norm
+
+IMPORTANT: Die meisten Leute haben *kein Gold*. Nur Haendler handeln mit Muenzen. Alle anderen tauschen Waren.
+
+* Bauern haben Getreide, kein Gold
+* Fischer haben Fisch, kein Gold
+* NPCs bewerten Gegenstaende danach, *was sie selbst brauchen*
+
+=== Feilschen
+
+* Ueberreden (Persuasion) gegen die Durchschauungsfaehigkeit (Insight) des NPCs
+* Erfolg: Besserer Preis
+* Nat 1: NPC verweigert weitere Verhandlung, Stimmung verschlechtert sich
+
+=== Schwarzmarkt
+
+Zugang nur durch kriminelle Kontakte, hohen Ruf in den richtigen Kreisen, oder eine Probe. Preise sind deutlich hoeher, und mit illegalen Waren erwischt zu werden hat Konsequenzen (Geldstrafen, Gefaengnis, Kopfgeld).
+
+---
+
+== Beziehungen & Ruf
+
+=== NPC-Stimmung
+
+NPCs reagieren auf euer Verhalten. Ihr seht ihre Stimmung als *Emoticons*:
+
+* 😠 Feindselig
+* 😕 Misstrauisch
+* 😐 Neutral
+* 🙂 Wohlwollend
+* 😊 Loyal
+
+=== Was die Stimmung beeinflusst
+
+* Eure *Taten* (Hilfe anbieten, Versprechen halten oder brechen)
+* Eure *Traits* und ob der NPC aehnliche Werte teilt
+* Euer *Ruf* in der Region
+* Eure *Kleidung und Auftreten*
+* Eure *Rasse und Herkunft* (manche Voelker haben Vorurteile gegeneinander)
+* Eure *Organisationszugehoerigkeit*
+
+=== Ruf (Renown)
+
+Euer Ruf breitet sich geographisch aus:
+
+* *Lokal*: Die Stadt kennt euch
+* *Staedtisch*: Die ganze Stadt kennt euch
+* *Regional*: Die ganze Region kennt euch
+* *Koenigreich*: Im ganzen Reich bekannt
+* *Welt*: Legendaer
+
+Ruf waechst *nur durch oeffentliche Taten* mit Zeugen. Was im Verborgenen passiert, bleibt verborgen.
+
+Euer Ruf kann *verfaelscht* sein — die oeffentliche Meinung stimmt nicht immer mit der Wahrheit ueberein.
+
+=== Fraktions-Reputation
+
+Bei Organisationen (Gilden, Armeen, Akademien) habt ihr einen separaten Ruf:
+
+* Hoher Ruf = bessere Preise, Zugang zu Ressourcen, Unterstuetzung
+* Niedriger Ruf = hoehere Preise, Zugangsverweigerung, Feindseligkeit
+* Die Reputation der *gesamten Gruppe* zaehlt mit — ein Partymitglied mit schlechtem Ruf zieht alle runter
+
+---
+
+== Professionen & Handwerk
+
+=== Professionen lernen
+
+Ihr koennt Berufe erlernen (Schmied, Alchemist, Haendler, Heiler, Spion, etc.) durch:
+
+* Einen *Lehrmeister-NPC* finden
+* *Ausbildungszeit* investieren (Wochen bis Monate)
+* *Kosten* bezahlen
+
+Professionen geben euch Boni auf verwandte Proben, Rabatte beim Einkauf, und Zugang zu besonderen Faehigkeiten.
+
+=== Handwerk (Crafting)
+
+Handwerk ist ein *mehrstufiger Prozess* — kein einzelner Wurf:
+
+* Jeder Gegenstand hat mehrere Herstellungsschritte
+* Jeder Schritt erfordert Materialien und eine Probe
+* Gute Ergebnisse koennen Bonuseigenschaften bringen
+* Schlechte Ergebnisse koennen Maengel verursachen
+* Die endgueltige Qualitaet ergibt sich aus allen Schritten zusammen
+
+Jeder Gegenstand, den ihr craftet, ist *einzigartig* — mit eigenen Staerken und Schwaechen je nach eurem Wuerfelglueck.
+
+---
+
+== Drachen-Bond
+
+=== Die fuenf Bindungsphasen
+
+Wer einen Drachen bindet, durchlaeuft fuenf Phasen:
+
+[cols="1,2,2"]
+|===
+| *Phase 1: Praegung* (Tag 1-7) | Drache kann noch fliehen. 2 Stunden taegliche Pflege Pflicht | Drache erkennt eure Stimme
+| *Phase 2: Vertrauensaufbau* (Tag 8-30) | Drache kann bei Vernachlaessigung immer noch fliehen. Reiten wird moeglich | Drache schlaeft neben euch
+| *Phase 3: Emotionale Bindung* (Tag 31-90) | Drache schuetzt euch im Kampf automatisch. Trait-Resonanz aktiviert sich | Drache flieht nicht mehr
+| *Phase 4: Tiefe Bindung* (Tag 91-180) | Drache trifft eigene Kampfentscheidungen. Telepathie-aehnliche Verbindung | Geteiltes Kampfbewusstsein
+| *Phase 5: Seelen-Bond* (180+ Tage) | Absolutes Vertrauen. Ihr koennt die Sinne des Drachen nutzen | Seelen-Verbindung
+|===
+
+=== Taegliche Pflege
+
+*Pflicht*:
+
+* Fuettern (1 Stunde): Fleisch, je nach Groesse des Drachen
+* Pflege (30 Minuten): Schuppen, Klauen
+
+*Optional (staerkt die Bindung)*:
+
+* Gemeinsam jagen (2 Stunden)
+* Training/Spielen (1-2 Stunden)
+* Geschichten erzaehlen/Musik (30 Minuten)
+
+WARNING: Vernachlaessigung hat ernste Konsequenzen! Ab 3 Tagen ohne Pflege verweigert der Drache das Fliegen. Ab 5 Tagen kann er fliehen.
+
+=== Trait-Resonanz
+
+Euer Drache hat eigene Persoenlichkeitszuege. Wenn eure Traits uebereinstimmen und ihr entsprechend handelt, erhalten *beide* einen Bonus. Handelt ihr gegen eure gemeinsamen Traits, gibt es einen Malus.
+
+=== Kampf mit Drache
+
+Als Reiter:
+
+* Erhoehte Bewegung durch Drachenflug
+* +1 auf Angriffe vom Drachenruecken
+* Nachteil auf Fernkampf bei komplexen Flugmanoevern
+
+Zusammenarbeit:
+
+* *Ermutigen* (Bonusaktion): Drache hat Vorteil auf naechsten Angriff
+* *Schild* (Reaktion): Drache blockt einen Angriff fuer euch
+* *Fangmanöver* (DEX DC 15): Drache faengt fallenden Reiter auf
+
+---
+
+== Kalender & Zeit
+
+=== Der Harptos-Kalender
+
+Das Jahr hat *12 Monate mit je 30 Tagen = 360 Tage*.
+
+[cols="1,1,1"]
+|===
+| Hammer (Winter) | Alturiak (Winter) | Ches (Fruehling)
+| Tarsakh (Fruehling) | Mirtul (Fruehling) | Kythorn (Sommer)
+| Flamerule (Sommer) | Eleasias (Sommer) | Eleint (Herbst)
+| Marpenoth (Herbst) | Uktar (Herbst) | Nightal (Winter)
+|===
+
+=== Tageszeiten
+
+* *Morgendaemmerung*: 5:00-7:00
+* *Vormittag*: 7:00-12:00
+* *Nachmittag*: 12:00-17:00
+* *Abend*: 17:00-21:00
+* *Nacht*: 21:00-5:00
+
+=== Jahreszeitliche Effekte
+
+[cols="1,3"]
+|===
+| Winter | Reise -20%, Lebensmittel +30% teurer, Polarraubtiere aktiv
+| Fruehling | Normal, Aussaatzeit
+| Sommer | Normal (Wueste -10%), Lebensmittel -20% billiger
+| Herbst | Normal, Erntezeit, variable Lebensmittelpreise
+|===
+
+=== Feiertage
+
+* *Mittwinter* (20. Nightal): Winterfest
+* *Gruengras* (20. Ches): Fruehlingsfeier
+* *Mittsommer* (20. Kythorn): Sommerfest
+* *Hochernte* (20. Eleint): Erntefest
+
+=== Downtime-Aktivitaeten
+
+An freien Tagen koennt ihr *eine* dieser Aktivitaeten ausfuehren:
+
+* *Beruf ausueben*: Gold verdienen
+* *Handwerksschritt*: An einem Gegenstand arbeiten
+* *Training*: Neue Faehigkeit oder Profession lernen
+* *Drachenpflege*: Pflichtprogramm + optionale Bindungsaktivitaeten
+* *Soziales*: NPCs besuchen, Beziehungen staerken
+* *Recherche*: In Bibliotheken nach Wissen suchen
+* *Erholung*: Erschoepfung heilen
+
+---
+
+== Recht & Ordnung
+
+=== Verbrechen
+
+Wenn ihr ein Verbrechen begeht, wird geprueft ob es *entdeckt* wird — basierend auf Zeugen, Wachpraesenz und eurem Schleichen.
+
+*Wenn entdeckt*, habt ihr folgende Optionen:
+
+* *Herausreden* (Ueberreden/Taeuschen)
+* *Verhandeln* (Geldstrafe anbieten)
+* *Verhaftung akzeptieren*
+* *Fliehen* (Athletik/Schleichen)
+* *Kaempfen* (eskaliert die Situation!)
+
+=== Steckbrief-System (Wanted Level)
+
+[cols="1,1,2"]
+|===
+| Stufe 0 | Sauber | Kein Steckbrief
+| Stufe 1 | Lokal bekannt | 200 GP Kopfgeld
+| Stufe 2 | Stadtbekannt | 500 GP Kopfgeld
+| Stufe 3 | Regional gesucht | 1.000 GP Kopfgeld
+| Stufe 4 | Im Koenigreich gesucht | 5.000 GP Kopfgeld
+| Stufe 5 | Legendaerer Verbrecher | 25.000 GP Kopfgeld
+|===
+
+WARNING: Flucht vor der Wache erhoeht das Wanted Level. Kampf gegen Wachen erhoeht es noch staerker.
+
+=== Regionale Unterschiede
+
+Gesetze variieren je nach Region:
+
+* *Koenigshauptstadt*: Strenge Gesetze, harte Strafen
+* *Grenzstadt*: Lascher, bestechliche Wachen
+* *Magieakademie*: Eigene magische Gesetze und Strafen
+
+---
+
+== Organisationen
+
+=== Typen
+
+Es gibt verschiedene Organisationstypen in der Welt:
+
+* *Akademien*: Magierschulen, Universitaeten — Wissen und Zauber
+* *Gilden*: Handwerkergilden, Diebesgilden — Beruf und Ressourcen
+* *Militaer*: Armeen, Stadtwachen — Ausruestung und Autoritaet
+* *Adel*: Haeuser, Hoefe — Einfluss und Politik
+* *Kulte*: Religioese Orden — Rituale und goettliche Gunst
+* *Informelle Gruppen*: Karawanen, Banden — Flexibilitaet
+
+=== Beitritt
+
+. Einen *Buergen* finden (bekanntes Mitglied oder hoher Ruf)
+. *Voraussetzungen* erfuellen (manche Organisationen haben Anforderungen)
+. *Aufnahmequest* bestehen
+. Mitglied auf Rang 0
+
+=== Aufstieg
+
+Hoeherer Rang bringt bessere Boni, guenstigere Preise, und mehr Zugang. Aufstieg erfordert:
+
+* Genug Erfahrung in der Organisation
+* Gute Beziehung zur Fuehrung
+* Eine Aufstiegsquest
+* Oft: eine Zeremonie
+
+=== Ausschlussregeln
+
+Manche Organisationen schliessen sich *gegenseitig aus*:
+
+* Koenigsarmee ↔ Diebesgilde (geht nicht beides)
+* Paladinorden ↔ Dunkler Kult (geht nicht beides)
+
+Andere koennen kombiniert werden, erzeugen aber *Konflikte bei geteilter Loyalitaet*.
+
+---
+
+== Kleidung & Auftreten
+
+Eure Kleidung beeinflusst, wie NPCs auf euch reagieren:
+
+[cols="1,3"]
+|===
+| Bauernkleidung | Ignoriert oder bemitleidet
+| Alltagskleidung | Normale Behandlung
+| Haendlerkleidung | Respekt im Handelsumfeld
+| Adelskleidung | Ehrerbietung — oder Argwohn
+| Militaeruniform | Respekt — oder Feindseligkeit
+| Magieroben | Akademischer Respekt
+| Priestergewand | Religioese Ehrfurcht
+| Dunkles Leder | Misstrauen — oder Verbundenheit unter Kriminellen
+| Exotische Kleidung | Faszination — oder Fremdenfeindlichkeit
+|===
+
+TIP: Denkt daran, eure Kleidung der Situation anzupassen! In Bauernkluft beim Koenig vorsprechen wird nicht gut ankommen.
+
+---
+
+== Geruechte
+
+* Geruechte starten an einem Ort und *breiten sich geographisch aus*
+* Sie haben eine *Genauigkeit* — manche sind wahr, manche uebertrieben, manche falsch
+* Falsche Geruechte verschwinden schneller als wahre
+* Ihr koennt *selbst Geruechte streuen* (kostet 1-10 GP)
+* NPCs handeln basierend auf Geruechten, auch wenn sie nicht stimmen
+
+---
+
+== Zusammenfassung der wichtigsten Regeln
+
+[cols="1,3"]
+|===
+| *Runde* | 1 Aktion + 1 Bonusaktion + Bewegung + 1 Reaktion + 1 freie Interaktion
+| *Kurze Rast* | 1 Stunde: Hit Dice fuer HP, Ausruestungspflege
+| *Lange Rast* | 8 Stunden: Alles zurueck, 1 Erschoepfung weniger
+| *Proviant* | 1 Ration/Tag oder Erschoepfung
+| *Traglast* | STR×5 = normal, STR×10 = beladen, STR×15 = Grenze
+| *Haltbarkeit* | Ausruestung nutzt sich ab — pflegen und reparieren!
+| *Traits* | Entwickeln sich durch Entscheidungen, nicht durch Punkte vergeben
+| *NPC-Stimmung* | Reagiert auf Verhalten, Ruf, Kleidung, Rasse
+| *Ruf* | Waechst durch oeffentliche Taten, breitet sich geographisch aus
+| *Verbrechen* | Werden geprueft, Konsequenzen variieren nach Region
+| *Drachen* | Taegliche Pflege Pflicht, Vernachlaessigung = Verlust
+| *Waehrung* | Nur Gold, aber die meisten Leute tauschen Waren
+|===

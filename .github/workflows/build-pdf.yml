@@ -39,32 +39,42 @@ jobs:
       - name: Build HTML
         run: |
           mkdir -p build/html
-          asciidoctor \
-            -r asciidoctor-diagram \
-            -a toc=left \
-            -a toclevels=3 \
-            -a icons=font \
-            -a source-highlighter=rouge \
-            -a imagesdir=images \
-            -a revdate=$(date +%Y-%m-%d) \
-            -D build/html \
-            index.adoc
+          for doc in index.adoc spieler-handbuch.adoc; do
+            if [ -f "$doc" ]; then
+              echo "Building HTML for $doc..."
+              asciidoctor \
+                -r asciidoctor-diagram \
+                -a toc=left \
+                -a toclevels=3 \
+                -a icons=font \
+                -a source-highlighter=rouge \
+                -a imagesdir=images \
+                -a revdate=$(date +%Y-%m-%d) \
+                -D build/html \
+                "$doc"
+            fi
+          done
 
       - name: Build PDF
         run: |
           mkdir -p build/pdf
-          asciidoctor-pdf \
-            -r asciidoctor-diagram \
-            -a toc \
-            -a toclevels=3 \
-            -a icons=font \
-            -a source-highlighter=rouge \
-            -a imagesdir=images \
-            -a revdate=$(date +%Y-%m-%d) \
-            -a pdf-themesdir=theme \
-            -a pdf-theme=flammenreiter \
-            -D build/pdf \
-            index.adoc
+          for doc in index.adoc spieler-handbuch.adoc; do
+            if [ -f "$doc" ]; then
+              echo "Building PDF for $doc..."
+              asciidoctor-pdf \
+                -r asciidoctor-diagram \
+                -a toc \
+                -a toclevels=3 \
+                -a icons=font \
+                -a source-highlighter=rouge \
+                -a imagesdir=images \
+                -a revdate=$(date +%Y-%m-%d) \
+                -a pdf-themesdir=theme \
+                -a pdf-theme=flammenreiter \
+                -D build/pdf \
+                "$doc"
+            fi
+          done
 
       - name: Build einzelne Kapitel als PDF
         run: |

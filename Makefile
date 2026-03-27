@@ -8,17 +8,25 @@ HTML_OPTS = $(COMMON_OPTS) -a toc=left
 
 all: html pdf
 
-html: build/html/index.html
+html: build/html/index.html build/html/spieler-handbuch.html
 
-pdf: build/pdf/index.pdf
+pdf: build/pdf/index.pdf build/pdf/spieler-handbuch.pdf
 
 build/html/index.html: index.adoc
 	@mkdir -p build/html
 	$(ASCIIDOCTOR) $(HTML_OPTS) -D build/html index.adoc
 
+build/html/spieler-handbuch.html: spieler-handbuch.adoc
+	@mkdir -p build/html
+	$(ASCIIDOCTOR) $(HTML_OPTS) -D build/html spieler-handbuch.adoc
+
 build/pdf/index.pdf: index.adoc
 	@mkdir -p build/pdf
 	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -D build/pdf index.adoc
+
+build/pdf/spieler-handbuch.pdf: spieler-handbuch.adoc
+	@mkdir -p build/pdf
+	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -D build/pdf spieler-handbuch.adoc
 
 chapters:
 	@mkdir -p build/pdf
