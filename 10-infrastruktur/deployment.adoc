@@ -1,0 +1,112 @@
+= Flammenreiter — Deployment & Infrastruktur
+:toc:
+:sectnums:
+
+== Cloudflare Workers Deployment
+
+[cols="1,3"]
+|===
+| Worker Name | flammenreiter-api
+| Custom Domain | api.flammenreiter.gmolike.me
+| Workers.dev URL | flammenreiter-api.odya99.workers.dev
+| CF Account | odya99@gmail.com (b3856b7164cd3672fbfb2e13422ea1c0)
+| Login | `npx wrangler login` (mit odya99-Account)
+| Deploy | `npx wrangler deploy`
+|===
+
+== Endpoints
+
+[cols="2,1"]
+|===
+| URL | Beschreibung
+
+| https://api.flammenreiter.gmolike.me/health | Health Check
+| https://api.flammenreiter.gmolike.me/swagger | Swagger UI (Dark Theme)
+| https://api.flammenreiter.gmolike.me/openapi.json | OpenAPI 3.1 Spec
+| https://api.flammenreiter.gmolike.me/characters | Characters CRUD (Auth required)
+|===
+
+== Production URLs (alle Repos)
+
+[source,env]
+----
+API_URL=https://api.flammenreiter.gmolike.me
+SESSION_GM_URL=https://gm.flammenreiter.gmolike.me
+SESSION_PLAYER_URL=https://player.flammenreiter.gmolike.me
+LORE_ADMIN_URL=https://lore.flammenreiter.gmolike.me
+CORS_ORIGINS=https://gm.flammenreiter.gmolike.me,https://player.flammenreiter.gmolike.me,https://lore.flammenreiter.gmolike.me
+----
+
+== Secrets (Cloudflare Worker Dashboard / wrangler secret put)
+
+Diese Secrets sind im Worker gesetzt und muessen bei Aenderung aktualisiert werden:
+
+[cols="1,2"]
+|===
+| Secret | Quelle
+
+| JWT_SECRET | Eigener Wert
+| DATABASE_URL | Supabase Connection String
+| SUPABASE_URL | Supabase Project URL
+| SUPABASE_ANON_KEY | Supabase Dashboard
+| SUPABASE_SERVICE_ROLE_KEY | Supabase Dashboard
+|===
+
+== CI/CD Hinweise
+
+=== GitHub Packages Auth
+
+CI-Workflows die `@flammenreiter/*` Pakete nutzen brauchen:
+
+[source,yaml]
+----
+permissions:
+  contents: read
+  packages: read
+----
+
+Plus: Im Quell-Repo des Pakets unter **Package Settings -> Manage Actions access** das konsumierende Repo mit "Read" Rolle hinzufuegen.
+
+=== ESLint
+
+`typescript-eslint` muss als explizite devDependency installiert sein wenn `eslint.config.mjs` es importiert.
+
+== Workers-spezifische Learnings
+
+=== process.exit() vermeiden
+
+Crasht den Worker. Stattdessen `throw new Error()` verwenden.
+
+=== Config lazy laden
+
+Environment Variables sind auf Workers erst nach dem ersten `fetch()` in `process.env` verfuegbar. Config muss lazy geladen werden (z.B. via Proxy):
+
+[source,typescript]
+----
+// FALSCH: Wird beim Import ausgefuehrt, env noch leer
+const config = parseEnv(process.env)
+
+// RICHTIG: Lazy via Proxy
+export const config = new Proxy({} as Config, {
+  get(_, key) {
+    if (!_parsed) _parsed = parseEnv(process.env)
+    return _parsed[key]
+  }
+})
+----
+
+=== Dynamischer import() — Response Mismatch
+
+Hono's Response ist nicht die native Workers Response. Fix: NativeResponse vor dem Import capturen und Response wrappen:
+
+[source,typescript]
+----
+const NativeResponse = Response
+
+// ... nach app.fetch():
+return new NativeResponse(res.body, {
+  status: res.status,
+  statusText: res.statusText,
+  headers: res.headers,
+})
+----
