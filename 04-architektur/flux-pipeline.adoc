@@ -1,0 +1,283 @@
+= Flux Image Pipeline — Architektur
+:toc:
+
+== Ueberblick
+
+Die Bild-Generierung laeuft ueber die API als zentralen Orchestrator. Das Frontend loest die Generierung aus, die API baut den Prompt zusammen und schickt ihn an fal.ai/Flux Pro.
+
+[source]
+----
+Frontend (GM/Admin)
+  │
+  ▼  POST /images/generate { entityType, entityId, imageType, customDetails }
+API (Hono)
+  │
+  ├─ 1. Entity-Daten aus DB laden (Character, NPC, Location, etc.)
+  ├─ 2. Prompt-Template aus DB laden (pro Entity-Typ + Image-Typ)
+  ├─ 3. Template mit Entity-Daten fuellen
+  ├─ 4. Standard-Suffix anhaengen
+  ├─ 5. fal.ai Flux Pro API aufrufen
+  ├─ 6. Bild in Supabase Storage speichern
+  └─ 7. Referenz in entity_images Tabelle speichern
+  │
+  ▼  Response: { imageUrl, blurHash, metadata }
+Frontend
+----
+
+== Standard-Suffix (wird an JEDEN Prompt angehaengt)
+
+[source]
+----
+photorealistic, cinematic lighting, 8k ultra detailed,
+professional photography, volumetric lighting,
+high dynamic range, sharp focus, no text no words no letters no labels
+----
+
+== Prompt-Templates (in der Datenbank)
+
+Jeder Entity-Typ hat ein oder mehrere Prompt-Templates die in der `prompt_templates` Tabelle gespeichert werden. Der GM/Admin kann diese Templates im Lore-Admin bearbeiten.
+
+=== Template-Variablen
+
+Templates verwenden `{{variable}}` Platzhalter die mit Entity-Daten gefuellt werden:
+
+[source]
+----
+{{name}}          — Name der Entity
+{{race}}          — Rasse (Character/NPC)
+{{class}}         — Klasse
+{{gender}}        — Geschlecht
+{{age}}           — Alter
+{{appearance}}    — Beschreibung des Aussehens (Freitext aus DB)
+{{traits}}        — Charakter-Traits als Adjektive
+{{equipment}}     — Ausgeruestete Items
+{{location}}      — Aktueller Ort
+{{mood}}          — Stimmung/Emotion (fuer NPC-Portraits)
+{{season}}        — Jahreszeit (fuer Landschaften)
+{{weather}}       — Wetter (fuer Landschaften)
+{{time_of_day}}   — Tageszeit
+{{description}}   — Allgemeine Beschreibung der Entity
+----
+
+=== Template-Beispiele
+
+==== Character Portrait
+
+[source]
+----
+entity_type: character
+image_type: portrait
+size: 1024x1024
+
+template:
+"Photorealistic fantasy character portrait, {{race}} {{class}},
+{{gender}}, {{age}} years old, {{appearance}},
+wearing {{equipment}}, personality traits: {{traits}},
+dark medieval fantasy setting, dramatic cinematic lighting,
+detailed face and expression, rich warm color palette,
+[STANDARD_SUFFIX]"
+----
+
+==== NPC Portrait (mit Emotion)
+
+[source]
+----
+entity_type: npc
+image_type: emotion_portrait
+size: 1024x1024
+
+template:
+"Photorealistic fantasy character portrait, {{race}} {{class}},
+{{gender}}, {{age}} years old, {{appearance}},
+facial expression showing {{mood}} emotion,
+{{location}} environment in background,
+dark medieval fantasy setting, dramatic portrait lighting,
+[STANDARD_SUFFIX]"
+----
+
+==== Location (Banner)
+
+[source]
+----
+entity_type: location
+image_type: banner
+size: 2480x600
+
+template:
+"Wide panoramic photorealistic fantasy landscape,
+{{description}}, {{season}} season, {{time_of_day}},
+{{weather}} weather, medieval fantasy architecture,
+cinematic wide angle, epic scale,
+[STANDARD_SUFFIX]"
+----
+
+==== Item (Icon)
+
+[source]
+----
+entity_type: item
+image_type: icon
+size: 512x512
+
+template:
+"Photorealistic fantasy item on dark background,
+{{name}}, {{description}}, {{rarity}} quality,
+detailed close-up product photography style,
+dark moody background with subtle magical glow,
+[STANDARD_SUFFIX]"
+----
+
+==== Dragon Portrait
+
+[source]
+----
+entity_type: dragon
+image_type: portrait
+size: 1024x1024
+
+template:
+"Photorealistic fantasy dragon portrait,
+{{name}} the {{species}} dragon, {{age}} years old,
+{{appearance}}, {{mood}} expression,
+scales with {{element}} elemental glow,
+dark dramatic background, cinematic lighting,
+detailed scales and eyes, epic fantasy creature,
+[STANDARD_SUFFIX]"
+----
+
+==== Scene Illustration (GM-generiert)
+
+[source]
+----
+entity_type: scene
+image_type: illustration
+size: 1920x1080
+
+template:
+"Photorealistic fantasy scene,
+{{description}},
+location: {{location}}, {{time_of_day}}, {{weather}},
+characters present: {{characters}},
+cinematic composition, dramatic atmosphere,
+[STANDARD_SUFFIX]"
+----
+
+== API Endpoint
+
+[source,typescript]
+----
+// POST /images/generate
+type GenerateImageRequest = {
+  entityType: 'character' | 'npc' | 'location' | 'item' | 'dragon' | 'scene'
+  entityId: string
+  imageType: 'portrait' | 'banner' | 'icon' | 'illustration' | 'emotion_portrait'
+  customDetails?: Record<string, string>  // Ueberschreibt Template-Variablen
+  modelId?: 'FLUX_PRO' | 'FLUX_DEV'      // Default: FLUX_PRO
+}
+
+type GenerateImageResponse = {
+  imageId: string
+  url: string
+  blurHash: string
+  prompt: string        // Der tatsaechlich verwendete Prompt (fuer Debugging)
+  generationTime: number
+}
+----
+
+== Datenbank
+
+=== prompt_templates
+
+[cols="1,1,3"]
+|===
+| Spalte | Typ | Beschreibung
+
+| id | UUID | Primary Key
+| entity_type | ENUM | character, npc, location, item, dragon, scene
+| image_type | ENUM | portrait, banner, icon, illustration, emotion_portrait
+| template | TEXT | Prompt-Template mit {{variablen}}
+| suffix | TEXT | Standard-Suffix (default aus Config)
+| size_width | INT | Bildbreite in Pixel
+| size_height | INT | Bildhoehe in Pixel
+| model | TEXT | Flux-Modell (default: flux-pro)
+| is_default | BOOLEAN | Ist dies das Standard-Template?
+| created_by | UUID | FK → User (wer hat es erstellt)
+| updated_at | TIMESTAMP | Letzte Aenderung
+|===
+
+=== entity_images (existiert bereits im Schema)
+
+[cols="1,1,3"]
+|===
+| Spalte | Typ | Beschreibung
+
+| id | UUID | Primary Key
+| entity_type | ENUM | character, npc, location, item, dragon, scene
+| entity_id | UUID | FK zur jeweiligen Entity
+| image_type | ENUM | portrait, banner, icon, token, map, illustration
+| source | ENUM | ai_generated, user_upload
+| storage_path | TEXT | Pfad in Supabase Storage
+| blur_hash | TEXT | BlurHash fuer Placeholder
+| generation_metadata | JSONB | { prompt, model, seed, duration }
+| created_at | TIMESTAMP | Erstellungszeitpunkt
+|===
+
+== Wer darf generieren?
+
+[cols="1,1,3"]
+|===
+| Rolle | Darf generieren | Kontext
+
+| GM | Ja | NPC Portraits, Scene Illustrations, Location Banners
+| Admin | Ja | Alle Entity-Typen, Template-Verwaltung
+| Spieler | Eingeschraenkt | Nur eigenen Character Portrait (mit GM-Freigabe)
+|===
+
+== Provider-Konfiguration
+
+[source]
+----
+Provider: fal.ai
+Modell: flux-pro (Default)
+API Key: FAL_API_KEY (Supabase Secret / Cloudflare Worker Secret)
+Endpoint: https://fal.run/fal-ai/flux-pro
+Fallback: flux/dev (wenn Pro nicht verfuegbar)
+Rate Limit: Max 5 gleichzeitige Requests
+Timeout: 120 Sekunden
+----
+
+== Kosten
+
+[cols="1,1,1"]
+|===
+| Modell | Kosten/Bild | Qualitaet
+
+| Flux Schnell | ~$0.003 | Gut (schnell, fuer Drafts)
+| Flux Dev | ~$0.025 | Sehr gut
+| Flux Pro | ~$0.05 | Beste Qualitaet (fotorealistisch)
+|===
+
+Bei 100 Bildern/Monat mit Pro: ~$5/Monat.
+
+== Flow: Character Portrait generieren
+
+[source]
+----
+1. GM oeffnet Character-Detail im GM-Dashboard
+2. Klickt "Portrait generieren"
+3. Frontend zeigt Vorschau der Template-Variablen:
+   - Name: "Kael Sturmklinge"
+   - Race: "Halb-Elf"
+   - Class: "Kaempfer"
+   - Appearance: "Kurzes blondes Haar, markante Narbe..."
+   - Equipment: "Kettenhemd, Langschwert"
+4. GM kann Variablen anpassen oder eigenen Text ergaenzen
+5. Frontend sendet POST /images/generate
+6. API baut Prompt: Template + Variablen + Suffix
+7. API ruft fal.ai Flux Pro auf
+8. Bild wird in Supabase Storage gespeichert
+9. BlurHash wird berechnet
+10. entity_images Eintrag wird erstellt
+11. Frontend zeigt das fertige Portrait
+12. GM kann "Neu generieren" wenn unzufrieden (neuer Seed)
+----
