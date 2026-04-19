@@ -2,13 +2,14 @@
 = ROADMAP — Flammenreiter Entwicklungsplan
 
 
-> Stand: 26.03.2026 · Abgeleitet aus Wiki v8
+> Stand: 19.04.2026 · Abgeleitet aus Wiki v8, Stack-Update nach MVP-Abnahme
 
 '''
 
 
-== Phase 1: Web MVP (Charakter-Sheet + GM-Dashboard)
+== Phase 1: Web MVP (Charakter-Sheet + GM-Dashboard) — Abgeschlossen
 
+Der Web-MVP ist produktiv (Railway prod), 143 UCs implementiert, 4 Sprints abgeschlossen.
 
 
 === Voraussetzungen
@@ -34,11 +35,11 @@
 |===
 | Task | Doku | Status
 
-| Supabase Projekt + DB-Migrationen | link:03-datenbank/[03-datenbank/] | Offen
-| React/FSD Boilerplate + Routing | link:04-architektur/repo-struktur.adoc[04-architektur/repo-struktur.adoc] | Offen
-| @flammenreiter/shared-types Package | link:04-architektur/shared-types.adoc[04-architektur/shared-types.adoc] | Offen
-| Hono API Layer + EffectProcessor | link:04-architektur/backend.adoc[04-architektur/backend.adoc] | Offen
-| Foundry Pre/Post-Sync Prototyp | link:07-gm-dashboard/[07-gm-dashboard/] | Offen
+| Postgres-Schema + Prisma-Migrationen | link:03-datenbank/[03-datenbank/] | Implementiert
+| React/FSD Boilerplate + Routing | link:04-architektur/repo-struktur.adoc[04-architektur/repo-struktur.adoc] | Implementiert
+| @flammenreiter/api-types Package | link:04-architektur/shared-types.adoc[04-architektur/shared-types.adoc] | Implementiert (v1.12.0)
+| Hono API Layer + EffectProcessor | link:04-architektur/backend.adoc[04-architektur/backend.adoc] | Implementiert
+| Foundry Pre/Post-Sync Prototyp | link:07-gm-dashboard/[07-gm-dashboard/] | Implementiert
 |===
 
 
@@ -93,7 +94,7 @@ _Shared Features:_
 |===
 
 
-_Tech-Stack:_ React/FSD, D3 (Charts + Graph), Leaflet (Maps), Zustand, Supabase
+_Tech-Stack:_ React 19 / FSD, Vite 6, TanStack Router/Query, Tailwind, D3 (Charts + Graph), Leaflet (Maps), Three.js/R3F (Spieler-App), Hono 4 + Prisma 6 + PostgreSQL (Backend), Supabase (Auth mit JWKS), fal.ai (FLUX Bild-Pipeline), Railway (Hosting)
 
 '''
 
