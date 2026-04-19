@@ -1,9 +1,9 @@
 # Agent-Rollen — Docs
 
-| Agent       | Model      | Verantwortung                                            |
-| ----------- | ---------- | -------------------------------------------------------- |
-| Senior Docs | sonnetplan | Plant Dokumentstruktur, reviewed Inhalte, AsciiDoc-Profi |
-| Worker Docs | sonnet     | Schreibt und formatiert AsciiDoc-Dokumente               |
+| Agent       | Model             | Verantwortung                                            |
+| ----------- | ----------------- | -------------------------------------------------------- |
+| Senior Docs | claude-opus-4-7   | Plant Dokumentstruktur, reviewed Inhalte, AsciiDoc-Profi |
+| Worker Docs | claude-sonnet-4-6 | Schreibt und formatiert AsciiDoc-Dokumente               |
 
 ## Nicht in diesem Repo
 

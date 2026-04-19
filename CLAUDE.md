@@ -45,10 +45,10 @@ Bei jedem Push auf `main`:
 
 ## Agents
 
-| Agent         | Model      | Rolle                                          |
-| ------------- | ---------- | ---------------------------------------------- |
-| Senior Docs   | sonnetplan | Plant Dokumentstruktur, reviewed Inhalte       |
-| Worker Docs   | sonnet     | Schreibt und formatiert AsciiDoc-Dokumente     |
+| Agent         | Model             | Rolle                                          |
+| ------------- | ----------------- | ---------------------------------------------- |
+| Senior Docs   | claude-opus-4-7   | Plant Dokumentstruktur, reviewed Inhalte       |
+| Worker Docs   | claude-sonnet-4-6 | Schreibt und formatiert AsciiDoc-Dokumente     |
 
 ## Lokales Bauen
 
