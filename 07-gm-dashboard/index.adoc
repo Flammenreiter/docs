@@ -177,6 +177,65 @@ Horizontale Leiste oben im Dashboard mit:
 * Sichtbar für alle Beteiligten
 * Synchronisiert über Supabase Realtime
 
+
+=== Szenen-Metadaten & Reveal-Toggles (neu 2026-04-22)
+
+
+Jede Szene traegt strukturierte Metadaten (Read-Aloud, Roll-Tables,
+Suggested Checks, NPCs, Special Features) im `scene.metadata`-JSON. Jedes
+Element hat einen _individuellen Reveal-Toggle_: Der GM entscheidet pro
+Klick, was Spieler sehen — nicht pauschal "Szene aktiv = alles sichtbar".
+
+
+[cols="1,2",options="header"]
+|===
+| Feld | Inhalt
+
+| `readAloud` | Einleitungstext; boolean Reveal.
+| `rollTables[]` | Zufallstabellen; Reveal pro Eintrag.
+| `suggestedChecks[]` | Empfohlene Probe-Vorlagen; Reveal pro Eintrag.
+| `npcs[]` | Anwesende NPCs; Reveal pro NPC-Id.
+| `specialFeatures[]` | Geheime Tueren, Traps, Environment; Reveal pro Eintrag.
+| `revealed` | Sichtbarkeits-Map pro Element-Array.
+|===
+
+
+* _GM sieht alles_ (versteckte Elemente dezenter gerendert).
+* _Player_ sieht nur Elemente aus `revealed.*`.
+* Bulk-Aktionen per Kontextmenue: _Alle enthuellen / verstecken / nur
+  markierte_.
+* Sync ueber `PATCH /sessions/:id/scene/reveal` +
+  `scene:reveal-changed`-Broadcast.
+
+Details: siehe link:../02-spielmechaniken/szenen-reveal-toggles.adoc[Spielmechaniken 16].
+
+
+=== Wegentscheidungen / Story-Path (neu 2026-04-22)
+
+
+Beim Beenden einer Szene oeffnet sich ein _NextSceneDialog_, der basierend
+auf `scene_connections` die moeglichen Folgeszenen zeigt.
+
+
+[cols="1,2",options="header"]
+|===
+| Feature | Details
+
+| Graph-Datenmodell | `scene_connections (from_scene_id, to_scene_id, label, condition_expr)`
+| Dialog-Trigger | Klick auf "Szene beenden" oeffnet NextSceneDialog
+| Optionen | Liste aller ausgehenden Connections der aktuellen Szene, mit Condition-Indikator (erfuellt / offen / uebersteuerbar)
+| Auswahl | Ein Klick aktiviert die Folgeszene; Broadcast an Player
+| Override | GM kann jederzeit _"Andere Szene waehlen"_ und aus Volltext-Suche springen
+| Fallback | Wenn keine Connection existiert, fuehrt der Dialog zur regulaeren Szenenliste
+|===
+
+
+Die Connections werden beim Session-Planen im Graph-Mode angelegt; die
+Live-Session nutzt sie als Entscheidungsbaum. Ziel: narrative Verzweigungen
+transparent machen, statt fuer jeden Player-Choice eine neue Session zu
+planen.
+
+
 '''
 
 
@@ -280,6 +339,28 @@ Kartensystem für Weltnavigation und Szeneneinsatz.
 * Alle Spieler sehen synchrone Map
 
 
+=== Travel-Routes pro Charakter (neu 2026-04-22)
+
+
+Neben dem gemeinsamen Party-Token tragen einzelne Charaktere _individuelle
+Reise-Routen_ auf der Karte. Ziel: Parallelhandlungen, Splitgruppen und
+nachgezeichnete Bewegungen in einem einzigen View darstellen.
+
+
+[cols="1,2",options="header"]
+|===
+| Feature | Details
+
+| Datenmodell | `travel_routes (character_id, points[], started_at, finished_at, mode)` mit `points[] = {lat, lng, timestamp?}`.
+| Farbkodierung | Jeder Charakter erhaelt eine stabile Farbe (Haus-Akzent als Default, pro Charakter ueberschreibbar).
+| Mode | `planned` (gestrichelt) / `taken` (durchgezogen) / `exploratory` (punktiert).
+| GM-Editor | Klick-basiertes Zeichnen in der Karte, Undo/Redo, Snap-to-Node fuer Travel-Nodes.
+| Zeitraffer | Wiedergabe-Slider spielt alle Routen synchron auf Basis von `points[].timestamp` ab.
+| Broadcast | Routen werden nur bei Reveal an Player synchronisiert (GM-gesteuert, kein Auto-Push).
+| Hover-Info | Zeigt Start, Ende, Dauer, sowie Encounter/Szenen entlang der Route.
+|===
+
+
 === Abhängigkeiten
 
 
@@ -374,6 +455,27 @@ Würfelsystem mit DC-Pipeline und Betracking.
 * Alle öffentlichen Würfe → `session_mechanical_log`
 * Zusätzlich → Campaign Journal
 * Searchable und reportable
+
+
+=== NPC-Auto-Wurf mit Szenen-Vorfilter (neu 2026-04-22)
+
+
+Der _NpcAutoRoller_ zeigt die in der aktuellen Szene anwesenden NPCs als
+Quick-Select-Chips ueber dem klassischen Suchdialog an. Nur diese NPCs
+werden beim Oeffnen angeboten; der volle Katalog bleibt per Button
+erreichbar.
+
+
+[cols="1,2",options="header"]
+|===
+| Feature | Details
+
+| Prop | `presentNpcIds: string[]` (aus `scene.metadata.npcs[*].id`).
+| UI | Horizontaler Chip-Streifen mit `InitialsAvatar` + Name; selektierter Chip nutzt Haus-Akzent.
+| Fallback | Kein Scene-NPC vorhanden -> Leiste wird ausgeblendet, nur klassische Suche sichtbar.
+| Folge-Flow | Chip-Klick setzt `selectedNpc` direkt — kein Suchdialog noetig.
+|===
+
 
 '''
 
@@ -507,6 +609,33 @@ Systematische Nachbereitung nach jeder Session.
 * Filter: Spieler, Session, Tag, Entity-Referenz
 * Können direkt im Dashboard bearbeitet werden
 * Realtime-Synchronisation
+
+
+=== Right-Sidebar Akkordeon (neu 2026-04-22)
+
+
+Der rechte Seiten-Container in der Live-Session wurde von einer
+Tab-Navigation auf ein _Akkordeon-Layout_ umgebaut. Hintergrund: mehrere
+Panels (NPC-Liste, Spieler-Status, Initiative, Timer, Notes,
+NPC-Reaktions-Breakdown) sollten parallel sichtbar sein, ohne dass der GM
+zwischen Tabs hin- und herspringen muss.
+
+
+[cols="1,2",options="header"]
+|===
+| Eigenschaft | Details
+
+| Panels | NPC-Liste (mit Reaktions-Dots), Spieler-Anwesenheit, Initiative, Timer, Notes, Prompt-Feed, Social-Events.
+| Zustand | Jedes Panel merkt sich Open/Closed per Session (LocalStorage, pro GM/Kampagne-Key).
+| Bulk-Aktionen | Kontextmenue im Panel-Header (z.B. "Alle NPCs enthuellen" greift auf Reveal-Toggles).
+| Scroll-Behavior | Jedes Panel scrollt unabhaengig; der Sidebar-Container selbst bleibt fix.
+| Layout-Fix | Grid-Cap fuer den GM behebt Ueberlappungen bei schmalen Fenstern (`min-h-0` auf allen Panels).
+|===
+
+Der Player-Client hat ein entsprechendes Pendant ohne GM-only-Panels. Dort
+wurde gleichzeitig die _freischwebende HP-Anzeige entfernt_ — die
+Charakter-Karte zeigt HP bereits mehrfach.
+
 
 '''
 
@@ -1412,4 +1541,4 @@ Systematische Nachbereitung nach jeder Session.
 
 '''
 
-_Diese Dokumentation steht unter Versionskontrolle. Letzte Aktualisierung: 2026-03-26_
+_Diese Dokumentation steht unter Versionskontrolle. Letzte Aktualisierung: 2026-04-23 (Sprint Live-Session-Stabilisierung)_
