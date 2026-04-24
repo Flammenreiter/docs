@@ -79,6 +79,16 @@ D&D 5e + BG3 Adaptation: Surfaces, Gravity, Cover, Reaction-Economy, Foundry VTT
 Harptos-Kalender (12 Monate, 30 Tage) mit akademischen Phasen und Holidays, Jahreszeiten und regionale Auswirkungen, Tageszeiten (Dawn/Morning/Afternoon/Evening/Night), Time-Skip-Mechanik, dynamische Kalender-Events.
 
 
+=== [15. Social Interaction (3 Ebenen)](./social-interaction.adoc)
+
+Dreistufige NPC-Reaktions-Pipeline: Trait-Reactions + Alignment + Personality-Fit (Ebene 1) -> Rassen-Affinitaeten pro Kampagne (Ebene 2) -> Social-Events-Historie mit Zeit-Decay (Ebene 3). Deterministische Summen, Breakdown pro Schritt im GM-Dashboard sowie reduzierte Anzeige im Player. Neu in Sprint 2026-04-22.
+
+
+=== [16. Szenen — Metadaten & Reveal-Toggles](./szenen-reveal-toggles.adoc)
+
+Szenen speichern Read-Aloud, Roll-Tables, Suggested Checks, NPCs und Special Features als JSON-Metadaten. Jedes Element hat einen individuellen Reveal-Toggle, der via Supabase Realtime zwischen GM und Spielern synchronisiert wird. Neu in Sprint 2026-04-22.
+
+
 == Cross-System-Referenzen
 
 
@@ -88,6 +98,8 @@ Harptos-Kalender (12 Monate, 30 Tage) mit akademischen Phasen und Holidays, Jahr
 * _Items_ ändern: NPC-Reaktion direkt, Crafting-Möglichkeiten, Kampf-Taktik, Dragon-Glück
 * _Professions_ geben: Crafting-Rezepte frei, Mechanische Boni bei Checks, Einkommen in Downtime, Handels-Rabatte
 * _Dragon Bond_ verstärkt: Combat-Power progressiv, Travel-Geschwindigkeit, Pacing von Sessionen
+* _Social Interaction_ erweitert die NPC-Reaktions-Pipeline um Rassen-Affinitaet und Social-Event-Historie mit Decay (siehe Kapitel 15)
+* _Szenen-Reveal_ steuert, welche Szenen-Metadaten (NPCs, Checks, Features) fuer Spieler sichtbar werden (siehe Kapitel 16)
 
 
 == Regelwerk-Philosophie
