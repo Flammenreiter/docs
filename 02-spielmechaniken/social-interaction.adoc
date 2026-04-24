@@ -1,0 +1,220 @@
+
+= Social Interaction — NPC-Reaktions-Pipeline (3 Ebenen)
+
+_Wie reagiert welcher NPC auf welchen Charakter? — Ein dreistufiges System
+aus Trait-Reaktionen, Alignment/Personality-Fit, Rassen-Affinitaeten und
+Social-Event-Historie._
+
+'''
+
+== Ziele
+
+* Reaktionen sind _deterministisch nachvollziehbar_: jede Stufe liefert einen
+  ganzzahligen Delta, die Summe entscheidet ueber das Reaktionslevel.
+* _Narrativ_: nicht nur Zahlen, sondern Begruendungstexte pro Schritt, die im
+  GM-Dashboard und (reduziert) im Player-UI sichtbar sind.
+* _Zeitlich_: frueher Schaden an der Beziehung verblasst langsam, frische
+  Events dominieren.
+* _Rasse zaehlt_: klassische D&D-Rassen-Spannungen (Elb/Ork,
+  Zwerg/Drow, Halbelf/Mensch) sind eingebaut, ueberschreibbar pro
+  Kampagne.
+
+
+== Die drei Ebenen
+
+=== Ebene 1 — Bestehende Infrastruktur
+
+Nutzt Felder, die bereits im Schema existieren. Keine neuen Tabellen.
+
+[cols="1,2",options="header"]
+|===
+| Signal | Quelle
+
+| `trait_reactions` | JSON am NPC — Mapping `trait -> delta` (z.B. `{ "ehrlich": +2, "grausam": -4 }`). Wird pro Charakter-Trait mit Absolutwert `>= 3` getriggert.
+| Alignment-Delta-Matrix | Statische 9x9-Matrix: zwei Alignment-Tupel -> Delta (`lg` vs `ce` = -4, `lg` vs `lg` = +3).
+| Personality-Fit | Vergleich `npc.personality_traits` gegen `character.personality_traits` (Jaccard-aehnlich). Liefert Bonus bis +3.
+|===
+
+
+=== Ebene 2 — `race_affinities`-Tabelle (neu)
+
+[cols="1,1,2",options="header"]
+|===
+| Spalte | Typ | Bedeutung
+
+| `race_a` | text (enum) | Rasse A (lowercase_snake_case, siehe ADR-002).
+| `race_b` | text (enum) | Rasse B.
+| `delta` | int | Basis-Modifikator wenn A auf B trifft.
+| `reason` | text | Kurzer Grund (z.B. "Jahrhunderte alte Fehde").
+| `campaign_id` | uuid, nullable | Pro Kampagne ueberschreibbar. `null` = globaler Default.
+|===
+
+Beim Aufruf laedt der Service zuerst campaign-spezifische Zeilen und faellt
+sonst auf den globalen Default zurueck.
+
+==== Seed-Beziehungen (global)
+
+[cols="1,1,1,3",options="header"]
+|===
+| Rasse A | Rasse B | Delta | Begruendung
+
+| elf | ork | -5 | Jahrhunderte alte Waldkriege.
+| zwerg | drow | -6 | Unterreich-Konflikt, Generationentrauma.
+| halbling | mensch | +2 | Handelsbeziehungen, oft Nachbarn.
+| halbelf | mensch | +1 | Teils akzeptiert, teils belaechelt.
+| halbelf | elf | -1 | "Halb" gilt in Elfengesellschaft als Makel.
+| drache | alle | variabel | siehe Dragon-Bond (Doc 08).
+|===
+
+
+=== Ebene 3 — `social_events`-Historie mit Zeit-Decay
+
+[cols="1,1,2",options="header"]
+|===
+| Spalte | Typ | Bedeutung
+
+| `npc_id` | uuid | Betreffender NPC.
+| `character_id` | uuid | Betreffender Charakter.
+| `impact` | int | Rohes Delta (`-10` .. `+10`) zum Zeitpunkt des Events.
+| `event_type` | text | Kategorie (`saved_life`, `betrayed`, `gift`, `insulted`, `shared_meal`, ...).
+| `occurred_at` | timestamptz | Ereignis-Zeitpunkt (in-game oder real).
+| `description` | text | Kurzbeschreibung — wird im GM-Log angezeigt.
+|===
+
+==== Decay-Formel
+
+[source]
+----
+effective_impact = impact * 0.9 ^ (daysSince / 30)
+----
+
+* _30 Tage_ reduziert den Einfluss auf 90 %.
+* _90 Tage_ ~ 73 %.
+* _1 Jahr_ ~ 29 %.
+* Bei `|impact| < 0.5` wird das Event von der Summe ausgeschlossen, aber in
+  der Historie erhalten.
+
+==== Aggregation
+
+Summe ueber alle verbleibenden `effective_impact` pro NPC/Char-Paar.
+
+
+== Reaktions-Pipeline
+
+Eingaben: `npc_id`, `character_id`. Service laeuft die Schritte in Reihenfolge,
+jeder Schritt addiert zu `totalDelta` und liefert eine `step`-Zeile fuer das
+Breakdown-UI.
+
+[cols="1,1,2",options="header"]
+|===
+| Schritt | Delta-Quelle | UI-Icon
+
+| 1. Basis-Disposition | `npc_disposition.value` | Herz (neutral)
+| 2. Trait-Reactions | `npc.trait_reactions` vs. Charakter-Traits | Theater-Maske
+| 3. Alignment-Delta | Alignment-Matrix | Waage
+| 4. Personality-Fit | Jaccard-aehnlicher Trait-Overlap | Personen-Paar
+| 5. Rassen-Affinitaet | `race_affinities` | Volk-Icon
+| 6. Social-Events | Summierte `social_events` mit Decay | Uhr
+| 7. Kleidung/Items | Bestehender Schritt aus Doc 02/04 | T-Shirt
+| 8. Override | GM-manueller Eingriff | Stift
+|===
+
+*Mapping Delta -> Level:*
+
+[cols="1,1",options="header"]
+|===
+| Summe | Reaktionslevel
+
+| `>= +6` | friendly
+| `+2` .. `+5` | helpful
+| `-1` .. `+1` | neutral
+| `-5` .. `-2` | wary
+| `<= -6` | hostile
+|===
+
+
+== API-Endpunkte
+
+[cols="1,2,1",options="header"]
+|===
+| Method | Path | Zweck
+
+| `POST` | `/world/npcs/:id/reaction` | Reaktion zu einem Charakter berechnen; Response enthaelt `level`, `totalDelta`, `steps[]`.
+| `GET` | `/social-events?npcId=&characterId=` | Historie mit Decay-gewichteten Werten.
+| `POST` | `/social-events` | Neues Event anlegen (GM-only).
+| `DELETE` | `/social-events/:id` | Event zurueckrollen (GM-only, mit Audit-Log).
+| `GET` | `/race-affinities?campaignId=` | Effektive Rassen-Matrix (Campaign-Override oder global).
+|===
+
+
+== UI-Integration
+
+=== GM Dashboard
+
+* _NpcReactionBreakdown_-Widget zeigt alle Pipeline-Schritte untereinander mit
+  Icon, Label, Delta und optionalem Hover-Reason.
+* _SceneNpcReactionModal_: Vollstaendige Tabelle pro anwesendem NPC x
+  Charakter, inklusive Social-Event-Log.
+* Reveal-Toggle entscheidet, welche Schritte dem Player angezeigt werden
+  (Default: nur Level, kein Breakdown).
+
+
+=== Player Session
+
+* _Reaktions-Dot_ rechts im NPC-Kartenheader der
+  _Szene_ (Farbkodierung nach Level, siehe unten).
+* Klick auf Dot oeffnet _NpcReactionBreakdown_-Modal mit (nur revealten)
+  Schritten und der _Social-Events_-Historie.
+* Silent Degrade: wenn `/reaction` offline ist, verschwindet der Dot — kein
+  Error-Banner.
+
+==== Farbtabelle
+
+[cols="1,1",options="header"]
+|===
+| Level | Farbe
+
+| friendly | jade `#7AB88A`
+| helpful | gruen-weich `#5CAE6C`
+| neutral | parchment muted
+| wary | bernstein `#C8842A`
+| hostile | drachenrot `#8B1A1A`
+|===
+
+
+== Konfiguration & Overrides
+
+* _Pro Kampagne_: `race_affinities.campaign_id` erlaubt Override ("In dieser
+  Welt sind Elf und Ork Handelspartner").
+* _Pro NPC_: `npc.reaction_overrides` JSON (Ziel-Charakter-ID -> festes
+  Level). Trumpft die gesamte Pipeline — fuer Story-Beats unerlaesslich.
+* _GM-Override_ im Dashboard schreibt in `reaction_overrides`, der Breakdown
+  zeigt den Schritt dann als "GM Override".
+
+
+== Grenzfaelle
+
+* _Unbekannter NPC_ (hat den Charakter noch nie gesehen): Schritt 1
+  (Basis-Disposition) faellt weg, dafuer greift _Rasse + Kleidung_ doppelt
+  (siehe Doc 04).
+* _Wiederbelebter NPC_: Events vor dem Tod werden um Faktor 0.5 gewichtet
+  ("vage Erinnerung").
+* _Doppelauslöser_ (zwei Events am gleichen Tag): beide werden summiert, kein
+  Cap.
+* _Alignment `unaligned`_: Schritt 3 liefert Delta 0, Hinweis im Breakdown
+  ("kein Alignment").
+
+
+== Verwandte Dokumente
+
+* Doc 02 — link:./npc-reaktion-dc.adoc[NPC-Reaktion & DC-Berechnung] (die
+  aeltere 8-Schritt-Pipeline; Social-Interaction erweitert sie um die Stufen
+  Rassen-Affinitaet und Social-Events mit Decay).
+* Doc 02 — link:./beziehungen-renown.adoc[Beziehungen & Renown] (Renown wirkt
+  als globaler Offset auf alle NPC-Reaktionen).
+* Doc 07 — link:../07-gm-dashboard/index.adoc[GM Dashboard] (UI-Einstieg).
+
+
+'''
+
+_Neu in Sprint 2026-04-22 bis 2026-04-24. Letzte Aktualisierung: 2026-04-23._
