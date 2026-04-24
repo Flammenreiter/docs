@@ -1,0 +1,156 @@
+
+= Szenen — Metadaten & Reveal-Toggles
+
+_Was sieht der GM, was sieht der Player? — Jedes Szenen-Element hat einen
+eigenen Reveal-Schalter._
+
+'''
+
+== Motivation
+
+Eine Szene enthaelt typischerweise Read-Aloud-Text, Roll-Tables, vorgeschlagene
+Checks, anwesende NPCs und besondere Merkmale. _Vor_ der Szene soll der
+Player davon nichts sehen; _waehrend_ der Szene entscheidet der GM Element
+fuer Element, was freigeschaltet wird. Das alte "Szene starten = alles
+sichtbar"-Modell passt nicht zu narrativen Momenten wie "Beschreibung zuerst,
+NPCs erst auf Entdeckung".
+
+
+== Datenmodell
+
+Alle Elemente leben im `scene.metadata`-JSON-Feld (Prisma `Scene`-Model).
+
+[source,json]
+----
+{
+  "readAloud": "Ihr betretet den Thronsaal, eine gewaltige Halle...",
+  "rollTables": [
+    { "id": "rt1", "title": "Zufaelliges Wetter", "rows": [...] }
+  ],
+  "suggestedChecks": [
+    { "id": "c1", "skill": "perception", "dc": 14, "label": "Fallen?" }
+  ],
+  "npcs": [
+    { "id": "npc-uuid", "role": "host", "initialAttitude": "neutral" }
+  ],
+  "specialFeatures": [
+    { "id": "sf1", "title": "Verborgene Tuer", "description": "..." }
+  ],
+  "revealed": {
+    "readAloud": true,
+    "rollTables": ["rt1"],
+    "suggestedChecks": [],
+    "npcs": ["npc-uuid"],
+    "specialFeatures": []
+  }
+}
+----
+
+=== Feldbeschreibung
+
+[cols="1,2",options="header"]
+|===
+| Pfad | Bedeutung
+
+| `readAloud` | Einleitungstext. Wird als _gesamtes Feld_ revealed (kein Teil-Reveal).
+| `rollTables[]` | Listen-Elemente. Reveal pro Eintrag via `revealed.rollTables[]`.
+| `suggestedChecks[]` | Empfohlene Probe-Vorlagen. Reveal pro Eintrag.
+| `npcs[]` | Anwesende NPCs. Reveal pro NPC.
+| `specialFeatures[]` | Traps, Geheimtueren, Environment. Reveal pro Element.
+| `revealed.*` | Sichtbarkeits-Array bzw. Boolean. Leere Arrays = nichts sichtbar. `true` = alles.
+|===
+
+
+== Reveal-Semantik
+
+* _GM_ sieht _immer alles_, unabhaengig von `revealed`. Versteckte Elemente
+  werden mit dezenterem Styling (geringere Opazitaet, Vorhang-Icon)
+  dargestellt.
+* _Player_ sieht nur Elemente, deren ID im `revealed.<feld>`-Array steht (bzw.
+  `revealed.readAloud === true`).
+* _Szenenwechsel_ setzt `revealed` _nicht_ automatisch auf alles oder nichts —
+  der Default kommt aus `scene.defaultReveal` (pro Szene konfigurierbar beim
+  Planen).
+
+
+== UI — GM Dashboard
+
+Jedes Element erhaelt rechts oben einen kleinen _Reveal-Toggle_:
+
+[cols="1,1,2",options="header"]
+|===
+| Icon | State | Tooltip
+
+| Auge offen | revealed | "Sichtbar fuer Spieler — klick zum Verstecken."
+| Auge geschlossen | hidden | "Noch versteckt — klick zum Enthuellen."
+| Auge mit Pulse | gerade revealed | Kurzer Highlight-Moment (2 s) um das Broadcast zu bestaetigen.
+|===
+
+* Klick triggert `PATCH /sessions/:id/scene/reveal` mit Payload
+  `{ element: 'npcs', id: 'npc-uuid', revealed: true }`.
+* API setzt `scene.metadata.revealed.*` und broadcastet
+  `scene:reveal-changed` ueber Supabase Realtime.
+
+
+== UI — Player Session
+
+* _Read-Aloud_-Karte nur wenn `revealed.readAloud === true`.
+* _Roll-Tables_ / _Checks_ / _NPCs_ / _Features_: Arrays filtern clientseitig
+  nach `revealed.*`.
+* Beim Reveal spielt eine _weiche Fade-In-Animation_ (400 ms). Akustisch kein
+  Ton — der Moment gehoert dem GM.
+
+
+== Bulk-Aktionen
+
+Der GM kann in der Right-Sidebar per Kontextmenue:
+
+* _"Alle enthuellen"_ pro Kategorie (`revealed.npcs = ['*']` — Sentinel).
+* _"Alle verstecken"_ pro Kategorie (`revealed.npcs = []`).
+* _"Nur markierte enthuellen"_ — Multiselect + Bestaetigen.
+
+Die Sentinel-Semantik (`['*']` = alle) wird clientseitig aufgeloest.
+
+
+== Integration mit Skill-Checks
+
+Ein _suggested check_ ist reine Hilfestellung fuer den GM; der eigentliche
+Check startet ueber `POST /skill-checks/initiate`. Wenn der GM einen
+suggested check aus dem revealed Set triggert, kopiert der Call die
+`skill` / `dc` / `label` in den neuen Check-Datensatz und schickt den
+Player-Broadcast.
+
+
+== Migrations-Pfad
+
+Bestehende Szenen (vor Sprint 2026-04-22) haben kein `revealed`-Feld. Ein
+Lazy-Default greift beim Read:
+
+[source,ts]
+----
+const revealed = scene.metadata?.revealed ?? {
+  readAloud: true,
+  rollTables: (scene.metadata?.rollTables ?? []).map((r) => r.id),
+  suggestedChecks: [],
+  npcs: (scene.metadata?.npcs ?? []).map((n) => n.id),
+  specialFeatures: [],
+};
+----
+
+Sprich: aeltere Szenen verhalten sich _wie bisher_ (Read-Aloud + NPCs +
+Roll-Tables sichtbar, Checks und Features versteckt) bis der GM den ersten
+Toggle nutzt und damit den Datensatz migriert.
+
+
+== Verwandte Dokumente
+
+* Doc 02 — link:./quest-szenen.adoc[Quest & Szenen] (Szenen-Typen und
+  Uebergaenge).
+* Doc 07 — link:../07-gm-dashboard/index.adoc[GM Dashboard] (UI-Kontext).
+* Doc 02 — link:./social-interaction.adoc[Social Interaction]
+  (NPC-Reaktionen, die beim NPC-Reveal relevant werden).
+
+
+'''
+
+_Neu in Sprint 2026-04-22 bis 2026-04-24. Letzte Aktualisierung: 2026-04-23._
