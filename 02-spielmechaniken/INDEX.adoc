@@ -89,6 +89,16 @@ Dreistufige NPC-Reaktions-Pipeline: Trait-Reactions + Alignment + Personality-Fi
 Szenen speichern Read-Aloud, Roll-Tables, Suggested Checks, NPCs und Special Features als JSON-Metadaten. Jedes Element hat einen individuellen Reveal-Toggle, der via Supabase Realtime zwischen GM und Spielern synchronisiert wird. Neu in Sprint 2026-04-22.
 
 
+=== [17. Cantrips — Basis-Beschwörungen](./cantrips.adoc)
+
+Jeder Charakter hat min. 1 Cantrip basierend auf Hauszugehörigkeit oder Rasse. Unbegrenzt nutzbar, niedrige Wirkung, hohe Story-Relevanz. Skalierung mit Level. Neu in Sprint 2026-04-25.
+
+
+=== [18. Wegenetz im Live-Play](./wegenetz-live-play.adoc)
+
+Graph-Navigation statt linearer Szenen-Folge. "Nächste Fahrt wählen"-Dialog mit Vorschau- und Aktivieren-Aktion pro Kante. Conditions werden live evaluiert; Hidden Edges nur GM-sichtbar. Edge-Traversal-Tracking für Session-Recap. Neu in Sprint 2026-04-25.
+
+
 == Cross-System-Referenzen
 
 

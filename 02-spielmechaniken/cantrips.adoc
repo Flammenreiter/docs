@@ -1,0 +1,156 @@
+
+= Cantrips: Basis-Beschwörungen
+
+
+Cantrips sind die unterste Form von Zaubern — *jeder Charakter kann mindestens einen*, unabhängig von Klasse oder Magie-Begabung. Sie repräsentieren die elementare Verbundenheit zur Welt der Drachen und der vier Häuser.
+
+
+== Grundprinzip
+
+
+* *Jeder Charakter hat min. 1 Cantrip* aus seiner Herkunft / Rasse
+* *Kein Mana-Verbrauch* — Cantrips sind unbegrenzt nutzbar
+* *Niedrige Wirkung* — kein game-breaking effect, eher Flavor + utility
+* *Story-relevante Anwendungen* — Cantrips öffnen Türen für Rollenspiel-Momente, nicht Combat-Dominanz
+* *Skalierung mit Level* — auf höheren Stufen leicht verstärkt (mehr Würfel, leicht höhere DCs)
+
+
+== Cantrip-Vergabe nach Herkunft / Haus
+
+
+Jedes Haus hat eine Affinität zu bestimmten Elementen + Domänen. Der Cantrip wird *automatisch zugewiesen* basierend auf der primären Hauszugehörigkeit oder Rasse — Spieler kann allerdings einen alternativen Cantrip aus seinem Haus-Pool wählen.
+
+
+=== Drachenfeste — Feuer & Mut
+
+
+[cols="1,2,2",options="header"]
+|===
+| Cantrip | Effekt | Story-Anwendung
+
+| _Funkenzunge_ | Erzeugt Funken (1d4 Feuer auf Berührung, 0/Runde) | Fackeln entzünden, Lagerfeuer starten, Pfeile flammen lassen
+| _Drachenruf_ | Tierischer Schrei, +2 Intimidation für 1 Min. | Wölfe verscheuchen, Bauern beeindrucken, Gegner einschüchtern
+| _Hitzeschild_ | Resistenz gegen Feuerschäden für 1 Min. | Schmiede-Arbeit, vor Lavaschwall fliehen, Brand löschen
+|===
+
+
+=== Turm der Ketten — Wissen & Magie
+
+
+[cols="1,2,2",options="header"]
+|===
+| Cantrip | Effekt | Story-Anwendung
+
+| _Magie-Spüren_ | Erkennt magische Auren in 30ft für 1 Min. | Verzauberte Items finden, Illusionen entlarven, magische Türen erkennen
+| _Lese-Glaschen_ | Übersetzt 50 Wörter aus jeder Sprache (1x pro Tag, narrativ) | Alte Schriftrollen, fremde Karten, NPC-Dialekte
+| _Lichtkugel_ | Erzeugt schwebenden Licht-Globus (40ft Helligkeit) | Höhlen erkunden, nachts reisen, dramatische Akademie-Vorträge
+|===
+
+
+=== Tiefe Esse — Erde & Handwerk
+
+
+[cols="1,2,2",options="header"]
+|===
+| Cantrip | Effekt | Story-Anwendung
+
+| _Erdformung_ | Formt 1 Kubikfuß lockere Erde (kein Stein) | Spuren verwischen, Verstecke graben, Gartenbau
+| _Gerätesicht_ | Erkennt mechanische Schwächen / Verschleiß auf Berührung | Schlösser knacken vorbereiten, Item-Quality bewerten, Crafting-Fehler vermeiden
+| _Steinwurf_ | +1 auf Stein-/Erd-Wurf-Angriffe, 1d4 Bludgeoning | Distanz-Knock-Out, Vögel jagen, Signal-Steine werfen
+|===
+
+
+=== Liebe & Leben — Diplomatie & Heilung
+
+
+[cols="1,2,2",options="header"]
+|===
+| Cantrip | Effekt | Story-Anwendung
+
+| _Bluthemmung_ | Stoppt Blutung an einem stabilisierten Verbündeten (kein HP-Heal) | Stabilisiert sterbende Charaktere ohne Healer's Kit
+| _Beruhigende Stimme_ | +1 auf nächsten Persuasion / Calm-Down-Wurf | Panikende NPCs beruhigen, gestresste Verhandlungen, Tier-Beruhigung
+| _Pflanzenfreund_ | Eine Pflanze blüht / wächst / öffnet sich für 1 Min. | Verschlossene Wege durch Hecken öffnen, Blumen für Geschenk, dramatische Garden-Auftritte
+|===
+
+
+== Cantrip-Vergabe nach Rasse (Override / Bonus)
+
+
+Wenn die Rasse einen anderen Cantrip nahelegt als das Haus, *bekommt der Charakter beide* — den Hausanteil + den Rassenanteil. Maximal 2 Cantrips beim Start.
+
+
+[cols="1,1,2",options="header"]
+|===
+| Rasse | Bonus-Cantrip | Begründung
+
+| Elf | _Pflanzenfreund_ | Naturverbundenheit
+| Zwerg | _Erdformung_ | Erbe der Berge
+| Halbling | _Verbergen-Fingertrick_ (kleines Item für 30 Sek. unsichtbar machen) | Diebes-Tradition
+| Mensch | (kein Bonus) | Pure Hauszuweisung
+| Halb-Drache | _Funkenzunge_ (verstärkt: 1d6 statt 1d4) | Drachenblut
+| Tiefling | _Brennende Berührung_ (1d4 Feuer, Touch-Range, einmal/Tag) | Höllen-Erbe
+| Drachenblut | freie Wahl aus *allen* Haus-Cantrips | Akademie-Auserwählter
+|===
+
+
+== Skalierung mit Charakter-Level
+
+
+[cols="1,3",options="header"]
+|===
+| Level | Skalierung
+
+| 1-4 | Basis-Würfel + Basis-DC (siehe Cantrip-Beschreibung)
+| 5-10 | +1 Würfel ODER +1 DC (Spielerwahl bei Aktivierung)
+| 11-16 | +2 Würfel ODER +2 DC ODER +1 Range-Verdopplung
+| 17-20 | Maximale Skalierung (z.B. Funkenzunge → 3d4, Lichtkugel → permanent bis Dispell)
+|===
+
+
+== Cantrip-Lernen über Story
+
+
+Charaktere können *zusätzliche Cantrips* erlangen durch:
+
+. *Akademie-Kurs* — Wahlfach in der Akademie (1 Cantrip pro Schuljahr, max. 3 zusätzlich)
+. *Mentor-Beziehung* — wenn ein NPC mit Disposition+50 ein bestimmtes Element verkörpert, kann er den Charakter lehren
+. *Quest-Belohnung* — bestimmte Quests gewähren spezifische Cantrips als Reward
+. *Trait-Schwellenwert* — Wissbegierig+5 erlaubt automatisch _Magie-Spüren_ (selbst wenn nicht im Haus)
+
+
+== Implementation Details
+
+
+----
+character_cantrips
+├── id (PK)
+├── character_id (FK)
+├── cantrip_id (FK → cantrips Tabelle)
+├── source (enum: house | race | background | quest | mentor | academy | trait_unlock)
+├── learned_at (timestamp)
+├── learned_note (text — narrative)
+└── current_scaling_level (calculated from character.level)
+
+cantrips (Master-Tabelle)
+├── id (PK)
+├── slug (varchar — z.B. "funkenzunge")
+├── name (i18n)
+├── house_affinity (enum: drachenfeste | turm | tiefe_esse | liebe_leben | none)
+├── race_affinity (jsonb — array von race_slugs)
+├── element (enum: feuer | erde | wasser | licht | natur | sozial | wahrnehmung)
+├── effect_description (i18n)
+├── mechanical_effects (jsonb — { damage_dice, dc, range_ft, duration_seconds, recharge })
+├── scaling_table (jsonb — pro Level-Range)
+└── story_applications (jsonb — array von Beispiel-Anwendungen für GM)
+----
+
+
+== UI: Anzeige im Character Sheet
+
+
+* *Slot in der "Magie & Fertigkeiten"-Sektion* (oberhalb der Klassen-Spells, da Cantrips Klassen-unabhängig sind)
+* *Icon-basiert* — kein langer Text, sondern Symbol des Elements
+* *Tooltip mit voller Beschreibung* + Story-Anwendungen
+* *Quick-Cast Button* — 1-Klick-Aktivierung in Live-Play
+
+Cantrips erscheinen *VOR* den Klassen-Spells im Spell-List, da sie immer verfügbar sind und das Standard-Toolkit jedes Charakters bilden.

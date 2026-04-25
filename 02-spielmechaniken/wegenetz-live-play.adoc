@@ -1,0 +1,190 @@
+
+= Wegenetz im Live-Play: Graph-Navigation statt linearer Ablauf
+
+
+Sessions verlaufen *nicht-linear*. Statt einer fest gescripteten Szenen-Folge verzweigt das Storyboard durch Spielerentscheidungen, NPC-Reaktionen und überraschende Wendungen. Das *Wegenetz* ist die strukturelle Grundlage dafür.
+
+NOTE: Das Daten-Modell (Knoten/Kanten, Conditions, scene_connections) ist bereits in `quest-szenen.adoc` und im Session-Planer (Doc 07) definiert. Diese Spezifikation beschreibt, *wie das Wegenetz im Live-Play konsumiert wird* — nicht wie es geplant wird.
+
+
+== Grundprinzip
+
+
+* Der Session-Planer hat bereits einen *Graph-Editor* gebaut, in dem GMs Knoten verbinden mit Conditions
+* *Im Live-Play war dieser Graph bisher nicht funktional* — die Navigation lief linear durch eine Szenen-Liste
+* Diese Spezifikation macht den Graph *zur primären Navigations-Struktur* im Live-Play
+
+
+== Live-Play Navigations-Flow
+
+
+=== Aktive Szene
+
+
+Zu jedem Zeitpunkt ist *eine* Szene "live" (`scene.scene_status = active`). Die UI zeigt:
+* Den Read-Aloud-Text
+* Aktive NPCs, Items, DCs
+* *Den "Nächste Fahrt wählen"-Button* unterhalb der Hauptaktion
+
+
+=== "Nächste Fahrt wählen"-Dialog
+
+
+Klick öffnet Modal mit allen *ausgehenden Kanten* der aktiven Szene. Pro Kante:
+
+[cols="1,2,1,2",options="header"]
+|===
+| Anzeige | Beschreibung | Sichtbarkeit | Beispiel
+
+| *Ziel-Szenen-Name* | Der Name der nächsten Szene | Immer | "Die geheime Bibliothek"
+| *Edge-Label* (optional) | Was passiert auf dem Weg | Immer | "Durch den Geheimgang schleichen"
+| *Conditions-Status* | Sind Bedingungen erfüllt? | GM-only | "✓ Schlüssel gefunden" / "✗ Kein Schlüssel"
+| *Travel-Time* | Distanz / Reisezeit | Immer | "30 Min. Schleichen"
+| *Danger-Level* | Combat-Risiko | GM-only | "🔴 hoch" / "🟢 niedrig"
+| *Vorschau-Snippet* | Erste 1-2 Sätze der Ziel-Szene | GM-only | "Ein dunkler Raum, voller Bücher..."
+|===
+
+
+=== Pro Kante zwei Aktionen
+
+
+Der GM wählt pro Kante:
+
+[cols="1,2",options="header"]
+|===
+| Aktion | Effekt
+
+| *Vorschau* | Öffnet Ziel-Szene als Read-Only-Panel ohne Status zu ändern. GM kann sich orientieren ohne die Szene "echt" zu aktivieren. Spieler sehen *nichts* davon.
+| *Aktivieren* | Setzt aktive Szene auf "completed" oder "left", aktiviert Ziel-Szene. Push-Event an alle Spieler ("Neue Szene: Die geheime Bibliothek").
+|===
+
+*Wichtig*: Vorschau ist *jederzeit* möglich, auch ohne Conditions zu erfüllen — der GM hat volle Sicht. Aktivieren ist *blockiert*, wenn Conditions nicht erfüllt sind (außer GM-Override mit Bestätigungs-Dialog).
+
+
+=== Hidden Edges
+
+
+Manche Kanten sind *vor dem Spieler verborgen*, bis Conditions getriggered werden:
+
+* `secret = true` — wird im Spieler-Dialog NICHT angezeigt
+* GM sieht sie immer, kann sie *manuell aktivieren* (Override)
+* Beispiel: "Hinter dem Bücherregal versteckte Tür" — erst sichtbar wenn `Investigation DC 15` bestanden
+
+
+== Conditions: Erfüllt?
+
+
+Conditions werden *Live* evaluiert, wenn der Dialog öffnet. Quellen:
+
+[cols="1,2",options="header"]
+|===
+| Condition-Type | Quelle
+
+| `visited_scene` | `scene.visited_at` ist gesetzt
+| `met_npc` | `character_relationships` mit `interaction_count > 0`
+| `has_item` | `inventory_items` enthält `item_id`
+| `quest_state` | `quests.status` matched
+| `decision_made` | `decision_logs` enthält `chosen_option`
+| `disposition_min` | `npc_dispositions.score >= threshold`
+| `combat_result` | letzter `encounter.outcome` matched
+| `trait_min` | `character_traits.current_level` matched
+| `cantrip_known` | `character_cantrips` enthält `cantrip_slug`
+|===
+
+Mehrere Conditions auf einer Kante = AND. Mehrere Kanten zur selben Ziel-Szene = OR (mehrere Wege dorthin).
+
+
+== Visited / Skipped State
+
+
+Beim *Aktivieren* einer Kante:
+. Aktive Szene → `scene.visited_at = now()`, status `completed` oder `left` (GM wählt)
+. Kante → `edge_traversal` Eintrag mit timestamp + character_id (Initiator)
+. Ziel-Szene → status `active`, `entered_at = now()`
+
+Beim *Vorschau* einer Kante: kein State-Change, nur GM-side `previewed_at` für UI-Highlighting.
+
+
+== Multi-Path & Konvergenz
+
+
+* Eine Szene kann *mehrere ausgehende Kanten* haben → echtes Branching
+* Eine Szene kann *mehrere eingehende Kanten* haben → Konvergenz (egal welcher Weg, alle landen hier)
+* Loops sind erlaubt (z.B. "wieder zurück zur Akademie") — der Graph muss nicht acyclic sein
+
+
+== UI-Komponenten
+
+
+* *Live-Play Sidebar* zeigt *Mini-Map* des Graphs mit:
+  ** Aktiver Szene (highlight)
+  ** Visited Szenen (gedimmt grün)
+  ** Verfügbare Kanten (grün)
+  ** Locked Kanten (rot)
+  ** Hidden Kanten (nur GM, gestrichelt)
+* *"Nächste Fahrt"-Button* in der Hauptansicht öffnet das Modal
+* *Vorschau-Panel* slidet von rechts ein, kann mit ESC geschlossen werden
+* *Aktivieren-Button* hat Bestätigungs-Dialog wenn Conditions nicht erfüllt
+
+
+== Implementation Details
+
+
+=== Bestehende Tabellen (siehe quest-szenen.adoc)
+
+
+* `scenes` (mit `scene_status`)
+* `scene_connections` (Kanten mit `condition_type`, `condition_data`)
+* `session_plan_node_state` (per-Session-Node-State)
+
+
+=== Neue Tabelle: edge_traversals
+
+
+----
+edge_traversals
+├── id (PK)
+├── session_id (FK)
+├── from_scene_id (FK)
+├── to_scene_id (FK)
+├── connection_id (FK → scene_connections)
+├── traversed_at (timestamp)
+├── traversed_by_character_id (FK, nullable — wer hat die Entscheidung initiiert)
+├── conditions_met (jsonb — snapshot welche Conditions wie evaluiert wurden)
+├── gm_override (bool — GM hat Conditions-Block übergangen)
+└── note (text — optionale Notiz)
+----
+
+
+=== Neue Endpoints (api)
+
+
+* `GET /sessions/:id/active-scene/edges` — alle ausgehenden Kanten der aktiven Szene mit aktuellem Conditions-Status
+* `POST /sessions/:id/preview-scene/:sceneId` — markiert als "vorgeschaut", kein Status-Change
+* `POST /sessions/:id/traverse-edge` — { connection_id, gm_override?: bool } → State-Change
+
+
+=== Realtime-Events
+
+
+* `scene-change` — Push an alle anwesenden Spieler bei Aktivierung
+* `scene-preview` — *Nicht* an Spieler, nur in GM-State (Sound-Effekt für GM)
+
+
+== Beziehung zu anderen Systemen
+
+
+* *quest-szenen.adoc* — Definiert Szenen-Typen + Connection-Schema (Foundation)
+* *Session-Planner (Doc 07)* — Editor zum Anlegen + Visualisieren des Graphs
+* *session-abschluss.adoc* — `played_scope` markiert Knoten als played/partial/skipped/unreached
+* *szenen-reveal-toggles.adoc* — Reveal-Toggles funktionieren *innerhalb* einer aktiven Szene; Graph-Navigation entscheidet *welche* Szene aktiv ist
+
+
+== Migration des linearen Live-Play
+
+
+Bestehende lineare Szenen-Listen werden konvertiert:
+. Pro Session ein implizites Graph mit *einer Kette* von Kanten (Szene 1 → 2 → 3)
+. Kein Branching initial, aber jeder Edge ist explizit angelegt
+. GMs können post-hoc Conditions hinzufügen, um Branching zu ermöglichen
+. Migration-Script: `pnpm tsx scripts/migrate-linear-sessions-to-graph.ts`
