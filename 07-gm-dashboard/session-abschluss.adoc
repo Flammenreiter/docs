@@ -1,0 +1,201 @@
+
+= Session-Abschluss-Dialog: Erweiterte Pipeline
+
+
+Der Session-Abschluss ist mehr als ein "Ende"-Klick. Er ist die *narrative Brücke* zwischen Spielsession und persistierter Welt — alles, was passiert ist, wird hier festgehalten, verheiratet mit dem Transkript, und entweder ganz oder teilweise an die Spieler veröffentlicht.
+
+NOTE: Diese Spezifikation erweitert die ursprüngliche 7-Schritt-Post-Session-Pipeline aus `07-gm-dashboard/index.adoc` (UC-SES-01). Die 7 Schritte (XP, Loot, Traits, Decisions, Transcript, Level-Up, Multiclass) sind das *Minimum* — der Abschluss-Dialog *steuert* diese Pipeline und ergänzt sie um die narrativen Elemente.
+
+
+== Wann der Dialog erscheint
+
+
+Der Spieler-GM klickt im Live-Play auf "Session beenden". Statt dass die Session direkt endet, öffnet sich der *Session-Abschluss-Dialog* als modale Multi-Step-Wizard. Erst nach Abschluss des Wizards (oder Verwerfen mit Abbruch) wird die Session auf `status='completed'` gesetzt.
+
+
+== Dialog-Schritte
+
+
+=== Schritt 1: Was ist passiert (narrativer Recap)
+
+
+[cols="1,3",options="header"]
+|===
+| Eingabe | Beschreibung
+
+| Wichtige Story-Momente | Freitext-Liste (max. 5 Stichpunkte). z.B. "Aelinor stellt sich gegen den Inquisitor", "Gruppe entdeckt geheimen Akademie-Gang"
+| Erkenntnisse / Entdeckungen | Was haben die Spieler Neues über die Welt erfahren? z.B. "Drachen-Feste hat einen Turm-Spion"
+| Persönliche Aspekte | Trait-Shifts, die der GM bemerkt hat. Pre-filled aus `detected_trait_moments`, GM kann hinzufügen / entfernen
+| Cliffhanger / Abbruchpunkt | Wo endet die Session narrativ? z.B. "Türen öffnen sich, drinnen brennt alles" — fließt in `sessions.cliffhanger_text`
+|===
+
+
+=== Schritt 2: Was wurde gespielt (Scope-Tracking)
+
+
+GM markiert pro geplanter Szene aus dem Session-Plan:
+
+[cols="1,1,2",options="header"]
+|===
+| Status | Bedeutung | UI-Anzeige
+
+| `played` | Vollständig durchgespielt | Grün ✓
+| `partial` | Angefangen, aber nicht abgeschlossen | Gelb ⚠
+| `skipped` | Übersprungen (Spieler entschieden anders) | Grau −
+| `unreached` | Nicht erreicht (Zeit alle / blockiert) | Rot ✗
+|===
+
+Das ist wichtig für die *Kampagnen-Hygiene*: Übersprungene Szenen werden in Backlog gepusht, "unreached" Szenen werden für die nächste Session vorgeplant.
+
+
+=== Schritt 3: Transkript-Upload (optional)
+
+
+GM kann hochladen:
+* *Discord-Audio* (Craig-Recording als .ogg)
+* *Manuelles Transcript* (.txt / .md)
+* *Live-Mitschnitt aus Discord-Bot* (siehe `wegenetz-live-play.adoc` für Bot-Integration)
+
+Verarbeitung:
+. *Transcription* via Whisper (falls Audio)
+. *Normalisierung* — Speaker-Labels, Zeitstempel
+. *Speicherung* in `session_transcript` Tabelle
+
+
+=== Schritt 4: AI-Verheiratung
+
+
+Das System kombiniert *automatisch*:
+* GM-Eingaben aus Schritt 1 (Stichpunkte)
+* Decision-Logs aus Live-Session
+* Trait-Shifts aus `trait_evolution`
+* HP-Verlauf, Spell-Verbrauch, Kampf-Outcomes
+* Transkript (falls hochgeladen)
+
+→ generiert *AI-Recap-Drafts* in 4 Varianten:
+
+[cols="1,2,2",options="header"]
+|===
+| Variante | Zielgruppe | Stil
+
+| *GM-Notes* | Privat, GM-only | Sachlich, mit Mechanik-Details, Story-Hook-Vorschläge für nächste Session
+| *Spieler-Recap* | Public, Players | Erzählerisch, ohne Mechanik, "Vorschau"-Stil ("Letztes Mal auf Flammenreiter...")
+| *Buch-Kapitel* | Story-Tagebuch | Literarisch, In-World-Autor-Stimme (siehe `story-tagebuch.adoc`)
+| *Spieler-Tagebuch-Drafts* | Pro Charakter | POV-Stimme jedes Charakters, basierend auf seinem Trait-Profil + Erlebnissen
+|===
+
+
+=== Schritt 5: GM-Preview & Edit
+
+
+GM sieht alle 4 Varianten *nebeneinander* in einem Diff-Like-Editor:
+* Inline-Edit pro Variante
+* Re-generate-Button für Sektionen
+* "Beibehalten" / "Verwerfen" pro Variante
+
+Wichtig: GM hat *immer das letzte Wort*. AI ist Vorschlag, nicht Autorität.
+
+
+=== Schritt 6: Veröffentlichung (Selektiv)
+
+
+Pro Variante kann der GM separat entscheiden:
+
+[cols="1,2",options="header"]
+|===
+| Veröffentlichungs-Status | Effekt
+
+| *Privat (default)* | Nur GM sieht es; im Archiv
+| *An alle Spieler* | Erscheint in jedem Spieler-Dashboard als neue Recap-Karte
+| *An einzelne Spieler* | Selektiv (z.B. nur die anwesenden) — wichtig wenn ein Spieler fehlte
+| *Teilweise* | GM markiert Absätze als "geheim" oder "öffentlich" (Strikethrough-UI)
+|===
+
+Spieler-Tagebuch-Drafts gehen *standardmäßig an den jeweiligen Spieler* (nicht öffentlich), damit jeder seinen eigenen Tagebuch-Eintrag bearbeiten kann.
+
+Buch-Kapitel werden *erst nach Review* aktiv (siehe `story-tagebuch.adoc`).
+
+
+=== Schritt 7: Pipeline-Auslöser
+
+
+Erst nach Veröffentlichungs-Schritt werden die *7 Original-Pipeline-Schritte* ausgelöst:
+
+. XP verteilen (UC-XP-01)
+. Loot-Verteilung (UC-LOT-01)
+. Trait-Evolution-Review
+. Decision-Tracking-Finalisierung
+. Transcript-Storage
+. Level-Up-Freigabe an Spieler (Dragon-Dialog aktiviert)
+. Multiclass-Readiness-Check
+
+Diese laufen jetzt mit den finalen, vom GM bestätigten Daten — nicht mit Live-Session-Rohdaten.
+
+
+== UI-Design
+
+
+* *Wizard-Layout* mit Stepper oben (1/7, 2/7, ...)
+* *"Speichern & Weiter"* + *"Zurück"* + *"Speichern als Entwurf"* (Dialog kann unterbrochen werden, später fortgesetzt)
+* *Auto-Save* alle 30 Sek. in `session_completion_drafts` Tabelle
+* *Estimated Time*: 10-20 Min. für vollen Durchlauf, 3 Min. für Skip-To-End mit Defaults
+
+
+== Implementation Details
+
+
+=== DB-Erweiterungen
+
+
+----
+session_completion_drafts
+├── id (PK)
+├── session_id (FK)
+├── started_at (timestamp)
+├── current_step (1-7)
+├── data (jsonb — alle Eingaben des Wizards)
+├── ai_drafts (jsonb — generierte Varianten)
+├── completed_at (timestamp, nullable)
+└── published_at (timestamp, nullable)
+
+session_published_artifacts
+├── id (PK)
+├── session_id (FK)
+├── artifact_type (enum: gm_notes | player_recap | book_chapter | player_journal)
+├── target_audience (enum: gm_only | all_players | specific_players)
+├── target_user_ids (jsonb, nullable)
+├── content (text — markdown)
+├── visibility_mask (jsonb — paragraph-level public/private flags)
+├── published_at (timestamp)
+└── linked_character_id (FK, nullable — für player_journal)
+
+sessions.played_scope (jsonb — array von { scene_id, status })
+sessions.cliffhanger_text (text — bereits in Schema, jetzt vom Dialog gefüllt)
+sessions.session_recap_state (enum: in_progress | drafted | published)
+----
+
+
+=== Endpoints (api)
+
+
+* `POST /sessions/:id/completion/draft` — Wizard-Draft anlegen / aktualisieren
+* `POST /sessions/:id/completion/generate-drafts` — AI-Verheiratung triggern
+* `POST /sessions/:id/completion/publish` — finalisieren + 7 Pipeline-Schritte starten
+* `GET /sessions/:id/completion/draft` — bestehenden Draft laden
+
+
+=== Realtime-Integration
+
+
+* Während Wizard läuft: keine Realtime-Events
+* Bei `publish`: Event `session-end` an alle anwesenden Spieler (closes Live-Play UI)
+* Bei `publish` mit `target_audience='all_players'`: Event `session-recap-published` mit `artifact_type` als Payload, Spieler-UI zeigt Toast
+
+
+== Beziehung zu anderen Systemen
+
+
+* *quest-szenen.adoc* — `played_scope` informiert Backlog-Re-Prioritisierung der nicht erreichten Szenen
+* *story-tagebuch.adoc* — `book_chapter`-Artifact ist Input für die Buch-Chronik
+* *traits.adoc* — `personal_aspects`-Eingaben des GM lösen finalen Trait-Evolution-Schritt aus
+* *wegenetz-live-play.adoc* — `played_scope` markiert die Graph-Knoten als visited/skipped

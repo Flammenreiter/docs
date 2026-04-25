@@ -1,0 +1,246 @@
+
+= Story-Tagebuch & Buch-Chronik
+
+
+Das Flammenreiter-Universum produziert während des Spiels *zwei* parallele narrative Artefakte: Das *Spieler-Tagebuch* (POV der Charaktere) und die *Buch-Chronik* (großes In-World-Buch geschrieben von einem Chronisten-NPC). Beide leben aus den gleichen Session-Daten, haben aber unterschiedliche Stimmen und Zielgruppen.
+
+NOTE: Beide werden im Session-Abschluss-Dialog (`session-abschluss.adoc`, Schritt 4-6) generiert. Diese Spezifikation beschreibt das *Daten-Modell* + die *narrative Struktur* + die *UI-Anzeige*.
+
+
+== Zwei Artefakte
+
+
+[cols="1,2,2",options="header"]
+|===
+| Aspekt | Spieler-Tagebuch | Buch-Chronik
+
+| *Wer schreibt?* | Jeder Spieler-Charakter (in-world POV) | In-World-Chronist-NPC (z.B. "Aelinor von Hestrum, Akademie-Chronistin")
+| *Anzahl Einträge pro Session* | 1 pro Charakter (4-5 pro Session) | 1 Kapitel pro Session
+| *Stil* | POV, persönlich, emotionsgeladen, kurz (1-2 Absätze) | Literarisch, distanziert, allwissend mit Limit, lang (3-8 Absätze)
+| *Wer sieht es?* | Schreibender Charakter privat; optional an Gruppe freigegeben | Alle Spieler, öffentliches Lesedokument der Kampagne
+| *Zweck* | Charakter-Tiefe, persönliche Perspektive, Roleplay-Anchor | Kampagnen-Geschichte als kohärentes Werk
+| *Bilder* | Optional, Charakter-Portrait | Pflicht: 1-3 Illustrationen pro Kapitel (fal-generiert mit Referenzbildern)
+| *Side Facts* | Selten, nur wenn Charakter ein Detail erinnert | Häufig, eingestreut: "Wussten Sie schon..."
+|===
+
+
+== Spieler-Tagebuch: POV pro Charakter
+
+
+=== Generierungs-Logik
+
+
+Beim Session-Abschluss generiert das System *pro anwesendem Charakter* einen Tagebuch-Eintrag-Draft. Quellen:
+
+. *Erlebnisse des Charakters* — welche Szenen war er in, was hat er gemacht
+. *Trait-Profil des Charakters* — beeinflusst Stimme + Stil
+. *Disposition zu anderen Charakteren* — färbt Beschreibung der Mitgruppen-Mitglieder
+. *Decision-Logs* — wo hat er sich aktiv entschieden
+. *Persönliche Aspekte* — z.B. ein paranoider Charakter erwähnt vermutete Bedrohungen
+
+
+=== Beispiel-Eintrag
+
+
+Für einen Charakter "Mira Drachenherz" (Loyal+4, Mutig+3, Paranoid+2) nach einer Session in der Akademie:
+
+> *Tag 47, Akademie-Bibliothek, später Abend*
+>
+> Heute haben wir den Geheimgang gefunden — natürlich erst nachdem ich den Bibliothekar drei Mal beobachtet hatte. Er ist nicht zu trauen, das weiß jeder, der seine Augen offen hält. Aelinor hingegen ist ein Geschenk; ohne sie hätten wir die Inschrift nie gelesen. Ich muss morgen mit Magister Veldrin sprechen — diese Sache mit dem Turm-Spion riecht nach Verrat.
+>
+> Mein Drache ist heute unruhig gewesen. Ich glaube, er spürt etwas, das ich noch nicht sehe.
+
+Der Eintrag spiegelt:
+* *Loyal+4* → Aelinor wird positiv beschrieben
+* *Paranoid+2* → Bibliothekar-Misstrauen, Spion-Verdacht
+* *Mutig+3* → keine zögerliche Sprache
+
+
+=== UI: Spieler-Tagebuch
+
+
+* Tab im *Player-Dashboard* mit Liste aller Einträge chronologisch
+* *Edit-Modus* — Spieler kann Draft bearbeiten, neu schreiben, ergänzen
+* *Freigabe-Toggle* pro Eintrag — privat (default) oder an Gruppe sichtbar
+* *Bilder anhängen* — Charakter-Portrait, Item-Bilder, freie Notizen
+* *Export* — gesammelte Tagebuch-Einträge als PDF
+
+
+== Buch-Chronik: Großes In-World-Buch
+
+
+=== Konzept
+
+
+Die Kampagne wird als *literarisches Werk* erzählt, geschrieben von einem In-World-Autor. Pro Session ein *Kapitel*. Über die ganze Kampagne entsteht ein zusammenhängendes Buch — nicht nur ein Recap, sondern eine *Erzählung* mit:
+
+* Konsistenter Erzählstimme
+* Wiederkehrenden Motiven
+* Side Facts ("Wussten Sie schon, dass die Kreuzritter von Drachenfeste seit jeher...")
+* Vorausdeutungen / Rückblenden (wenn der Autor sie als sinnvoll erkennt)
+* Kapitel-Titeln, Untertiteln, Zwischentiteln
+
+
+=== Wer ist der Autor
+
+
+*Default*: Eine In-World-Chronistin / Chronist, der zur Welt passt. Vorgeschlagen:
+
+[cols="1,2,2",options="header"]
+|===
+| Autor-Name | Hintergrund | Stilistik
+
+| *Aelinor von Hestrum* | Akademie-Chronistin, Mensch, Turm der Ketten | Neutral-akademisch, mit gelegentlichen persönlichen Anmerkungen
+| *Bruder Verathos* | Drachen-Mönch, alt, Tiefe Esse | Episch, langsam, weisheitsorientiert
+| *Lyra die Wandlerin* | Reisende Bardin, Halbling | Lebhaft, dramatisch, mit Reim-Einsprengseln
+| *(Custom)* | GM definiert | GM definiert
+|===
+
+Der Autor wird *einmal pro Kampagne* festgelegt und bleibt konstant. Das ist die "narrative Linse" der Kampagne.
+
+
+=== Generierungs-Logik
+
+
+Beim Session-Abschluss generiert das System ein *Buch-Kapitel-Draft* aus:
+
+. *GM-Eingaben* (Schritt 1: wichtige Story-Momente, Erkenntnisse, persönliche Aspekte)
+. *Decision-Logs* — narrativ verwoben
+. *Cliffhanger-Text* — Kapitel-Ende
+. *Optionales Transkript* — für direkte Zitate
+. *Kampagnen-Kontext* — vorherige Kapitel, etablierte Charaktere/Locations
+. *Autor-Stilprofil* — formt Sprache und Tonus
+
+Das Ergebnis ist ein *strukturiertes Kapitel* mit:
+
+* *Titel* (z.B. "Kapitel VII: Das Geheimnis der Westflanke")
+* *Kapitel-Untertitel* (kontextueller, z.B. "in dem Mira Drachenherz endlich begreift, warum")
+* *Lesetext* (3-8 Absätze)
+* *Side Fact* (1-2 Boxen mit "Aus den Annalen der Akademie:")
+* *Illustration-Slots* (1-3 fal-generierte Bilder mit Referenzbild-Konsistenz)
+
+
+=== Side Facts
+
+
+Side Facts sind *kleine Lore-Häppchen*, die den Hauptstrang nicht erzählerisch unterbrechen, aber das Welt-Bild vertiefen. Quellen:
+
+* *Lore-Datenbank* — automatische Auswahl passender Einträge basierend auf Kapitel-Setting
+* *GM-Manueller Tag* — GM kann Side Facts manuell hinzufügen
+* *AI-Vorschlag* — basierend auf erwähnten Locations/NPCs/Items im Kapitel
+
+*Beispiel-Side-Fact* in einem Akademie-Kapitel:
+
+> 📜 *Aus den Annalen der Akademie*
+>
+> Die Bibliothek der Akademie umfasst 47.000 Bände, davon 12.000 in der "verschlossenen Sektion". Erst Drittsemester mit Magister-Empfehlung erhalten dort Zugang.
+
+
+=== Illustrationen
+
+
+Pro Kapitel werden 1-3 Bilder generiert via *fal.ai*:
+
+* *Mit Referenzbildern* (Konsistenz!) — Charakter-Portraits, Location-Bilder, Item-Bilder werden als Reference Images mitgegeben
+* *Stilistisch konsistent* mit Kampagnen-Stil-Voreinstellung (z.B. "Pen-and-ink, Akademie-Atmosphäre")
+* *Pro Bild ein "Slot"* im Kapitel mit GM-Auswahl welche Szene illustriert wird
+* *Auto-Vorschlag*: System schlägt 3 dramatischste Momente des Kapitels vor
+
+Generierungs-Workflow (siehe `04-architektur/ai-prompt-system.adoc`):
+
+. Kapitel-Text wird analysiert für Schlüsselszenen
+. Pro Szene: Prompt + Reference Images zusammenstellen
+. fal.ai Request mit Style-LoRA der Kampagne
+. GM-Review: Bild OK / Re-generate / Verwerfen
+. Approved Bilder werden im Kapitel platziert
+
+
+=== UI: Buch-Chronik
+
+
+* *Eigene Sektion* im Campaign-Hub
+* *Buch-Layout* — wirkliche Buch-Anmutung mit Seitenwende-Animation
+* *Inhaltsverzeichnis* + *Kapitel-Liste*
+* *Search* — Volltext-Suche durch alle Kapitel
+* *Bookmark / Highlight* — Spieler können Stellen markieren
+* *Diskussion-Thread pro Kapitel* — Spieler können kommentieren ("Erinnert ihr euch noch an...")
+* *Export* — kompletes Buch als PDF (mit Cover-Generator)
+
+
+== Implementation Details
+
+
+=== DB-Schema
+
+
+----
+campaign_book_authors
+├── id (PK)
+├── campaign_id (FK)
+├── author_name (varchar)
+├── author_bio (text)
+├── author_style_profile (jsonb — { tone, formality, themes })
+├── selected_at (timestamp)
+└── is_custom (bool)
+
+book_chapters
+├── id (PK)
+├── campaign_id (FK)
+├── session_id (FK)
+├── chapter_number (int)
+├── chapter_title (i18n)
+├── chapter_subtitle (i18n)
+├── content (text — markdown)
+├── side_facts (jsonb — array von { title, content })
+├── illustrations (jsonb — array von { url, prompt, reference_image_ids, position })
+├── status (enum: drafted | reviewed | published)
+├── published_at (timestamp, nullable)
+└── reading_count (int)
+
+book_chapter_comments
+├── id (PK)
+├── chapter_id (FK)
+├── user_id (FK)
+├── content (text)
+├── highlighted_text_range (jsonb, nullable — { start, end })
+└── created_at (timestamp)
+
+player_journal_entries
+├── id (PK)
+├── character_id (FK)
+├── session_id (FK)
+├── content (text — markdown)
+├── attached_images (jsonb — array von urls)
+├── visibility (enum: private | party | public)
+├── status (enum: drafted | edited | finalized)
+└── written_at (timestamp)
+----
+
+
+=== Endpoints (api)
+
+
+* `POST /sessions/:id/journal/generate-drafts` — POV-Drafts pro Charakter generieren
+* `POST /sessions/:id/book/generate-chapter` — Buch-Kapitel-Draft generieren
+* `POST /book/chapters/:id/illustrations/generate` — fal-Pipeline triggern
+* `POST /book/chapters/:id/publish` — Kapitel öffentlich machen
+* `GET /campaigns/:id/book` — vollständige Buch-Liste mit Inhaltsverzeichnis
+
+
+=== AI-Prompt-Templates
+
+
+Siehe `04-architektur/ai-prompt-system.adoc` für die konkreten Templates:
+* `book_chapter` — generiert Kapitel-Draft
+* `player_journal` — generiert POV-Eintrag
+* `side_facts_suggest` — schlägt passende Side Facts vor
+* `illustration_prompt` — generiert fal-Prompt aus Kapitel-Text
+
+
+== Beziehung zu anderen Systemen
+
+
+* *session-abschluss.adoc* — Triggert die Generierung beider Artefakte
+* *fal.ai (04-architektur)* — Bildgenerierung mit Reference Images
+* *traits.adoc* — Charakter-Stimme im Spieler-Tagebuch wird geformt
+* *organisationen.adoc* — Side Facts ziehen aus Lore-Datenbank
