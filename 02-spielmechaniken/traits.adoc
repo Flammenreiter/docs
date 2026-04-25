@@ -253,3 +253,116 @@ Bei Charakter-Load: System validiert gegen exclusion_rules. Falls Violation:
 . System warnt GM
 . Nur GM kann Lösung erzwingen (Force-Lock aktuellen Trait, deaktiviere Gegenpol)
 . Warnt vor nächstem Level-Up
+
+
+== Persönlichkeits-Aspekte: Einseitige Trails
+
+
+Neben den bipolaren Basis-Trails gibt es eine zweite Trait-Art: _einseitige Persönlichkeits-Aspekte_. Diese haben *keinen Gegenpol*, sondern sind charakteristische Eigenschaften, die ein Charakter entweder hat oder nicht hat.
+
+
+=== Was unterscheidet sie von Basis-Trails
+
+
+[cols="1,2,2",options="header"]
+|===
+| Aspekt | Bipolare Basis-Trails | Einseitige Persönlichkeits-Aspekte
+
+| Struktur | Spektrum -5 bis +5 zwischen zwei Polen | Skala 0 bis +5 (nur eine Richtung)
+| Gegenpol | Ja (z.B. Loyal ↔ Treulos) | Nein — Abwesenheit ist neutral, kein Gegen-Trait
+| Beispiele | Loyal, Mutig, Ehrlich, Gnädig, Neugierig, Gierig | Paranoid, Ehrgeizig, Wissbegierig, Pedantisch, Aberglaeubisch, Perfektionistisch
+| Wirkung | Beide Pole haben Stärken UND Schwächen | Hat positive UND negative Auswirkungen auf Würfe, je nach Kontext
+| Erwerb | Bei Charaktererschaffung + Evolution | Durch Story-Events, Ausbildung, Trauma, Hintergrund
+| Anzahl pro Charakter | Standard-Set (8-12 Basis-Trails) | Frei (typisch 0-5 pro Charakter)
+|===
+
+
+=== Beispiel-Aspekte
+
+
+[cols="1,1,3,3",options="header"]
+|===
+| Aspekt | Domain | Positive Auswirkung | Negative Auswirkung
+
+| Paranoid | Wahrnehmung / Sozial | +2 Insight gegen Lügen, +2 Perception für Hinterhalte | -2 Persuasion (Trust-basiert), -2 Group-Checks bei Allianzen
+| Wissbegierig | Wissen / Magie | +2 Arcana, +2 History, +1 auf Investigation | -2 Stealth bei Forschungs-Locations (kann nicht widerstehen), kostet +1 Turn bei Dungeons
+| Ehrgeizig | Sozial / Combat | +2 Persuasion bei Aufstiegs-Themen, +1 Initiative gegen ranghöhere Gegner | -2 bei Compromise-Verhandlungen, -2 Insight bei Verbündeten (übersieht Probleme)
+| Pedantisch | Crafting / Wissen | +2 Crafting-Quality, +2 Investigation bei Detail-Suche | -2 unter Zeitdruck, -2 Improvisations-Checks
+| Aberglaeubisch | Wahrnehmung / Sozial | +2 Insight für unnatürliche Phänomene, +2 Religion | -2 Decisions wenn Omen widersprechen, -2 Logik-Checks
+| Perfektionistisch | Crafting / Combat | +2 zweite Versuche, +2 Crafting bei genug Zeit | -2 erste Versuche unter Druck, -2 Quick-Decisions
+| Loyal-zu-Akademie* | Sozial | +3 mit Akademie-NPCs, +2 mit Studenten | -2 mit Akademie-Feinden, lose Quests bei Konflikt zwischen Akademie und Freunden
+| Trauma-Höhenangst | Movement | — | -3 Athletics bei Klettern, -2 Initiative auf Höhen
+|===
+
+* Charakter-spezifisch / story-spezifisch — werden ad-hoc ergänzt durch GM
+
+
+=== Mechanik: Wann greifen die Modifier
+
+
+Der Modifier-Trigger eines Persönlichkeits-Aspekts ist *kontextbasiert*. Er greift NICHT bei jedem Wurf, sondern nur wenn:
+
+. Der Wurf-Kontext zur Domain des Aspekts passt (siehe Tabelle)
+. Der GM den Kontext-Trigger akzeptiert / oder das System ihn automatisch erkennt
+. Das `personality_aspect_relevance` Flag im Roll-Request gesetzt ist
+
+*Beispiel: Paranoid+3 Charakter*
+
+[cols="2,1,2",options="header"]
+|===
+| Situation | Modifier | Begründung
+
+| Insight-Check ob NPC lügt | +2 | Trifft Domain "Sozial" + Kontext "Misstrauen"
+| Athletics um Mauer zu erklimmen | 0 | Domain trifft nicht
+| Persuasion eines Bekannten | -2 | Trifft Domain "Sozial" + Kontext "Trust-basiert"
+| Stealth in Dungeon | 0 | Domain trifft nicht
+|===
+
+
+=== Erwerb von Persönlichkeits-Aspekten
+
+
+Aspekte entstehen durch *Story-Events*, nicht durch Level-Up:
+
+. *Hintergrund-Wahl bei Charaktererschaffung* — z.B. ein "Ehemaliger Inquisitor" startet mit `Paranoid+2`
+. *Trauma-Event in Session* — schwere Verletzung in Höhe gibt `Trauma-Höhenangst+3` (GM-Entscheidung, narrativer Ankerpunkt)
+. *Ausbildung / Quest* — abgeschlossene Akademie-Forschungs-Arc kann `Wissbegierig+2` gewähren
+. *Trait-Resonanz* — wer Loyal+5 hat, entwickelt natürlich oft `Loyal-zu-Akademie+1` als Spezialisierung
+
+
+=== Implementation Details
+
+
+----
+character_personality_aspects
+├── id (PK)
+├── character_id (FK)
+├── aspect_name (varchar — z.B. "paranoid", "wissbegierig")
+├── domain_tags (jsonb — array: ["sozial", "wahrnehmung"])
+├── current_level (1-5, kein Negativbereich)
+├── modifier_rules (jsonb — array von { context_match, modifier, reason })
+├── acquired_at (timestamp)
+├── acquired_via (enum: background | trauma | training | quest | gm_grant)
+├── acquired_note (text — narrative Beschreibung)
+└── locked (bool — kann nicht durch normale Evolution ändern)
+----
+
+*modifier_rules-Beispiel (paranoid):*
+
+----
+[
+  { "context_match": "insight.deception", "modifier": 2, "reason": "Misstrauen schärft Lügen-Erkennung" },
+  { "context_match": "perception.ambush", "modifier": 2, "reason": "Erwartet Hinterhalte" },
+  { "context_match": "persuasion.trust", "modifier": -2, "reason": "Misstrauen mindert Charme" },
+  { "context_match": "group_check.alliance", "modifier": -2, "reason": "Vermutet Verrat in Bündnissen" }
+]
+----
+
+
+=== Anzeige im Character Sheet
+
+
+* Bipolare Basis-Trails: *Balken-Anzeige* (Zwei-Pol-Slider, -5 bis +5)
+* Einseitige Persönlichkeits-Aspekte: *Stern-Anzeige* (1-5 Sterne, einseitig wachsend)
+
+Die UI muss visuell zwischen den beiden Trait-Arten unterscheiden, damit Spieler instinktiv verstehen "diese Eigenschaft hat zwei Seiten" vs. "diese Eigenschaft ist ein Add-on".
