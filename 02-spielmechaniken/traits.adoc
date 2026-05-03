@@ -366,3 +366,46 @@ character_personality_aspects
 * Einseitige Persönlichkeits-Aspekte: *Stern-Anzeige* (1-5 Sterne, einseitig wachsend)
 
 Die UI muss visuell zwischen den beiden Trait-Arten unterscheiden, damit Spieler instinktiv verstehen "diese Eigenschaft hat zwei Seiten" vs. "diese Eigenschaft ist ein Add-on".
+
+
+=== Verwaltung im Lore-Admin (STORY-213)
+
+
+Der Master-Katalog der Persönlichkeits-Aspekte (also welche Aspekte es überhaupt gibt — nicht welche Charakter X aktuell hat) wird im *lore-admin* gepflegt. Charakter-Junctions liegen weiterhin GM-seitig.
+
+==== UI-Bereich
+
+`/personality-aspects` im lore-admin enthält:
+
+* *Liste / Grid-View* — Tabelle aller Master-Aspekte mit Suche (Slug + Name), Status-Badge (Default vs. Deprecated), Sortierung nach Slug, Pagination.
+* *Editor* (`/new` und `/:aspectId`) — Slug + Name + Beschreibung + Domain-Tags-Editor + Modifier-Rules-Editor (Triplet `context_match` / `modifier` / `reason` mit Regex-Validierung) + Story-Hooks-Liste + `isDefault`-Toggle.
+* *Audit-Trail-Panel* (Edit-Mode) — chronologische Liste aller `create` / `update` / `delete`-Events mit Akteur und kompakter Diff-Summary, gespeist aus dem zentralen `audit_logs`-Table.
+* *Roll-Preview-Sandbox* (Edit-Mode) — Eingabe `level: 1..5` + Liste von Context-Tags. Ergebnis: `total` + per-Regel-Breakdown mit der `base × level / 3`-Skalierung. Antwortet die Frage "Was bekommt ein Charakter mit diesem Aspekt bei einem Wurf mit diesen Tags?" ohne dass eine echte Junction angefasst wird.
+
+==== Schreibgeschütze Felder
+
+Der `slug` ist im Edit-Mode disabled — er ist die stabile URL- und Cross-Repo-ID. Wer den Slug einer bestehenden Master-Row ändern muss, löscht den Aspekt und legt ihn neu an (server-side ist `slug_taken` gegen Kollisionen geschützt; löschen ist 409 `aspect_in_use` solange noch ein Charakter den Aspekt trägt — soft-deprecate via `isDefault=false` ist der empfohlene Pfad).
+
+==== API-Endpoints
+
+`/admin/personality-aspects` (alle hinter `requireAuth + requireAdmin`):
+
+[cols="1,3"]
+|===
+| Methode  | Zweck
+
+| `GET /`                  | Paginierte Liste, optional `?search=` (Slug + Name, case-insensitive)
+| `GET /:idOrSlug`         | Einzeln laden — id OR slug
+| `POST /`                 | Anlegen (Validation: slug-shape, name 1..120, description 1..2000)
+| `PATCH /:id`             | Partial Update (gleiche Validation, nur für gesetzte Felder)
+| `DELETE /:id`            | Löschen — refused 409 wenn `aspect_in_use`
+| `POST /:idOrSlug/preview`| Roll-Preview (Body: `{ level: 1..5, contextTags: string[] }`)
+|===
+
+==== Audit-Log-Anschluss
+
+Alle drei mutating endpoints emittieren `auditLog()` mit `entity: 'personality-aspect'` und before/after-Snapshots. Read-Listing-Endpoint ist der zentrale `GET /audit?entity=personality-aspect&entityId=:id`.
+
+==== Beziehung zu existierenden Junction-Endpoints
+
+Die character-scoped Endpoints aus STORY-169 (`GET / POST / DELETE /characters/:id/personality-aspects`) bleiben unverändert — sie operieren auf der Junction `CharacterPersonalityAspect`, nicht auf der Master-Row `PersonalityAspect`. Master-CRUD ist eine separate, admin-only Edit-Surface.
