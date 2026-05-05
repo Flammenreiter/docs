@@ -1,0 +1,148 @@
+
+= Akademie — NPC-Schueler & Haus-Zuweisung
+
+
+Kanonische Liste aller NPC-Schueler an der Akademie der Flammenreiter, geordnet nach Jahrgang, Haus und Flamme. Diese Datei ist die _einzige Quelle der Wahrheit_ fuer Schueler-Zuordnungen — jede andere Erwaehnung in den Docs muss diese Liste referenzieren.
+
+
+== Konzept
+
+
+An der Akademie lernen drei Jahrgaenge gleichzeitig (Jahr 1, Jahr 2, Jahr 3). Jeder Jahrgang ist in vier _Haeuser_ aufgeteilt — Drachenfeste (Rot), Turm der Ketten (Blau), Tiefe Esse (Bronze) und Liebe & Leben (Gruen). Innerhalb eines Jahrgangs werden Schueler in _Flammen_ gruppiert (feste Lerngruppen, die in ALLES zusammen gehen). Die Spielergruppe bildet die _Flamme Obsidian_ in Jahr 1.
+
+Siehe link:herkunft.adoc#flammen-prinzip[Herkunft → Flammen-Prinzip] fuer das Lehr-Prinzip dahinter.
+
+'''
+
+
+== Jahr 1 — Schueler
+
+
+Spielergruppe + 17 NPC-Schueler verteilt auf 4 Flammen.
+
+
+=== Haus-Zuweisung Jahr 1 (Uebersicht)
+
+
+[cols="2,1,3,2",options="header"]
+|===
+| NPC | Haus | Bemerkung | Flamme
+
+| Kael Dornwind         | Drachenfeste (Rot)     | Krieger-Affinitaet, Mentor-Kandidat fuer Spieler | Granit
+| Tara Wildherz         | Drachenfeste (Rot)     | Wilde Praezision, Bogenschuetzin                 | Esche
+| Draven Kohlenblick    | Drachenfeste (Rot)     | Schmiede-Hintergrund, Hammer-Kaempferin          | Esche
+
+| Mira Falkenstein      | Turm der Ketten (Blau) | Adelsabstammung, Divinations-Fokus               | Granit
+| Yuna Nachtfeder       | Turm der Ketten (Blau) | Aeroakrobatin, Wind-Theoretikerin                | Granit
+| Sera Kupferschlag     | Turm der Ketten (Blau) | Artefakt-Forscherin, Tech-affin                  | Esche
+
+| Brokk Steinfaust      | Tiefe Esse (Bronze)    | Klassischer Zwerg-Schmied, ruhig                 | Granit
+| Elwin Schattenlauf    | Tiefe Esse (Bronze)    | Kraeuterkunde + Spurenlesen                      | Esche
+| Jorik Eisenbart       | Tiefe Esse (Bronze)    | Aelterer Schueler, Reservist aus J0              | Bernstein
+
+| Aldis Lichttraeger    | Liebe & Leben (Gruen)  | Heiler-in-Ausbildung, Solveris-Geweihter         | Granit
+| Pip Honigbauch        | Liebe & Leben (Gruen)  | Halbling, Bardin in spe                          | Esche
+| Lena Morgenreif       | Liebe & Leben (Gruen)  | Diplomatentochter, Sprach-Talent                 | Bernstein
+| Nyx Schleiermond      | Liebe & Leben (Gruen)  | Drow-Halbblut, Nocthari-Affinitaet               | Bernstein
+| Renn Federhand        | Liebe & Leben (Gruen)  | Reisender Hintergrund, Geruechte-Sammler         | Bernstein
+|===
+
+
+=== Flammen-Zuweisung Jahr 1
+
+
+[cols="2,3,3",options="header"]
+|===
+| Flamme | Mitglieder | Charakter
+
+| Obsidian   | 6 Spielercharaktere                                                       | _Frei definiert von der Spielergruppe_ — keine NPC-Belegung
+| Granit     | Kael (Rot), Mira (Blau), Brokk (Bronze), Aldis (Gruen), Yuna (Blau)       | Diszipliniert, Studienorientiert, Spieler-Rivalen-Flamme
+| Esche      | Tara (Rot), Sera (Blau), Elwin (Bronze), Pip (Gruen), Draven (Rot)        | Gemischt, sozial-aktiv, Quest-Quell-Flamme
+| Bernstein  | Lena (Gruen), Jorik (Bronze), Nyx (Gruen), Renn (Gruen)                   | Aussenseiter-Flamme, Geruechte- und Lore-Quelle
+|===
+
+NOTE: Yuna ist in Granit, obwohl ihr Haus (Turm der Ketten) auch in Granit doppelt vertreten ist — die Akademie mischt Haeuser bewusst innerhalb der Flammen, sodass jede Flamme alle 4 Kulturen kennenlernt.
+
+'''
+
+
+== Jahr 2 — Schueler
+
+
+Aelterer Jahrgang. Diese Schueler treffen die Spielergruppe in gemischten Praktika, Mentoring-Situationen und Drachenkunde-Stunden.
+
+
+=== Haus-Zuweisung Jahr 2
+
+
+[cols="2,1,3",options="header"]
+|===
+| NPC | Haus | Bemerkung
+
+| Gregor    | Drachenfeste (Rot)     | Veteran, hat schon einmal gegen einen Wildling gekaempft
+| Korran    | Drachenfeste (Rot)     | Cholerisch, Rivale aller J1-Krieger
+| Valla     | Turm der Ketten (Blau) | Bibliotheks-Aufseherin, vergibt Lese-Privilegien
+| Selene    | Turm der Ketten (Blau) | Mond-Zyklen-Forscherin, Nocturnal
+| Fenris    | Turm der Ketten (Blau) | Beschwoerungs-Theoretiker, leicht arrogant
+| Thorin    | Tiefe Esse (Bronze)    | Erfahrener Schmied, leitet Schmiede-Workshops
+| Brunt     | Tiefe Esse (Bronze)    | Halbork, Wildnisfuehrer in Jahr-2-Expeditionen
+| Darla     | Tiefe Esse (Bronze)    | Tier-Empathin, Stallaufsicht im Drachenstall
+| Iris      | Liebe & Leben (Gruen)  | Vermittlerin, Sprecherin der J2-Schuelervertretung
+| Lyra      | Liebe & Leben (Gruen)  | Kuenstlerin, dokumentiert Akademie-Leben in Bildern
+|===
+
+'''
+
+
+== Jahr 3 — Schueler
+
+
+Aeltester Jahrgang. Bindungsritual + Abschluss stehen bevor. Diese Schueler sind potenzielle Vorbilder, Konkurrenten und in seltenen Faellen Mentoren.
+
+
+=== Haus-Zuweisung Jahr 3
+
+
+[cols="2,1,3",options="header"]
+|===
+| NPC | Haus | Bemerkung
+
+| Kaelin    | Drachenfeste (Rot)     | Inoffizieller Schueler-Anfuehrer, Drachen-Kandidat (Kampfdrache)
+| Rogen     | Drachenfeste (Rot)     | Strenger Sparring-Partner, Pflichtbewusst
+| Zara      | Drachenfeste (Rot)     | Drachenblut-Erbe, lehnt Bevorzugung ab
+| Alyndra   | Turm der Ketten (Blau) | Theoretikerin, hat eigene Forschungsschrift veroeffentlicht
+| Tessa     | Turm der Ketten (Blau) | Illusionistin, gerne Streiche
+| Elara     | Turm der Ketten (Blau) | Stille Beobachterin, Divination-Spezialistin
+| Ulf       | Tiefe Esse (Bronze)    | Schmiede-Meister-Schueler, baut Bondings-Fokus selbst
+| Bjarne    | Tiefe Esse (Bronze)    | Pragmatiker, hat Wandern und Klettern perfektioniert
+| Senna     | Liebe & Leben (Gruen)  | Bardin, organisiert Schuelerfeste
+| Nilo      | Liebe & Leben (Gruen)  | Diplomat, vermittelt Konflikte zwischen den Jahrgaengen
+|===
+
+'''
+
+
+== Aenderungen pflegen
+
+
+Wer hier eine Aenderung macht (NPC umbenennen, Haus oder Flamme aendern, neue NPCs hinzufuegen):
+
+. Diese Datei ist die _Quelle der Wahrheit_. Aenderungen hier werden ueberall sonst nachgezogen.
+. Folgende Stellen verifizieren / aktualisieren:
+  ** link:herkunft.adoc[06-rassen-klassen/herkunft.adoc] — Akademie-Lehrplan, Haus-Beschreibungen
+  ** link:index.adoc[06-rassen-klassen/index.adoc] — 4-Haeuser-Liste
+  ** link:../01-welt-lore/index.adoc[01-welt-lore/index.adoc] — falls dort Akademie-Bezuege bestehen
+  ** link:../07-gm-dashboard/story-tagebuch.adoc[07-gm-dashboard/story-tagebuch.adoc] — falls NPC-Zitate existieren
+. Commit-Message: `docs(akademie): <was geaendert>`
+. Kurze Notiz im `CHANGELOG.md` der docs-Repo
+
+'''
+
+
+== Verwandte Dokumente
+
+
+* link:herkunft.adoc[Herkunft & Akademie-Lehrplan] — Flammen-Prinzip, 7 Faecher, 4 Haeuser im Detail
+* link:rassen.adoc[Rassen] — Welche Rassen welchen Haeusern affin sind
+* link:klassen.adoc[Klassen] — Klassen-Affinitaet pro Haus
+* link:../02-spielmechaniken/dragon-bond.adoc[Dragon Bond] — Bindungsritual am Ende von Jahr 3
