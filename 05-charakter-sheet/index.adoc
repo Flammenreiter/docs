@@ -178,3 +178,4 @@ _Foundry-Integration:_
 * link:architektur.adoc[Architektur Decisions] — 26 Entscheidungen, 4 Modi, Workflows, Datenfluss
 * link:domains.adoc[9 Domains] — Detaillierte Domain-Spezifikationen mit DB-References
 * link:use-cases.adoc[Use Cases] — Alle 28+ dokumentierten Workflows
+* link:journey-narrative.adoc[Reise-Narrative (EPIC-24 / STORY-225)] — Claude-AI-Erzähltext für die Reise zur Akademie

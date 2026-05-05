@@ -1,0 +1,142 @@
+= Reise-Narrative — Claude-AI Erzähltext
+
+EPIC-24 / STORY-225 — _Claude-generierter Prosatext für die "Reise zur Akademie"_
+
+== Überblick
+
+Die Reise eines Charakters von seinem _Heimatort_ zur Akademie wird zunächst
+strukturiert erfasst (Encounters, Funde, Notizen — siehe link:../03-datenbank/schema-uebersicht.adoc[`Character.journey`]).
+
+Optional kann der Spieler die Begegnungen im Anschluss von Claude in eine
+flüssige, atmosphärische Erzählung in zweiter Person verwandeln lassen
+("_Du verließest Steinheim im Morgengrauen…_"), die zusammen mit der
+Encounter-Liste auf dem Charakter-Sheet angezeigt wird.
+
+Die Erzählung wird unter `Character.journey.narrative` als _Markdown_
+persistiert und ist anschließend ohne erneuten KI-Aufruf abrufbar.
+
+== Endpoint
+
+[cols="1,3"]
+|===
+| Methode + Pfad | `POST /characters/{id}/journey/narrative`
+| Auth           | Bearer (Supabase JWT) — Owner-only (`Character.userId === userId`)
+| Request-Body   | `{}` (leer — Service liest Charakter + Journey aus DB)
+| Response 200   | `{ characterId, narrative, model, usage? }`
+| Response 400   | Reise noch verschlossen (`journey_locked`) oder ohne Encounters (`no_encounters`)
+| Response 404   | Charakter existiert nicht oder gehört einem anderen Spieler
+| Response 422   | Claude lehnt Generierung ab (`ai_content_policy`)
+| Response 503   | Claude-Upstream-Fehler / Rate-Limit / Key fehlt — `Retry-After` Header gesetzt
+|===
+
+=== Ablauf
+
+. Owner-Check: `Character.userId === userId` (sonst 404, ohne Owner-Leak).
+. Guard: `journey.status !== 'locked'` und `journey.encounters.length > 0`.
+. Build Prompt aus `src/prompts/journey.ts` — System-Prompt + User-Prompt.
+. Claude-Call über `src/services/ai/anthropic-client.ts` → `generateText()`.
+. Persistierung: `Character.journey.narrative = response.text.trim()`,
+  alle anderen `journey`-Felder bleiben erhalten.
+. Audit-Log-Eintrag mit `narrativeLength` + `model`.
+
+== Prompt-Template
+
+Das Template liegt versionierbar in
+`api/src/prompts/journey.ts` und ist in zwei Teile aufgeteilt:
+
+=== System-Prompt (cache-fähig, stabil)
+
+[source]
+----
+Du bist ein D&D-Erzähler im Flammenreiter-Universum — einer Welt aus Drachen,
+Akademien für junge Helden und alten Gefahren am Wegesrand.
+
+Deine Aufgabe: aus einer strukturierten Reise-Liste (Heimatort, Geographie,
+Begegnungen, Funde) eine flüssige, atmosphärische Erzählung über die "Reise
+zur Akademie" eines Charakters formen.
+
+Stil-Vorgaben:
+- Schreibe in zweiter Person ("Du verließest …", "Vor dir lag …").
+- Drei bis fünf Absätze in Markdown — keine Headings, kein Inhaltsverzeichnis.
+- Beziehe Klasse, Rasse und Hintergrund organisch ein, verweise nicht auf
+  Spielmechanik (keine DC-Werte, keine Würfe, keine Encounter-Tags).
+- Outcomes treu wiedergeben: ein "fail" ist eine Niederlage, ein "success"
+  ein Triumph, "skipped" eine bewusste Umgehung.
+- Ortsnamen und Funde wörtlich übernehmen, nicht erfinden.
+- Schließe mit der Ankunft an der Akademie ab.
+
+Antwortformat: nur die Erzählung, kein Vor- oder Nachwort, kein "Hier ist…"
+Maximal 1500 Output-Token.
+----
+
+=== User-Prompt (per Charakter dynamisch)
+
+Aufbau in fester Reihenfolge (load-bearing für Prompt-Caching und
+Prompt-Shape-Tests):
+
+. `Charakter:` — Name, Rasse, Klasse, Hintergrund
+. `Heimatort:` — Settlement-Name oder `(nicht gesetzt)`
+. `Geographie auf dem Weg:` — Tag-Set aus Encounter-Tags
+. `Begegnungen (in Reihenfolge):` — Name, Beschreibung, `outcome:`, Tags, optional Notiz
+. `Funde:` — Name + Mengenangabe + Beschreibung
+. Optional: `Zusätzliche Notizen:` (nur wenn `notes` nicht leer)
+. Schluss-Anweisung: _"Erzähle nun die Reise dieses Charakters …"_
+
+== Modell + Limits
+
+[cols="1,2"]
+|===
+| Standard-Modell    | `claude-haiku-4-5-20251001` (Konstante `DEFAULT_JOURNEY_MODEL`)
+| Output-Token-Cap   | `1500` (Konstante `JOURNEY_MAX_OUTPUT_TOKENS`)
+| Streaming          | _nicht aktiviert_ (Single-Shot, v1) — Streaming kann
+                       später nachgerüstet werden, ohne den Endpoint-Vertrag zu ändern
+| Prompt-Caching     | System-Prompt ist kurz (≤ 1.5 KB) und stabil → kann
+                       mit `cache_control: ephemeral` markiert werden, wenn
+                       mehrere Charaktere derselben Kampagne hintereinander
+                       generiert werden
+|===
+
+_Begründung Haiku-Klasse:_ Die Aufgabe ist kurz (max. 5 Absätze, ~1500
+Tokens), stark strukturiert (System-Prompt gibt Stil + Format vor) und
+soll spielbegleitend bezahlbar bleiben. Sollte sich die Output-Qualität
+in der Praxis als unzureichend erweisen, kann pro Spieler / pro Kampagne
+auf `claude-sonnet-4-6` umgeschaltet werden, indem `DEFAULT_JOURNEY_MODEL`
+gegen einen Override ausgetauscht wird.
+
+== Fehlerbehandlung
+
+Der Service mappt jeden recoverable-Fehler auf einen typisierten
+`NarrativeGenerationError`-Code, den die Route in einen HTTP-Status
+übersetzt:
+
+[cols="1,1,2"]
+|===
+| Service-Code         | HTTP | Bedeutung
+
+| `journey_locked`     | 400  | `journey.status === 'locked'` — zuerst Plan setzen
+| `no_encounters`      | 400  | Reise hat noch keine Encounters
+| `ai_content_policy`  | 422  | Anthropic lehnt Input ab (UnprocessableEntityError)
+| `ai_rate_limited`    | 503  | 429 von Claude — `Retry-After` aus Response-Header weitergereicht (Default 30s)
+| `ai_upstream_error`  | 503  | 5xx oder Connection-Error — `Retry-After: 30`
+| `ai_unavailable`     | 503  | `ANTHROPIC_API_KEY` nicht gesetzt — `Retry-After: 60`
+|===
+
+Die Persistierung erfolgt _nur_ bei erfolgreicher Generierung. Schlägt
+Claude fehl, bleibt der vorherige Wert von `journey.narrative` (falls
+vorhanden) unangetastet, sodass der Spieler die Generierung gefahrlos
+wiederholen kann.
+
+== Tests
+
+[cols="1,2"]
+|===
+| `api/src/services/__tests__/journey-narrative.service.test.ts` | 16 Cases — `vi.mock('@/services/ai/anthropic-client')`, `vi.mock('@/db/client')`. Echte Claude-Calls sind verboten. Prompt-Shape-Assertions auf Sektion-Reihenfolge + Outcome-Wiedergabe. Komplette Error-Mapping-Matrix: `RateLimitError`, `InternalServerError`, `APIConnectionError`, `UnprocessableEntityError`.
+| `api/src/routes/__tests__/journey.routes.test.ts` | +8 Cases für den Narrative-Endpoint: Happy-Path persistiert + 200, 404 nicht-Owner, 400 locked, 400 ohne Encounters, 503 + `Retry-After` bei Rate-Limit, 503 + Default-Retry-After bei 5xx, 503 ohne API-Key, 422 bei Content-Policy.
+|===
+
+== Referenzen
+
+* link:../03-datenbank/schema-uebersicht.adoc[`Character.journey`-Schema] (`@flammenreiter/shared` `CharacterJourseySchema`)
+* link:../04-architektur/ai-prompt-system.adoc[AI-Prompt-System] — übergreifendes Template-Schema (Hinweis: dieses Story-225-Prompt ist _hardcoded_ in `api/src/prompts/journey.ts` und nicht über die `ai_templates`-Tabelle verwaltet, da Reise-Narrative pro Charakter dynamisch sind, nicht pro Admin-Konfiguration)
+* link:../../api/src/services/journey-narrative.service.ts[Service-Implementierung] (`api`-Repo)
+* link:../../api/src/services/ai/anthropic-client.ts[Geteilter Anthropic-Client]
