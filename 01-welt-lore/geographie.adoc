@@ -114,7 +114,9 @@ Der Schnitt aller Layer bestimmt:
 * Erstellungs-Lore
 * Map-Bild
 
-Beispiel: "Flammenreiter-Welt — ein Kontinent mit ~50 Millionen Einwohnern"
+Beispiel: "Flammenreiter-Welt — der Kontinent _[Kontinent-Name, beginnt mit C]_ mit ~50 Millionen Einwohnern"
+
+NOTE: Der Kontinentsname ist in den aktuellen Quellen noch ein Platzhalter — er beginnt mit *C* (z.B. _Calderon_, _Coranthia_, _Cenmaer_). Final-Name folgt in einer späteren Lore-Iteration. Bis dahin bitte den Platzhalter `[Kontinent-Name, beginnt mit C]` belassen.
 
 
 === Ebene 2: POLITISCHE REGIONEN
@@ -346,7 +348,7 @@ Wenn Spieler auf einen NPC klicken → sehen sie wo er zu finden ist
 * `schedule_description` TEXT — 'Tagsüber in der Schmiede, abends in der Taverne'
 
 _Beispiel_: "Gundrik der Schmied"
-* home_node_id → Stadt Sturmfels
+* home_node_id → Stadt Altheim
 * work_poi_id → Schmied 'Zur Glühenden Esse'
 * schedule → "Montag-Freitag 06:00-18:00 in der Schmiede, Samstag auf dem Markt"
 

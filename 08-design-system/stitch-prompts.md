@@ -100,7 +100,7 @@ NPC DISPOSITION CARDS — 3 cards in a row:
 - "Wache Brennan" — Portrait, "Misstrauisch" (orange badge), disposition bar at 25/100
 
 RENOWN BADGES — Horizontal strip:
-- "Sturmfels: Bekannt" (silver badge), "Nordmark: Unbekannt" (grey), "Handelsgilde: Respektiert" (gold)
+- "Altheim: Bekannt" (silver badge), "Nordmark: Unbekannt" (grey), "Handelsgilde: Respektiert" (gold)
 
 ORGANIZATION MEMBERSHIPS — Card:
 - "Drachenfeste" — Rank: "Kadett", Benefits: "+1 Einschuechterung", red house color border
@@ -268,7 +268,7 @@ TOP BAR — Session Header:
 - Campaign: "Die Sigillen-Erwachung" (small text)
 - Session: "#12 — Der Markt der Schatten" (session title)
 - Scene badge: "Social" (pink pulsing dot + label), or "Combat" (red), "Explore" (green), "Downtime" (orange)
-- Location: "Marktplatz von Sturmfels" (pin icon)
+- Location: "Marktplatz von Altheim" (pin icon)
 - In-game time: "14. Flammentag, Nachmittag" (sun icon)
 - Weather: "Bewoelkt, leichter Wind" (cloud icon, subtle blue tint on background)
 - Connection status: Green dot "Live"
@@ -395,7 +395,7 @@ LEFT PANEL — Party Overview (25%):
 Each card: Mini portrait, name, class/level, HP bar, AC badge, condition badges, spell slot pips
 
 CENTER — Active Scene (50%):
-- Scene type badge: "Social" (pink), Location: "Marktplatz von Sturmfels"
+- Scene type badge: "Social" (pink), Location: "Marktplatz von Altheim"
 - Scene description: "Die Gruppe trifft den Haendler Korbin am Marktstand..."
 - Active NPCs cards:
   - "Korbin" — Portrait, "Neutral (45)" disposition bar, "Haendler" role
@@ -514,9 +514,9 @@ NPC library and detail panel for Game Master. Warm, scholarly atmosphere.
 LEFT — NPC List (35%):
 - Search bar with filter dropdown (Beruf, Fraktion, Ort)
 - NPC cards in scrollable list:
-  - "Meisterin Valdra" — Portrait, "Magierin", "Sturmfels Akademie", Disposition: 72 (green dot)
+  - "Meisterin Valdra" — Portrait, "Magierin", "Akademie von Altheim", Disposition: 72 (green dot)
   - "Haendler Korbin" — Portrait, "Haendler", "Marktplatz", Disposition: 45 (yellow dot)
-  - "Wache Brennan" — Portrait, "Stadtwache", "Sturmfels Tor", Disposition: 25 (orange dot)
+  - "Wache Brennan" — Portrait, "Stadtwache", "Altheim Tor", Disposition: 25 (orange dot)
   - "Der Graue Fuchs" — Portrait (shadowed), "Unbekannt", "Unterwelt", Disposition: 15 (red dot)
   - "Schmied Durgan" — Portrait, "Schmied", "Tiefe Esse", Disposition: 60 (green dot)
 - "+ Neuer NPC" button at bottom
@@ -549,7 +549,7 @@ RELATIONSHIPS:
 - "Der Graue Fuchs — Geheim (Informant)"
 
 LOCATIONS:
-- "Marktplatz von Sturmfels" (primary)
+- "Marktplatz von Altheim" (primary)
 - "Handelskontor" (sometimes)
 ```
 
@@ -566,8 +566,8 @@ Content administration interface for world locations. Clean, efficient editor la
 
 LEFT — Location Tree (25%):
 - Hierarchical tree view:
-  - 📍 Sturmfels (Region)
-    - 🏰 Sturmfels Stadt
+  - 📍 Altheim (Region)
+    - 🏰 Altheim Stadt
       - 🏫 Akademie
       - 🏪 Marktplatz
       - ⛪ Tempel des Solveris
@@ -582,13 +582,13 @@ LEFT — Location Tree (25%):
 - "+ Neuer Ort" button
 
 CENTER — Location Detail Editor (45%):
-- Name: "Marktplatz von Sturmfels" (editable)
+- Name: "Marktplatz von Altheim" (editable)
 - Type dropdown: City | Town | Village | Dungeon | Wilderness | Landmark | Port
 - Description: Rich text editor with @Entity mentions
-  - "Der zentrale Marktplatz ist das Herz von @Sturmfels. Hier treiben @Haendler_Korbin und andere Haendler ihre Geschaefte..."
+  - "Der zentrale Marktplatz ist das Herz von @Altheim. Hier treiben @Haendler_Korbin und andere Haendler ihre Geschaefte..."
 - Tags: "Handel", "Sozial", "Sicher" (editable tag chips)
 - Danger Level: 0 (slider, 0-10)
-- Laws: Linked to "Sturmfels Stadtrecht" (clickable reference)
+- Laws: Linked to "Altheim Stadtrecht" (clickable reference)
 
 ASSOCIATED ENTITIES:
 - NPCs: "Korbin", "Brennan", "Marktschreier" (tag chips with portraits)
@@ -596,7 +596,7 @@ ASSOCIATED ENTITIES:
 - Quest Hooks: "Die verschwundene Karawane" (linked quest)
 
 RIGHT — Map Preview (30%):
-- Leaflet mini-map showing Sturmfels region
+- Leaflet mini-map showing Altheim region
 - Pin on "Marktplatz" location
 - Polygon overlay showing market area bounds
 - "Karte bearbeiten" button to open full map editor

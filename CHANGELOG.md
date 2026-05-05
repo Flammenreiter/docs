@@ -4,6 +4,17 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ## [Unreleased]
 
+### Sprint 2026-05-05 — Lore-Korrekturen + Jahr-1-Blueprint + NPC-Katalog (DOCS-003 / 004 / 005)
+
+- _DOCS-005 (Lore-Korrekturen)_:
+  - Akademie-Name umbenannt: _Sturmfels-Akademie_ -> _Akademie von Altheim_ (alle Vorkommen in `01-welt-lore/`, `04-architektur/`, `08-design-system/`).
+  - Fuenf Gruender konkret dokumentiert: _Hesidia_ (Mensch / Wizard-Conjuration), _Morla_ (Mensch / Druid-Moon), _Leomar_ (Mensch / Paladin-Crown), _Romoschoch_ (Bergzwerg / Artificer), _Anground_ (Geheimnis - Rasse/Klasse unbekannt). Klassen/Rassen sind Erstvorschlag - bitte Lore-Owner reviewen.
+  - Zeitleiste in `geschichte.adoc` ergaenzt: ~200 v.h. _Das Grosse Erdbeben_, ~100 v.h. _Drachen-Rueckkehr_ konkretisiert.
+  - Drachen-Taxonomie in `dragon-bond.adoc` neu strukturiert: 3 _Spezies_ (Kampf-, Taschen-, Schattendrache) x 7 _Rassen_ (Feuer, Frost, Gruen, Gold, Schwarz, Silber, Stein) = 21 dokumentierte Varianten. Legacy-Tabelle als Referenz erhalten.
+  - Kontinent-Platzhalter `[Kontinent-Name, beginnt mit C]` in `geographie.adoc` eingefuegt.
+- _DOCS-003 (Jahr-1-Blueprint)_: Neue Datei `02-spielmechaniken/jahr-1-blueprint.adoc` mit Harptos-Mapping (12 Monate -> 4 Akademie-Phasen), Q1-Q6 Quest-Uebersicht, 9 Konsequenz-Variablen, Belohnungen pro Quest. Loest CL-02.
+- _DOCS-004 (NPC-Katalog)_: Neue Datei `06-rassen-klassen/npc-katalog.adoc` mit 46 NPCs (2 Leitung + 7 Dozenten + 4 weitere + 14 J1-Schueler + 10 J2-Schueler + 10 J3-Schueler inkl. Dragon Bond Status + 3 Siedlungs-NPCs). Konsistent mit `akademie-schueler.adoc` (DOCS-001 = Quelle der Wahrheit).
+
 ### Sprint 2026-04-22 bis 2026-04-24 — Live-Session-Stabilisierung
 
 Dokumentiert die groesste Feature-/Bugfix-Welle seit Projektstart. Drei

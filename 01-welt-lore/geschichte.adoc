@@ -139,7 +139,7 @@ Das Wissen war nicht weg — nur tief verborgen. Neue Magier lehrten alte Künst
 === ~600 Jahre v.h.: Die Fünf Gründer
 
 
-Fünf außergewöhnliche Magier fanden sich zusammen und gründeten die _Sturmfels-Akademie_.
+Fünf außergewöhnliche Magier fanden sich zusammen und gründeten die _Akademie von Altheim_.
 
 
 ==== Philosophie der Akademie
@@ -164,6 +164,17 @@ Die Akademie:
 * Schuf Netzwerke von Gelehrten über die ganze Welt
 
 
+=== ~200 Jahre v.h.: Das Große Erdbeben
+
+
+Vor etwa 200 Jahren erschütterte ein _Beben kontinentaler Größenordnung_ die bekannte Welt. Ganze Küstenstriche versanken, neue Gebirgsketten hoben sich, und Flussläufe veränderten sich dauerhaft.
+
+* Die Akademie überstand das Beben — _ihre Gründungsmauern waren arkan verstärkt_ (vermutlich durch Anground)
+* Mehrere Sigillen-Verstecke wurden freigelegt, blieben aber unentdeckt
+* Manche Gelehrte halten das Beben für ein _Vorzeichen_ der späteren Drachen-Rückkehr
+* Politische Neuordnung: Drei Königreiche zerfielen, neue Allianzen entstanden
+
+
 === ~100 Jahre v.h.: Die Drachen kehren zurück
 
 
@@ -174,6 +185,7 @@ Nicht aggressiv — _als ob sie etwas gespürt haben_.
 * _Drachenbindung_ wurde in den akademischen Lehrplan integriert
 * Drachen wählten Reiter
 * Eine Partnerschaft zwischen alter göttlicher Schöpfung und neuer magischer Zivilisation
+* Die Akademie öffnete den Drachenstall, drei _Spezies_ in sieben _Rassen_ wurden katalogisiert (siehe link:../02-spielmechaniken/dragon-bond.adoc[Dragon Bond])
 
 
 === JETZT: Die erste Sigille manifestiert sich
@@ -209,54 +221,75 @@ _Die Drachen wussten ALLES vorher_:
 === Struktur: Die Vier Korona + Der Fünfte
 
 
-* _3 Menschen_ — [Details folgen]
-* _1 Zwerg_ — [Details folgen]
-* _1 Fünfter_ — Geheimnis, mit großer Macht und verborgener Geschichte
+* _3 Menschen_ — Hesidia, Morla, Leomar
+* _1 Zwerg_ — Romoschoch
+* _1 Fünfter_ — Anground, Geheimnis mit großer Macht und verborgener Geschichte
 
 
 === Die Vier Korona
 
 
 Die vier bekannten Gründer sind _historische Legenden_:
+
 * Statuen in der Akademie
 * Namen in jedem Geschichtsbuch
 * Öffentlich verehrt und gelehrt
 * Philosophie und Regeln basieren auf ihren Prinzipien
 
 
-==== Gründer 1 (Mensch)
+==== Hesidia (Mensch — Hochmagierin / Erzmagierin)
 
-_Details folgen in separater Dokumentation_
+Begründerin der _Theoretischen Magie_ an der Akademie. Mensch, Erzmagierin der Schule der Beschwörung. Schrieb die _Acht Bücher der Resonanz_, die heute noch Pflichtlektüre im Turm der Ketten sind. Ihre Statue steht im Großen Hof, die rechte Hand zum Himmel erhoben.
 
-
-==== Gründer 2 (Mensch)
-
-_Details folgen in separater Dokumentation_
-
-
-==== Gründer 3 (Mensch)
-
-_Details folgen in separater Dokumentation_
+* _Rasse_: Mensch
+* _Klasse_: Wizard (School of Conjuration / Erzmagierin)
+* _Vermächtnis_: Theoretische Magie, Bibliotheks-Architektur des Turms der Ketten
 
 
-==== Gründer 4 (Zwerg)
+==== Morla (Mensch — Druidin / Heilerin)
 
-_Details folgen in separater Dokumentation_
+Begründerin von _Liebe & Leben_. Mensch, Druidin im Kreis des Mondes. Etablierte die Heiler-Tradition der Akademie und führte die Praxis des _Pflichtdienstes_ ein: Jeder Schüler verbringt mindestens einen Mond im Heiltrakt. Ihre Statue zeigt sie kniend, eine Hand am Boden, eine an der Brust.
+
+* _Rasse_: Mensch
+* _Klasse_: Druid (Circle of the Moon)
+* _Vermächtnis_: Heilkunst, Pflichtdienst, Haus _Liebe & Leben_
 
 
-=== Der Fünfte Gründer: Das Geheimnis
+==== Leomar (Mensch — Krieger / Paladin)
+
+Begründer der _Drachenfeste_. Mensch, Paladin des Eides der Krone. War Generalsohn aus dem Norden, schwor seinen Adelstitel ab, um der Akademie zu dienen. Etablierte die Trainingsroutinen, die heute jeder Schüler in seinem ersten Mond durchläuft. Seine Statue trägt zwei Schwerter über Kreuz.
+
+* _Rasse_: Mensch
+* _Klasse_: Paladin (Oath of the Crown) mit Fighter-Multiclass-Erbe
+* _Vermächtnis_: Disziplin, Kampfkultur, Haus _Drachenfeste_
 
 
-Der fünfte Gründer ist einer der tiefsten Geheimnisse der Akademie:
-* Nur wenige kennen seine Existenz
-* Er wurde ein _übermächtiger Tempelwächter_
-* Er lebt noch, spielt aber keine aktive Rolle mehr
-* Sein Name, seine Rasse und sein Aufenthaltsort sind unbekannt
+==== Romoschoch (Zwerg — Schmied / Artificer)
+
+Begründer der _Tiefen Esse_. Bergzwerg aus den nordöstlichen Ketten, Artificer der Schule der Bewahrung. Errichtete die Esse-Schmiede, in der bis heute jedes Akademie-Bondings-Artefakt gefertigt wird. Seine Statue trägt einen Hammer und ein offenes Buch — Symbolik für Handwerk + Lehre.
+
+* _Rasse_: Bergzwerg
+* _Klasse_: Artificer (School of Preservation) mit Forge-Cleric-Affinität
+* _Vermächtnis_: Esse-Schmiede, Bondings-Fokus-Handwerk, Haus _Tiefe Esse_
+
+
+=== Der Fünfte Gründer: Anground (Geheimnis)
+
+
+Anground ist einer der tiefsten Geheimnisse der Akademie:
+
+* Nur wenige Eingeweihte kennen überhaupt seinen Namen
+* Er wurde nach der Gründung zum _übermächtigen Tempelwächter_
+* Er lebt noch nach 600 Jahren, spielt aber keine aktive Rolle mehr
+* Seine Rasse wird in Quellen unterschiedlich angegeben (Halbelf? Drachenblütiger? Etwas anderes?)
+* Sein Aufenthaltsort ist unbekannt — möglicherweise im Inneren des Akademieberges
 * Könnte ein massiver Story-Reveal sein
 
-> _Story-Potential_: Spieler entdecken den Fünften Gründer über Hinweise, alte Bücher oder direkte Begegnung. Ein lebender Gründer mit 600 Jahren Geschichte.
+* _Rasse_: _Unbekannt / Geheimnis_ (Quellen widersprüchlich)
+* _Klasse_: _Unbekannt_ — Gerüchte sprechen von Sorcerer (Draconic Bloodline) oder Warlock (Pakt mit einem Urschöpfer)
+* _Vermächtnis_: Tempelwächterschaft, Sigillen-Verbergung
 
-_Details folgen in separater Dokumentation_
+> _Story-Potential_: Spieler entdecken Anground über Hinweise, alte Bücher oder direkte Begegnung. Ein lebender Gründer mit 600 Jahren Geschichte.
 
 '''
 
@@ -273,8 +306,9 @@ _Details folgen in separater Dokumentation_
 | ~80.000 v.h. | Beginn der Kriege. Götterkrieg (GEHEIM). Sigillen entstehen als Machtfragmente.
 | ~20.000 v.h. | Ende der Kriege. Welt zerstört. Beginn der Stille. Magie verschwindet.
 | ~800 v.h. | Magie kehrt zurück. Erste Magier seit Zehntausenden Jahren.
-| ~600 v.h. | Sturmfels-Akademie gegründet durch die Fünf Gründer.
-| ~100 v.h. | Drachen kehren zurück. Drachenbindung wird Akademie-Disziplin.
+| ~600 v.h. | Akademie von Altheim gegründet durch die Fünf Gründer.
+| ~200 v.h. | _Das Große Erdbeben_ erschüttert den Kontinent. Ganze Küstenstriche versinken, neue Gebirgsketten heben sich. Die Akademie übersteht es dank arkaner Verstärkung der Gründungsmauern. Viele Sigillen-Verstecke werden freigelegt — bleiben jedoch unentdeckt.
+| ~100 v.h. | Drachen kehren zurück. Drachenbindung wird Akademie-Disziplin. Erste Bondings werden öffentlich.
 | JETZT | Erste Sigille manifestiert sich. Kampagne beginnt.
 |===
 

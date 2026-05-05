@@ -5,13 +5,83 @@
 Drachenbindung mit Spezies-Variationen, Bindungsphasen, täglicher Pflege, Trait-Resonanz.
 
 
-== Dragon-Spezies
+== Drachen-Taxonomie: 3 Spezies x 7 Rassen
 
 
+Die Akademie unterscheidet seit der Rückkehr (~100 v.h.) drei _Spezies_ (nach Größe / Lebensraum / Bindungs-Profil), die sich jeweils in sieben elementaren _Rassen_ ausprägen können. Insgesamt also _21 dokumentierte Varianten_.
+
+
+=== Die 3 Spezies
+
+
+[cols="1,2,2,3",options="header"]
+|===
+| Spezies | Größe / Lebensraum | Bindungs-Profil | Rolle in der Akademie
+
+| _Kampfdrache_   | Groß bis Riesig — bewohnt offene Hochebenen, fliegt im Verband | Kämpferisch, treu nach Probekampf, fordert klaren Anführer | Frontlinien-Reiter, Drachen-Kavallerie, Turnier-Wettkämpfe
+| _Taschendrache_ | Klein (kaninchen- bis hundegroß) — lebt in Mauerritzen, Truhen, Kragen | Sozial, neugierig, bindet sich schnell, niedrige Pflegelast | Vertrauter, Späher, Bote, ständiger Begleiter im Schulalltag
+| _Schattendrache_ | Mittel — bewohnt Höhlen, Ruinen, Unterwelt | Scheu, telepathisch stark, Wahl-Bindung über Jahre | Aufklärung, Spionage, magische Forschung, Sigillen-Aufspüren
+|===
+
+
+=== Die 7 elementaren Rassen
+
+
+Jede Rasse kommt grundsätzlich in jeder Spezies vor — also z.B. _Feuer-Kampfdrache_, _Feuer-Taschendrache_, _Feuer-Schattendrache_.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Rasse | Element / Affinität | Temperament | Beispiel-Atem / Spezialfähigkeit
+
+| _Feuer_   | Hitze, Lava, Asche                 | Aggressiv, territorial, leidenschaftlich | Fireball Breath, Heat Aura
+| _Frost_   | Kälte, Eis, Wind aus dem Norden    | Ruhig, weise, distanziert                | Cold Cone, Blizzard, Cold Immunity
+| _Grün_    | Pflanzen, Gift, Sumpf              | Listig, manipulativ, ungeduldig          | Poison Breath, Vine-Whip
+| _Gold_    | Sonne, Heilung, göttliches Licht   | Tugendhaft, selten, hochmütig            | Healing Light, Solar Flare, doppelte Fluggeschwindigkeit
+| _Schwarz_ | Sturm, Blitz, Chaos                | Wild, unberechenbar, freiheitsliebend    | Lightning Breath, Storm Cloud
+| _Silber_  | Mond, Schutz, Wahrheit             | Gerecht, beschützend, ehrenvoll          | Protection Aura, Truth Sight, Healing Touch
+| _Stein_   | Erde, Versteinerung, Berge         | Geduldig, statisch, alt                  | Petrification Breath, Stoneskin Aura, Immobility
+|===
+
+
+=== Vollständige Matrix: 3 x 7 = 21 dokumentierte Varianten
+
+
+Jede Zelle ist ein anerkannter _Drachen-Steckbrief_ in der Akademie-Bibliothek. Pro Variante gibt es einen kurzen Lehrtext (Größenstufen, typisches Verhalten, Bondings-Empfehlungen, bekannte Individuen).
+
+[cols="1,1,1,1",options="header"]
+|===
+| Rasse \\ Spezies | Kampfdrache | Taschendrache | Schattendrache
+
+| _Feuer_   | _Feuer-Kampfdrache_ — Klassischer roter Reitdrache, Lager-Wache | _Feuer-Taschendrache_ — Kleiner Schuppenfunke, gut für Funkenmagie-Übungen | _Feuer-Schattendrache_ — Selten, Glut in dunklen Höhlen, Lava-Tunnel-Aufklärung
+| _Frost_   | _Frost-Kampfdrache_ — Eiselite des Nordens, Berg-Patrouillen | _Frost-Taschendrache_ — Kühlt Manuskripte, Bibliotheks-Liebling | _Frost-Schattendrache_ — Gletscherspalten-Spion, telepathisch über Distanz
+| _Grün_    | _Grün-Kampfdrache_ — Sumpf-Hinterhalt-Spezialist | _Grün-Taschendrache_ — Klein, gerne in Gärten, Kräuter-Kenner | _Grün-Schattendrache_ — Lauernd in Dickichten, Gift-Aufklärung
+| _Gold_    | _Gold-Kampfdrache_ — Akademie-Stolz, paradiert beim Bondings-Fest | _Gold-Taschendrache_ — Heilt kleine Wunden, Pflege-Begleiter | _Gold-Schattendrache_ — Mythisch, wählt nur Sigillen-Träger
+| _Schwarz_ | _Schwarz-Kampfdrache_ — Sturm-Kavallerie, schwer zu zähmen | _Schwarz-Taschendrache_ — Funken in den Schuppen, knistert bei Stress | _Schwarz-Schattendrache_ — Gewitter-Aufklärer, fliegt durch Wolken
+| _Silber_  | _Silber-Kampfdrache_ — Garde der Tempel, Eskorten | _Silber-Taschendrache_ — Wahrheits-Beobachter im Dialog | _Silber-Schattendrache_ — Mond-Aufklärer, beschützt Reisende
+| _Stein_   | _Stein-Kampfdrache_ — Burg-Wache, kaum bewegbar in Stellung | _Stein-Taschendrache_ — Wirkt wie eine kleine Statue, ruhiger Begleiter | _Stein-Schattendrache_ — Höhlen-Wächter, alt, kennt geheime Wege
+|===
+
+NOTE: Nicht jede Kombination begegnet einem in einer Generation — _Gold-Schattendrache_ z.B. ist seit der Rückkehr nur drei Mal dokumentiert. Die Tabelle markiert bewusst alle _theoretisch möglichen_ Varianten; das Akademie-Bestiarium verzeichnet die _bekannten Individuen_ pro Variante.
+
+
+=== Spezies x Rasse — Zusammensetzung der Kombination
+
+
+* _Spezies_ bestimmt: Größe, soziales Verhalten, Bindungs-Profil, typische Bond-Phase-Dauer
+* _Rasse_ bestimmt: Element/Atem, Temperament-Grundton, Trait-Resonanz-Achsen, Heimatlebensraum
+* _Beispiel_: _Frost-Taschendrache_ erbt von Spezies "klein, sozial, schnelle Bindung", von Rasse "kühl-weise, Cold-Affinität". Wird typischerweise nach 2-3 Wochen Phase 3 erreichen, sitzt gerne auf Schultern, kühlt heiße Tränke und Manuskripte.
+
+'''
+
+
+== Dragon-Rassen: Klassische Aufstellung (legacy)
+
+
+Die ursprüngliche Aufstellung listete die 7 Rassen direkt als "Spezies" — diese Tabelle bleibt hier zur Referenz erhalten, ist aber von der neuen 3x7-Taxonomie abgelöst worden.
 
 [cols="1,1,1,1,1",options="header"]
 |===
-| Spezies | Größe | Farbe | Temperament | Spezialfähigkeit
+| Rasse (legacy "Spezies") | Größe | Farbe | Temperament | Spezialfähigkeit
 
 | Feuerdrache | Groß | Rot/Orange | Aggressiv, territorial | Fireball Breath
 | Frostdrache | Riesig | Blau/Weiß | Ruhig, weise | Cold Immunity, Blizzard
