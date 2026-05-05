@@ -104,6 +104,11 @@ Graph-Navigation statt linearer Szenen-Folge. "Nächste Fahrt wählen"-Dialog mi
 Sechsstufige Hierarchie: Global Arc → Story Arc → Akt → Kapitel → Quest → Scene. Planungsflow Top-Down, Reaktion Bottom-Up. Decision-System (geplant + ungeplant) schreibt in Campaign-Chapter-State; Variablen sind Voraussetzung für Folgekapitel. Trait-First-Belohnungssystem für Jahr 1 (keine Gold/Items). Neu in Sprint 2026-05-05.
 
 
+=== [20. Jahr-1-Blueprint (Erstes Schuljahr)](./jahr-1-blueprint.adoc)
+
+Vollständiger Erzähl-Blueprint für das erste Lehrjahr der _Flamme Obsidian_. 12-Monats-Zeitstruktur mit 4 Akademie-Phasen (Lernen, Ruhe, Wissen, Abschluss), kanonisches Harptos-Kalender-Mapping (CL-02), die sechs Quests Q1-Q6 mit Objectives + Decision Points, neun Konsequenz-Variablen für Folge-Kapitel, Trait-First-Belohnungen pro Quest (kein Gold, keine magischen Items in Jahr 1). Neu in Sprint 2026-05-05.
+
+
 == Cross-System-Referenzen
 
 

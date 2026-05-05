@@ -1,0 +1,308 @@
+
+= Jahr-1-Blueprint — Erstes Schuljahr an der Akademie
+
+
+Vollständiger Erzähl-Blueprint für das erste Lehrjahr der Spielergruppe (_Flamme Obsidian_) an der _Akademie von Altheim_. Definiert die _Zeitstruktur_ über 12 In-Game-Monate, das _Harptos-Mapping_ (CL-02), die sechs _Quests_ Q1-Q6 mit Decision Points, die _Kapitel-Konsequenz-Variablen_ und die _Belohnungen_ pro Quest. Dieses Dokument ist das primäre Planungsdokument für die GM-Vorbereitung und das Sprint-Backlog rund um Jahr 1.
+
+NOTE: Akademie-Phasen sind das _primäre_ Zeitraster. Der Harptos-Kalender liefert die _Datums-Etiketten_ (Monat, Festtage, Jahreszeit), aber Pacing und Dramaturgie folgen den vier Akademie-Phasen.
+
+'''
+
+
+== Zeitstruktur — 12 Monate, 4 Phasen
+
+
+Das Schuljahr läuft über 12 In-Game-Monate (= 1 Harptos-Jahr = 360 Tage), eingeteilt in vier _Akademie-Phasen_:
+
+[cols="1,1,2,2",options="header"]
+|===
+| Phase | Dauer | Zweck | Pacing am Tisch
+
+| _Zeit des Lernens_  | M1-M6 (Hammer bis Kythorn)            | Grundausbildung, Schüler-Sozialisierung, erste Quests | Langsam, viele Roleplay-Szenen, Trait-Aufbau
+| _Zeit der Ruhe_     | M7 (Flamerule)                        | Sommer-Pause, Heimreise, Downtime, Familien-Hooks     | Sehr langsam, persönliche Szenen, Heimat-Quests
+| _Zeit des Wissens_  | M8-M11 (Eleasis bis Uktar)            | Fortgeschrittene Lehre, Spezialisierung, Krisen       | Mittel, Konflikte spitzen sich zu
+| _Jahresabschluss_   | M12 (Nightal)                         | Bindungs-Vorbereitung, Prüfungen, Finale              | Schnell, Klimax, Cliffhanger zum Folgejahr
+|===
+
+'''
+
+
+== Harptos-Kalender-Mapping (CL-02)
+
+
+Vollständige Zuordnung der 12 Harptos-Monate zu den vier Akademie-Phasen. Das Mapping ist _kanonisch_ — alle Quests, Sessions und Kalender-Events orientieren sich daran.
+
+[cols="1,2,2,2,2",options="header"]
+|===
+| Monat | Harptos-Name | Jahreszeit | Akademie-Phase | Wichtige In-Phase-Daten
+
+| M1  | _Hammer_      | Winter | Zeit des Lernens   | Aufnahme-Zeremonie (1.-7. Hammer), Q1
+| M2  | _Alturiak_    | Winter | Zeit des Lernens   | Erste Schmiede-Übung (Mitte Alturiak)
+| M3  | _Ches_        | Spring | Zeit des Lernens   | _Greengrass_ (20. Ches) — Frühlings-Fest, Q2 startet
+| M4  | _Tarsakh_     | Spring | Zeit des Lernens   | Wildnis-Exkursion (Mitte Tarsakh)
+| M5  | _Mirtul_      | Spring | Zeit des Lernens   | Q3 — Erstes Sigillen-Echo
+| M6  | _Kythorn_     | Summer | Zeit des Lernens   | Halbjahres-Prüfung (Ende Kythorn)
+| M7  | _Flamerule_   | Summer | _Zeit der Ruhe_    | Sommer-Pause, Heimreise, Heimat-Quest (Q4 optional)
+| M8  | _Eleasis_     | Summer | Zeit des Wissens   | Rückkehr zur Akademie, Spezialisierung beginnt
+| M9  | _Eleint_      | Autumn | Zeit des Wissens   | Q5 startet — Krise an der Akademie
+| M10 | _Marpenoth_   | Autumn | Zeit des Wissens   | Erntefest (15. Marpenoth), Disposition-Schub
+| M11 | _Uktar_       | Autumn | Zeit des Wissens   | _Feast of the Moon_ (20. Uktar), Q5-Höhepunkt
+| M12 | _Nightal_     | Winter | _Jahresabschluss_  | Q6 — Bindungs-Vorbereitung + Finale, _Midwinter_ (20. Nightal)
+|===
+
+NOTE: Flammenreiter nutzt den Harptos-Kalender als Welt-Zeitsystem (siehe link:kalender-zeit.adoc[Kalender & Zeit]). Aber für Jahr 1 sind die _Akademie-Phasen_ das primäre Zeitraster — das Tisch-Pacing, die Quests und die Konsequenz-Variablen orientieren sich an Phasen, nicht an Einzelmonaten.
+
+'''
+
+
+== Quest-Übersicht Q1 - Q6
+
+
+Sechs Hauptquests strukturieren das Jahr. Q1 ist Pflicht (Aufnahme), Q4 ist optional (Heimat-Pause), Q2/Q3/Q5/Q6 sind kanonische Story-Quests mit Pflicht-Anschluss zu Folgequests.
+
+[cols="1,2,2,2,1",options="header"]
+|===
+| Quest | Phase | Titel | Kerne Spannung | SP-Schätzung
+
+| Q1 | Zeit des Lernens (M1)    | _Aufnahme an der Akademie_       | Bestehen oder ablehnen?                    | 1-2 Sessions
+| Q2 | Zeit des Lernens (M3-M4) | _Wildnis & erste Flamme_         | Wem im Team vertrauen?                     | 2-3 Sessions
+| Q3 | Zeit des Lernens (M5)    | _Das erste Sigillen-Echo_        | Geheimnis bewahren oder offenbaren?        | 1-2 Sessions
+| Q4 | Zeit der Ruhe (M7)       | _Heimat-Pause (optional)_        | Heimat-Bindung pflegen oder kappen?        | 1-2 Sessions
+| Q5 | Zeit des Wissens (M9-M11)| _Krise an der Akademie_          | Loyalität: Akademie oder Wahrheit?         | 3-4 Sessions
+| Q6 | Jahresabschluss (M12)    | _Bindungs-Vorbereitung & Finale_ | Bindungs-Profil — wer wird man?            | 2-3 Sessions
+|===
+
+
+=== Q1 — Aufnahme an der Akademie (Hammer / M1)
+
+
+_Phase_: Zeit des Lernens — Eröffnungs-Quest des Jahres.
+
+_Setup_: Die Spielergruppe (_Flamme Obsidian_) erscheint zur Aufnahme-Zeremonie. 6 PCs treffen 17 NPC-Schüler, vier Häuser (siehe link:../06-rassen-klassen/akademie-schueler.adoc[Akademie-Schüler]).
+
+_Objectives_:
+
+* O1.1 — _Aufnahme-Prüfung_ bestehen (Kampf-, Magie- oder Sozialprobe je nach PC-Wahl)
+* O1.2 — _Haus-Wahl_ akzeptieren oder verhandeln (jedes PC wird einem von 4 Häusern zugewiesen)
+* O1.3 — _Erste Begegnung_ mit Rektor _Edmar Lichterwald_ und Vize-Rektorin _Ysara Thalwaed_
+* O1.4 — _Flamme Obsidian_ wird offiziell zusammengestellt
+
+_Decision Points_:
+
+* DP1-A — _Wie reagiere ich auf die Aufnahme-Prüfung?_ (kämpferisch / kooperativ / verweigernd) — beeinflusst `aufnahme_disposition` (siehe Konsequenz-Variablen)
+* DP1-B — _Akzeptiere ich mein zugewiesenes Haus oder bitte um Wechsel?_ (Akzept / Wechsel-Bitte / Ablehnung) — beeinflusst `haus_loyalitaet`
+* DP1-C — _Welchen Mit-Schüler spreche ich zuerst an?_ (freie Wahl unter 17 NPCs) — setzt `erster_kontakt_npc_id`
+
+_Belohnungen_:
+
+* +1 Trait _Diszipliniert_ (alle PCs bei bestandener Prüfung)
+* Disposition +20 zu Rektor Lichterwald (bei freiwilliger Akzept)
+* Haus-Brosche (kosmetisches Item, signalisiert Haus-Zugehörigkeit)
+* Zugang zu Schüler-Wohnheim + Bibliothek
+
+NOTE: Im Geist des Jahres-1-Trait-First-Belohnungssystems (siehe link:story-arc-system.adoc[Story-Arc-System]) gibt es _kein Gold_ und _keine magischen Items_ in Q1. Belohnungen sind Trait-Verschiebungen, Disposition und Lore-Zugang.
+
+
+=== Q2 — Wildnis & erste Flamme (Ches / M3 - Tarsakh / M4)
+
+
+_Phase_: Zeit des Lernens — die erste gemeinsame Quest der Flamme außerhalb der Akademie-Mauern.
+
+_Setup_: Greengrass-Fest (20. Ches) markiert den ersten Frühlingsmoment. Im Anschluss ordnet Dozent _Goram_ eine Wildnis-Exkursion an — drei Tagesreisen in die nahen Wälder, um Kräuter und Spurenlese zu üben. Etwas geht schief.
+
+_Objectives_:
+
+* O2.1 — _Greengrass-Fest_ erleben, Trait-Optionen freischalten (Mutig / Mitfühlend / Neugierig je nach Aktivität)
+* O2.2 — _Wildnis-Exkursion_ — Routenplanung gemeinsam mit der Flamme
+* O2.3 — _Zwischenfall_ (Schattenwolf-Begegnung oder verirrtes Kind aus Nachbarsiedlung)
+* O2.4 — _Rückkehr_ — Bericht an Goram, Dispositionswechsel innerhalb der Flamme
+
+_Decision Points_:
+
+* DP2-A — _Beim Zwischenfall: kämpfen, fliehen oder verhandeln?_ — setzt `wildnis_taktik` (combat / flight / parley)
+* DP2-B — _Wem in der Flamme vertrauen?_ — Spieler benennen je 1 Mit-PC als _Vertrauten_; setzt `flamme_vertrauen[pc_id][pc_id]`
+* DP2-C — _Bericht an Goram: Wahrheit oder beschönigt?_ — setzt `goram_disposition`, beeinflusst späteren Notenstand
+
+_Belohnungen_:
+
+* +1 Trait _Mutig_ ODER _Vorsichtig_ (je nach DP2-A)
+* Disposition zu Mit-PCs +10 (gegenseitig, je nach DP2-B)
+* Disposition zu Goram +/-15 (je nach DP2-C)
+* Lore-Zugang: _Schattenwolf_ als Bestiar-Eintrag freigeschaltet
+
+
+=== Q3 — Das erste Sigillen-Echo (Mirtul / M5)
+
+
+_Phase_: Zeit des Lernens — Übergang zur größeren Story.
+
+_Setup_: Während einer Bibliotheksrecherche stößt ein PC (random oder per Trait-Affinität gewählt) auf ein altes Manuskript, das eine _Sigille_ erwähnt. Bei Berührung pulsiert das Manuskript kurz — ein _Echo_, kein voller Kontakt.
+
+_Objectives_:
+
+* O3.1 — _Manuskript untersuchen_ (Arcana-Probe)
+* O3.2 — _Echo deuten_ — Konsultation mit Dozent _Aldric_ oder eigenständige Recherche
+* O3.3 — _Geheimnis bewahren oder teilen?_ — Entscheidung der gesamten Flamme
+* O3.4 — _Erstes Trait-Drift-Ereignis_ — Wer dem Echo zu nah kommt, spürt eine Trait-Verschiebung
+
+_Decision Points_:
+
+* DP3-A — _Manuskript der Akademie melden oder behalten?_ — setzt `sigillen_geheimnis` (gemeldet / verheimlicht / teil-gemeldet)
+* DP3-B — _Wem vertrauen wir damit?_ — beeinflusst `vertrauenskreis_sigille[npc_id]`
+* DP3-C — _Trait-Annahme oder Widerstand?_ — der berührende PC entscheidet bewusst, ob er die Drift annimmt
+
+_Belohnungen_:
+
+* +1 Trait _Neugierig_ (alle Beteiligten)
+* +/-1 Trait-Drift (nur PC mit Manuskript-Berührung — Richtung hängt von Trait-Affinität ab)
+* Lore-Zugang: erste Sigillen-Deutungen freigeschaltet
+* Disposition Aldric +/-20 (je nach DP3-A)
+
+
+=== Q4 — Heimat-Pause (Flamerule / M7) — OPTIONAL
+
+
+_Phase_: Zeit der Ruhe — Sommer-Pause, Reise zur Heimat.
+
+_Setup_: Die Akademie schließt für 30 Tage. Spieler entscheiden, ob sie nach Hause reisen oder in der Akademie bleiben. Wenn nach Hause: Heimat-Quest (siehe link:../06-rassen-klassen/herkunft.adoc[Herkunft]).
+
+_Objectives_ (optional, nur wenn Heimreise):
+
+* O4.1 — _Reise_ zur Heimat (Reise-Encounter, siehe link:reise-wetter.adoc[Reise & Wetter])
+* O4.2 — _Familien-Wiedersehen_ — Konfrontation mit alten Beziehungen
+* O4.3 — _Heimat-Hook_ — eine offene Frage oder Quest aus der Vergangenheit holt den PC ein
+* O4.4 — _Rückkehr-Entscheidung_ — Heimat-Bindung pflegen oder kappen?
+
+_Decision Points_:
+
+* DP4-A — _Reise nach Hause oder Akademie-Pause?_ — setzt `heimat_pause` (heimat / akademie / drittes_ziel)
+* DP4-B — _Wenn Heimat: Familienbindung pflegen oder kappen?_ — setzt `familien_disposition`
+* DP4-C — _Heimat-Hook annehmen oder ignorieren?_ — beeinflusst Folge-Quests in Jahr 2
+
+_Belohnungen_:
+
+* +1 Trait _Mitfühlend_ ODER _Einzelgänger_ (je nach DP4-A)
+* Disposition zu Familien-NPCs +/-30 (je nach DP4-B)
+* Persönliches Item aus der Heimat (kosmetisch + 1 Roleplay-Hook)
+* Lore-Zugang: Heimat-Region wird zur _Discovered Zone_ auf der Party-Karte
+
+
+=== Q5 — Krise an der Akademie (Eleint / M9 - Uktar / M11)
+
+
+_Phase_: Zeit des Wissens — der dramatische Höhepunkt vor dem Finale.
+
+_Setup_: Nach der Rückkehr aus der Pause spitzt sich etwas zu — ein Dozent verschwindet, ein Schüler wird beschuldigt, oder das Sigillen-Echo aus Q3 zieht weitere Kreise. Die Flamme wird unfreiwillig in eine Untersuchung verwickelt.
+
+_Objectives_:
+
+* O5.1 — _Verschwinden bemerken_ — Ermittlung beginnt (Investigation, Insight)
+* O5.2 — _Verdächtige_ identifizieren (3-5 NPCs aus Dozenten + J2/J3-Schülern)
+* O5.3 — _Beweise_ sammeln (gemischter Phase mit Combat, Social, Discovery)
+* O5.4 — _Konfrontation_ beim _Feast of the Moon_ (20. Uktar) — die Flamme entscheidet, ob sie öffentlich oder privat aufdeckt
+* O5.5 — _Konsequenzen_ — die Akademie reagiert, ein Dozent verlässt das Haus oder wird entlastet
+
+_Decision Points_:
+
+* DP5-A — _Wem vertrauen wir die Ermittlung an?_ — Akademie-Leitung / eigene Flamme / dritte Partei → setzt `krise_vertrauen`
+* DP5-B — _Öffentliche Aufdeckung oder private Lösung?_ — setzt `krise_modus` (oeffentlich / privat / vertuscht)
+* DP5-C — _Schuld am wahren Täter oder am Sündenbock?_ — moralische Kernfrage → setzt `krise_taeter_id` und `krise_gerechtigkeit`
+
+_Belohnungen_:
+
+* +1 Trait _Ehrlich_ ODER _Verschlagen_ (je nach DP5-B)
+* +1 Trait _Mutig_ (alle Beteiligten bei Konfrontation)
+* Disposition zu Akademie-Leitung +/-30 (je nach DP5-B+C)
+* Renown _Detektiv-Flamme_ +1 (Akademie-intern bekannt)
+* Lore-Zugang: tiefere Sigillen-Story freigeschaltet
+
+
+=== Q6 — Bindungs-Vorbereitung & Finale (Nightal / M12)
+
+
+_Phase_: Jahresabschluss — Klimax, Setup für Jahr 2.
+
+_Setup_: Im letzten Monat bereiten sich alle J3-Schüler auf das _Bindungsritual_ (Ende Nightal) vor. Die J1-Spielergruppe ist nicht selbst dran, aber als Zeugen dabei. Während der Vorbereitungen kristallisiert sich heraus, _wer_ die Flamme im ersten Jahr wirklich geworden ist.
+
+_Objectives_:
+
+* O6.1 — _Bindungs-Vorbereitung_ als Zeugen — Trainingstage mit J3-Schülern
+* O6.2 — _Bindungs-Profil_ pro PC erstellen — Dragon-Bond-Kompatibilität (Spezies / Rasse) wird abgeschätzt (siehe link:dragon-bond.adoc[Dragon Bond])
+* O6.3 — _Midwinter-Fest_ (20. Nightal) — letzter großer Trait-Moment
+* O6.4 — _Bindungsritual_ — die J3-Schüler treten an, die Flamme beobachtet
+* O6.5 — _Cliffhanger_ — etwas geht beim Ritual schief ODER ein Sigillen-Hinweis taucht auf
+
+_Decision Points_:
+
+* DP6-A — _Welcher Drachen-Spezies fühlt sich der PC affin?_ — setzt `bindungs_profil_spezies` (Kampfdrache / Taschendrache / Schattendrache)
+* DP6-B — _Welche Drachen-Rasse?_ — setzt `bindungs_profil_rasse` (eine der 7)
+* DP6-C — _Cliffhanger-Reaktion_ — eingreifen / abwarten / Akademie-Anweisung folgen → setzt `finale_haltung`
+
+_Belohnungen_:
+
+* _Bindungs-Profil_ wird kanonisch — bestimmt, welche Drachen in Jahr 2 verfügbar sind
+* +1 Trait _Diszipliniert_ ODER _Mutig_ (je nach DP6-C)
+* Lore-Zugang: vollständige Drachen-Taxonomie (3 Spezies x 7 Rassen, siehe link:dragon-bond.adoc[Dragon Bond])
+* Disposition zu allen J3-Schülern +/-10 (je nach Verhalten beim Ritual)
+* Setup für Jahr 2: ein Akademie-Geheimnis ist nun bekannt
+
+'''
+
+
+== Konsequenz-Variablen (9 Stück)
+
+
+Diese Variablen werden während Jahr 1 gesetzt und in Jahr 2/3 abgefragt. Sie sind die _Schreibensseite_ der Quests — das Mapping wird in `campaign_chapter_state.variables` gespeichert (siehe link:story-arc-system.adoc[Story-Arc-System]).
+
+[cols="1,2,2,2",options="header"]
+|===
+| Variable | Quelle (DP) | Mögliche Werte | Wirkung in Folge-Kapiteln
+
+| `aufnahme_disposition`         | DP1-A | `kaempferisch` / `kooperativ` / `verweigernd`             | Setzt Basis-Beziehung zu Akademie-Leitung
+| `haus_loyalitaet`              | DP1-B | `akzept` / `wechsel` / `ablehnung`                         | Disposition-Modifier für Haus-NPCs in J2/J3
+| `flamme_vertrauen`             | DP2-B | Map `pc_id -> pc_id`                                       | Bestimmt, wer in Krisen einander unterstützt
+| `goram_disposition`            | DP2-C | numerisch -50..+50                                         | Goram als möglicher Mentor in J2 freischaltbar
+| `sigillen_geheimnis`           | DP3-A | `gemeldet` / `verheimlicht` / `teil_gemeldet`              | Steuert, ob Akademie in Q5 vorbereitet ist
+| `vertrauenskreis_sigille`      | DP3-B | Set von NPC-IDs                                            | Bestimmt, wer in J2 das Echo-Wissen weitergibt
+| `heimat_pause`                 | DP4-A | `heimat` / `akademie` / `drittes_ziel`                     | Schaltet Heimat-Region als Reisepunkt in J2 frei
+| `krise_modus`                  | DP5-B | `oeffentlich` / `privat` / `vertuscht`                     | Bestimmt Reputation der Flamme + Akademie
+| `bindungs_profil`              | DP6-A+B | `{spezies, rasse}` pro PC                                 | Bestimmt verfügbare Drachen-Kandidaten in J2
+|===
+
+NOTE: Die Variablen werden _nicht_ als pauschale Belohnungen verteilt — jede Variable ist eine _Konsequenz_ einer konkreten Spieler-Entscheidung. Das macht das Schuljahr replayable: zwei Flammen werden völlig unterschiedliche Variablen-Sätze haben.
+
+'''
+
+
+== Belohnungen — Übersicht Trait-First
+
+
+Jahr 1 nutzt das _Trait-First-Belohnungssystem_ (siehe link:story-arc-system.adoc[Story-Arc-System]): _kein Gold, keine magischen Items_, sondern Trait-Verschiebungen, Disposition, Lore-Zugang und Renown.
+
+[cols="1,3,2",options="header"]
+|===
+| Quest | Belohnung (Zusammenfassung) | Item-Drop-Klasse
+
+| Q1 | +1 Diszipliniert (alle), Disposition Lichterwald +20, Haus-Brosche, Wohnheim-Zugang | Kosmetisch
+| Q2 | +1 Mutig/Vorsichtig, +10 zu Mit-PCs, +/-15 Goram, Schattenwolf-Lore | Kein Item
+| Q3 | +1 Neugierig, Trait-Drift +/-1, Sigillen-Lore, +/-20 Aldric | Kein Item
+| Q4 | +1 Mitfühlend/Einzelgänger, +/-30 Familie, Heimat-Item (kosmetisch), Heimat-Region freigeschaltet | Kosmetisch
+| Q5 | +1 Ehrlich/Verschlagen, +1 Mutig, +/-30 Akademie-Leitung, Renown Detektiv-Flamme | Kein Item
+| Q6 | Bindungs-Profil festgelegt, +1 Diszipliniert/Mutig, Drachen-Taxonomie-Zugang, +/-10 J3 | Kein Item
+|===
+
+NOTE: Erste Gold-Belohnungen, Tränke und magische Items kommen frühestens in _Jahr 2_, wenn die Spielergruppe selbst Quests _ausserhalb_ der Akademie übernimmt.
+
+'''
+
+
+== Verwandte Dokumente
+
+
+* link:story-arc-system.adoc[Story-Arc-System] — die 6-stufige Hierarchie, in die Q1-Q6 als _Quest_-Ebene eingebettet sind
+* link:kalender-zeit.adoc[Kalender & Zeit] — Harptos-Kalender im Detail, Jahreszeiten-Effekte, Festtage
+* link:../06-rassen-klassen/akademie-schueler.adoc[Akademie-Schüler] — die 17 NPC-Schüler in Jahr 1 + J2/J3
+* link:dragon-bond.adoc[Dragon Bond] — Drachen-Taxonomie (3 Spezies x 7 Rassen) für Q6
+* link:../06-rassen-klassen/herkunft.adoc[Herkunft] — Heimat-Hooks für Q4
+* link:traits.adoc[Traits] — die Trait-Achsen, die in Q1-Q6 verschoben werden
+* link:../01-welt-lore/geschichte.adoc[Welt-Geschichte] — die Akademie als Stabilitätsanker, Sigillen-Kontext für Q3+Q5
