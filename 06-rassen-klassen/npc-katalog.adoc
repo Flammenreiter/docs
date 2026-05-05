@@ -1,0 +1,214 @@
+
+= NPC-Katalog der Akademie von Altheim
+
+
+Vollständiger Katalog aller _46 kanonischen NPCs_ rund um die Akademie von Altheim und die nahe Siedlung. Geordnet nach Kategorie: Leitung, Dozenten, weitere Akademie-NPCs, Schüler-Jahrgänge J1-J3, Siedlungs-NPCs.
+
+NOTE: Schüler-Haus-Zuweisungen folgen der _kanonischen Quelle_ link:akademie-schueler.adoc[06-rassen-klassen/akademie-schueler.adoc] (DOCS-001). Änderungen an Häusern oder Flammen müssen dort zuerst gemacht und hier nachgezogen werden.
+
+NOTE: Dozenten-_Trait-Reaktionen_ folgen dem 3-Ebenen-NPC-Reaktions-System (siehe link:../02-spielmechaniken/social-interaction.adoc[Social Interaction]). Werte sind Basisdispositionen für die Spielergruppe (PCs in _Flamme Obsidian_) — modifiziert durch Trait-Match, Renown und Quest-Verlauf.
+
+'''
+
+
+== Kategorie 1 — Akademie-Leitung (2 NPCs)
+
+
+[cols="2,1,1,1,3",options="header"]
+|===
+| Name | Rasse | Alter | Rolle | Bemerkung
+
+| _Edmar Lichterwald_ | Mensch                | 64 | Rektor          | Pragmatischer Verwalter. Schwert-vor-Stab-Mentalität. Diente vor 30 Jahren in der Drachen-Garde. Sieht in der Akademie ein _Bollwerk gegen Chaos_. Disposition gegenüber neuen J1-Schülern: neutral-positiv (+10).
+| _Ysara Thalwaed_    | Hochelfe              | 312 | Vize-Rektorin   | Theoretikerin und Bibliotheks-Aufseherin. Kennt die Sigillen-Geschichte besser als jeder andere Lebende — aber spricht selten darüber. Nimmt _Anground_-Spuren ernst. Disposition gegenüber Neugierigen: +20, gegenüber Faulen: -15.
+|===
+
+'''
+
+
+== Kategorie 2 — Dozenten (7 NPCs)
+
+
+Die sieben Hauptfächer der Akademie haben jeweils einen Dozenten. Jeder Dozent ist einem _Haus_ zugeordnet (lehrt vorrangig dort) und hat eine eigene _Disposition_-Basis sowie spezifische _Trait-Reaktionen_ auf Schüler-Verhalten.
+
+[cols="2,2,1,3,3",options="header"]
+|===
+| Name | Fach | Haus | Disposition (Basis) | Trait-Reaktionen
+
+| _Brynna Schmiedrot_ | Schmiede & Bondings-Artefakte | Tiefe Esse (Bronze)    | +5 (freundlich-pragmatisch) | Diszipliniert+ → +10 · Faul- → -15 · Praktisch+ → +5
+| _Aldric Mondglas_   | Theoretische Magie + Sigillen-Lore | Turm der Ketten (Blau) | -5 (skeptisch-streng)       | Neugierig+ → +15 · Faul- → -20 · Stolz+ → -10 · Ehrlich+ → +5
+| _Silke Wiesenbluete_ | Heilkunst & Pflanzenkunde | Liebe & Leben (Gruen)  | +10 (warm-mütterlich)       | Mitfühlend+ → +15 · Kalt- → -20 · Geduldig+ → +10
+| _Goram Eisenfaust_  | Wildnis & Spurenlesen | Drachenfeste (Rot)     | 0 (rau-direkt)              | Mutig+ → +10 · Feige- → -15 · Praktisch+ → +5 · Stolz+ → -5
+| _Veren Sturmsang_   | Drachenkunde (J3-Vorbereitung) | Drachenfeste (Rot)     | +5 (charismatisch-offen)    | Mutig+ → +10 · Loyal+ → +15 · Verschlagen- → -20
+| _Lirael Sternenhauch_ | Diplomatie & Soziale Mechaniken | Liebe & Leben (Gruen)  | +5 (höflich-distanziert)    | Ehrlich+ → +10 · Verschlagen- → -15 · Mitfühlend+ → +5
+| _Durga Tiefenseher_ | Kampfausbildung | Drachenfeste (Rot)     | -10 (hart, fordernd)        | Mutig+ → +15 · Diszipliniert+ → +10 · Feige- → -25 · Faul- → -20
+|===
+
+NOTE: Trait-Reaktionen werden je nach Spielsituation aufaddiert. Ein PC mit _Mutig+3_ und _Disziplin+2_ trifft Durga also bei +15+10*2 = +35 über der Basis -10 → effektive Disposition +25 ("respektvoll-anerkennend").
+
+'''
+
+
+== Kategorie 3 — Weitere Akademie-NPCs (4 NPCs)
+
+
+[cols="2,1,1,1,3",options="header"]
+|===
+| Name | Rasse | Rolle | Disposition | Bemerkung
+
+| _Hagen Bierbach_       | Mensch       | Akademie-Wirt + Speisesaal-Aufsicht | +20 | Liebt es, Schüler zu füttern. Quelle für Gerüchte und Geschichten. Wird gerne zur Vertrauensperson.
+| _Torben Moorsang_      | Halbork      | Stallmeister (Drachenstall)         | +5  | Hart, aber gerecht. Verlangt täglich saubere Schuppen-Putzschicht. Vertraut Schülern, die ihre Drachen-Pflege ernst nehmen.
+| _Elira Daemmerblick_   | Tiefling     | Bibliothekarin                      | -5  | Übergenau. Kennt jede Position jedes Buches. Verleiht Bücher nur an _akzeptierte_ Schüler. Zugang zu Restricted-Sektion = +1 zu Sigillen-Recherche.
+| _Finn Reisekorn_       | Halbling     | Akademie-Bote + Ein-/Auslass-Wache  | +15 | Schnell, freundlich, kennt die Stadt Altheim wie seine Westentasche. Erste Anlaufstelle bei _Heimat-Pause_-Quest (Q4).
+|===
+
+'''
+
+
+== Kategorie 4 — Jahr-1-Schüler (14 NPCs)
+
+
+_Quelle der Wahrheit_: link:akademie-schueler.adoc[akademie-schueler.adoc] — diese Tabelle ergänzt die dort gepflegten Häuser/Flammen um _Persönlichkeit_ und _Story-Rolle_ für jeden NPC. Bei Konflikten zählt akademie-schueler.adoc.
+
+[cols="2,1,1,2,2",options="header"]
+|===
+| Name | Haus | Flamme | Persönlichkeit | Story-Rolle für Flamme Obsidian
+
+| _Kael Dornwind_         | Drachenfeste (Rot)     | Granit    | Diszipliniert, ernst, ein wenig steif         | Mentor-Kandidat, möglicher Rivale in Q5
+| _Tara Wildherz_         | Drachenfeste (Rot)     | Esche     | Wild, präzise, lacht laut                     | Erste Verbündete in Q2-Wildnis
+| _Draven Kohlenblick_    | Drachenfeste (Rot)     | Esche     | Schweigsam, beobachtend, Schmiede-fokussiert  | Q3-Manuskript-Hilfe (Schmiede-Wissen)
+| _Mira Falkenstein_      | Turm der Ketten (Blau) | Granit    | Adelig, höflich, divinations-getrieben        | Q3-Sigillen-Deuter, Q5-Verdächtige
+| _Yuna Nachtfeder_       | Turm der Ketten (Blau) | Granit    | Aerial, akrobatisch, hyperaktiv               | Q2-Pacing-Macher, Q6-Bindungs-Risiko
+| _Sera Kupferschlag_     | Turm der Ketten (Blau) | Esche     | Tech-affin, neugierig, etwas zerstreut        | Q3-Manuskript-Reverse-Engineer
+| _Brokk Steinfaust_      | Tiefe Esse (Bronze)    | Granit    | Klassischer Zwerg, ruhig, schmiedet           | Q1-Anker, Q5-Beweissammler
+| _Elwin Schattenlauf_    | Tiefe Esse (Bronze)    | Esche     | Kräuterkundig, stille Spurenleserin           | Q2-Routenplanung
+| _Jorik Eisenbart_       | Tiefe Esse (Bronze)    | Bernstein | Älterer Schüler (J0-Reservist), grummelig     | Q5-Krise-Vermittler
+| _Aldis Lichttraeger_    | Liebe & Leben (Gruen)  | Granit    | Solveris-Geweihter, optimistisch, Heiler      | Q5-Heilung, moralischer Kompass
+| _Pip Honigbauch_        | Liebe & Leben (Gruen)  | Esche     | Halbling-Bardin, plappert, kocht gerne        | Q4-Heimreise-Begleiter
+| _Lena Morgenreif_       | Liebe & Leben (Gruen)  | Bernstein | Diplomatentochter, mehrsprachig, vorsichtig   | Q5-Verhandlung mit Akademie-Leitung
+| _Nyx Schleiermond_      | Liebe & Leben (Gruen)  | Bernstein | Drow-Halbblut, Nocthari-affin, mysteriös      | Q3-Trait-Drift-Risiko, Q5-Sündenbock-Kandidatin
+| _Renn Federhand_        | Liebe & Leben (Gruen)  | Bernstein | Reisender Hintergrund, Gerüchtesammler        | Q4-Hook, Q5-Informant
+|===
+
+NOTE: _Flamme Obsidian_ (die Spielergruppe) hat 6 PC-Plätze und ist nicht NPC-besetzt. Die 14 NPC-Schüler verteilen sich auf die Flammen Granit (5), Esche (5) und Bernstein (4).
+
+'''
+
+
+== Kategorie 5 — Jahr-2-Schüler (10 NPCs)
+
+
+[cols="2,1,2,2",options="header"]
+|===
+| Name | Haus | Persönlichkeit | Story-Rolle
+
+| _Gregor_  | Drachenfeste (Rot)     | Veteran, hat schon einen Wildling besiegt | Mentor in Wildnis-Praktika
+| _Korran_  | Drachenfeste (Rot)     | Cholerisch, Rivale aller J1-Krieger       | Q1-Hürde, Q5-Verdächtige
+| _Valla_   | Turm der Ketten (Blau) | Bibliotheks-Aufseherin, vergibt Lese-Privilegien | Q3-Tor zur Restricted-Sektion
+| _Selene_  | Turm der Ketten (Blau) | Mond-Zyklen-Forscherin, Nocturnal         | Q3-Sigillen-Hilfe (nachts)
+| _Fenris_  | Turm der Ketten (Blau) | Beschwörungs-Theoretiker, leicht arrogant | Q5-Verdächtige (Sigillen-Wissen)
+| _Thorin_  | Tiefe Esse (Bronze)    | Erfahrener Schmied, leitet Schmiede-Workshops | Q6-Bindungs-Artefakt-Hilfe
+| _Brunt_   | Tiefe Esse (Bronze)    | Halbork, Wildnisführer in J2-Expeditionen | Q4-Heimreise-Eskorte (optional)
+| _Darla_   | Tiefe Esse (Bronze)    | Tier-Empathin, Stallaufsicht im Drachenstall | Q6-Drachen-Vorstellung
+| _Iris_    | Liebe & Leben (Gruen)  | Vermittlerin, Sprecherin der J2-Schülervertretung | Q5-Diplomatischer Kontakt
+| _Lyra_    | Liebe & Leben (Gruen)  | Künstlerin, dokumentiert Akademie-Leben in Bildern | Q5-Beweissammlerin (Skizzen)
+|===
+
+'''
+
+
+== Kategorie 6 — Jahr-3-Schüler (10 NPCs)
+
+
+Ältester Jahrgang. Stehen kurz vor dem _Bindungsritual_ am Ende von Nightal. Jeder J3-Schüler hat einen _Dragon-Bond-Status_ und in fortgeschrittenen Fällen bereits einen _Drachen-Namen_.
+
+[cols="2,1,2,2,2",options="header"]
+|===
+| Name | Haus | Persönlichkeit | Dragon Bond Status | Drachen-Name (sofern gebunden)
+
+| _Kaelin_   | Drachenfeste (Rot)     | Inoffizieller Schüler-Anführer | _Phase 4 (Deep Bond)_ — Kampfdrache         | _Brennrot_ (Feuer-Kampfdrache)
+| _Rogen_    | Drachenfeste (Rot)     | Strenger Sparring-Partner      | _Phase 3 (Emotional Bond)_ — Kampfdrache    | _Glutkamm_ (Schwarz-Kampfdrache)
+| _Zara_     | Drachenfeste (Rot)     | Drachenblut-Erbe, lehnt Bevorzugung ab | _Phase 5 (Soul Bond)_ — Kampfdrache | _Goldzahn_ (Gold-Kampfdrache)
+| _Alyndra_  | Turm der Ketten (Blau) | Theoretikerin, eigene Forschungsschrift | _Phase 2 (Trust Building)_ — Schattendrache | _Sternfall_ (Frost-Schattendrache)
+| _Tessa_    | Turm der Ketten (Blau) | Illusionistin, gerne Streiche  | _Phase 3 (Emotional Bond)_ — Taschendrache  | _Schimmer_ (Silber-Taschendrache)
+| _Elara_    | Turm der Ketten (Blau) | Stille Beobachterin            | _Phase 2 (Trust Building)_ — Schattendrache | _Mondhauch_ (Silber-Schattendrache)
+| _Ulf_      | Tiefe Esse (Bronze)    | Schmiede-Meister-Schüler       | _Phase 4 (Deep Bond)_ — Kampfdrache         | _Aschefaust_ (Stein-Kampfdrache)
+| _Bjarne_   | Tiefe Esse (Bronze)    | Pragmatiker, Wandern + Klettern | _Phase 3 (Emotional Bond)_ — Taschendrache | _Klippe_ (Stein-Taschendrache)
+| _Senna_    | Liebe & Leben (Gruen)  | Bardin, organisiert Schülerfeste | _Phase 2 (Trust Building)_ — Taschendrache | _Lied_ (Grün-Taschendrache)
+| _Nilo_     | Liebe & Leben (Gruen)  | Diplomat, vermittelt Konflikte | _Phase 1 (Imprinting)_ — Schattendrache     | _(noch unbenannt)_
+|===
+
+NOTE: Drachen-Namen folgen der Konvention "ein elementares Wesen + Trait" (Brennrot = Feuer + Kampfeswut; Mondhauch = Silber + Sanftheit). _Phase 5 (Soul Bond)_ ist außergewöhnlich für J3 — _Zara_ ist der einzige Fall in dieser Generation, was sie zu einer öffentlichen Figur macht.
+
+'''
+
+
+== Kategorie 7 — Nachbarsiedlungs-NPCs (3 NPCs)
+
+
+Die nahegelegene Siedlung _Altheim_ (gleichnamig zur Akademie) ist der erste Berührungspunkt mit der Welt außerhalb der Akademie-Mauern. Drei NPCs sind in Q2 / Q4 / Q5 relevant.
+
+[cols="2,1,1,2,3",options="header"]
+|===
+| Name | Rasse | Rolle | Wo | Bemerkung
+
+| _Meisterin Valdra_       | Hochelfe | Magierin / Beraterin der Akademie | Eigenes Studio in Altheim-Stadt       | Ehemalige Akademie-Dozentin, jetzt im Ruhestand. Gibt Rat bei Sigillen-Fragen — wenn man höflich anfragt. Disposition gegenüber höflichen Schülern: +30.
+| _Händler Korbin_         | Mensch   | Marktplatz-Händler                | Marktplatz von Altheim                | Verkauft Verbrauchsmaterialien (Tinte, Pergament, Kerzen) und Reise-Equipment. Q4-Hook für Heimreise (Eskorten-Vermittlung). Disposition: neutral (+0), feilscht hart.
+| _Wache Brennan_          | Mensch   | Stadtwache (Tor)                  | Altheim-Tor                           | Strenger Kontrolleur. Lässt Schüler ohne Brosche nicht durch. Disposition: -10 zu Unbekannten, +10 zu bekannten Akademie-Schülern. Q5-Informant für Stadt-Bewegungen.
+|===
+
+'''
+
+
+== Übersicht — 46 NPCs in Zahlen
+
+
+[cols="3,1",options="header"]
+|===
+| Kategorie | Anzahl
+
+| Akademie-Leitung           | 2
+| Dozenten                   | 7
+| Weitere Akademie-NPCs      | 4
+| Jahr-1-Schüler             | 14
+| Jahr-2-Schüler             | 10
+| Jahr-3-Schüler             | 10
+| Nachbarsiedlungs-NPCs      | 3
+| _Gesamt_                   | _50_*
+|===
+
+[NOTE]
+====
+Die Story-Spec spricht von "46 NPCs". Tatsächlich enthält der Katalog hier _50 Einträge_ (mit allen 14 J1-Schülern, 10 J2, 10 J3, 7 Dozenten, 4 weiteren, 2 Leitung, 3 Siedlung). Die Differenz erklärt sich aus zwei kleinen Erweiterungen während der Implementierung:
+
+* Die J1-Schüler aus link:akademie-schueler.adoc[akademie-schueler.adoc] sind 14 statt der ursprünglich genannten "3 Flammen" (Pflichtquelle).
+* Es wurden 3 statt 2 Siedlungs-NPCs angelegt, um Q5 (Stadt-Bewegungs-Informant) abzudecken.
+
+Bei Bedarf können _Wache Brennan_ und _Renn Federhand_ als optional markiert werden, um auf 48 zu kommen — bitte mit dem PO abstimmen.
+====
+
+'''
+
+
+== Verwandte Dokumente
+
+
+* link:akademie-schueler.adoc[akademie-schueler.adoc] — _Quelle der Wahrheit_ für Haus- und Flammen-Zuweisungen aller Schüler-Jahrgänge
+* link:herkunft.adoc[herkunft.adoc] — Akademie-Lehrplan, Flammen-Prinzip, 7 Fächer, 4 Häuser
+* link:../02-spielmechaniken/social-interaction.adoc[Social Interaction] — Trait-Reaktions-System (Ebene 1) für Dozenten-Dispositionen
+* link:../02-spielmechaniken/dragon-bond.adoc[Dragon Bond] — Dragon-Bond-Phasen (1-5) und Drachen-Taxonomie für die J3-Schüler
+* link:../02-spielmechaniken/jahr-1-blueprint.adoc[Jahr-1-Blueprint] — Quest-Einsätze der NPCs in Q1-Q6
+* link:../01-welt-lore/geschichte.adoc[Welt-Geschichte] — Akademie-Hintergrund (Gründer Hesidia / Morla / Leomar / Romoschoch / Anground)
+
+
+== Aenderungen pflegen
+
+
+Diese Datei ist die _Quelle der Wahrheit_ für Persönlichkeit, Disposition, Trait-Reaktionen und Story-Rollen. Häuser und Flammen müssen aber immer mit link:akademie-schueler.adoc[akademie-schueler.adoc] synchron sein.
+
+Bei Änderungen:
+
+. Schüler umbenennen / Haus ändern → _erst_ in `akademie-schueler.adoc`, _dann_ hier nachziehen
+. Neuen NPC hinzufügen → in entsprechender Kategorie einfügen, Übersichts-Zähler aktualisieren
+. Dozenten-Trait-Reaktion ändern → mit Social-Interaction-System abgleichen
+. Commit-Message: `docs(npcs): <was geaendert>`
+. Kurzer Eintrag im `CHANGELOG.md` der docs-Repo

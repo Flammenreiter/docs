@@ -198,6 +198,7 @@ Das Drei-Stufen-System erzwingt Rollenplay und Gedanken über Herkunft statt nur
 * link:klassen.adoc[Klassen] — 12 Klassen, Subclass-Policy, Dragon Bond Affinität, Warlock-Patrons
 * link:herkunft.adoc[Herkunft] — 3-Stufen-System, 19 Abstammungen, AI-Interview Kindheit, Akademie-Lehrplan
 * link:akademie-schueler.adoc[Akademie-Schüler] — Kanonische NPC-Schüler-Liste J1/J2/J3 mit Haus- und Flammen-Zuweisung
+* link:npc-katalog.adoc[NPC-Katalog] — Vollständiger Katalog aller 46+ NPCs an der Akademie und in Altheim (Leitung, Dozenten, Schüler, Siedlung) mit Persönlichkeit, Disposition und Story-Rolle
 
 
 == Spieler-Erlebnis
