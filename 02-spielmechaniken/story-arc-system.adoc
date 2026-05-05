@@ -1,0 +1,482 @@
+
+= Story-Arc-System — 6-stufige Erzaehl-Hierarchie
+
+
+Sechs ineinander verschachtelte Ebenen strukturieren jede Flammenreiter-Kampagne — von der jahrelangen Welt-Story bis zur Minuten-langen Szene am Spieltisch. Diese Hierarchie ist das Rueckgrat des GM-Dashboards und der Session-Planung.
+
+
+== Ueberblick
+
+
+[cols="1,2,2,2",options="header"]
+|===
+| Ebene | Was | Zeithorizont | Beispiel Jahr 1
+
+| Global Arc      | Welt-uebergreifender Mega-Bogen ueber Jahre / Generationen        | Mehrere Kampagnen | "Die Wiederkehr der Sigillen"
+| Story Arc       | Handlungsstrang einer Kampagne                                    | 1-3 Jahre In-Game | "Erstes Schuljahr an der Akademie"
+| Akt             | Kapitel-Cluster mit Meilenstein-Entscheidung                      | Mehrere Monate    | "Eingewoehnung", "Krise", "Pruefung"
+| Kapitel         | Zeitraum mit Voraussetzungen + Konsequenzen (Variablen)           | 1-3 In-Game-Monate | "Hammer-Monat: Erste Wochen"
+| Quest           | Strukturiertes Ziel mit Objectives, Decisions und Rewards         | 1-3 Sessions      | "Q1: Akademie-Aufnahme bestehen"
+| Scene           | Spielbare Einheit am Tisch (Combat / Social / Discovery / ...)    | 10-120 Minuten    | "Aufnahme-Pruefung beim Kampfmeister"
+|===
+
+
+_Lesart_: Eine _Scene_ gehoert zu einer _Quest_, eine Quest zu einem _Kapitel_, ein Kapitel zu einem _Akt_, ein Akt zu einem _Story Arc_, ein Story Arc zu einem _Global Arc_. Sessions sind ueber `chapter_id` an die Hierarchie angebunden.
+
+'''
+
+
+== Die 6 Ebenen im Detail
+
+
+=== 1. Global Arc — Welt-Mega-Story
+
+
+_Zweck_: Der grosse Bogen, der ueber mehrere Kampagnen / Jahre / Generationen laeuft. Spielergruppen koennen einen Global Arc gemeinsam vorantreiben, ohne dass ihre Kampagnen verbunden sein muessen.
+
+_Felder_:
+
+* `title` — Anzeigename
+* `description` — Pitch in 1-3 Saetzen
+* `status` — `planned` / `active` / `concluded` / `paused`
+* `sort_order` — Reihenfolge in der GM-Liste
+
+_Beispiel_:
+
+[source,yaml]
+----
+title: "Die Wiederkehr der Sigillen"
+description: |
+  Nach 800 Jahren beginnen die 9 Sigillen wieder zu pulsieren.
+  Wer sie sammelt, beeinflusst die Welt fuer Jahrhunderte.
+status: active
+----
+
+'''
+
+
+=== 2. Story Arc — Kampagnen-Handlungsstrang
+
+
+_Zweck_: Der Bogen einer konkreten Kampagne. Endet typischerweise mit einem grossen Meilenstein (Schuljahres-Abschluss, Politische Wende, Bond-Ritual).
+
+_Felder_:
+
+* `title`, `description`
+* `globalArcId` — FK auf Global Arc
+* `sort_order`
+
+_Beispiel_:
+
+[source,yaml]
+----
+title: "Erstes Schuljahr an der Akademie"
+globalArcId: <Wiederkehr-der-Sigillen>
+description: |
+  Die Spielergruppe (Flamme Obsidian) durchlebt das erste Lehrjahr.
+  Am Ende: Haus-Zuweisung, Trait-Profil, erste Welt-Spuren gelegt.
+----
+
+'''
+
+
+=== 3. Akt — Cluster mit Meilenstein-Entscheidung
+
+
+_Zweck_: Mehrere Kapitel bilden einen Akt. Am Ende eines Akts steht typischerweise eine _Block-Decision_ (entscheidet, welcher der naechsten Aktes / Kapitel-Pfade freigeschaltet wird) und ein _Milestone-Reward_.
+
+_Felder_:
+
+* `title`, `description`
+* `storyArcId` — FK
+* `block_decision` — Beschreibung der Entscheidung am Ende (Free-Text)
+* `milestone_reward` — Belohnung beim Akt-Abschluss (Trait-Bonus, Story-Flag, ggf. Item)
+* `sort_order`
+
+_Beispiel_:
+
+[source,yaml]
+----
+title: "Akt I — Eingewoehnung"
+storyArcId: <Erstes-Schuljahr>
+block_decision: |
+  Welcher Mentor-Lehrer adoptiert die Flamme?
+  (Beeinflusst Quest-Verfuegbarkeit in Akt II)
+milestone_reward:
+  trait_shift: "Diszipliniert +1"
+  story_flag: "akademie_eingewoehnt"
+----
+
+'''
+
+
+=== 4. Kapitel — Zeitraum mit Variablen
+
+
+_Zweck_: Das wichtigste GM-Werkzeug fuer Zeit-Planung. Ein Kapitel umspannt In-Game-Monate, hat Voraussetzungen (welche Variablen muessen gesetzt sein, damit es startet) und Konsequenzen (welche Variablen werden beim Abschluss geschrieben).
+
+_Felder_:
+
+* `title`, `description`
+* `actId` — FK
+* `start_month` / `end_month` — Harptos-Monat (1-12, M1=Hammer ... M12=Nightal)
+* `prerequisites` (JSON) — Dict aus Variable -> Erwarteter Wert
+* `consequences` (JSON) — Dict aus Variable -> Wert beim Abschluss
+* `sort_order`
+
+_Beispiel_:
+
+[source,yaml]
+----
+title: "Hammer & Alturiak — Die ersten Wochen"
+actId: <Akt-I>
+start_month: 1   # Hammer
+end_month: 2     # Alturiak
+prerequisites:
+  charakter_erstellt: true
+consequences:
+  pfad_wahl: "<aus Spieler-Entscheidung>"
+  lehrer_vertrauen: 1
+----
+
+NOTE: Die Verbindung zum link:kalender-zeit.adoc[Harptos-Kalender] ist hart: ein Kapitel "weiss", in welchem Monat es spielt, und der Kalender-Service kann Saison-/Wetter-Effekte automatisch applizieren.
+
+'''
+
+
+=== 5. Quest — Spielbares Ziel
+
+
+_Zweck_: Ein Quest ist die kleinste GM-Plan-Einheit, die einer Spielsitzung Struktur gibt. Eine Session kann 0-3 Quests anrueher (eine startet, eine laeuft, eine schliesst ab).
+
+Siehe link:quest-szenen.adoc[Quest & Szenen-System] fuer die volle Quest-Mechanik (8 Quest-Typen, 1-5 Objectives, Reward-Workflow).
+
+_Bezug zur Hierarchie_: Quest hat `chapter_id` als FK. Beim Kapitel-Abschluss werden alle offenen Quests entweder geclosed (success / failure / abandoned) oder in das naechste Kapitel uebertragen.
+
+_Beispiel (gekuerzt)_:
+
+[source,yaml]
+----
+title: "Q1 — Aufnahmepruefung"
+chapter_id: <Hammer-Wochen>
+quest_type: "trial"
+objectives:
+  - "Bestehe den Kampfkunst-Check (DC 12)"
+  - "Bestehe den Wissens-Check (DC 12)"
+  - "Bestehe das Lehrer-Interview (Disposition >= 0)"
+rewards:
+  trait_shifts: ["Diszipliniert +1 oder Mutig +1"]
+  story_flag: "aufnahme_bestanden"
+  unlocks: ["Q2 — Erste Flamme bilden"]
+----
+
+'''
+
+
+=== 6. Scene — Spielbare Einheit
+
+
+_Zweck_: Eine Scene ist das, was am Tisch tatsaechlich gespielt wird. Sie hat einen Typ (Social / Combat / Discovery / Chase / Moral / Environmental), Read-Aloud-Text, NPCs, Suggested Checks, Reveal-Toggles fuer den Spieler-Sync.
+
+Siehe link:szenen-reveal-toggles.adoc[Szenen-Reveal-Toggles] fuer Metadaten und link:quest-szenen.adoc[Quest & Szenen-System] fuer Szenen-Typen.
+
+_Bezug zur Hierarchie_: Scene gehoert zu einer Quest (`quest_id`), die zu einem Kapitel gehoert.
+
+_Beispiel-Skizze_:
+
+[source,yaml]
+----
+title: "Aufnahme-Pruefung beim Kampfmeister"
+quest_id: <Q1-Aufnahmepruefung>
+scene_type: "combat"   # leichter Sparring-Combat
+read_aloud: |
+  Der Kampfmeister Brokk steht vor euch im Sand.
+  "Zeigt mir, dass ihr zumindest stehen koennt."
+npcs: [<Brokk-Steinfaust>]
+suggested_checks:
+  - "Athletics DC 12 (Stand-halten)"
+  - "Acrobatics DC 12 (Ausweichen)"
+reveal_toggles:
+  read_aloud: visible
+  npcs: visible
+  suggested_checks: hidden
+----
+
+'''
+
+
+== Planungsflow — Wie der GM von oben nach unten plant
+
+
+. _Story_: GM beschliesst den Bogen — "Erstes Schuljahr an der Akademie". Setzt Story Arc + 3 Akte (Eingewoehnung, Krise, Pruefung).
+. _Orte_: Welche Locations sind betroffen? — Akademie, Drachenstall, naechste Stadt, Wald-Expeditionsroute.
+. _NPCs_: Welche Schueler/Lehrer/Antagonisten muessen vor Sitzung 1 existieren? — Lehrer-Trio + Mentor-NPC + 2 Mitschueler-Rivalen aus link:../06-rassen-klassen/akademie-schueler.adoc[Akademie-Schueler-Liste].
+. _Interaktionen_: Welche Szenen-Typen liefern was? — 1 Social (Aufnahme-Interview), 1 Combat-Lite (Sparring), 1 Discovery (erste Drachenkunde-Stunde).
+. _Session-Prep_: GM bricht das in konkrete Scenes mit Read-Aloud, Checks, Reveal-Toggles herunter. Eine Quest = 1-3 Sessions = 3-9 Scenes.
+
+NOTE: _Top-Down planen, Bottom-Up reagieren_: Spieler-Entscheidungen koennen jederzeit eine ungeplante Decision triggern, die das geplante Kapitel beeinflusst (siehe naechster Abschnitt).
+
+'''
+
+
+== Decision-System — Geplant + Ungeplant
+
+
+Entscheidungen sind das Bindeglied zwischen Spielerwillen und Kapitel-Konsequenz-Variablen.
+
+
+=== Vordefinierte (geplante) Entscheidungen
+
+
+_Wo_: Im Kapitel- oder Quest-Setup vordefiniert mit Optionen + Konsequenzen.
+
+_API_: `POST /campaigns/:id/decisions`
+
+_Wann_: An vorher festgelegten Story-Beats — typischerweise am Quest-Ende oder am Akt-Block-Decision.
+
+_Beispiel_:
+
+[source,yaml]
+----
+prompt: "Welchem Mentor folgt die Flamme?"
+options:
+  - id: "kampfmeister_brokk"
+    label: "Kampfmeister Brokk Steinfaust"
+    consequences:
+      lehrer_vertrauen: 2
+      pfad_wahl: "krieger"
+  - id: "magierin_aldis"
+    label: "Magierin Aldis Lichttraeger"
+    consequences:
+      lehrer_vertrauen: 2
+      pfad_wahl: "magie"
+----
+
+
+=== Ungeplante (ad-hoc) Entscheidungen
+
+
+_Wo_: Vom GM live waehrend der Session erfasst — Spieler tut etwas, was nicht im Plan stand.
+
+_API_: `POST /campaigns/:id/decisions/unplanned`
+
+_Wann_: Wenn die Spieler kreativ werden, einen NPC verraten, eine Quest abbrechen, einen Pakt schliessen, ueber den nicht im Plan stand.
+
+_Beispiel-Flow_:
+
+. Spieler ueberreden den Lehrer, ihren Pruefungs-Fehler zu vertuschen
+. GM oeffnet Decision-Dialog im Dashboard
+. GM tippt: "Lehrer deckt Fehler" -> setzt Variable `lehrer_komplize: true`
+. Diese Variable wird verfuegbar fuer spaetere Quests / Kapitel-Logik
+
+NOTE: Beide Decision-Arten koennen direkt link:traits.adoc[Trait-Shifts] ausloesen und in den link:#campaign-chapter-state[Campaign Chapter State] schreiben. Wichtige Decisions koennen optional in den _World State_ propagiert werden (siehe `UC-MEC-76`).
+
+'''
+
+[[campaign-chapter-state]]
+== Campaign Chapter State — Variablen pro Kapitel
+
+
+_Zweck_: Persistente Variablen pro Kampagne+Kapitel. Decisions schreiben hier hinein, naechste Kapitel lesen es als Voraussetzung.
+
+_Datenmodell_: `CampaignChapterState`
+
+* `campaign_id` — Welche Kampagne
+* `chapter_id` — Welches Kapitel
+* `variable` — Name (z.B. `pfad_wahl`)
+* `value` — Wert (typsicher: string/number/boolean)
+* `set_by_decision_id` — Optional: Welche Decision setzte den Wert
+
+_Upsert-Semantik_: Existiert eine Variable schon, wird sie aktualisiert. Verlauf wird nicht als Liste gehalten — jede Variable hat genau einen aktuellen Wert pro Kapitel.
+
+
+=== Wie Variablen weitergegeben werden
+
+
+. _Decision triggert Konsequenz_ — Decision setzt `pfad_wahl: "krieger"` im aktuellen Kapitel.
+. _Naechstes Kapitel hat Prerequisite_ — `prerequisites: { pfad_wahl: "krieger" }` -> Kapitel ist nur freigeschaltet, wenn der Wert stimmt.
+. _Aggregation_: `GET /campaigns/:id/state-summary` liefert ALLE Variablen ueber alle Kapitel.
+. _World-Propagation_: GM kann eine besonders bedeutsame Variable in den `WorldState` heben (kampagnen-uebergreifend).
+
+
+=== 9 Konsequenz-Variablen Jahr 1 (Beispiel)
+
+
+Aus dem Jahr-1-Blueprint (siehe `UC-MEC-80` / `STORY-DOCS-003`):
+
+[cols="2,3",options="header"]
+|===
+| Variable | Bedeutung
+
+| `pfad_wahl`            | Welcher Klassen-/Lehrer-Pfad gewaehlt (krieger/magie/diplomatie/handwerk)
+| `lehrer_vertrauen`     | Disposition zum primaeren Mentor (-5 bis +5)
+| `flammen_dynamik`      | Wie eng die Spielergruppe ist (toxisch/funktional/eng/symbiotisch)
+| `haus_affinitaet`      | Welches Haus die Flamme tendenziell anzieht (rot/blau/bronze/gruen)
+| `geheim_geluescht`     | Hat die Flamme ein Akademie-Geheimnis aufgedeckt? (true/false)
+| `drachen_erstkontakt`  | Wer hatte den ersten unbeaufsichtigten Drachen-Kontakt? (npc_id / null)
+| `pruefungs_resultat`   | Bestanden / Verzoegert / Verstossen am Jahresende
+| `welt_geruechte_anzahl`| Wieviele Geruechte hat die Flamme weitergegeben (Reputation-Trigger)
+| `bond_ritual_freigeschaltet` | Ist das Bindungsritual fuer Jahr 3 vorgemerkt? (true/false)
+|===
+
+'''
+
+
+== Belohnungssystem — Trait-First
+
+
+_Kernregel Jahr 1_: _Keine Gold- oder Item-Belohnungen._
+
+Ein Akademie-Schueler bekommt von Lehrern und Story-Beats _Trait-Shifts_, _Story-Flags_ und _Unlocks_ — keine Beutel mit Gold und keine magischen Schwerter.
+
+
+=== Reward-Typen
+
+
+[cols="2,3,2",options="header"]
+|===
+| Typ | Was es bewirkt | Beispiel
+
+| `trait_shift`    | Aendert link:traits.adoc[Trait-Wert] (max +/-1 pro Reward)            | "Diszipliniert +1"
+| `story_flag`     | Setzt link:#campaign-chapter-state[Chapter-State-Variable] | "aufnahme_bestanden = true"
+| `disposition`    | Aendert NPC-Disposition (link:beziehungen-renown.adoc[]) | "Lehrer Brokk +5"
+| `unlock_quest`   | Schaltet eine andere Quest frei                                       | "Unlock Q3 — Drachenstall-Besuch"
+| `unlock_npc`     | Macht einen NPC erreichbar (Treffen, Dialog, Mentoring)              | "Unlock NPC: Yuna Nachtfeder"
+| `unlock_location`| Schaltet einen Ort frei                                               | "Unlock: Bibliothek der Verbotenen Schriften"
+| `cantrip_grant`  | Gewaehrt einen link:cantrips.adoc[Cantrip] (selten, gross)         | "Cantrip: Light"
+| `xp`             | Mechanisches XP (Klassen-Level, Profession-Level)                    | "XP +50"
+|===
+
+
+=== Warum kein Gold/Items in Jahr 1?
+
+
+. _Akademie ist subventioniert_: Schueler bekommen Verpflegung, Equipment, Buecher gestellt — kein Wirtschafts-Druck.
+. _Trait-Fokus_: Jahr 1 ist Persoenlichkeits-Entwicklung. Items wuerden vom Trait-Wachstum ablenken.
+. _Spannung fuer Jahr 2+_: Erst nach Akademie-Abschluss beginnt das Wirtschafts-Spiel mit Gold und Item-Besitz.
+
+NOTE: _Ausnahmen_: Persoenliche Erbstuecke (im Charakter-Profil verankert), Lehrer-Geschenke mit Sentimentalwert (kein Gold-Wert), Drachen-Pflege-Items (funktional, kein Wirtschafts-Faktor).
+
+
+=== Reward-Beispiele Jahr 1
+
+
+[source,yaml]
+----
+# Q1: Aufnahmepruefung bestanden
+rewards:
+  trait_shifts:
+    - "Diszipliniert +1 ODER Mutig +1 (Spieler waehlt)"
+  story_flag:
+    aufnahme_bestanden: true
+  disposition:
+    Lehrer-Trio: +5
+
+# Q2: Erste Flamme bilden
+rewards:
+  trait_shifts:
+    - "Loyal +1 (alle Flammen-Mitglieder)"
+  story_flag:
+    flammen_name_gewaehlt: "Obsidian"
+  unlock_npc: ["Mentor-NPC"]
+
+# Akt-I-Milestone: "Eingewoehnung abgeschlossen"
+milestone_reward:
+  trait_shifts:
+    - "Selbstbewusst +1"
+  cantrip_grant: "Hauszugehoeriger Cantrip"
+  story_flag:
+    akademie_eingewoehnt: true
+----
+
+'''
+
+
+== Beispiel — Kompletter Mini-Akt
+
+
+Ein vollstaendiger Akt-Durchlauf in YAML, um das Zusammenspiel zu zeigen.
+
+[source,yaml]
+----
+GlobalArc: "Die Wiederkehr der Sigillen"
+  StoryArc: "Erstes Schuljahr an der Akademie"
+    Akt I: "Eingewoehnung"
+      block_decision: "Welcher Mentor-Lehrer adoptiert die Flamme?"
+      milestone_reward:
+        trait_shift: "Diszipliniert +1"
+        story_flag: "akademie_eingewoehnt"
+
+      Kapitel 1: "Hammer & Alturiak — Erste Wochen"
+        prerequisites: { charakter_erstellt: true }
+        consequences: { pfad_wahl: "?", lehrer_vertrauen: 1 }
+        Quests:
+          Q1: "Aufnahme-Pruefung"
+            scenes:
+              - "Aufnahme-Interview" (social)
+              - "Sparring beim Kampfmeister" (combat-lite)
+              - "Wissens-Check" (discovery)
+            rewards: { trait_shifts: [...], story_flag: aufnahme_bestanden }
+          Q2: "Erste Flamme bilden"
+            scenes:
+              - "Flammen-Naming-Ritual" (social)
+              - "Erste gemeinsame Aufgabe" (discovery)
+            rewards: { trait_shifts: [...], story_flag: flammen_name_gewaehlt }
+
+      Kapitel 2: "Ches & Tarsakh — Mentoren-Wahl"
+        prerequisites: { aufnahme_bestanden: true, flammen_name_gewaehlt: "Obsidian" }
+        consequences: { pfad_wahl: "<Decision-Output>" }
+        Quests:
+          Q3: "Drachenstall-Besuch"  # erst nach Mentor-Decision freigeschaltet
+          Q4: "Mentor-Pruefung"
+        BlockDecision: "Welchem Mentor folgt die Flamme?"
+          options: [kampfmeister_brokk, magierin_aldis, diplomat_renn]
+        # Akt-Ende: milestone_reward gewaehrt
+----
+
+'''
+
+
+== GM-Dashboard Integration
+
+
+Die Story-Hierarchie ist im GM-Dashboard ueber die folgenden Endpunkte abgebildet:
+
+* CRUD fuer alle 4 oberen Ebenen: `GlobalArc`, `StoryArc`, `Act`, `Chapter`
+* `GET /story/chapters/:id/quests` — Quests in einem Kapitel
+* `GET /story/chapters/:id/sessions` — Sessions in einem Kapitel
+* `GET /campaigns/:id/chapters/:chapterId/state` — Kapitel-Variablen
+* `PUT /campaigns/:id/chapters/:chapterId/state/:variable` — Variable setzen
+* `POST /campaigns/:id/decisions` — Geplante Decision
+* `POST /campaigns/:id/decisions/unplanned` — Ungeplante Decision
+
+Quests + Scenes haben ihre eigenen Endpunkte (siehe link:quest-szenen.adoc[Quest & Szenen-System]).
+
+NOTE: Sessions sind ueber `chapter_id` an die Hierarchie angebunden — der Kalender-Service liest `start_month` / `end_month` und kann Saison-/Wetter-Effekte auf Sessions automatisch applizieren.
+
+'''
+
+
+== Verwandte Dokumente
+
+
+* link:quest-szenen.adoc[Quest & Szenen-System] — Volle Quest-Mechanik (8 Typen, Objectives, Scenes)
+* link:szenen-reveal-toggles.adoc[Szenen-Reveal-Toggles] — Scene-Metadaten + Spieler-Sync
+* link:traits.adoc[Traits] — Trait-Shift-Mechanik fuer Rewards
+* link:beziehungen-renown.adoc[Beziehungen & Renown] — Disposition-Rewards
+* link:kalender-zeit.adoc[Kalender & Zeit] — Harptos-Monate, Akademie-Phasen
+* link:cantrips.adoc[Cantrips] — Cantrip-Grant als Belohnung
+* link:../07-gm-dashboard/index.adoc[07 GM-Dashboard] — Dashboard-UI fuer Story-Verwaltung
+* link:../06-rassen-klassen/akademie-schueler.adoc[Akademie-Schueler] — NPC-Pool fuer Jahr-1-Kampagnen
+
+
+== Use-Case-Referenzen
+
+
+* `UC-MEC-74` — Story-Hierarchie GlobalArc bis Chapter
+* `UC-MEC-75` — Campaign Chapter State
+* `UC-MEC-76` — World State (kampagnen-uebergreifend)
+* `UC-MEC-80` — Jahr-1-Blueprint (Detail siehe STORY-DOCS-003)
+* `UC-GM-STY-01` — Story-Hierarchie verwalten (GM-Dashboard)
+* `UC-GM-STY-02` — Campaign Chapter State verwalten
+* `UC-GM-DEC-01` — Geplante + ungeplante Entscheidungen loggen

@@ -99,6 +99,11 @@ Jeder Charakter hat min. 1 Cantrip basierend auf Hauszugehörigkeit oder Rasse. 
 Graph-Navigation statt linearer Szenen-Folge. "Nächste Fahrt wählen"-Dialog mit Vorschau- und Aktivieren-Aktion pro Kante. Conditions werden live evaluiert; Hidden Edges nur GM-sichtbar. Edge-Traversal-Tracking für Session-Recap. Neu in Sprint 2026-04-25.
 
 
+=== [19. Story-Arc-System (6 Ebenen)](./story-arc-system.adoc)
+
+Sechsstufige Hierarchie: Global Arc → Story Arc → Akt → Kapitel → Quest → Scene. Planungsflow Top-Down, Reaktion Bottom-Up. Decision-System (geplant + ungeplant) schreibt in Campaign-Chapter-State; Variablen sind Voraussetzung für Folgekapitel. Trait-First-Belohnungssystem für Jahr 1 (keine Gold/Items). Neu in Sprint 2026-05-05.
+
+
 == Cross-System-Referenzen
 
 
