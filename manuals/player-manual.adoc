@@ -1,0 +1,309 @@
+= Flammenreiter — Player Handbuch
+:author: Flammenreiter Team
+:revdate: 2026-05-06
+:toc: left
+:toclevels: 3
+:icons: font
+:sectanchors:
+:sectnums:
+:imagesdir: ../images
+
+[.lead]
+Dieses Handbuch erklaert dir als Spieler, wie du Flammenreiter in der Player-App (`session-player`) benutzt — vom ersten Login ueber die Charakter-Anlage bis zur Live-Session. Spielregeln (Kampf, Rast, Cantrips) findest du im link:../spieler-handbuch.adoc[Spielregel-Handbuch].
+
+// IMG: TODO add screenshot of player landing page
+
+== Login
+
+Die Player-App lebt unter der Cloudflare-Pages-URL deines Deployments (lokal: `http://localhost:5174`).
+
+Anmeldung wahlweise per:
+
+* _E-Mail + Passwort_ (Supabase Auth)
+* _Google OAuth_ (per "Mit Google anmelden"-Button)
+
+Nach erfolgreichem Login wirst du auf den _Group-Picker_ geleitet (siehe naechster Abschnitt).
+
+[NOTE]
+====
+Bis 2026-05-06 wurde man als neuer Spieler direkt auf `/onboarding` umgeleitet. Das war BUG-PLAYER-01 — gefixt in Commit `a84c712`. Aktuell gilt: _Login fuehrt immer zum Picker_, von dort aus kannst du via "+Neu erstellen" zum Onboarding wechseln.
+====
+
+== Group-Auswahl
+
+=== Group waehlen
+
+Im _Group-Picker_ siehst du alle Groups (Spielgruppen), in denen du Mitglied bist:
+
+* _Tile pro Group_ mit Group-Name + GM-Name + aktiver Campaign
+* _Klick_ auf Tile waehlt die Group als aktiv
+
+=== Du bist (noch) in keiner Group?
+
+Empty-State zeigt: _"Bitte den GM um Einladung"_.
+
+[NOTE]
+====
+Ein Self-Service-Group-Join ist als Folge-Story geplant (siehe BUG-PLAYER-01 Zusatz-Findings). Aktuell musst du den GM um Einladung bitten.
+====
+
+// IMG: TODO add screenshot of group picker with empty-state and tiles
+
+== Charakter-Picker
+
+=== Auswahl bestehender Charaktere
+
+Nach Group-Wahl siehst du den _Charakter-Picker_ (`SelectCharacterPage`):
+
+* _Tile pro Charakter_ mit Name, Rasse, Klasse, Level, Portrait
+* _Klick_ aktiviert den Charakter fuer die Session
+* _"+ Neuer Charakter"-Card_ ist _immer_ am Ende sichtbar (auch bei nur 1 Charakter, kein Auto-Redirect)
+
+=== Erst-Mal hier (N=0 Charaktere)
+
+Empty-State zeigt:
+
+* Hero-Variante der _"+ Neuer Charakter erstellen"_-Card
+* Hinweis-Text: _"Du hast keinen lebenden Charakter — erstelle einen neuen, um zu beginnen"_
+
+Klick fuehrt zum _Onboarding-Wizard_.
+
+// IMG: TODO add screenshot of character picker with empty-state hero card
+
+[TIP]
+====
+Workflow-Default #4 garantiert: der Picker ist immer sichtbar, auch bei N=1 Charakter. Du behaeltst die Moeglichkeit, neue Charaktere zu erstellen, ohne erst einen bestehenden oeffnen zu muessen.
+====
+
+== Onboarding (Charakter-Erstellung)
+
+Der Onboarding-Wizard fuehrt dich durch die Charakter-Erstellung. Reihenfolge:
+
+. _Rasse_ waehlen (10 Rassen — siehe link:../06-rassen-klassen/rassen.adoc[Kapitel 06])
+. _Klasse_ waehlen (12 Klassen — siehe link:../06-rassen-klassen/klassen.adoc[Kapitel 06])
+. _Herkunft / Background_ (siehe link:../06-rassen-klassen/herkunft.adoc[Kapitel 06])
+. _Stats verteilen_ (Standard-Array oder Point-Buy)
+. _Aussehen_ (Freitext, neu)
+. _Hintergrund / Backstory_ (Freitext, neu)
+. _Weg zur Akademie_ (Routenplaner — neu)
+. _Cantrips & initiale Zauber_ (bei Spellcasting-Klassen, neu)
+. _Bestaetigen_
+
+[NOTE]
+====
+Die Felder _Aussehen_, _Hintergrund_ und _Weg zur Akademie_ wurden als BUG-PLAYER-02 als fehlend identifiziert. Migration + UI fuer Char-Schema-Erweiterung (`appearance`, `background`, `wayToAcademy`) in Folge-Story `STORY-PLAYER-PROFILE-EXPAND`.
+
+Cantrips + initiale Zauber pro Rasse/Klasse (BUG-PLAYER-04) sind ebenfalls noch offen — Folge-Stories STORY-API-RACE-CANTRIPS, STORY-API-CLASS-SPELLS, STORY-PLAYER-SPELL-PICKER, STORY-PLAYER-AI-SPELL-CONSULT.
+====
+
+== Charakter-Profil
+
+=== Tabs im Profil
+
+Sidebar -> _Mein Charakter_:
+
+[cols="1,3"]
+|===
+| _Stats_ | Ability-Scores, Modifier, Skill-Werte (computed sheet)
+| _Inventar_ | Items, Gold, Crafting-Materialien (neu — BUG-PLAYER-03 Folge)
+| _Zauber_ | Cantrips + bekannte Spells, Spell-Slots
+| _Aussehen_ | Freitext-Beschreibung deines Charakters (neu)
+| _Hintergrund_ | Backstory + Family-Ties (neu)
+| _Weg zur Akademie_ | Onboarding-Routenplaner-Output (neu)
+| _Beziehungen_ | NPC-Dispositions, Renown, Friendships
+| _Quests_ | aktive + abgeschlossene Quests
+| _Tagebuch_ | persoenliche Notizen (nicht GM-sichtbar)
+|===
+
+// IMG: TODO add screenshot of character profile tab navigation
+
+=== Stat-Berechnung
+
+Das Sheet ist _computed_ — d.h. Aenderungen an Items, Conditions oder temporaeren Buffs werden live durchgerechnet. Du siehst:
+
+* _Base_ (Grundwert aus Class + Race)
+* _Item-Mods_ (Aufsummiert pro Slot)
+* _Condition-Mods_ (z.B. -2 STR bei Exhaustion-Level 1)
+* _Temp_ (temporaere Buffs)
+* _Total_ (effektiver Wert)
+
+== Pending-Actions Modal
+
+=== Was ist das?
+
+Beim Login (oder Page-Load) erscheint ggf. ein _Pending-Actions Modal_ mit offenen Aufgaben fuer dich.
+
+=== Wann erscheint es?
+
+Aktuell vorgesehene Trigger:
+
+. _Char-Profile-Luecken_: Aussehen / Hintergrund / Weg-zur-Akademie nicht ausgefuellt
+. _Post-Session-Pings_: Du warst bei der letzten Session abwesend, GM hat Konsequenzen, XP oder Loot fuer dich hinterlegt
+. _Onboarding-Reminder_: Onboarding angefangen aber nicht abgeschlossen
+. _Wichtige UX-Reminders_ (zukuenftig)
+
+=== Bedienung
+
+* _Tile pro Pending-Action_ mit Titel + Kurz-Beschreibung
+* _Click_ fuehrt direkt zur betroffenen Page
+* _"Spaeter"_-Button verschiebt einzelne Items
+* _"Alle erledigt"_-Button schliesst das Modal
+
+[NOTE]
+====
+Das Pending-Actions-Modal (BUG-PLAYER-03) ist eine Cross-Repo-Komponente in Planung:
+
+* `shared/<PendingActionsModal items={...} />` — wiederverwendbar
+* `api/GET /users/me/pending-actions` aggregiert die Liste
+* Player-Hook `usePendingActions()` + AppShell-Wireup
+
+Folge-Stories: STORY-SHARED-PENDING-ACTIONS, STORY-API-PENDING-ACTIONS, STORY-PLAYER-ONBOARDING-REMINDER, STORY-PLAYER-POST-SESSION-PING.
+====
+
+// IMG: TODO add screenshot of pending-actions modal with multiple items
+
+== Inventar & Crafting
+
+=== Inventar-Verwaltung
+
+Sidebar -> _Mein Charakter_ -> _Inventar_:
+
+* _Equipment-Slots_ (Waffe, Ruestung, Schild, Schmuck, Accessoires)
+* _Backpack_ mit Slot-Limit + Gewicht-Tracking
+* _Quick-Slots_ fuer schnellen Zugriff in Kampf/Reise (Tranke, Cantrip-Foki)
+* _Currency-Split_ (Gold, Silber, Kupfer, Platin)
+
+=== Items nutzen
+
+* _Verbrauchen_ (z.B. Heiltrank): Doppelklick aufs Item
+* _Ausruesten_: Drag in Equipment-Slot oder Rechtsklick -> "Ausruesten"
+* _Fallen lassen_: Rechtsklick -> "Ablegen"
+* _Crafting-Materialien_: separater Tab, koennen per Recipe (s.u.) verarbeitet werden
+
+=== Crafting
+
+[NOTE]
+====
+Die volle Crafting-Recipes-Verwaltung ist BUG-GM-02 zugeordnet und noch nicht implementiert. Aktuell verfuegbar:
+
+* `crafting-management` Feature (Material-Verwaltung in Live-Session)
+* Berufe (`entities/profession/`) mit Skill-Levels
+
+Sobald STORY-CRAFTING-001 implementiert ist, wirst du Recipes ausserhalb der Session aus deinem Inventar heraus aktivieren koennen.
+====
+
+// IMG: TODO add screenshot of inventory with equipment slots and backpack
+
+== Live-Session als Spieler
+
+=== Was du siehst
+
+Wenn der GM eine Szene aktiviert, propagiert sich der Inhalt live zu deinem Player-View:
+
+* _Read-Aloud-Text_ der aktuellen Szene
+* _Sichtbare NPCs_ (nur freigegebene, per Reveal-Toggles)
+* _Sichtbare Maps / Features / Roll-Tables_
+* _Suggested Skill-Checks_ (Vorschlaege vom GM)
+
+=== Skill-Checks wuerfeln
+
+Wenn der GM einen Skill-Check anstoesst, oeffnet sich automatisch das _SkillCheckModal_:
+
+* zeigt deinen `skillModifier` aus dem computed Sheet
+* Aliasse wie "motiv erkennen" werden auf `insight` normalisiert
+* _Roll_-Button wuerfelt 1d20 + Modifier
+* Ergebnis wird live an GM uebermittelt
+
+=== NPC-Reaktion sehen
+
+Pro NPC siehst du im Dialog-Panel die _Reaktions-Breakdown_ (siehe link:../02-spielmechaniken/social-interaction.adoc[Social Interaction]):
+
+. _Trait-Reactions_ (positive / negative Trait-Matches)
+. _Alignment-Delta_ (NPC-Alignment vs. Char-Alignment)
+. _Personality-Fit_ (5-Stufen-Skala)
+. _Race-Affinities_ (NPC-Praeferenz fuer deine Rasse)
+. _Social-Events_ (Historie mit Zeit-Decay)
+
+=== Polls beantworten
+
+Wenn der GM einen Poll erstellt (z.B. "Rast jetzt einlegen?"), erscheint ein Poll-Modal:
+
+* _Optionen_ als Radio-Buttons
+* _Submit_ schickt deine Stimme
+* _Ergebnis_ erscheint nach allen Stimmen oder GM-Close
+
+== Sound-Settings
+
+=== Player-Sound-Mixer
+
+Sidebar -> _Settings_ -> _Sound_ (STORY-SOUND-001b/c, Commits `676b5a8` + `b185bc5`):
+
+* _Master-Volume_ Slider
+* _SFX-Volume_ (`useSfx`-Hook)
+* _Ambient-Volume_ (`useAmbient`-Hook)
+* _Music-Volume_
+* _Mute-Toggle_
+
+Einstellungen werden in `localStorage` persistiert.
+
+=== Was du hoerst
+
+Wenn der GM einen Sound im Soundboard triggert:
+
+* _SFX_: One-Shot ueber dein SFX-Volume
+* _Ambient_: Hintergrund-Loop ueber dein Ambient-Volume mit Fade-In/Out
+* _Music_: Bgm-Loop ueber dein Music-Volume
+
+[TIP]
+====
+Wenn du an einem Live-Tisch spielst und nicht parallel den Sound hoeren willst (weil GM ueber Lautsprecher), setz das Master-Volume auf 0. So bleiben deine Charakter-Aktionen funktional, ohne Audio-Ueberschneidung.
+====
+
+// IMG: TODO add screenshot of sound settings page
+
+== Changelog-Modal
+
+=== Was ist das?
+
+Sidebar-Footer enthaelt einen _Changelog-Trigger_ (STORY-CHANGELOG-004, Commit `513599e`):
+
+* Klick oeffnet ein Modal mit allen Versions-Aenderungen seit deinem letzten Login
+* _Markdown-formatiert_ pro Version
+* Auto-Mark-as-Read beim Schliessen
+
+=== Wann pruefen?
+
+* Nach jedem App-Update (neue Cloudflare-Pages-Deploy)
+* Wenn du eine neue Funktion suchst, die der GM erwaehnt hat
+* Vor wichtigen Sessions (oft enthalten Updates Bug-Fixes fuer Live-Session)
+
+[NOTE]
+====
+BUG-CROSS-01: Der ChangelogParser hat aktuell ein Console-Log-Problem (hunderte "Bullet outside any version block"-Warnings). Funktional unkritisch, gefixt in shared@3.9.0 (`acbaecf`), Frontend-Sync wartet auf neuen NODE_AUTH_TOKEN.
+====
+
+// IMG: TODO add screenshot of changelog modal
+
+== Was nicht in diesem Handbuch steht
+
+* link:../spieler-handbuch.adoc[Spielregel-Handbuch] — Kampf, Rast, Cantrips, Conditions, Tod, etc.
+* link:../06-rassen-klassen/index.adoc[Kapitel 06] — Detail-Beschreibungen aller Rassen + Klassen
+* link:../05-charakter-sheet/index.adoc[Kapitel 05] — Charakter-Sheet-Architektur (technische Referenz)
+* link:../02-spielmechaniken/INDEX.adoc[Kapitel 02] — alle 27+ Spielmechaniken im Detail
+
+== Bekannte Bugs (Stand 2026-05-06)
+
+Quelle: `.scrum/JOINT-TEST-RUN-BUGS-2026-05-06.md`
+
+[cols="1,3,1"]
+|===
+| Bug-ID | Symptom | Severity
+
+| PLAYER-01 | Onboarding statt Picker als Login-Fallback | P1 (gefixt `a84c712`)
+| PLAYER-02 | Char-Profile-Felder fehlen (Aussehen, Hintergrund, Weg-Akademie) | P1
+| PLAYER-03 | Pending-Actions Modal noch nicht gebaut | P1
+| PLAYER-04 | Cantrips + initiale Zauber pro Rasse/Klasse fehlen | P1
+| CROSS-01 | ChangelogParser flutet Console mit Warnings | P2 (gefixt in shared@3.9.0, Sync pending)
+|===
+
+Status-Updates siehe Sprint-Board unter `.scrum/`.
