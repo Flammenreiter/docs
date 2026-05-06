@@ -1,0 +1,361 @@
+= Flammenreiter — Game-Master Handbuch
+:author: Flammenreiter Team
+:revdate: 2026-05-06
+:toc: left
+:toclevels: 3
+:icons: font
+:sectanchors:
+:sectnums:
+:imagesdir: ../images
+
+[.lead]
+Dieses Handbuch erklaert dir als Game-Master, wie du eine Flammenreiter-Kampagne planst, leitest und nachbereitest. Es deckt den kompletten Workflow ab — vom Login ueber Live-Session bis zur Post-Session-Auswertung. Das Handbuch ist auf Stand _Sprint 2026-05-06_ und benennt Features, die per Audit derzeit nicht funktionsfaehig sind, explizit als solche.
+
+// IMG: TODO add screenshot of GM dashboard landing page
+
+== Login & Erst-Setup
+
+=== Anmeldung
+
+Die GM-App (`session-gm`) lebt unter der Cloudflare-Pages-URL deines Deployments (lokal: `http://localhost:5173`).
+
+Anmeldung wahlweise per:
+
+* _E-Mail + Passwort_ (Supabase Auth)
+* _Google OAuth_ (per "Mit Google anmelden"-Button)
+
+Nach erfolgreichem Login landest du auf dem _GM-Dashboard_.
+
+=== Group- und Campaign-Auswahl
+
+Flammenreiter trennt drei Ebenen:
+
+[cols="1,3"]
+|===
+| _Group_ (Spielgruppe) | Sammelt mehrere Spieler + GM. Ein User kann in mehreren Groups sein.
+| _Campaign_ (Kampagne) | Eine konkrete Story-Welt, gehoert genau einer Group. Eine Group kann mehrere Campaigns haben (z.B. "Sandbox" + "Hauptkampagne").
+| _Session_ | Ein einzelner Spieltermin innerhalb einer Campaign.
+|===
+
+Bei deinem ersten Login landest du im _Group-Picker_. Waehle die Group, in der du GM bist.
+
+=== Active-Campaign-Switcher
+
+WICHTIG: Pro Group darf zu jedem Zeitpunkt _genau eine Campaign_ als "aktiv" markiert sein. Diese aktive Campaign bestimmt:
+
+* welche Charaktere der Spieler im Live-Session-Picker sieht
+* welche Sessions in der Sidebar erscheinen
+* welche Realtime-Subscriptions aktiv sind
+
+Den Switcher findest du im Header der GM-View neben dem Group-Namen.
+
+[NOTE]
+====
+Die Architektur "Active-Campaign per Group" wurde am 2026-05-06 als Story `STORY-ARCH-ACTIVE-CAMPAIGN` (P0) eingefuehrt, nachdem ein Daten-Leak (BUG-GM-10) und ein Cross-Campaign-Listing-Bug (BUG-GM-11) auf eine fehlende Architektur-Schicht zurueckgefuehrt wurden. Bis zur vollstaendigen Implementation gilt der Workaround: pro Group nur eine nicht-geloeschte Campaign halten.
+====
+
+// IMG: TODO add screenshot of campaign switcher in header
+
+== Session-Planer Workflow
+
+Der Session-Planer ist das Herzstueck der Vorbereitung. Vollstaendige Referenz siehe link:../07-gm-dashboard/index.adoc[Kapitel 07 GM-Dashboard].
+
+=== Quick Mode vs. Graph Mode
+
+[cols="1,1,2"]
+|===
+| Modus | Wann nutzen? | Stack
+| _Quick Mode_ | Schnelle Notizen, lineare Szenen, @Entity-Tagging | Markdown-Editor mit Auto-Complete
+| _Graph Mode_ | Verzweigte Story-Pfade, Conditions, Player-Choice | D3.js Custom Node-Editor
+|===
+
+=== Schritt-fuer-Schritt: Neue Session anlegen
+
+. _Sidebar_ -> _Sessions_ -> _Neue Session_
+. _Datum_ + _geplante Dauer_ + _Titel_ eingeben
+. Modus waehlen (Quick oder Graph)
+. _Szenen anlegen_:
+  ** Quick: pro Szene einen Markdown-Block, `@NPC:` / `@Ort:` / `@Item:` Tags fuer Auto-Linking
+  ** Graph: Nodes ziehen, Edges mit Conditions verbinden
+. _Read-Aloud-Texte_ pro Szene als _Variants_ pflegen (mehrere Tonalitaeten moeglich)
+. _Reveal-Toggles_ pro Element setzen (welche NPCs/Features sieht der Spieler bei Szenen-Aktivierung)
+. _Speichern_ — wird automatisch alle 30s als Draft gesichert (`useAutoSaveDraft`)
+
+=== Pre-Session-Checkliste
+
+Eine 4-Level-Cascade-Checkliste hilft dir, nichts zu vergessen (STORY-EPIC20-PREP):
+
+. _Welt-Level_: Wetter, Fraktionsstatus, Welt-Events seit letzter Session
+. _Kampagnen-Level_: Quest-States, NPC-Dispositions, ungelesene Notes
+. _Session-Level_: Planung exportierbar als Markdown fuer Offline-Reference
+. _Szenen-Level_: pro Szene Read-Aloud + Reveals + suggestedChecks pruefen
+
+== Random-Tables & Encounter-Generator
+
+=== Random Tables (CRUD + Roll)
+
+Sidebar -> _Random Tables_:
+
+* _CRUD-UI_ mit Master/Detail-View (STORY-RT-002)
+* _JSON-rewardConfig-Editor_ fuer komplexe Beuten
+* _Roll-Panel_ mit Spin-Animation + History (50 letzte Wuerfe, STORY-RT-003)
+* Quick-Roll-Widget integrierbar in andere Sektionen
+
+[NOTE]
+====
+Die Live-Sidebar-Mount-Sektionen sind aktuell statisch. Random-Table-Quick-Roll im Live-Session-Sidebar wartet auf STORY-RT-003-LIVE.
+====
+
+=== Encounter-Generator
+
+Sidebar -> _Encounters_ -> _Neuer Encounter_:
+
+. _Form_ mit Monster-Picker + Loot-Picker (STORY-EG-002)
+. _Generated Drawer_ zeigt Vorschlag mit XP-Budget, CR-Verteilung, Loot-Items
+. _Re-Roll_-Button fuer alternative Vorschlaege
+. _Speichern_ als Encounter-Definition fuer spaeteren Live-Mount
+
+[NOTE]
+====
+"Add to Session"-Wiring im GeneratedEncounterDrawer noch nicht aktiv (STORY-EG-002-LIVE pending). Manuell uebernehmen ueber Encounter-ID in der Live-Session.
+====
+
+== Soundboard & Ambient
+
+=== Soundboard (in Sidebar)
+
+Drei Tabs (STORY-SOUND-001d, Commit `c649208`):
+
+* _Bundle_: kuratierte Sound-Pakete pro Szenen-Typ (Tavern, Combat, Travel, Mystery, Ritual)
+* _Search_: Freesound-API-Suche mit LRU-Cache + Backoff (STORY-SOUND-001a, Routes `/sounds/search`, `/sounds/:id`, `/sounds/:id/download`)
+* _Ambient_: 16 Tabletop-Audio-Tracks in 4 Kategorien (STORY-SOUND-001e, Iframe-Embed mit Fallback)
+
+=== Layer-Mixer
+
+* _3 Layer-Slots_ + _Master-Volume_
+* Favoriten persistiert in localStorage
+* Mixer-State persistiert pro GM-Account
+
+[TIP]
+====
+Setze einen Ambient-Track (z.B. "Forest Night") in Layer 1, einen Music-Loop (z.B. "Battle Theme") in Layer 2, und ueberblende mit den Volume-Slidern. SFX (z.B. "Sword Clash") spielst du als One-Shot via Search-Tab.
+====
+
+// IMG: TODO add screenshot of soundboard 3-tab UI with mixer
+
+== Live-Session
+
+=== Aufbau der Live-Session-View
+
+Drei-Spalten-Layout:
+
+* _Links_: Scene-Timeline + aktuelle Szene
+* _Mitte_: Aktive Szenen-Inhalte (Read-Aloud, NPCs, Maps, Polls)
+* _Rechts_: _Right-Sidebar_ mit Accordion-Layout (Activity-Log, NPCs, Rolls, Notes, Sound)
+
+=== Szene aktivieren
+
+Klick auf Szene in der Timeline (STORY-014, Commit `9c31fdf`):
+
+* Szene wird beim Player live sichtbar
+* Reveal-Toggles werden angewendet (nur freigegebene NPCs/Features sind sichtbar)
+* Szenen-Mode (`social` / `combat` / `travel` / `exploration`) wird via `mapSceneTypeToMode()` an Player-UI propagiert
+
+=== Activity-Log + Filter + CSV-Export
+
+Right-Sidebar -> _Activity-Log_ (STORY-MECHLOG-EXPAND, Commit `a90b811`):
+
+* _Event-Types_: HP-Changes, XP-Vergaben, Loot-Verteilungen, Conditions, Notes
+* _Filter-Chips_ pro Type
+* _Quick-Note-Dialog_ (Hotkey: `n`)
+* _CSV-Export_ via Button im Footer der Sidebar
+
+=== Skill-Checks
+
+Skill-Check-Modal im Player nutzt den echten `skillModifier` aus dem computed Sheet (Stand 2026-04-22 Sprint).
+
+GM-Side: NPC-Auto-Wurf (STORY-EPIC20-NPC-RADAR + Live-Session) mit Vor-Filterung auf szenen-anwesende NPCs.
+
+=== Polls & Rest-Voting
+
+* _Polls_ erstellen ueber Right-Sidebar -> _Polls_ (Option-IDs serverseitig als UUIDs)
+* _Rest-Voting_ via `RestVotingPopup` (STORY-023) — Spieler stimmen ab, GM sieht Majority
+
+== NPC-Reaction-Radar
+
+=== Was ist der Trait-Spectrum-Radar?
+
+Pro NPC zeigt der Radar (STORY-EPIC20-NPC-RADAR, Commit `ea3ba10`) als _D3 Spider-Chart_ die emotionale Reaktion auf jeden anwesenden Spielercharakter — basierend auf:
+
+. _Spieler-Trait-Werten_ (auf Character)
+. _NPC `traitReactions` JSON_ (Schwellenwerte pro Achse)
+. _Trait-Spectrums Seed_ (12 Achsen-Definitionen)
+
+=== Achsen verstehen
+
+Jede der 12 Achsen ist ein _Spektrum_ (z.B. "Mut <-> Vorsicht"). Der Radar zeigt:
+
+* _Innenkreis_: NPCs Praeferenz-Zone (akzeptiert)
+* _Aussenkreis_: NPCs Ablehnungs-Zone (reagiert negativ)
+* _Spielerpunkt_: aktueller Trait-Wert des Charakters
+
+[NOTE]
+====
+Backend-Daten fuer `traitReactions` (STORY-API-026) und Trait-Spectrums-Seed (STORY-API-030) sind noch nicht implementiert. Bis dahin ist das Panel sichtbar aber zeigt leere/Dummy-Werte (BUG-GM-06).
+====
+
+// IMG: TODO add screenshot of NPC trait radar with spider chart
+
+=== Disposition-Slider
+
+Im Panel kannst du als GM die NPC-Disposition (-100 bis +100) live anpassen — z.B. nach besonders gutem RP. Aenderungen propagieren in Echtzeit zum Player-UI.
+
+== Crafting & Calendar
+
+=== Crafting-Recipes anlegen
+
+[NOTE]
+====
+Crafting-Recipes-Verwaltung (STORY-CRAFTING-001) ist als _BUG-GM-02_ identifiziert: aktuell fehlt das dedizierte Feature komplett. Vorhanden sind nur:
+
+* `entities/profession/` (Berufe)
+* Crafting als Enum-Referenz in `calendar/model/types.ts`
+* `crafting-management` Feature fuer Material-Verwaltung waehrend Live-Session
+
+Die volle CRUD-UI fuer Recipes ist noch zu bauen.
+====
+
+Workaround bis Implementation: Recipes als _Items_ mit Tag `recipe` anlegen und `mechanical_effects[]` mit `craft_action`-Effekt versehen.
+
+=== Party-Status im Calendar
+
+Sidebar -> _Calendar_ -> Tagesansicht:
+
+* _Wetter-Widget_ (STORY-045) zeigt Tageswetter via `WeatherWidget.tsx`
+* _Time-Skip-Controls_ (STORY-052) zum Ueberbruecken von Reise-/Ruhetagen
+* _Party-Position_ auf der Karte (Travel-Routes pro Charakter)
+* _Auto-Events_ bei Crafting (STORY-051) — geplante Crafting-Tage erscheinen automatisch
+
+[WARNING]
+====
+BUG-GM-04: Reiseplaner ist aktuell faelschlich in der Calendar-Ansicht montiert. Reisen sollten von Wegenetz / Quest-Detail / Location-Detail aus geplant werden, nicht vom Kalender. UX-Re-Scope steht aus.
+====
+
+== Decision-Logger & Konsequenz-Vorschau
+
+=== Entscheidungen loggen
+
+Right-Sidebar -> _Decisions_ (STORY-035 + STORY-EPIC20-DECISION-PREVIEW):
+
+* _Planned Tab_: Entscheidungen, die du im Session-Planer als Decision-Points definiert hast
+* _Unplanned Tab_: spontan im Spiel getroffene Entscheidungen (Quick-Add)
+* _Timeline_: chronologische Auflistung aller Decisions mit Konsequenz-Tags
+
+=== Konsequenz-Vorschau
+
+Pro geplanter Decision kannst du Konsequenz-Templates hinterlegen:
+
+* _Quest-State-Aenderung_ (z.B. "Quest X faellt aus, Quest Y oeffnet sich")
+* _NPC-Disposition-Aenderung_ (Delta auf bestimmte NPCs)
+* _Reputation-Aenderung_ (Faction-Reputation-Delta)
+* _Custom Konsequenz_ (Freitext)
+
+Die Vorschau zeigt vor Entscheidung die voraussichtlichen Effekte — _kein Auto-Apply_, GM bestaetigt manuell.
+
+== Story-Arc-Flowchart
+
+=== Visualisierung
+
+Sidebar -> _Story-Arc_ (STORY-EPIC20-FLOWCHART, Commit `2c396a8`):
+
+* _SVG-Renderer_ mit `d3-zoom`
+* _Color-coded_ pro Status (planned, active, completed, abandoned)
+* _Minimap_ fuer Navigation in grossen Flowcharts
+* _Click-to-Detail_ pro Knoten
+
+[NOTE]
+====
+Multi-Level-Zoom (Kapitel <-> Quest <-> Scene) und 50+ Knoten Performance-Benchmark sind als STORY-EPIC20-FLOWCHART-V2 deferred.
+====
+
+// IMG: TODO add screenshot of story arc flowchart
+
+== Foundry-Integration
+
+=== Aktueller Status
+
+[WARNING]
+====
+*Foundry-Integration ist derzeit NICHT FUNKTIONSFAEHIG.*
+
+Per FOUNDRY-AUDIT (Commit `1a80218`, Report `api/docs/FOUNDRY-AUDIT-2026-05.md`) wurden folgende Probleme identifiziert:
+
+* Foundry-Frontend-Hooks sind _Dead Code_
+* Request-Payload-Mismatch zwischen Frontend und Backend
+* `FoundryExportButton` ruft die API gar nicht auf
+* Foundry-Modul/Macro fehlt komplett auf der Foundry-Seite
+* Null Tests
+
+*Empfehlung des Audits: Pfad C — TM-001..004 (Tactical Map) als nativen Ersatz aktivieren, Foundry-Backend als Reference-Implementation lassen.*
+
+PO-Decision zur Tactical-Map-Aktivierung pending.
+====
+
+=== Was theoretisch existiert
+
+Falls du die existierende Backend-Implementation als Referenz verwenden willst:
+
+* `api/src/entities/foundry/api/mutations.ts` — `useFoundryExport`, `useFoundryImport`, `useFoundryDiff`
+* Saving-Throw-Sync (STORY-039), Concentration-Sync (STORY-040), Durability-Sync (STORY-041) — alle als Backend-Routes vorhanden, Frontend-Wireup defekt
+
+== Post-Session-Workflow
+
+=== Post-Session-Wizard
+
+Sidebar -> _Sessions_ -> [Session-Card] -> _Abschluss_ (STORY-063, Commit `5b2d080`):
+
+. _XP-Step_: Vergabe pro Spieler (STORY-019, mit Quest-Belohnungs-Vorbelegung)
+. _Loot-Step_: Verteilung von Items + Gold (STORY-054, currency-split)
+. _Trait-Evolution-Step_: Trait-Aenderungen pro Charakter (STORY-066)
+. _Recap-Step_: Markdown-Recap mit Activity-Log-Auto-Import
+. _Transcript-Step_: Craig-Bot-Transkript-Upload (STORY-064)
+. _Publish-Step_: Recap an Spieler veroeffentlichen (STORY-065)
+
+=== Charakter-Notizen GM-only
+
+Sidebar -> _Charaktere_ -> [Char-Card] -> _GM-Notizen_-Tab (STORY-079):
+
+* Notizen sind _nur fuer dich_ sichtbar
+* Tags: `secret`, `lore`, `plot-hook`
+* Filter-bar zum Suchen ueber alle Chars
+
+== Was nicht in diesem Handbuch steht
+
+Folgende Bereiche sind in dedizierten Kapiteln dokumentiert:
+
+* link:../05-charakter-sheet/index.adoc[Kapitel 05] — Charakter-Sheet-Architektur (9 Domains, 4 Kontext-Modi)
+* link:../06-rassen-klassen/index.adoc[Kapitel 06] — Rassen, Klassen, Akademie-Lehrplan
+* link:../06-rassen-klassen/npc-katalog.adoc[Kapitel 06 NPC-Katalog] — 46 kanonische NPCs
+* link:../02-spielmechaniken/INDEX.adoc[Kapitel 02] — alle 27+ Spielmechaniken
+* link:../02-spielmechaniken/jahr-1-blueprint.adoc[Jahr-1-Blueprint] — Kampagnen-Storyline Q1-Q6
+* link:../07-gm-dashboard/index.adoc[Kapitel 07 GM-Dashboard] — vollstaendige Feature-Referenz
+
+== Bekannte Bugs (Stand 2026-05-06)
+
+Quelle: `.scrum/JOINT-TEST-RUN-BUGS-2026-05-06.md`
+
+[cols="1,3,1"]
+|===
+| Bug-ID | Symptom | Severity
+
+| GM-09 | GM-Rolle nicht visuell unterschieden im UI | P2
+| GM-10 | Session-Page zeigt Cross-Campaign-Spieler (Daten-Leak) | P0
+| GM-11 | Session-Page zeigt alle Members statt aktive Participants | P1
+| GM-04 | Reiseplaner falsch in Calendar verortet | P2
+| GM-05 | Story-Management zu klein-kariert (UX-Redesign) | P2
+| GM-06 | NPC-Trait-Radar nur Dummy (Backend-Daten fehlen) | P1
+| GM-02 | Crafting-Recipes komplett fehlend | P2
+| INFRA-01 | Railway DATABASE_URL stale | P0
+|===
+
+Status-Updates siehe Sprint-Board unter `.scrum/`.
