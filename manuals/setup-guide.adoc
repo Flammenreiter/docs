@@ -1,0 +1,398 @@
+= Flammenreiter — Setup-Guide fuer Entwickler & Admins
+:author: Flammenreiter Team
+:revdate: 2026-05-06
+:toc: left
+:toclevels: 3
+:icons: font
+:sectanchors:
+:sectnums:
+:imagesdir: ../images
+
+[.lead]
+Dieser Guide fuehrt neue Entwickler und Admins durch das Setup der Flammenreiter-Plattform — Repos, Secrets, lokales Dev, Cross-Repo-Workflow, Supabase-Migrationen und Railway-Deploy. Begleitende Detail-Dokumente liegen unter `workspace-docs/guides/` (insb. `setup.md` und `LAPTOP-SETUP.md`).
+
+== Repo-Layout
+
+Die Plattform besteht aus _8 Repos_ — einem Workspace-Repo und 7 Sibling-Repos:
+
+[cols="1,2,3"]
+|===
+| Repo | Typ | Zweck
+
+| `workspace` (Workspace-Root, `C:/Entwicklung/dnd/`) | Coordination | `.scrum/`, `workspace-docs/`, `CLAUDE.md`, Skripte
+| `api/` | Backend | Hono 4.6 + Prisma 6 + PostgreSQL (Supabase) + Supabase-JWKS-Auth + fal.ai
+| `shared/` | Contracts | Zod 4 + @asteasolutions/zod-to-openapi + openapi-typescript + tsup
+| `lore-admin/` | React Admin UI | React 19 + Vite 6 + TanStack Router/Query 5 + Leaflet + Radix + Tiptap
+| `session-gm/` | React GM UI | React 19 + Vite 6 + TanStack + D3 + Axios + Supabase + radix-ui
+| `session-player/` | React Player UI | React 19 + Vite 5 + TanStack + Three.js/R3F + Leaflet + Supabase Realtime + Zustand + Tiptap + base-ui/shadcn4
+| `docs/` | AsciiDoc | asciidoctor-pdf (Ruby/Gemfile) — dieses Repo
+| `ue5/` | UE5 Mobile | Unreal Engine 5 (scaffolded, niedrige Prioritaet)
+|===
+
+Workspace-Repo trackt _nur_ Orchestrierungs-Artefakte. Sibling-Repos haben eigene `.git/`, eigene `CLAUDE.md` und eigene Specialization-Rules.
+
+[NOTE]
+====
+Das Workspace-Repo `.gitignore` schliesst die 7 Sibling-Verzeichnisse aus, sodass deren Code nicht versehentlich workspace-side committet wird.
+====
+
+=== Klonen
+
+[source,bash]
+----
+mkdir -p C:/Entwicklung/dnd
+cd C:/Entwicklung/dnd
+git clone https://github.com/Flammenreiter/orchestrator.git .
+bash scripts/clone-siblings.sh
+----
+
+Details siehe `workspace-docs/guides/setup.md` und `STRUCTURE.md`.
+
+== Voraussetzungen
+
+[cols="1,1,3"]
+|===
+| Tool | Version | Hinweis
+
+| Git | >= 2.30 |
+| Node.js | 20.x LTS | aktuell auf Desktop: 20.20.2
+| pnpm | 10.32.1 | Repos pinnen Version via `packageManager`-Field
+| GitHub CLI (`gh`) | >= 2.87 | Fuer PRs und OAuth-Login
+| GitHub PAT | mit `read:packages` | Fuer `@flammenreiter/api-types` aus GitHub Packages
+| gitnexus (optional) | 1.6.3 | `npm install -g gitnexus@1.6.3` (nicht npx — siehe CLAUDE.md)
+| VS Code (empfohlen) | aktuell | `flammenreiter.code-workspace` oeffnen
+| Ruby + Bundler (nur fuer docs) | aktuell | `gem install asciidoctor asciidoctor-pdf asciidoctor-diagram rouge`
+|===
+
+[NOTE]
+====
+*Kein lokales Postgres noetig* — DB lebt in Supabase. Migrationen werden gegen Supabase gefahren, nicht lokal.
+====
+
+== Secrets (env-Distribution)
+
+=== Master `.env` im Workspace-Root
+
+Master-`.env` liegt im Workspace-Root (gitignored). Pro Repo wird daraus eine eigene `.env` generiert:
+
+[source,bash]
+----
+bash scripts/distribute-secrets.sh
+----
+
+Das Skript liest `.env` und schreibt:
+
+* `api/.env` + `api/.env.test` (mit `TEST_*`-Varianten)
+* `lore-admin/.env`, `session-gm/.env`, `session-player/.env` (nur `VITE_*` + Localhost-URLs)
+* `shared/`, `docs/`, `ue5/` brauchen keine `.env`
+
+=== `NODE_AUTH_TOKEN` als `AUTH_TOKEN` im Workspace `.env`
+
+Damit `pnpm install` `@flammenreiter/api-types` aus GitHub Packages ziehen kann, brauchst du ein _Personal Access Token_ mit `read:packages`-Scope:
+
+. https://github.com/settings/tokens -> _Generate new token_
+. Scope: `read:packages` (fuer Konsumenten) oder `read:packages` + `write:packages` (fuer Publisher)
+. In der workspace-`.env` als `NODE_AUTH_TOKEN=ghp_...` hinterlegen
+. Optional in `~/.bashrc`/`~/.zshrc` exportieren fuer Shell-Sessions
+
+[WARNING]
+====
+Stand 2026-05-06: Der aktuelle Token (`ghp_yCNmeK...`) wird von GitHub Packages als 401 Unauthorized abgewiesen. Vor Frontend-Sync (Phase 4c) muss ein neues PAT erstellt + verteilt werden.
+====
+
+=== GitHub Actions Secrets (E2E-Tests)
+
+Pro Frontend-Repo separat:
+
+[cols="1,2"]
+|===
+| Secret-Name | Wert
+| `E2E_TEST_EMAIL` | E-Mail des Test-Users
+| `E2E_TEST_PASSWORD` | Passwort des Test-Users
+|===
+
+Optional:
+
+[cols="1,2"]
+|===
+| Secret-Name | Wert
+| `VITE_SUPABASE_URL` | Supabase-Project-URL fuer Test-Projekt
+| `VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Publishable Anon-Key
+| `VITE_API_URL` | API-URL gegen die Player/GM testet
+|===
+
+CLI-Variante:
+
+[source,bash]
+----
+gh secret set E2E_TEST_EMAIL    --repo Flammenreiter/session-player
+gh secret set E2E_TEST_PASSWORD --repo Flammenreiter/session-player
+# (analog fuer session-gm + lore-admin)
+----
+
+Detail siehe `workspace-docs/guides/setup.md` (CHORE-007).
+
+== Dependencies + Build
+
+[source,bash]
+----
+# In jedem Repo (Reihenfolge: shared zuerst, weil es Types liefert)
+for repo in shared api lore-admin session-gm session-player; do
+  cd "C:/Entwicklung/dnd/$repo"
+  pnpm install
+done
+
+# Backend: Prisma Client
+cd C:/Entwicklung/dnd/api && pnpm db:generate
+----
+
+== Dev-Server starten
+
+[cols="1,2,1"]
+|===
+| Repo | Befehl | Port
+
+| api | `pnpm dev` | 3001
+| lore-admin | `pnpm dev` | 5175
+| session-gm | `pnpm dev` | 5173
+| session-player | `pnpm dev` | 5174
+| docs | `make html` oder `make pdf` | (PDF-Build, kein Dev-Server)
+|===
+
+CORS und OAuth-Redirects sind fuer genau diese Ports konfiguriert (siehe `.env.example`).
+
+== Per-Commit Version-Bump (Workflow §11)
+
+=== Regel
+
+Jeder funktionale Commit (`feat:`, `fix:`, `refactor:` mit User-Auswirkung) bumpt die `version` im jeweiligen `package.json`:
+
+* `feat:` -> minor bump (1.0.0 -> 1.1.0)
+* `fix:` / `refactor:` -> patch bump (1.0.0 -> 1.0.1)
+* `feat!:` / Breaking-Change -> major bump (1.0.0 -> 2.0.0)
+
+`chore:` / `docs:` / `test:` -> _kein_ Bump.
+
+=== CHANGELOG.md pflegen
+
+Pro Bump einen neuen Entry in `CHANGELOG.md`:
+
+[source,markdown]
+----
+## [1.1.0] — 2026-05-06
+
+### Added
+- Neue Sound-Hooks `useSfx` + `useAmbient` (STORY-SOUND-001c)
+
+### Fixed
+- BUG-PLAYER-01: Login-Redirect zum Picker statt Onboarding
+----
+
+CHANGELOG-Format ist konsumiert vom `shared/changelog-parser.ts` -> `<ChangelogTrigger>`-Widget in den Frontends.
+
+== Cross-Repo Lockfile-Sync (Phase-4-Convention)
+
+=== Wann?
+
+Nach jedem `@flammenreiter/api-types`-Update in `shared/` muessen die 3 Frontend-Lockfiles (`lore-admin`, `session-gm`, `session-player`) neu installiert + committet werden.
+
+=== Warum?
+
+Frontends ziehen die Types aus GitHub Packages. Ohne Lockfile-Update zeigt CI rot wegen Version-Drift.
+
+=== Wie?
+
+[source,bash]
+----
+# 1. shared bumpen + publishen (CI auto-publisht auf v*-Tag)
+cd C:/Entwicklung/dnd/shared
+pnpm changeset
+git add . && git commit -m "feat(shared): ..."
+git tag v1.14.0
+git push origin main --tags
+
+# 2. In jedem Frontend (parallel OK):
+cd C:/Entwicklung/dnd/lore-admin
+pnpm install   # zieht neue Version, updatet pnpm-lock.yaml
+pnpm generate:api-types
+git add package.json pnpm-lock.yaml
+git commit -m "chore(deps): bump @flammenreiter/api-types to ^1.14.0"
+git push
+
+# (Analog fuer session-gm + session-player)
+----
+
+[NOTE]
+====
+*Voraussetzung in CI:* `NODE_AUTH_TOKEN` mit `read:packages`-Scope muss in jedem Frontend-Repo als GitHub-Action-Secret gesetzt sein.
+====
+
+=== Phase-4-Convention
+
+* _Phase 4_: shared bumpen + publishen
+* _Phase 4b_: api auf neue Version bumpen + push (Railway deployt)
+* _Phase 4c_: 3 Frontends parallel bumpen + push (Cloudflare-Pages deployt)
+
+=== Ein Commit pro Problem (Workflow-Default #2)
+
+Pro atomarer Aenderung _einen_ eigenen Commit. Sofort pushen. Niemals buendeln.
+
+* Conventional-Commits-Prefixes pflegen (`fix:`, `feat:`, `chore:`, `docs:`, `test:`, `refactor:`)
+* Mehrere unabhaengige Aenderungen -> mehrere Commits
+* Ausnahme: zwei Files, die _exakt dieselbe atomare Aenderung_ darstellen (z.B. Schema in `shared/` + Generated-Type-Update in Consumer), gehen in _einen_ Commit
+
+== Supabase Setup + Migration-Pattern
+
+=== Verbindungs-Setup
+
+Supabase-Connection-String setzt sich zusammen aus:
+
+* _Region_: `aws-1-eu-central-1` (Pooler)
+* _Project-Ref_: `jwfbbymantiqkzxxivlc` (Beispiel)
+* _Password_: aus `SUPABASE_PW` in workspace `.env`
+
+[source,bash]
+----
+# Pooler-URL (Connection-Pooled)
+DATABASE_URL=postgresql://postgres.<project-ref>:<SUPABASE_PW>@aws-1-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
+
+# Direct-URL (fuer Migrationen + Studio)
+DIRECT_URL=postgresql://postgres:<SUPABASE_PW>@db.<project-ref>.supabase.co:5432/postgres
+----
+
+[WARNING]
+====
+*DATABASE_URL embedded password ist veraltet.* Aktuelle Konvention: Password als separater `SUPABASE_PW`-Wert in `.env`, in der URL nur noch placeholder. `bash scripts/distribute-secrets.sh` substituiert beim Verteilen.
+====
+
+=== Migration-Pattern
+
+[NOTE]
+====
+*WICHTIG:* Auf dem Pooler funktioniert `prisma migrate dev` nicht (Pooler-Protokoll inkompatibel mit shadow-DB-Erstellung). Workflow:
+====
+
+. Schema-Aenderung in `api/prisma/schema.prisma`
+. Migration-SQL _handgeschrieben_ in `api/prisma/migrations/<timestamp>_<name>/migration.sql`
+. Lokal pruefen: `pnpm db:generate` (Prisma Client refresh)
+. Migration deployen: `pnpm db:migrate:deploy` (nutzt `migrate deploy`, nicht `migrate dev`)
+. Verifizieren: Supabase Studio -> SQL Editor -> Schema pruefen
+
+[source,bash]
+----
+# Beispiel-Workflow
+cd C:/Entwicklung/dnd/api
+
+# 1. schema.prisma editieren
+# 2. Migration anlegen
+mkdir -p prisma/migrations/$(date +%Y%m%d%H%M%S)_add_active_campaign_id
+cat > prisma/migrations/.../migration.sql <<'SQL'
+ALTER TABLE play_groups
+ADD COLUMN active_campaign_id UUID REFERENCES campaigns(id) ON DELETE SET NULL;
+SQL
+
+# 3. Generate + Deploy
+pnpm db:generate
+pnpm db:migrate:deploy
+----
+
+=== Seed-Data
+
+Seed-Skripte liegen in `api/prisma/seed/`. Ausfuehrung:
+
+[source,bash]
+----
+cd C:/Entwicklung/dnd/api
+pnpm db:seed
+----
+
+== Railway Deploy + DATABASE_URL bei Token-Rotation
+
+=== Auto-Deploy
+
+`api/main` push -> Railway deployt automatisch via GitHub-Integration. Build-Output in Railway-Dashboard sichtbar.
+
+=== DATABASE_URL Update bei Token-Rotation
+
+Wenn Supabase-Password rotiert wird (oder eines durch Sicherheits-Vorfall ungueltig wird):
+
+. Workspace `.env` -> `SUPABASE_PW=<neuer-wert>`
+. `bash scripts/distribute-secrets.sh` (lokale `.env`s aktualisieren)
+. Railway Dashboard -> api Service -> _Variables_:
+  ** `DATABASE_URL`: Password im URL-String ersetzen
+  ** `DIRECT_URL` (falls existiert): gleicher Wert, anderer Host (`db.<project-ref>.supabase.co:5432`)
+. Railway redeploy + ~5min warten auf Circuit-Breaker-Reset
+
+[WARNING]
+====
+*BUG-INFRA-01 (Stand 2026-05-06):* Aktuelle DATABASE_URL in Railway ist _stale_ -> alle Endpoints crashen mit `(ECIRCUITBREAKER) too many authentication failures`. User-Action pending.
+
+Symptom-Verifikation lokal (mit aktualisierter `.env`):
+
+* `/health` -> 200 OK
+* `/races` -> 401 (richtig, kein Token), kein 500-Crash
+====
+
+== VS Code
+
+[source,bash]
+----
+code C:/Entwicklung/dnd/flammenreiter.code-workspace
+----
+
+Multi-Root-Workspace mit allen 8 Foldern (Workspace + 7 Sibling-Repos).
+
+== Troubleshooting
+
+[cols="1,1,2"]
+|===
+| Symptom | Ursache | Fix
+
+| `403 Forbidden` bei `pnpm install` von `@flammenreiter/api-types` | `NODE_AUTH_TOKEN` nicht gesetzt oder ungueltig | PAT mit `read:packages` setzen (siehe `LAPTOP-SETUP.md` Schritt 2b)
+| `Cannot destructure property 'package' of 'node.target'` bei `npx gitnexus` | npm 11.12.0 Arborist-Bug | `npm install -g gitnexus@1.6.3` und direkt aufrufen
+| Frontend zeigt CORS-Fehler | `.env`-URLs zeigen nicht auf `http://localhost:3001` | `bash scripts/distribute-secrets.sh` neu laufen lassen
+| `pnpm install` warnt vor Lockfile-Mismatch | `pnpm`-Version weicht vom `packageManager`-Field ab | exakt `pnpm@10.32.1` installieren
+| Prisma Client fehlt im Backend | `pnpm db:generate` vergessen | im `api/`-Ordner ausfuehren
+| `prisma migrate dev` haengt / failt | Pooler-Verbindung inkompatibel | _migrate deploy_ mit handgeschriebenem SQL nutzen
+| Railway-Deploy crashed mit `ECIRCUITBREAKER` | DATABASE_URL Password stale | Railway env update + Redeploy
+| Smoke-Job rot, "Vite error overlay" | Crash in einer Route | Stacktrace im hochgeladenen `playwright-report/` anschauen
+| Smoke-Job rot, "Got redirected to /login" | Mocked-Auth-Session verworfen (lore-admin) | `tests/e2e/helpers/mock-auth.ts` pruefen
+|===
+
+== GitNexus (Code-Intelligence)
+
+Optional fuer Cross-Repo-Suchen + Impact-Analyse:
+
+[source,bash]
+----
+# Pro Repo (api, shared, lore-admin, session-gm, session-player)
+cd C:/Entwicklung/dnd/<repo>
+gitnexus analyze --embeddings
+
+# Group-Setup (Cross-Index)
+gitnexus group create flammenreiter
+gitnexus group add flammenreiter shared api lore-admin session-gm session-player
+
+# Verwendung
+gitnexus group impact flammenreiter SessionEventSchema
+gitnexus group query flammenreiter "authentication flow"
+gitnexus group contracts flammenreiter
+----
+
+Detail siehe `CLAUDE.md` -> _GitNexus — Code Intelligence_.
+
+== Verwandte Dokumente
+
+* link:../../workspace-docs/guides/setup.md[`workspace-docs/guides/setup.md`] — Detail-Setup mit GitHub-Actions-Setup
+* link:../../workspace-docs/guides/LAPTOP-SETUP.md[`LAPTOP-SETUP.md`] — Setup auf zweitem Rechner mit Memory-Transfer
+* link:../../workspace-docs/guides/agent-workflow.md[`agent-workflow.md`] — Wie die Agents zusammenarbeiten
+* link:../../CLAUDE.md[`CLAUDE.md`] (Workspace-Root) — Cross-Repo-Koordination
+* link:../../.claude/rules/workflow-defaults.md[`workflow-defaults.md`] — 10 Default-Verhaltensweisen pro Session
+* link:../04-architektur/index.adoc[Kapitel 04 Architektur] — Tech-Stack-Detail (Backend, Repo-Struktur, Shared Types)
+* link:../10-infrastruktur/deployment.adoc[Kapitel 10 Deployment] — Cloudflare-Pages + Railway-Konfig
+
+== Stand & Version
+
+* _Letztes Update:_ 2026-05-06
+* _Status:_ Aktiver Sprint, in regelmaessiger Pflege
+* _Cross-Repo-Pakete:_ shared@3.9.0 (live), api auf Railway, 3 Frontends auf shared@3.8.0 (Sync pending wegen Token-Issue)

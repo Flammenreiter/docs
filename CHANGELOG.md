@@ -4,6 +4,16 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ## [Unreleased]
 
+### Sprint 2026-05-06 — User-Manuals (GM + Player + Setup-Guide)
+
+- _Neue Sektion `manuals/`_ mit drei eigenstaendigen User-Handbuechern, parallel zu `spieler-handbuch.adoc` (Spielregeln) gepflegt.
+- _`manuals/gm-manual.adoc`_ — Game-Master Handbuch: Login, Group/Campaign-Hierarchie, Active-Campaign-Switcher (STORY-ARCH-ACTIVE-CAMPAIGN), Session-Planer (Quick + Graph), Random-Tables, Encounter-Generator, Soundboard (3 Tabs + Mixer), Live-Session (Activity-Log + Filter + CSV-Export), NPC-Reaction-Radar (Trait-Spectrum), Crafting + Calendar mit Party-Status, Decision-Logger + Konsequenz-Vorschau, Story-Arc-Flowchart, Foundry-Status (per Audit nicht funktionsfaehig — TM kommt), Post-Session-Wizard. Bekannte Bugs Stand 2026-05-06 als eigene Sektion am Ende.
+- _`manuals/player-manual.adoc`_ — Player Handbuch: Login, Group-Auswahl, Charakter-Picker (Workflow-Default #4: "+Neu erstellen" immer sichtbar), Onboarding-Wizard inkl. neuer Felder (Aussehen, Hintergrund, Weg-zur-Akademie), Char-Profil-Tabs, Pending-Actions Modal (Konzept), Inventar + Crafting (Status), Live-Session-Player-View, Skill-Checks, Sound-Settings, Changelog-Modal in Sidebar.
+- _`manuals/setup-guide.adoc`_ — Setup-Guide: 8-Repo-Layout, Voraussetzungen (Node 20, pnpm 10.32.1, gh, PAT), env-Distribution via `scripts/distribute-secrets.sh`, NODE_AUTH_TOKEN aus workspace `.env`, Per-Commit Version-Bump (Workflow §11), Cross-Repo Lockfile-Sync (Phase-4-Convention), Supabase Setup (Pooler + SUPABASE_PW) und Migration-Pattern (`migrate deploy` mit handgeschriebenem SQL — `migrate dev` geht nicht auf Pooler), Railway DATABASE_URL Update bei Token-Rotation, GitNexus-Setup. Verlinkt `workspace-docs/guides/setup.md` und `LAPTOP-SETUP.md`.
+- _`README.md`_: neue Sektion "User Manuals" mit Tabelle + Zielgruppe + Inhalt.
+- _`index.adoc`_: Manuals als zusaetzliche Ressource in der Hauptseite verlinkt (kein `include::` da standalone, analog `spieler-handbuch.adoc`).
+- _`Makefile`_: Build-Targets `gm-manual`, `player-manual`, `setup-guide` als HTML + PDF, mit `imagesdir=../images` weil unter `manuals/`.
+
 ### Sprint 2026-05-05 — Lore-Korrekturen + Jahr-1-Blueprint + NPC-Katalog (DOCS-003 / 004 / 005)
 
 - _DOCS-005 (Lore-Korrekturen)_:

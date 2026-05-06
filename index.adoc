@@ -181,6 +181,16 @@ link:03-datenbank/[03-datenbank/] und link:04-architektur/[04-architektur/] für
 
 * _link:AUDIT.adoc[AUDIT.adoc]_ — Vollständiger Projekt-Audit und Konsistenz-Bericht
 * _link:ROADMAP.adoc[ROADMAP.adoc]_ — Zukünftige Features und Release-Planung
+* _link:spieler-handbuch.adoc[spieler-handbuch.adoc]_ — Spielregeln (Kampf, Rast, Cantrips, Conditions)
+
+
+=== User Manuals (manuals/)
+
+End-User-Handbuecher fuer den jeweiligen Workflow:
+
+* _link:manuals/gm-manual.adoc[manuals/gm-manual.adoc]_ — Game-Master Handbuch (Session-Planung, Live-Session, Post-Session-Wizard)
+* _link:manuals/player-manual.adoc[manuals/player-manual.adoc]_ — Spieler-Handbuch (Charakter-Picker, Onboarding, Live-Session-Player-View)
+* _link:manuals/setup-guide.adoc[manuals/setup-guide.adoc]_ — Setup-Guide fuer Entwickler & Admins (Repos, Secrets, Cross-Repo-Workflow, Supabase, Railway)
 
 '''
 

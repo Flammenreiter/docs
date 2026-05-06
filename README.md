@@ -52,6 +52,18 @@ make all
 | 09  | Mobile              | UE5 Mobile Client Specs              |
 | 10  | Infrastruktur       | Deployment, CI/CD, Monitoring        |
 
+## User Manuals
+
+End-User-Handbuecher unter `manuals/` — fuer GM, Spieler und Entwickler/Admins.
+
+| Manual                                                | Zielgruppe              | Inhalt |
+| ----------------------------------------------------- | ----------------------- | ------ |
+| [`manuals/gm-manual.adoc`](manuals/gm-manual.adoc)     | Game-Master             | Login, Group/Campaign-Hierarchie, Active-Campaign-Switcher, Session-Planer, Random-Tables, Encounter-Generator, Soundboard, Live-Session, NPC-Reaction-Radar, Crafting + Calendar, Decision-Logger, Story-Arc-Flowchart, Foundry-Status, Post-Session-Wizard |
+| [`manuals/player-manual.adoc`](manuals/player-manual.adoc) | Spieler                 | Login, Group-Auswahl, Charakter-Picker mit "+Neu erstellen", Onboarding-Wizard, Char-Profil-Tabs, Pending-Actions Modal, Inventar + Crafting, Live-Session-Player-View, Sound-Settings, Changelog-Modal |
+| [`manuals/setup-guide.adoc`](manuals/setup-guide.adoc) | Entwickler / Admins     | 8-Repo-Layout, Local-Dev-Setup, env-Distribution, NODE_AUTH_TOKEN, Per-Commit Version-Bump, Cross-Repo Lockfile-Sync, Supabase-Migration-Pattern (`migrate deploy` + handgeschriebenes SQL), Railway DATABASE_URL bei Token-Rotation |
+
+Spielregeln (Kampf, Rast, Cantrips, Conditions) bleiben im separaten [`spieler-handbuch.adoc`](spieler-handbuch.adoc).
+
 ## CI/CD
 
 Die GitHub Actions Pipeline:
