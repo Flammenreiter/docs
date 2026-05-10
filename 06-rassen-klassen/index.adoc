@@ -214,3 +214,15 @@ _In-Character Charakter-Erstellung_:
 
 _Kein Statistik-Powergaming möglich_ — maximale Vielfalt und Kreativität in der Charakter-Erstellung gefördert.
 
+
+// === Detail-Includes ===
+
+include::rassen.adoc[leveloffset=+1]
+
+include::klassen.adoc[leveloffset=+1]
+
+include::herkunft.adoc[leveloffset=+1]
+
+include::akademie-schueler.adoc[leveloffset=+1]
+
+include::npc-katalog.adoc[leveloffset=+1]

@@ -281,3 +281,9 @@ migrations/
 * link:../04-architektur/[Architektur & Tech] — Backend-Schichten, Hono, Shared Types
 * link:../02-spielmechaniken/[Spielmechaniken] — Regeln und Mechanik-Details
 * link:../07-gm-dashboard/[GM Dashboard] — Wie die Datenbank im UI genutzt wird
+
+// === Detail-Includes ===
+
+include::schema-uebersicht.adoc[leveloffset=+1]
+
+include::schema-details.adoc[leveloffset=+1]
