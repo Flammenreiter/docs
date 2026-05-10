@@ -138,3 +138,46 @@ Vollständiger Erzähl-Blueprint für das erste Lehrjahr der _Flamme Obsidian_. 
 
 
 Alle Systeme sind voll dokumentiert und spielbar. Einige Features (Immobilien, Karawanen-Ownership) sind architectural geplant aber nicht für v1 implementiert.
+
+
+// === Detail-Includes (alle Sub-Files) ===
+
+include::traits.adoc[leveloffset=+1]
+
+include::items-inventar.adoc[leveloffset=+1]
+
+include::beziehungen-renown.adoc[leveloffset=+1]
+
+include::npc-reaktion-dc.adoc[leveloffset=+1]
+
+include::wuerfel-system.adoc[leveloffset=+1]
+
+include::oekonomie-handel.adoc[leveloffset=+1]
+
+include::professionen-crafting.adoc[leveloffset=+1]
+
+include::dragon-bond.adoc[leveloffset=+1]
+
+include::reise-wetter.adoc[leveloffset=+1]
+
+include::recht-dialog.adoc[leveloffset=+1]
+
+include::quest-szenen.adoc[leveloffset=+1]
+
+include::organisationen.adoc[leveloffset=+1]
+
+include::kampf-system.adoc[leveloffset=+1]
+
+include::kalender-zeit.adoc[leveloffset=+1]
+
+include::social-interaction.adoc[leveloffset=+1]
+
+include::szenen-reveal-toggles.adoc[leveloffset=+1]
+
+include::cantrips.adoc[leveloffset=+1]
+
+include::wegenetz-live-play.adoc[leveloffset=+1]
+
+include::story-arc-system.adoc[leveloffset=+1]
+
+include::jahr-1-blueprint.adoc[leveloffset=+1]
