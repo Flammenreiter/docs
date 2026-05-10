@@ -1,0 +1,343 @@
+
+= AUDIT — Statusbewertung aller Systeme
+
+
+> Stand: 25.03.2026 · Wiki v8 · Letzte Prüfung: 26.03.2026
+>
+> Diese Datei bewertet den aktuellen Status aller Systeme und verlinkt
+> auf die jeweiligen Dokumentationsdateien, damit du direkt nachschauen kannst.
+
+'''
+
+
+== Gesamtübersicht
+
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Bereich | Status | Doku-Link | Bemerkung
+
+| Welt-Lore & Geschichte | ✅ Struktur fertig | link:01-welt-lore/[01-welt-lore/] | Regionen-Content leer, Gründer-Stubs
+| Spielmechaniken (27 Systeme) | ✅ Komplett designed | link:02-spielmechaniken/[02-spielmechaniken/] | Alle Systeme spezifiziert
+| DB-Schema (~200 Tabellen) | ✅ 5NF, reviewed | link:03-datenbank/[03-datenbank/] | Letzte Erweiterung: Block 7
+| Architektur & Tech | ✅ Entscheidungen getroffen | link:04-architektur/[04-architektur/] | Hono, FSD, Multi-Repo
+| Charakter-Sheet (9 Domains) | ✅ 28+ Use Cases | link:05-charakter-sheet/[05-charakter-sheet/] | Kein visuelles UI-Design
+| Rassen, Klassen, Herkunft | ✅ Komplett | link:06-rassen-klassen/[06-rassen-klassen/] | 10+12+19 definiert
+| GM-Dashboard | ✅ Voll spezifiziert | link:07-gm-dashboard/[07-gm-dashboard/] | Vom Placeholder zur Vollspezifikation
+| Design System / Components | 📝 Placeholder | link:08-design-system/[08-design-system/] | Tokens+Komponenten geplant, kein visuelles Design
+| Mobile / Unreal Engine | 📝 Placeholder | link:09-mobile/[09-mobile/] | Architektur-Entscheidungen stehen, kein Detail-Design
+| Infrastruktur / DevOps | 📝 Placeholder | link:10-infrastruktur/[10-infrastruktur/] | Geplant, nicht implementiert
+|===
+
+
+'''
+
+
+== Erledigungen nach Version
+
+
+
+=== v8, Block 7 (FINAL — 25.03.2026)
+
+
+Alle 20 Audit-Punkte aus Teil 2 wurden abgearbeitet.
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Bounty erstellen (UC-BNT-01) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Bounty entdecken/annehmen (UC-BNT-02) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Bounty einlösen (UC-BNT-03) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Straftat registrieren (UC-CRM-01) | link:02-spielmechaniken/recht-dialog.adoc[02-spielmechaniken/recht-dialog.adoc]
+| Entscheidung manuell loggen (UC-DEC-01) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| AUDIT KOMPLETT | —
+|===
+
+
+
+=== v8, Block 6
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Proviant aus Truhe (UC-PRV-01) | link:02-spielmechaniken/reise-wetter.adoc[02-spielmechaniken/reise-wetter.adoc]
+| Durability 0-1.5% (UC-DUR-01) | link:02-spielmechaniken/items-inventar.adoc[02-spielmechaniken/items-inventar.adoc]
+| Feilschen Rework (UC-TRD-02) | link:02-spielmechaniken/oekonomie-handel.adoc[02-spielmechaniken/oekonomie-handel.adoc]
+| Organisation beitreten (UC-ORG-01) | link:02-spielmechaniken/organisationen.adoc[02-spielmechaniken/organisationen.adoc]
+| Organisation verlassen (UC-ORG-02) | link:02-spielmechaniken/organisationen.adoc[02-spielmechaniken/organisationen.adoc]
+|===
+
+
+
+=== v8, Block 5
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| NPC-Emotion Quick Menu (UC-NPC-01) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Charakter-Erstellung Wizard (UC-CHR-01) | link:06-rassen-klassen/herkunft.adoc[06-rassen-klassen/herkunft.adoc]
+| Charakter-Tod Workflow (UC-CHR-02) | link:05-charakter-sheet/use-cases.adoc[05-charakter-sheet/use-cases.adoc]
+| Kalender vorspulen (UC-CAL-01B) | link:02-spielmechaniken/kalender-zeit.adoc[02-spielmechaniken/kalender-zeit.adoc]
+|===
+
+
+
+=== v8, Block 4
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Wetter monatlich (UC-WTR-01) | link:02-spielmechaniken/reise-wetter.adoc[02-spielmechaniken/reise-wetter.adoc]
+| Rast ohne GM-Bestätigung | link:05-charakter-sheet/use-cases.adoc[05-charakter-sheet/use-cases.adoc]
+| Szene vorbereiten (UC-SCN-01) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Szene Preview/Aktivieren (UC-SCN-02/03) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Schrittweises Einblenden | link:02-spielmechaniken/quest-szenen.adoc[02-spielmechaniken/quest-szenen.adoc]
+| Audit-Log permanent | link:07-gm-dashboard/[07-gm-dashboard/]
+| Unbespielte Pfade (UC-SCN-04) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+|===
+
+
+
+=== v8, Block 3
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Initiative nur Foundry | link:02-spielmechaniken/kampf-system.adoc[02-spielmechaniken/kampf-system.adoc]
+| Saving Throws dynamisch (UC-SAV-01/02) | link:05-charakter-sheet/use-cases.adoc[05-charakter-sheet/use-cases.adoc]
+| Item-Handel Tausch (UC-TRD-01/02) | link:02-spielmechaniken/oekonomie-handel.adoc[02-spielmechaniken/oekonomie-handel.adoc]
+| NPC-Dialog UC (UC-DLG-01) | link:02-spielmechaniken/recht-dialog.adoc[02-spielmechaniken/recht-dialog.adoc]
+| Gerüchte UC (UC-RMR-01/02) | link:02-spielmechaniken/recht-dialog.adoc[02-spielmechaniken/recht-dialog.adoc]
+| Reise UC (UC-TRV-01/02) | link:02-spielmechaniken/reise-wetter.adoc[02-spielmechaniken/reise-wetter.adoc]
+|===
+
+
+
+=== v8, Block 1-2
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Party-Management (UC-PTY-01 bis 04) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Story-Party-Bindung | link:07-gm-dashboard/[07-gm-dashboard/]
+| Verbrauchsgüter (UC-CON-01 bis 05) | link:02-spielmechaniken/items-inventar.adoc[02-spielmechaniken/items-inventar.adoc]
+| Überlastung & Tragkapazität | link:02-spielmechaniken/items-inventar.adoc[02-spielmechaniken/items-inventar.adoc]
+| Concentration-Tracking (UC-CNC-01/02) | link:02-spielmechaniken/kampf-system.adoc[02-spielmechaniken/kampf-system.adoc]
+| XP-Verteilung (UC-XP-01) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Kalender-Events (UC-CAL-01 bis 03) | link:02-spielmechaniken/kalender-zeit.adoc[02-spielmechaniken/kalender-zeit.adoc]
+| Random Tables (UC-RND-01/02) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Fog of War (UC-FOW-01 bis 03) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+| Loot-Verteilung (UC-LOT-01) | link:02-spielmechaniken/quest-szenen.adoc[02-spielmechaniken/quest-szenen.adoc]
+| Session Recap AI (UC-REC-01/02) | link:07-gm-dashboard/[07-gm-dashboard/] → Use Cases
+|===
+
+
+
+=== v7
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| Session-Hierarchie (stories, arcs, sessions) | link:03-datenbank/schema-uebersicht.adoc[03-datenbank/schema-uebersicht.adoc]
+| Quest-System erweitert (8 Typen, 8 Status) | link:02-spielmechaniken/quest-szenen.adoc[02-spielmechaniken/quest-szenen.adoc]
+| Quest-Rewards (GM-Verteilung, Trait-Shifts) | link:02-spielmechaniken/quest-szenen.adoc[02-spielmechaniken/quest-szenen.adoc]
+|===
+
+
+
+=== Session 2 (25.03.2026)
+
+
+
+[cols="1,1",options="header"]
+|===
+| Erledigt | Doku-Verweis
+
+| FSD-Strukturanalyse (13 Shared Patterns) | link:08-design-system/[08-design-system/]
+| Session-Planer (Graph-Editor D3) | link:07-gm-dashboard/[07-gm-dashboard/]
+| Notizen-System | link:07-gm-dashboard/[07-gm-dashboard/]
+| Rast-System (Short/Long Rest) | link:05-charakter-sheet/use-cases.adoc[05-charakter-sheet/use-cases.adoc]
+| Klassenressourcen-Tracking | link:03-datenbank/schema-details.adoc[03-datenbank/schema-details.adoc]
+| Prepared Spells / Attunement / Inspiration | link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc]
+| Bild-Pipeline (FLUX) | link:04-architektur/backend.adoc[04-architektur/backend.adoc]
+| Interaktive Maps (Leaflet) | link:07-gm-dashboard/[07-gm-dashboard/]
+| Foundry REST API Integration | link:07-gm-dashboard/[07-gm-dashboard/]
+| Session Logging (dual) | link:07-gm-dashboard/[07-gm-dashboard/]
+| Level-Up Drachen-Dialog | link:02-spielmechaniken/dragon-bond.adoc[02-spielmechaniken/dragon-bond.adoc]
+| Spell-Study System | link:05-charakter-sheet/use-cases.adoc[05-charakter-sheet/use-cases.adoc]
+| Multiclass als GM-Trigger | link:06-rassen-klassen/klassen.adoc[06-rassen-klassen/klassen.adoc]
+|===
+
+
+'''
+
+
+== Noch offene Punkte — Bewertung
+
+
+
+=== PRIO 1: UI-Design Charakter-Sheet — NOCH AKTUELL
+
+
+_Status:_ Kein visuelles Design vorhanden. Architektur + Use Cases fertig.
+_Warum kritisch:_ Ohne UI-Design kann Implementierung nicht starten.
+_Doku:_ link:05-charakter-sheet/domains.adoc[05-charakter-sheet/domains.adoc] + link:08-design-system/[08-design-system/]
+
+Offene Tasks (alle noch aktuell):
+
+* [ ] Social-Modus Layout: Spider-Chart + NPC-Panel + Renown-Badges
+* [ ] Combat-Modus Layout: HP-Bar + Spell-Pips + Actions + Conditions
+* [ ] Explore-Modus Layout: Passive Scores + Karte + Skills
+* [ ] Downtime-Modus Layout: Crafting + Pflege + Training
+* [ ] Identity Header: Kontext-adaptiv
+* [ ] Gear-Page: BG3 Paper-Doll Layout + Inventar-Grid
+* [ ] Dragon Bond Sheet: Layout, Dual-Spider-Chart, Pflege-UI
+* [ ] Modus-Switcher Design
+* [ ] Modifier-Chain Aufklapp-Design
+* [ ] Würfel-Animation
+* [ ] Spell-UI (klassenspezifisch)
+* [ ] Level-Up Wizard
+* [ ] Party-View
+
+
+=== PRIO 2: GM-Dashboard Design — TEILWEISE ERLEDIGT
+
+
+_Status:_ Spezifikation komplett, visuelles Design fehlt.
+_Doku:_ link:07-gm-dashboard/[07-gm-dashboard/]
+
+Offene Design-Tasks:
+
+* [ ] Session-Planer UI visuell (Wireframes)
+* [ ] Szenen-Leiste visuell
+* [ ] NPC-Profil-Panel visuell
+* [ ] DC-Aufschlüsselungs-Panel visuell
+* [ ] Encounter Builder visuell
+* [x] ~~Session-Planer Logik~~ → Komplett spezifiziert
+* [x] ~~NPC-Management Logik~~ → Komplett spezifiziert
+* [x] ~~Post-Session Pipeline~~ → Komplett spezifiziert
+
+
+=== PRIO 3: Design System / Component Library — NOCH AKTUELL
+
+
+_Status:_ Placeholder mit geplanten Komponenten, keine finalen Specs.
+_Doku:_ link:08-design-system/[08-design-system/]
+
+* [ ] Design Tokens finalisieren
+* [ ] Atoms definieren (StatBox, PipTracker, Badge, ProgressBar, RollButton)
+* [ ] Molecules definieren (TraitSlider, SpiderChart, ItemCard, etc.)
+* [ ] Organisms definieren (CharacterHeader, SpellList, InventoryGrid, PaperDoll)
+* [ ] FSD-Ordnerstruktur finalisieren
+* [ ] Storybook Setup planen
+
+'''
+
+
+== Content-Lücken — NOCH AKTUELL
+
+
+Diese Inhalte müssen in eigenen Sessions erarbeitet werden:
+
+
+[cols="1,1,1,1",options="header"]
+|===
+| Content-Block | Status | Doku-Verweis | Abhängigkeiten
+
+| Geschichte & Gründer | 📝 Stubs | link:01-welt-lore/geschichte.adoc[01-welt-lore/geschichte.adoc] | Keine
+| Crafting-Rezepte (10-20 Basis) | 📝 Offen | link:02-spielmechaniken/professionen-crafting.adoc[02-spielmechaniken/professionen-crafting.adoc] | Keine
+| Fraktions-Kreaturen | 📝 Offen | link:01-welt-lore/kreaturen.adoc[01-welt-lore/kreaturen.adoc] | Keine
+| Regionen & Städte (GRÖSSTER Block) | 📝 Offen | link:01-welt-lore/geographie.adoc[01-welt-lore/geographie.adoc] | Kommt als LETZTES
+| Sigillen-Orte + GM-Träger | 📝 Offen | link:01-welt-lore/pantheon-sigillen.adoc[01-welt-lore/pantheon-sigillen.adoc] | Braucht Regionen
+|===
+
+
+'''
+
+
+== Geparkte Diskussionsthemen
+
+
+Diese Themen sind bewusst zurückgestellt, aber notiert:
+
+. _Bild/Video/Audio aus Session-Journal_ — Cinematische Darstellung von Craig-Transkripten.
+   Doku: link:04-architektur/backend.adoc[04-architektur/backend.adoc] (Craig-Pipeline)
+
+. _3D-Modelle im Web_ — Three.js Würfel, 3D-Stadtmodelle, Charakter-Viewer.
+   Doku: link:08-design-system/[08-design-system/]
+
+. _Critical Hits / Nat 1 / Nat 20 außerhalb Combat_ — Konsistente Definition über alle Kontexte.
+   Doku: link:02-spielmechaniken/wuerfel-system.adoc[02-spielmechaniken/wuerfel-system.adoc]
+
+. _Loot-Verteilung UI_ — Wie verteilen Spieler Kampf-Loot? → Erledigt als UC-LOT-01.
+   Doku: link:02-spielmechaniken/quest-szenen.adoc[02-spielmechaniken/quest-szenen.adoc]
+
+'''
+
+
+== Offene Regelfragen
+
+
+Kleine Punkte, die nebenbei geklärt werden können:
+
+
+[cols="1,1,1",options="header"]
+|===
+| Frage | Status | Anmerkung
+
+| Attunement: 3 Items Standard? | ✅ Geklärt | 3-Slot-Limit implementiert
+| Potion Rules: Action oder Bonus Action? | ❓ Offen | Empfehlung: Bonus Action (BG3-Stil)
+| Szenen-Bilder: Auto-generiert (AI) oder manuell? | ✅ Geklärt | FLUX-Pipeline, GM kontrolliert
+| Musik/Atmosphäre pro Szenen-Typ? | ❓ Offen | music_tag auf scenes existiert
+| Mobile Gamification: Daily Login? | ❓ Offen | Noch kein Design
+|===
+
+
+'''
+
+
+== Implementierungs-Vorbereitung — NOCH AKTUELL
+
+
+
+[cols="1,1,1",options="header"]
+|===
+| Task | Status | Doku-Verweis
+
+| Supabase Projekt aufsetzen | 📝 Offen | link:03-datenbank/[03-datenbank/] + link:10-infrastruktur/[10-infrastruktur/]
+| React Projekt Boilerplate (FSD) | 📝 Offen | link:04-architektur/repo-struktur.adoc[04-architektur/repo-struktur.adoc]
+| Shared Types Package | 📝 Offen | link:04-architektur/shared-types.adoc[04-architektur/shared-types.adoc]
+| Foundry Pre/Post-Sync Prototyp | 📝 Offen | link:07-gm-dashboard/[07-gm-dashboard/]
+|===
+
+
+'''
+
+
+== Fazit
+
+
+_Design-Phase ist zu ~85% abgeschlossen._ Alle Kernsysteme sind vollständig spezifiziert (27 Mechaniken, ~200 DB-Tabellen, 28+ Use Cases). Was fehlt ist primär visuelles UI-Design (Wireframes, Mockups) und Content-Erstellung (Regionen, Kreaturen, Rezepte).
+
+_Nächster logischer Schritt:_ UI-Design für die 6 MVP-Domains des Charakter-Sheets, parallel dazu React/FSD Projekt-Setup.
