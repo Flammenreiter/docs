@@ -11,7 +11,7 @@ Komplette Dokumentation der Flammenreiter-Welt. Geschichte, Pantheon, Sigillen, 
 Diese Dokumentation ist in 5 Hauptdateien organisiert:
 
 
-=== 1. [Geschichte](./geschichte.adoc)
+=== 1. link:./geschichte.adoc[Geschichte]
 
 Die vier Epochen der Welt über ~100.000 Jahre:
 * _Epoche der Schöpfung_ (~100.000–80.000 v.h.) — Die Sieben erschaffen die Welt
@@ -26,7 +26,7 @@ Enthält auch:
 * Warum Sigillen JETZT erwachen
 
 
-=== 2. [Pantheon & Sigillen](./pantheon-sigillen.adoc)
+=== 2. link:./pantheon-sigillen.adoc[Pantheon & Sigillen]
 
 Das göttliche System und die 21 mächtigen Artefakte:
 * _Die 7 Urschöpfer_ — Pyrathis, Thalendis, Verathos, Aeolyn, Nocthari, Solveris, Aethyran
@@ -41,7 +41,7 @@ Das göttliche System und die 21 mächtigen Artefakte:
 * _Story-Einsatz über die Arcs_ — Wie Sigillen in der Kampagne auftauchen
 
 
-=== 3. [Geographie](./geographie.adoc)
+=== 3. link:./geographie.adoc[Geographie]
 
 Das Multi-Layer Welt-System:
 * _Politische Regionen_ — Hierarchie von Empire bis Wilderness
@@ -54,7 +54,7 @@ Das Multi-Layer Welt-System:
 * _NPC & Organisations-Zuordnung_ — Wer arbeitet wo
 
 
-=== 4. [Kreaturen](./kreaturen.adoc)
+=== 4. link:./kreaturen.adoc[Kreaturen]
 
 Das vollständige Bestiar-System:
 * _Taxonomie_ — Typ → Spezies → Rasse → Individuum
