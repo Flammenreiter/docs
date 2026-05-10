@@ -2,395 +2,296 @@
 = Infrastruktur & DevOps
 
 
-_PLACEHOLDER — Wird bei Implementierungs-Start befüllt_
+_Live-Stand 2026-05-11._ Diese Dokumentation beschreibt den **aktuellen** Deploy-Stack des Flammenreiter-Projekts. Frühere Versionen dieses Dokuments waren ein PLACEHOLDER — die folgenden Abschnitte spiegeln den Live-Stand wider.
 
 '''
 
 
-== Status
+== Hosting-Übersicht
 
 
-Diese Dokumentation wird bei Beginn der Infrastruktur-Implementierung mit spezifischen Konfigurationen, Scripts und Best-Practices gefüllt. Derzeit sind nur die geplanten Themen dokumentiert.
-
-'''
-
-
-== Geplante Themen
-
-
-
-=== CI/CD Pipeline
-
-
-
-[cols="1,1,1",options="header"]
+[cols="1,2,2",options="header"]
 |===
-| Komponente | Beschreibung | Status
+| Komponente | Platform | Domain / URL
 
-| _GitHub Actions_ | Für alle Repos (Web, Mobile, Shared) | Geplant
-| _Typ-Generierung_ | Supabase → Zod → npm publish → Apps | Geplant
-| _Zod → C++ Codegen_ | Für Unreal Engine Mobile App | Geplant
-| _Automated Testing_ | Tests auf PRs | Geplant
-| _Staging Environment_ | Vor Production | Geplant
-| _Production Environment_ | Live-System | Geplant
+| Datenbank | Supabase PostgreSQL (Pooler aws-1-eu-central-1) | (interner Connection-String, siehe Secrets)
+| API (Hono) | Railway (auto-deploy on push-to-main) | https://api.flammenreiter.gmolike.me
+| Frontend Web (GM) | Cloudflare Pages | https://gm.flammenreiter.gmolike.me
+| Frontend Web (Player) | Cloudflare Pages | https://player.flammenreiter.gmolike.me
+| Frontend Web (Lore-Admin) | Cloudflare Pages | https://lore.flammenreiter.gmolike.me
+| Shared Types (npm) | GitHub Packages (`npm.pkg.github.com`) | `@flammenreiter/api-types` (v3.x)
+| Mobile (UE5) | Manuell — App Store / Google Play (Future) | n/a
+| AI / FLUX | fal.ai (Pay-as-you-go) | https://fal.run/fal-ai/flux-pro
 |===
 
+NOTE: `ue5/` Repo ist scaffolded aber **nicht** aktiv in Entwicklung (Workflow-Default §8).
+
+'''
 
 
-==== Workflows (geplant)
+== API Deployment (Railway)
 
 
-[source,yaml]
+Der `api/`-Service (Hono 4.6 + Prisma 6) wird automatisch deployed:
+
+. Push auf `api/main`
+. Railway erkennt Commit → Build (`pnpm install`, `pnpm build`)
+. Prisma-Migrationen werden bei Deploy nicht automatisch angewendet (manueller Schritt via `pnpm prisma migrate deploy`)
+. Health-Check auf `/health` (status + version, ohne Auth)
+. Custom-Domain `api.flammenreiter.gmolike.me` aktiv via CNAME
+
+WARNING: Push auf `api/main` triggert sofortigen Deploy. Vor Push immer Tests laufen lassen.
+
+
+=== Endpoints (Auth-frei)
+
+[cols="2,1"]
+|===
+| URL | Beschreibung
+
+| https://api.flammenreiter.gmolike.me/health | Health-Check (status + api-version)
+| https://api.flammenreiter.gmolike.me/version | api-version + shared-version
+| https://api.flammenreiter.gmolike.me/swagger | Swagger UI (Dark Theme)
+| https://api.flammenreiter.gmolike.me/openapi.json | OpenAPI 3.1 Spec
+|===
+
+
+=== Production URLs (für `.env`-Dateien)
+
+[source,env]
 ----
-# .github/workflows/type-generation.yml
-- Trigger: Supabase Schema-Änderung
-- Steps:
-  1. Introspect Supabase
-  2. Generate Zod Schemas
-  3. Generate C++ Types
-  4. Publish to NPM
-  5. Notify Apps
-----
-
-[source,yaml]
-----
-# .github/workflows/test.yml
-- Trigger: Pull Request
-- Steps:
-  1. Unit Tests (Jest)
-  2. Integration Tests (Supabase Edge Functions)
-  3. E2E Tests (Playwright)
-  4. Coverage Report
-----
-
-[source,yaml]
-----
-# .github/workflows/deploy.yml
-- Trigger: Merge to main
-- Steps:
-  1. Build (Web)
-  2. Deploy to Staging (Vercel)
-  3. Smoke Tests
-  4. Manual Approval
-  5. Deploy to Production
+API_URL=https://api.flammenreiter.gmolike.me
+SESSION_GM_URL=https://gm.flammenreiter.gmolike.me
+SESSION_PLAYER_URL=https://player.flammenreiter.gmolike.me
+LORE_ADMIN_URL=https://lore.flammenreiter.gmolike.me
+CORS_ORIGINS=https://gm.flammenreiter.gmolike.me,https://player.flammenreiter.gmolike.me,https://lore.flammenreiter.gmolike.me
 ----
 
 '''
 
 
-=== Testing-Strategie
+== Frontends (Cloudflare Pages)
 
+
+Alle drei React-Frontends (`session-gm`, `session-player`, `lore-admin`) werden auf Cloudflare Pages gehostet:
+
+* _Build_: `pnpm build` → Vite-Output nach `dist/`
+* _Deploy_: GitHub Action triggert auf Push-to-main → Cloudflare Pages Build
+* _Custom-Domains_: pro Frontend ein CNAME (siehe Tabelle oben)
+* _Auth_: Supabase Auth (JWKS-verified im api über JWT)
+
+CI-Workflows der drei Frontends brauchen `NODE_AUTH_TOKEN` mit `read:packages`-Scope als GitHub-Action-Secret (für `@flammenreiter/api-types` aus GitHub Packages).
+
+'''
+
+
+== Shared Types Publishing (GitHub Packages)
+
+
+Schema-Änderungen fließen durch `shared/`:
+
+. Change Zod-Schema in `shared/src/schemas/…`
+. `pnpm changeset` → dokumentiert Bump (patch/minor/major) + Beschreibung
+. Merge auf `shared/main` + Tag `vX.Y.Z` → CI publishes auf GitHub Packages (`npm.pkg.github.com`)
+. Consumers (`api`, 3 Frontends) bumpen `@flammenreiter/api-types` in `package.json`
+. In api: `createRoute({ responses: { … } })` an neue Schemas anpassen
+. In Frontends: `pnpm generate:api-types` regeneriert Consumer-Types
+
+Aktuelle Version (2026-05-11): `v3.19.x` live.
+
+'''
+
+
+== Secrets (Railway-Dashboard / Cloudflare-Secrets / GitHub Secrets)
+
+
+Die folgenden Secrets sind kanonisch (workspace-`scripts/distribute-secrets.sh` propagiert sie an alle Sibling-Repos):
+
+[cols="1,2"]
+|===
+| Secret | Quelle / Zweck
+
+| `JWT_SECRET` | Eigener Wert (api JWT-Signing)
+| `DATABASE_URL` | Supabase Connection String (pgbouncer / pooler)
+| `SUPABASE_URL` | Supabase Project URL
+| `SUPABASE_ANON_KEY` | Supabase Dashboard
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard (nur api)
+| `FAL_KEY` | fal.ai Access Key (für FLUX-Pipeline)
+| `NODE_AUTH_TOKEN` | GitHub PAT mit `read:packages` (für `pnpm install` von api-types)
+| `SUPABASE_PW` | Supabase-DB-Password (für direkte Migrations-Connections)
+|===
+
+'''
+
+
+== CI/CD-Hinweise
+
+
+=== GitHub Packages Auth
+
+CI-Workflows die `@flammenreiter/*` Pakete nutzen brauchen:
+
+[source,yaml]
+----
+permissions:
+  contents: read
+  packages: read
+----
+
+Plus: Im Quell-Repo des Pakets unter **Package Settings -> Manage Actions access** das konsumierende Repo mit "Read"-Rolle hinzufügen.
+
+
+=== ESLint
+
+`typescript-eslint` muss als explizite devDependency installiert sein wenn `eslint.config.mjs` es importiert.
+
+
+=== Pre-Commit-Hook Version-Bump
+
+Jedes Code-Repo (`api`, `shared`, `lore-admin`, `session-gm`, `session-player`) hat einen `pre-commit`-Hook (`scripts/version-bump.mjs`), der vor `lint-staged` läuft und das `version`-Feld in `package.json` SemVer-konform bumpt (siehe Workflow-Default §11).
+
+'''
+
+
+== Workers-Learnings (legacy, vor Railway-Migration)
+
+
+Diese Erkenntnisse stammen aus der Cloudflare-Workers-Phase des api-Repos (vor Umzug auf Railway). Sie bleiben relevant, falls einzelne Edge-Workflows künftig wieder auf Workers landen.
+
+
+=== `process.exit()` vermeiden
+
+Crasht den Worker. Stattdessen `throw new Error()` verwenden.
+
+
+=== Config lazy laden
+
+Environment Variables sind auf Workers erst nach dem ersten `fetch()` in `process.env` verfügbar. Config muss lazy geladen werden (z.B. via Proxy):
+
+[source,typescript]
+----
+// FALSCH: Wird beim Import ausgefuehrt, env noch leer
+const config = parseEnv(process.env)
+
+// RICHTIG: Lazy via Proxy
+export const config = new Proxy({} as Config, {
+  get(_, key) {
+    if (!_parsed) _parsed = parseEnv(process.env)
+    return _parsed[key]
+  }
+})
+----
+
+
+=== Dynamischer `import()` — Response-Mismatch
+
+Hono's Response ist nicht die native Workers-Response. Fix: NativeResponse vor dem Import capturen und Response wrappen:
+
+[source,typescript]
+----
+const NativeResponse = Response
+
+// ... nach app.fetch():
+return new NativeResponse(res.body, {
+  status: res.status,
+  statusText: res.statusText,
+  headers: res.headers,
+})
+----
+
+'''
+
+
+== Testing-Strategie
 
 
 [cols="1,1,1,1",options="header"]
 |===
 | Test-Typ | Umfang | Tools | Beispiele
 
-| _Unit Tests_ | Hono Services | Jest, Vitest | EffectProcessor, DCCalculator
-| _Integration Tests_ | Supabase Edge Functions | Supabase Local Dev | XP-Verteilung, Sync-Operationen
-| _E2E Tests_ | User-Flows | Playwright, Cypress | Character-Sheet Complete Flow, Combat Encounter
-| _Snapshot Tests_ | UI-Komponenten | Jest | Spider-Chart, Paper-Doll, Character-Header
-| _Performance Tests_ | Kritische Pfade | Lighthouse, Custom | Session-Planner Graph Load, Map Rendering
+| _Unit Tests_ | Hono Services, Frontend Utils | Vitest | EffectProcessor, DCCalculator
+| _Integration Tests_ | api Routes + DB | Vitest + Test-DB | RBAC, Session-Lifecycle
+| _E2E Tests_ | User-Flows (FRONTENDS PFLICHT) | Playwright | Character-Picker, Live-Session, Charakter-Erstellung
+| _Snapshot Tests_ | UI-Komponenten | Vitest (selektiv) | Spider-Chart, Paper-Doll, Character-Header
 |===
 
-
-
-==== Test-Coverage-Ziele
-
-
-* _Services (Business Logic):_ 90%+ Coverage
-* _Components (UI):_ 70%+ Coverage (nur kritische)
-* _Edge Functions:_ 85%+ Coverage
-* _Database Functions:_ 80%+ Coverage
+WARNING: Workflow-Default §3: Jeder Bug-Fix und jedes neue Feature in einem Frontend braucht einen Playwright-E2E-Test. Unit-Tests beweisen Code-Korrektheit, nicht Feature-Korrektheit.
 
 '''
 
 
-=== Supabase Setup
+== Monitoring & Logging
 
+
+* _Railway Logs_: api-stdout/stderr via Railway-Dashboard (`Logs` Tab)
+* _Cloudflare Analytics_: Pro Frontend (Page-Views, Errors, TTFB)
+* _Supabase Logs_: SQL-Queries, RLS-Violations via Supabase-Dashboard
+* _fal.ai Dashboard_: FLUX-Pipeline Usage, Cost-Tracking
+
+Custom-Alerting ist aktuell nicht aktiv — geplant für Sprint 2026-Q3.
+
+'''
+
+
+== Repository-Topologie (8 Repos)
 
 
 [cols="1,1,1",options="header"]
 |===
-| Komponente | Beschreibung | Status
+| Repo | Stack | Deploy
 
-| _RLS Policies_ | Kampagnen-Isolation, Spieler-Scope | Geplant
-| _Realtime Channels_ | Pro Kampagne, pro Session | Geplant
-| _Edge Functions_ | AI-Portraits, Discord-Webhooks, Type-Gen | Geplant
-| _PostGIS Extension_ | Geographie-Layer für Maps | Geplant
-| _Row-Level Security_ | Pro Rolle (GM, Spieler, Viewer) | Geplant
+| `workspace` (this) | Markdown only | not deployed
+| `shared` | Zod 4 + tsup | GitHub Packages on `v*` tag
+| `api` | Hono 4.6 + Prisma 6 + PostgreSQL | Railway auto-deploy on push-to-main
+| `lore-admin` | React 19 + Vite 6 + TanStack | Cloudflare Pages
+| `session-gm` | React 19 + Vite 6 + TanStack + D3 | Cloudflare Pages
+| `session-player` | React 19 + Vite 5 + TanStack + Three.js | Cloudflare Pages
+| `docs` (this repo) | AsciiDoc + asciidoctor-pdf | GitHub Artifacts + `build/pdf` branch
+| `ue5` | Unreal Engine 5.4+ C++ + Blueprints | Manual builds (dormant)
 |===
-
-
-
-==== RLS-Struktur (geplant)
-
-
-[source,sql]
-----
--- Kampagnen-Isolation
-CREATE POLICY "Users can access own campaigns"
-  ON campaigns
-  USING (created_by_user_id = auth.uid());
-
--- Spieler dürfen nur ihre Charaktere sehen
-CREATE POLICY "Players see own characters"
-  ON characters
-  USING (player_user_id = auth.uid() OR created_by_user_id = auth.uid());
-
--- GM sieht alles in der Kampagne
-CREATE POLICY "GM sees all campaign data"
-  ON session_mechanical_log
-  USING (campaign_id IN (SELECT id FROM campaigns WHERE created_by_user_id = auth.uid()));
-----
-
-
-==== Realtime Subscriptions (geplant)
-
-
-[source,typescript]
-----
-// Pro-Session Channel
-supabase
-  .channel(`session:${sessionId}`)
-  .on('postgres_changes', { event: '*', schema: 'public' }, payload => {
-    // Character updates
-    // NPC updates
-    // Loot distribution
-  })
-  .subscribe();
-----
 
 '''
 
 
-=== Caching
-
-
-
-[cols="1,1,1,1",options="header"]
-|===
-| Ebene | Daten | Strategy | TTL
-
-| _Welt-Ebene_ | Rassen, Klassen, Items, Spells, Creatures | Aggressiv | 1 Woche
-| _Kampagnen-Ebene_ | Stories, Quests, NPCs, Organizations | Moderate | 1 Stunde
-| _Session-Ebene_ | Mechanical Log, Loot, Discoveries | None (Realtime) | —
-|===
-
-
-
-==== Caching-Libraries
-
-
-
-[cols="1,1",options="header"]
-|===
-| Tool | Verwendung
-
-| _Redis_ | Distributed Cache (Supabase Sessions)
-| _Browser LocalStorage_ | Client-Side UI State
-| _Service Workers_ | Offline Assets + PWA
-|===
-
-
-'''
-
-
-=== Monitoring
-
-
-
-[cols="1,1,1",options="header"]
-|===
-| Aspekt | Tool | Metriken
-
-| _Error Tracking_ | Sentry (oder PostHog) | Exception Rate, User Impact
-| _Performance_ | Vercel Analytics + Custom | Page Load, API Response Time
-| _Realtime Health_ | Custom Dashboards | WebSocket Connections, Latency
-| _API Metrics_ | Supabase Logs | Request Rate, Errors, Slow Queries
-|===
-
-
-
-==== Alerting (geplant)
-
-
-[source,yaml]
-----
-# Kritische Alerts
-- Error Rate > 1%
-- API Response Time > 1000ms
-- Database Connections > 80%
-- Edge Function Executions Failed
-----
-
-'''
-
-
-=== Deployment
-
-
-
-[cols="1,1,1",options="header"]
-|===
-| System | Hosting | Besonderheit
-
-| _Web App_ | Vercel oder Cloudflare Pages | Zero-downtime deploys, Edge Caching
-| _Supabase_ | Managed (Official) | Auto-Backups, Updates
-| _Hono API_ | Supabase Edge Functions oder Cloudflare Workers | Serverless
-| _Mobile (Unreal)_ | App Store / Google Play | Distribution via App Stores
-|===
-
-
-
-==== Deployment-Checklist (geplant)
-
-
-[source,markdown]
-----
-- [ ] Tests passing (all suites)
-- [ ] Type-generation successful
-- [ ] Database migrations applied
-- [ ] Edge Functions deployed
-- [ ] Web build succeeds
-- [ ] Smoke tests pass
-- [ ] Performance metrics acceptable
-- [ ] Security scan clear
-- [ ] Manual QA sign-off
-- [ ] Rollback plan documented
-----
-
-'''
-
-
-=== Environment-Variablen (geplant)
-
-
-[source,env]
-----
-# .env.local (Development)
-VITE_SUPABASE_URL=http://localhost:54321
-VITE_SUPABASE_KEY=eyJ...
-VITE_API_BASE_URL=http://localhost:3000
-
-# .env.staging
-VITE_SUPABASE_URL=https://staging.supabase.co
-VITE_SUPABASE_KEY=eyJ...
-VITE_API_BASE_URL=https://api-staging.example.com
-
-# .env.production
-VITE_SUPABASE_URL=https://prod.supabase.co
-VITE_SUPABASE_KEY=eyJ...
-VITE_API_BASE_URL=https://api.example.com
-----
-
-'''
-
-
-== Repository-Struktur (geplant)
-
-
-----
-flammenreiter-monorepo/
-├── web/                       # Next.js / React Web App
-│   ├── src/
-│   ├── .github/workflows/    # CI/CD
-│   └── Dockerfile
-├── mobile/                    # Unreal Engine 5 Project
-│   ├── Source/
-│   ├── Content/
-│   └── .github/workflows/
-├── packages/
-│   ├── shared-types/         # Zod Schemas (published to npm)
-│   ├── ui-components/        # Exportable Component Library
-│   └── api-client/           # Typed Supabase Client
-├── docker/
-│   ├── Dockerfile.web
-│   ├── docker-compose.yml
-│   └── Dockerfile.functions
-├── .github/
-│   ├── workflows/
-│   │   ├── test.yml
-│   │   ├── type-generation.yml
-│   │   ├── deploy-staging.yml
-│   │   └── deploy-production.yml
-│   └── CODEOWNERS
-└── index.adoc
-----
-
-'''
-
-
-== Security Best Practices (geplant)
-
-
-
-[cols="1,1",options="header"]
-|===
-| Aspekt | Maßnahme
-
-| _Secrets Management_ | GitHub Secrets für API Keys, DB Credentials
-| _RLS Enforcement_ | Strenge Row-Level Security Policies
-| _HTTPS Only_ | Alle Connections encrypted
-| _Rate Limiting_ | Pro User, Pro IP
-| _CORS Policy_ | Whitelist nur trusted Origins
-| _Input Validation_ | Zod Schema Validation überall
-| _SQL Injection_ | Parameterized Queries via ORM
-| _CSRF Protection_ | SameSite Cookies
-| _XSS Prevention_ | Content Security Policy Headers
-|===
-
-
-'''
-
-
-== Disaster Recovery (geplant)
-
+== Disaster Recovery
 
 
 [cols="1,1,1,1",options="header"]
 |===
 | Szenario | Maßnahme | RTO | RPO
 
-| _Database Corruption_ | Automated Backups → Restore | 30 min | 1 hour
-| _Code Deployment Bug_ | Automatic Rollback | 5 min | 0 min
-| _Service Outage_ | Multi-Region Failover | 10 min | 5 min
-| _Security Breach_ | Immediate Access Revocation | 1 min | 0 min
+| _Database Corruption_ | Supabase Automated Backups → Restore via Dashboard | 30 min | 1 hour
+| _Code Deployment Bug_ | Railway Rollback via Deploy-History (one-click) | 5 min | 0 min
+| _Frontend Bad Deploy_ | Cloudflare Pages Rollback via Dashboard | 5 min | 0 min
+| _Security Breach_ | Supabase Service-Role-Key rotation + JWT_SECRET rotation | < 30 min | 0 min
 |===
-
 
 '''
 
 
-== Abhängigkeiten
+== Security Best Practices
 
 
-
-[cols="1,1,1",options="header"]
+[cols="1,1",options="header"]
 |===
-| Abhängigkeit | Status | Auswirkung
+| Aspekt | Maßnahme
 
-| _Stabile API-Schicht (Hono)_ | _Erforderlich_ | Basis für CI/CD
-| _Finalisierte Repo-Struktur_ | _Erforderlich_ | Für GitHub Actions
-| _Supabase Account & Konfiguration_ | _Erforderlich_ | Für Tests & Deployment
-| _Vercel / Hosting-Provider Account_ | _Erforderlich_ | Für Web Deployment
-| _App Store / Google Play Accounts_ | _Erforderlich_ | Für Mobile Deployment
+| _Secrets Management_ | GitHub Secrets + Railway Variables; keine Secrets im Code
+| _RLS Enforcement_ | (geplant — aktuell läuft Auth via api-Layer-Checks)
+| _HTTPS Only_ | Alle Cloudflare/Railway-Endpoints HTTPS
+| _CORS Policy_ | Whitelist explizit für gm/player/lore-domains
+| _Input Validation_ | Zod-Schema-Validation überall (api + Frontends)
+| _SQL Injection_ | Prisma parameterisiert Queries automatisch
 |===
-
 
 '''
 
 
-== Nächste Schritte
+== Detail-Doku
 
 
-. Repository-Struktur finalisieren
-. GitHub Actions Workflows implementieren
-. Supabase RLS Policies definieren und testen
-. Deployment-Prozess dokumentieren
-. Monitoring- und Alerting-System aufbauen
-. Security-Audit durchführen
+* link:./deployment.adoc[deployment.adoc] — Workers-spezifische Notizen (legacy), kanonische Endpoints, Secrets-Liste
 
-'''
+// === Detail-Include ===
 
-_Diese Dokumentation ist ein PLACEHOLDER. Sie wird bei Implementierungs-Start mit konkreten Configs, Scripts und Prozeduren befüllt. Stand: 2026-03-26_
+include::deployment.adoc[leveloffset=+1]
