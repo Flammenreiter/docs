@@ -1,10 +1,14 @@
 
-= Use Cases — Alle 50+ Workflows
+= Use Cases — Charakter-Sheet (44 Domain-UCs)
 
 
-Dokumentation aller dokumentierten Use Cases gruppiert nach Domain mit ID, Akteur, Plattform, Modus, Trigger und Ablauf.
+_Stand: {revdate}._ Dokumentation der Charakter-Sheet-spezifischen Use Cases gruppiert nach Domain mit ID, Akteur, Plattform, Modus, Trigger und Ablauf.
 
-_Hinweis:_ Plattform- und GM-spezifische Use Cases (Auth, Kampagne, Einladung, Session-Lifecycle, Party, Story, Szenen, Post-Session, etc.) sind in link:../07-gm-dashboard/index.adoc[07-gm-dashboard/index.adoc] dokumentiert.
+NOTE: Kanonische UC-Quelle ist `.scrum/usecases/usecases-NN-*.md` im Workspace-Repo. Dieses Dokument enthält eine Teilmenge der charakter-spezifischen UCs in AsciiDoc-Format. Die Gesamtsystemansicht (340+ UCs über Auth, Kampagne, Einladung, Session-Lifecycle, Party, Story, Szenen, Post-Session) liegt im Workspace unter `.scrum/usecases/`.
+
+_Hinweis:_ Plattform- und GM-spezifische Use Cases sind in link:../07-gm-dashboard/index.adoc[07-gm-dashboard/index.adoc] dokumentiert.
+
+WARNING: Frühere Versionen titelten dies "Alle 50+ Workflows". Tatsächlicher Stand: 44 charakter-spezifische `=== UC-`-Sektionen, davon mehrere als Stubs (z.B. UC-CON-02..05). Für die vollständige UC-Liste siehe `.scrum/usecases/`.
 
 '''
 
