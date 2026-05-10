@@ -2,269 +2,247 @@
 = Backend-Architektur
 
 
-3-Schichten-Hybrid Backend mit Supabase PostgREST, Hono und Edge Functions.
+_Stand: {revdate}._ Single-Layer Backend mit Hono 4.6 + Prisma 6 + PostgreSQL (Supabase). Detail-Reset gegenüber älteren Doku-Versionen — kein PostgREST-Mix, keine Edge-Functions als Primär-Layer.
+
+NOTE: Frühere Doku beschrieb 3 Schichten (PostgREST 70% + Hono 30% + Edge Functions 5%). Live-Realität ist seit Sprint 2026-04 ein Hono-only Backend, gehostet auf Railway.
+
+'''
 
 
 == Architektur-Überblick
 
 
+[source]
 ----
 ┌─────────────────────────────────────────────┐
-│         Web Portal / Mobile App             │
+│   Frontends (3 React-SPAs)                  │
+│   session-gm  ·  session-player  ·  lore-admin │
 └────────────────┬────────────────────────────┘
+                 │ HTTPS + JWT (Supabase Auth)
+                 ▼
+┌─────────────────────────────────────────────┐
+│   Hono API (api/, deployed on Railway)      │
+│   • Routes via @hono/zod-openapi             │
+│   • Auth-Middleware (JWKS-verify)            │
+│   • Services: EffectProcessor, RollProcessor │
+│   • Prisma Client for DB-Access              │
+└────────────────┬────────────────────────────┘
+                 │ Connection-Pool (pgbouncer)
+                 ▼
+┌─────────────────────────────────────────────┐
+│   Supabase Postgres                         │
+│   • Schema verwaltet via Prisma Migrations  │
+│   • PostGIS für Geographie                  │
+│   • Realtime Channels für Live-Session-Sync │
+└─────────────────────────────────────────────┘
                  │
-        ┌────────┴────────┐
-        │                 │
-   PostgREST (70%)    Hono API (25-30%)
-   (Auto-CRUD)      (Business Logic)
-        │                 │
-   ┌────┴─────────────────┘
-   │
-   ↓
-┌──────────────────────────────────────┐
-│   Supabase Edge Functions (5%)       │
-│  • FLUX AI (Portraits)               │
-│  • Discord Webhooks                  │
-│  • SRD Importer                      │
-│  • Session Transcripts               │
-└──────────────────────────────────────┘
-        │
-        ↓
-┌──────────────────────────────────────┐
-│   PostgreSQL 16 + PostGIS            │
-│   • RLS Policies (Sicherheit)        │
-│   • Realtime Events (Live Sync)      │
-│   • Auditing Trigger                 │
-└──────────────────────────────────────┘
+                 ▼
+┌─────────────────────────────────────────────┐
+│   Externe Services                          │
+│   • Supabase Auth (JWKS)                    │
+│   • fal.ai (FLUX-Pipeline)                  │
+│   • Discord (optional Webhook-Targets)      │
+└─────────────────────────────────────────────┘
 ----
 
+'''
 
-== Schicht 1: Supabase PostgREST
 
+== Hono Application Layer
 
 
 === Zweck
 
-
-Auto-generierter REST API für einfache Read/Write Operationen auf alle Tabellen.
-
-
-=== Umfang
+Single-Layer TypeScript-Backend für **alle** Business-Logic und CRUD-Operations. Keine Auto-CRUD-Schicht — alles geht über typisierte Routes.
 
 
-~70% aller API-Requests laufen über PostgREST:
-* Daten-Abrufen (SELECT mit Filtering, Pagination)
-* Einfache Inserts (User erstellt neuen Charakter)
-* Einfache Updates (Item-Menge im Inventar ändern)
-* Deletes (Charakter löschen)
-
-
-=== Feature
-
-
-[source,typescript]
-----
-// GET /rest/v1/characters?campaign_id=eq.abc123&select=*
-// Automatically applies RLS
-// Returns JSON, supports:
-//  - Filtering: ?level=gt.5
-//  - Ordering: ?order=name.asc
-//  - Pagination: ?limit=20&offset=40
-//  - Relationships: ?select=*,organizations(*)
-----
-
-
-=== Limitierungen
-
-
-* Keine Custom Business Logic
-* Keine Transaktionen über mehrere Tabellen hinweg
-* Keine komplexen Validierungen (Zod)
-* Kein Event Publishing
-
-_Lösung_: Für komplexe Operationen → Hono API.
-
-
-== Schicht 2: Hono Application Layer
-
-
-
-=== Zweck
-
-
-TypeScript-basierter Business Logic Layer für komplexe Operationen.
-
-
-=== Warum Hono statt NestJS/.NET?
-
-
+=== Warum Hono?
 
 [cols="1,1,1,1",options="header"]
 |===
-| Kriterium | Hono | NestJS | .NET
+| Kriterium | Hono | NestJS | Express
 
-| _Bundle Size_ | 14 KB | 500 KB+ | N/A (Server)
-| _Cold Start_ | <100ms | 500ms+ | 1-2s
-| _TypeScript_ | Native | Native | C# (kein TS)
-| _Zod Integration_ | Built-in | Addon | Addon
-| _Edge Compatible_ | Ja | Nein | Nein
-| _Learning Curve_ | Flach | Steil | Steil
-| _Ideal für_ | Frontend Dev | Enterprise | Enterprise
+| _Bundle Size_ | ~30 KB | 500 KB+ | ~50 KB
+| _Cold Start_ | <100ms | 500ms+ | ~100ms
+| _TypeScript_ | Native | Native | Addon
+| _Zod Integration_ | Built-in (`@hono/zod-openapi`) | Addon | Addon
+| _Edge Compatible_ | Ja (Cloudflare/Deno/Bun) | Nein | Nur Node
+| _OpenAPI Auto-Gen_ | Ja (über Zod) | Addon | Addon
 |===
 
+_Entscheidung_: Hono — Cloudflare-Workers-launchable, jetzt auf Railway als Standard-Deploy (Edge-Migration jederzeit zurück möglich).
 
-_Entscheidung_: Hono. Perfekt für Frontend-Entwickler die auch Backend schreiben müssen.
+
+=== Struktur (api/src/)
+
+[source]
+----
+api/src/
+├── index.ts             App-Entry, Hono-Init, Middleware-Chain
+├── routes/              OpenAPI-Routes (createRoute + Zod)
+│   ├── auth.ts
+│   ├── characters.ts
+│   ├── sessions.ts
+│   ├── scenes.ts
+│   ├── npcs.ts
+│   └── ...
+├── services/            Business-Logic-Klassen
+│   ├── EffectProcessor.ts
+│   ├── RollProcessor.ts
+│   ├── DCCalculator.ts
+│   ├── TraitEvolutionEngine.ts
+│   └── ...
+├── middleware/
+│   ├── auth.ts          JWKS-Verify (Supabase JWT)
+│   ├── errors.ts        Strukturierte Error-Responses
+│   └── logging.ts
+├── prisma/
+│   └── schema.prisma    Single-Source für DB-Schema
+└── lib/
+    └── db.ts            Prisma-Client-Singleton
+----
 
 
-=== Struktur
-
+=== Route-Definition (OpenAPI-First)
 
 [source,typescript]
 ----
-// src/api/index.ts
-const app = new Hono();
+// routes/characters.ts
+import { createRoute, z } from '@hono/zod-openapi'
+import { CharacterSchema, CreateCharacterSchema } from '@flammenreiter/api-types'
 
-// Business Logic Services
-const rollProcessor = new RollProcessor(db);
-const effectProcessor = new EffectProcessor(db);
-const traitEvolutionEngine = new TraitEvolutionEngine(db);
+export const createCharacterRoute = createRoute({
+  method: 'post',
+  path: '/characters',
+  request: {
+    body: { content: { 'application/json': { schema: CreateCharacterSchema } } },
+  },
+  responses: {
+    201: { content: { 'application/json': { schema: CharacterSchema } }, description: 'Created' },
+    400: { description: 'Validation error' },
+    401: { description: 'Unauthorized' },
+  },
+})
 
-// API Routes
-app.post('/api/rolls/:characterId', async (c) => {
-  // Validierung mit Zod
-  const input = RollSchema.parse(await c.req.json());
-
-  // Business Logic
-  const result = await rollProcessor.roll(input);
-
-  // Response
-  return c.json(result);
-});
-
-// ... weitere Routes
+app.openapi(createCharacterRoute, async (c) => {
+  const input = c.req.valid('json')        // Zod-validated
+  const userId = c.var.userId              // from auth-middleware
+  const char = await characterService.create({ ...input, userId })
+  return c.json(char, 201)
+})
 ----
 
+OpenAPI-Spec wird automatisch unter `/openapi.json` exposed, Swagger UI unter `/swagger`.
 
-=== Kern-Services
+'''
 
 
+== Kern-Services
 
-[cols="1,1",options="header"]
+
+[cols="1,2",options="header"]
 |===
 | Service | Zweck
 
-| _RollProcessor_ | Würfelwürfe mit Modifikatoren, Vorteil/Nachteil
+| _RollProcessor_ | Würfelwürfe mit Modifikatoren, Vorteil/Nachteil, Audit-Log
 | _EffectProcessor_ | Sammelt alle aktiven MechanicalEffects, berechnet Modifier-Stack
-| _TraitEvolutionEngine_ | Trait-Level Änderungen, Spektren-Locks, Exklusivitäts-Checks
-| _DCCalculator_ | Dynamische DC-Berechnung basierend auf Umgebung
-| _NPCDispositionEngine_ | Disposition-Änderungen bei Interaktion
+| _TraitEvolutionEngine_ | Trait-Level-Änderungen, Spektren-Locks, Exklusivitäts-Checks
+| _DCCalculator_ | Dynamische DC-Berechnung basierend auf Umgebung (10 Schritte)
+| _NPCDispositionEngine_ | Disposition-Änderungen bei Interaktion (8-Step-Pipeline)
 | _InventoryValidator_ | Gewicht, Attuement, Behälter-Kapazität
-| _SpellSlotManager_ | Zauberslot-Verbrauch, Rast-Wiederherstellung
+| _SpellSlotManager_ | Zauberslot-Verbrauch, Rast-Wiederherstellung, Race-Cantrips
 | _ExclusionChecker_ | Org/Trait-Exklusivitäts-Regeln
+| _PromptOrchestrator_ | ADR-017 Unified-Prompts: Composer für AI-Inputs
 |===
 
+'''
 
 
-=== EffectProcessor Service (Herz des Systems)
+== EffectProcessor (Herz des Systems)
 
 
+=== Zweck
 
-==== Zweck
-
-
-Zentrale Stelle wo alle mechanischen Modifikatoren eines Charakters gesammelt und berechnet werden.
+Zentrale Stelle, wo alle mechanischen Modifikatoren eines Charakters gesammelt und berechnet werden. Output ist eine **transparente** Modifier-Chain mit Quellen-Breakdown.
 
 
-==== Quellen
+=== Datenquellen (in Prisma-Schema)
+
+Der EffectProcessor liest `mechanical_effects[]` aus:
+
+. Traits (`character_trait_levels` → `trait_spectrum_effects`)
+. Items (equipped in `character_inventory` → `item_special_abilities`)
+. Conditions (`character_active_effects`)
+. Wetter (`campaign_calendar_state` → seasons/weather → `mechanical_effects`)
+. Saison (`mechanical_effects` auf seasons)
+. Gelände (`campaign_travel_days` → terrain_types → `mechanical_effects`)
+. Buffs/Debuffs (`character_active_effects`)
+. Konsequenzen (`character_criminal_record` → `legal_consequences` → `mechanical_effects`)
+. Drachen-Bond (`character_dragon_bonds` → `dragon_trait_levels` resonance)
+. Race-Innate (Cantrips, Resistances, Speeds — neu in Sprint 2026-05)
 
 
-Der EffectProcessor liest MechanicalEffects aus:
-. Traits (character_trait_levels → trait_spectrum_effects)
-. Items (equipped in character_inventory → item_special_abilities)
-. Conditions (character_active_effects)
-. Wetter (campaign_calendar_state → seasons/weather → mechanical_effects)
-. Saison (mechanical_effects auf seasons)
-. Gelände (campaign_travel_days → terrain_types → mechanical_effects)
-. Buffs/Debuffs (character_active_effects)
-. Konsequenzen (character_criminal_record → legal_consequences → mechanical_effects)
-. Drachen-Bond (character_dragon_bonds → dragon_trait_levels resonance)
-
-
-==== Algorithmus
-
+=== Algorithmus
 
 [source,typescript]
 ----
 class EffectProcessor {
-  async getModifierStack(characterId: UUID, target: EffectTarget): Promise<ModifierStack> {
-    const effects: MechanicalEffect[] = [];
+  async getModifierStack(characterId: string, target: EffectTarget): Promise<ModifierStack> {
+    const effects: MechanicalEffect[] = []
 
-    // Sammle alle Effekte
-    effects.push(...await this.getTraitEffects(characterId));
-    effects.push(...await this.getItemEffects(characterId));
-    effects.push(...await this.getConditionEffects(characterId));
-    effects.push(...await this.getEnvironmentEffects(characterId));
+    effects.push(...await this.getTraitEffects(characterId))
+    effects.push(...await this.getItemEffects(characterId))
+    effects.push(...await this.getConditionEffects(characterId))
+    effects.push(...await this.getEnvironmentEffects(characterId))
+    effects.push(...await this.getRaceInnateEffects(characterId))
+    effects.push(...await this.getDragonBondEffects(characterId))
 
-    // Filtere nach target
-    const relevantEffects = effects.filter(e => e.target === target);
+    const relevantEffects = effects.filter((e) => e.target === target)
+    const stack = this.calculateStack(relevantEffects)
 
-    // Berechne Modifier
-    const stack = this.calculateStack(relevantEffects);
-
-    // Erzeuge transparente Beschreibung
     return {
       finalModifier: stack.total,
       components: [
-        { label: 'Base Ability', value: +3 },
-        { label: 'Proficiency', value: +2 },
-        { label: 'Trait (Loyal)', value: +1 },
+        { label: 'Base Ability', value: 3 },
+        { label: 'Proficiency', value: 2 },
+        { label: 'Trait (Loyal)', value: 1 },
         { label: 'Rain Penalty', value: -2 },
-        { label: 'Dragon Resonance', value: +1 },
+        { label: 'Dragon Resonance', value: 1 },
       ],
-      description: 'Perception +5: Base +3, Proficiency +2, Loyal +1, Rain -2, Dragon +1'
-    };
+      description: 'Perception +5: Base +3, Proficiency +2, Loyal +1, Rain -2, Dragon +1',
+    }
   }
 
   private calculateStack(effects: MechanicalEffect[]): CalculatedStack {
-    // Vorteil/Nachteil hebt sich auf (D&D Standard)
-    const advantages = effects.filter(e => e.operation === 'advantage').length;
-    const disadvantages = effects.filter(e => e.operation === 'disadvantage').length;
-    const netAdvantage = advantages - disadvantages; // kann negativ sein
+    // Advantage/Disadvantage cancel out (D&D Standard)
+    const advantages = effects.filter((e) => e.operation === 'advantage').length
+    const disadvantages = effects.filter((e) => e.operation === 'disadvantage').length
+    const netAdvantage = advantages - disadvantages
 
-    // Sorting: höchster Set-Wert gewinnt
+    // Highest 'set' wins
     const setValues = effects
-      .filter(e => e.operation === 'set')
-      .map(e => e.value)
-      .sort((a, b) => b - a);
+      .filter((e) => e.operation === 'set')
+      .map((e) => e.value)
+      .sort((a, b) => b - a)
+    const base = setValues.length > 0 ? setValues[0] : 0
 
-    let base = setValues.length > 0 ? setValues[0] : 0;
-
-    // Dann Adds stapeln
+    // Adds stack
     const adds = effects
-      .filter(e => e.operation === 'add')
-      .reduce((sum, e) => sum + e.value, 0);
+      .filter((e) => e.operation === 'add')
+      .reduce((sum, e) => sum + e.value, 0)
 
-    // Dann Multiplies kombinieren
+    // Multiplies combine
     const multiplies = effects
-      .filter(e => e.operation === 'multiply')
-      .reduce((prod, e) => prod * e.value, 1.0);
+      .filter((e) => e.operation === 'multiply')
+      .reduce((prod, e) => prod * e.value, 1.0)
 
-    const total = (base + adds) * multiplies;
-
-    return {
-      base,
-      adds,
-      multiplies,
-      netAdvantage,
-      total
-    };
+    return { base, adds, multiplies, netAdvantage, total: (base + adds) * multiplies }
   }
 }
 ----
 
 
-==== Output Beispiel
-
+=== Output-Beispiel
 
 [source,json]
 ----
@@ -284,311 +262,134 @@ class EffectProcessor {
 }
 ----
 
-_Transparenz_: Spieler sehen EXAKT wo jeder Punkt herkommt.
+_Transparenz_: GM sieht EXAKT, wo jeder Punkt herkommt. Spieler sehen das End-Resultat + vereinfachte Quellen-Hinweise.
+
+'''
 
 
-=== Hono Deployment
+== Deployment (Live: Railway)
 
 
-Zwei Deployment-Optionen:
+Die api ist auf Railway gehostet:
+
+* _Trigger_: Push auf `api/main`
+* _Build_: `pnpm install && pnpm build` (tsup)
+* _Run_: `node dist/index.js` als persistent Node-Process
+* _Migrationen_: NICHT automatisch — manuell via `pnpm prisma migrate deploy` nach Push
+* _Health-Check_: `/health` (Auth-frei)
+* _Custom-Domain_: `api.flammenreiter.gmolike.me`
+
+WARNING: Railway deployt **sofort** bei Push-to-main. Vor Push CI + Tests grün haben.
 
 
-==== Option 1: Supabase Edge Function (Standard)
+=== Edge-Migration (Future-Option)
+
+Code ist Edge-kompatibel geschrieben (Lazy-Config, kein `process.exit()`, Native-Response-Wrap — siehe link:../10-infrastruktur/[10-infrastruktur/]). Eine Re-Migration zurück auf Cloudflare Workers ist jederzeit möglich, falls Latency oder Kosten das erfordern.
+
+'''
 
 
-[source,typescript]
-----
-// supabase/functions/hono-api/index.ts
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js";
-import { Hono } from "npm:hono";
-
-const app = new Hono();
-// ... routes
-
-export default serve(app.fetch);
-----
-
-* _Vorteil_: Kein Extra-Hosting, Same-Region wie DB
-* _Nachteil_: Cold Starts, Deno statt Node
+== AI-Pipeline
 
 
-==== Option 2: Node.js Server (Für höhere Last)
+=== FLUX (Bild-Generation)
+
+* _Provider_: fal.ai (Pay-as-you-go)
+* _Endpoint_: `https://fal.run/fal-ai/flux-pro`
+* _Use-Cases_: NPC-Portraits, Szenen-Bilder, Chapter-Banner
+* _Skript_: `docs/scripts/generate-images.mjs` (manuell für Chapter-Cover)
+* _Detail_: siehe link:./flux-pipeline.adoc[flux-pipeline.adoc]
 
 
-[source,bash]
-----
-# Deploy zu Render/Railway/Vercel
-npm run build
-npm run start
-----
+=== ADR-017: Unified Prompts
 
-* _Vorteil_: Schneller, mehr Control, Caching
-* _Nachteil_: Extra Hosting-Kosten
+Sprint 2026-05 brachte eine zentrale Prompt-Komponente:
 
-_Entscheidung_: Edge Function für MVP, später Node wenn nötig.
+* _Komponente_: `PromptOrchestrator` (api/services/)
+* _Eingaben_: Charakter-Kontext + Trait-Snapshot + Disposition + Item-Context
+* _Output_: Strukturierter Prompt für Claude/Gemini
+* _Detail_: siehe link:./ai-prompt-system.adoc[ai-prompt-system.adoc]
 
-
-== Schicht 3: Supabase Edge Functions
-
-
-
-=== Zweck
-
-
-Serverless Functions für Externe Integrationen außerhalb des Hono-API-Scopes.
-
-
-=== Anwendungen
-
-
-
-[cols="1,1,1",options="header"]
-|===
-| Funktion | Trigger | Zweck
-
-| _flux-portraits_ | Manual API Call | KI-generierte Charakterportraits
-| _discord-webhooks_ | Database Trigger / Manual | Quest Complete, Session Start, etc.
-| _srd-importer_ | Manual API Call | D&D SRD Daten in DB laden
-| _session-transcripts_ | Manual API Call + Webhook | Craig Audio → Whisper → Gemini Summary
-| _email-notifications_ | Database Trigger | Quest Updates, Session Reminders
-|===
-
-
-
-=== Beispiel: Session Transcript Function
-
-
-[source,typescript]
-----
-// supabase/functions/session-transcripts/index.ts
-Supabase.functions.http('session-transcripts', async (req, context) => {
-  const { sessionId } = await req.json();
-
-  // 1. Hole Session Daten
-  const session = await db.sessions.findById(sessionId);
-
-  // 2. Lade Audio aus Google Drive (Patreon Integration)
-  const audioFile = await drive.files.get(session.craig_audio_path);
-
-  // 3. Transkribiere mit Whisper
-  const transcript = await openai.audio.transcriptions.create({
-    file: audioFile,
-    model: 'whisper-1',
-    language: 'de',
-    prompt: 'Gaming session, German language, D&D campaign'
-  });
-
-  // 4. Zusammenfasse mit Gemini
-  const summary = await gemini.generateContent({
-    prompt: `Summarize this D&D session:\n${transcript}`,
-    generationConfig: {
-      maxOutputTokens: 1000,
-      temperature: 0.5
-    }
-  });
-
-  // 5. Speichere in DB
-  await db.session_transcript.create({
-    session_id: sessionId,
-    transcript_text: transcript,
-    summary_text: summary,
-    source: 'craig',
-    processing_status: 'complete'
-  });
-
-  return new Response(JSON.stringify({ success: true }), {
-    headers: { 'Content-Type': 'application/json' }
-  });
-});
-----
-
-_Kosten_: ~$0.10 pro Session (Whisper + Gemini).
-
-
-=== Realtime Events
-
-
-[source,typescript]
-----
-// In Hono oder Edge Function
-const subscription = supabase
-  .from('character_trait_levels')
-  .on('*', async (payload) => {
-    // Charakter-Trait geändert
-    // Trigger: Disposition-Neuberechnung
-    const npc = await db.world_npcs.findById(payload.new.npc_id);
-    const dispositionChange = npc.dispositionByTrait(payload.new.spectrum_id, payload.new.level);
-
-    // Update Disposition
-    await db.campaign_relationships.update(
-      { character_id, npc_id },
-      { disposition: dispositionChange }
-    );
-  })
-  .subscribe();
-----
+'''
 
 
 == Error Handling & Logging
 
 
-
-=== Struktur
-
+=== Strukturierte Errors
 
 [source,typescript]
 ----
-// Alle Errors sind strukturiert
 class GameError extends Error {
   constructor(
     public code: string,
     public message: string,
     public statusCode: number,
-    public context?: Record<string, any>
+    public context?: Record<string, unknown>,
   ) {
-    super(message);
+    super(message)
   }
 }
 
-// In Hono
 app.onError((err, c) => {
   if (err instanceof GameError) {
-    return c.json({
-      error: err.code,
-      message: err.message,
-      context: err.context
-    }, err.statusCode);
+    return c.json({ error: err.code, message: err.message, context: err.context }, err.statusCode as ContentfulStatusCode)
   }
-
-  // Unerwarteter Error
-  return c.json({
-    error: 'INTERNAL_ERROR',
-    message: 'Something went wrong'
-  }, 500);
-});
+  console.error(err)
+  return c.json({ error: 'INTERNAL_ERROR', message: 'Something went wrong' }, 500)
+})
 ----
 
 
-=== Sentry Integration
+=== Logging
 
+* Railway-Logs (stdout/stderr) im Railway-Dashboard
+* Pro Request: Method, Path, Status, Duration (via Middleware)
+* Auf Fehler: Stack-Trace + Context (nicht in Production-Response)
 
-[source,typescript]
-----
-import * as Sentry from "@sentry/node";
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  tracesSampleRate: 0.1,
-  environment: process.env.ENVIRONMENT
-});
-
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.errorHandler());
-----
+'''
 
 
 == Testing
 
 
-
 === Unit Tests (Vitest)
-
 
 [source,typescript]
 ----
-// services/__tests__/EffectProcessor.test.ts
 describe('EffectProcessor', () => {
-  it('should stack add operations correctly', async () => {
-    const processor = new EffectProcessor(mockDb);
-    const result = await processor.getModifierStack(characterId, 'perception');
-
-    expect(result.finalModifier).toBe(7);
-    expect(result.components).toHaveLength(6);
-  });
-});
+  it('stacks add operations correctly', async () => {
+    const processor = new EffectProcessor(mockDb)
+    const result = await processor.getModifierStack(characterId, 'perception')
+    expect(result.finalModifier).toBe(7)
+    expect(result.components).toHaveLength(6)
+  })
+})
 ----
 
 
 === Integration Tests
 
+`api/tests/integration/` — gegen Test-DB (Supabase oder lokales Postgres), full HTTP-Roundtrip mit Hono's `app.fetch()`.
 
-[source,typescript]
-----
-// routes/__tests__/rolls.test.ts
-it('POST /api/rolls should apply all modifiers', async () => {
-  const res = await fetch('http://localhost:3000/api/rolls', {
-    method: 'POST',
-    body: JSON.stringify({
-      characterId: 'abc123',
-      skillId: 'perception',
-      base: 'd20'
-    })
-  });
 
-  const data = await res.json();
-  expect(data.rollTotal).toBe(15); // d20(12) + modifier(+3)
-});
-----
+=== E2E (im Frontend)
+
+Workflow-Default §3: Jeder Bug-Fix und jedes Feature in einem Frontend braucht einen Playwright-E2E-Test, der gegen ein laufendes api (Staging oder local) testet.
+
+'''
 
 
 == Caching-Strategie
 
 
+Aktuell minimal — Prisma + Supabase haben eigenes Connection-Pooling. Application-Cache:
 
-=== In-Memory Caching (Hono)
-
-
-[source,typescript]
-----
-const characterCache = new Map<UUID, Character>();
-const CACHE_TTL = 5 * 60 * 1000; // 5 Minuten
-
-async function getCachedCharacter(id: UUID): Promise<Character> {
-  if (characterCache.has(id)) {
-    const cached = characterCache.get(id)!;
-    if (Date.now() - cached.cachedAt < CACHE_TTL) {
-      return cached;
-    }
-  }
-
-  const character = await db.characters.findById(id);
-  character.cachedAt = Date.now();
-  characterCache.set(id, character);
-  return character;
-}
-----
-
-
-=== Database Query Caching (PostgREST)
-
-
-[source,typescript]
-----
-// Cache-Control Header für GET Requests
-app.get('/api/items/:itemId', async (c) => {
-  c.header('Cache-Control', 'public, max-age=3600');
-  const item = await db.items.findById(c.req.param('itemId'));
-  return c.json(item);
-});
-----
-
-
-=== Realtime Invalidation
-
-
-[source,typescript]
-----
-// Wenn Charakter aktualisiert wird
-supabase
-  .from('characters')
-  .on('UPDATE', async (payload) => {
-    characterCache.delete(payload.new.id);
-    broadcast('character-updated', payload.new);
-  })
-  .subscribe();
-----
+* _In-Memory_: Pro Worker-Instance Map<string, T> mit TTL (5min Standard) — nur für teure Reads (Spell-Lookups, Item-Catalog)
+* _Cache-Control Header_: `public, max-age=3600` für statische Welt-Daten (Spells, Items)
+* _Realtime-Invalidation_: Supabase-Channel "character_updated" → Frontend invalidiert TanStack-Query-Cache
 
 '''
 
-Siehe auch: link:./shared-types.adoc[shared-types.adoc] für Typ-Validierung und Enums.
+
+Siehe auch: link:./shared-types.adoc[shared-types.adoc] für Typ-Validierung und Enums, link:./ai-prompt-system.adoc[ai-prompt-system.adoc] für ADR-017.

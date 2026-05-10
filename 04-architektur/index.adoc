@@ -2,134 +2,160 @@
 = Architektur und Technologie
 
 
-Architektur-Übersicht des Flammenreiter-Systems mit Backend-Schichten, Repo-Struktur und Shared Types.
+_Stand: {revdate}._ Architektur-Übersicht des Flammenreiter-Systems — Live-Stack der 8 Repositories (7 aktiv + ue5 dormant).
+
+NOTE: Diese Doku spiegelt den **aktuellen** Live-Stack (Sprint 2026-05-x). Frühere Versionen referenzierten Supabase PostgREST, Vercel und Expo — siehe `meta/AUDIT-2026-03-25.adoc` für die historische Vision.
+
+'''
 
 
 == Überblick
 
 
-Das Flammenreiter-Projekt nutzt eine moderne, polyglotte Architektur mit mehreren spezialisieren Repositorien statt eines Monorepos. Das Backend folgt einer 3-Schichten-Hybrid-Architektur:
+Flammenreiter nutzt eine moderne, polyglotte Architektur mit mehreren spezialisierten Repositories statt eines Monorepos. Die wichtigsten Live-Komponenten:
 
-. _Supabase PostgREST_ — Auto-CRUD für ~70% der Requests
-. _Hono Application Layer_ — Business Logic, Validierung, Workflows in TypeScript
-. _Supabase Edge Functions_ — Externe Integrationen (KI, Discord, etc.)
+* _Backend_: Hono 4.6 + Prisma 6 + PostgreSQL (über Supabase) — kein PostgREST mehr als Primär-Layer
+* _Frontends_: 3 separate React-19-SPAs (`session-gm`, `session-player`, `lore-admin`) mit Feature-Sliced Design (FSD)
+* _Shared Contracts_: `@flammenreiter/api-types` via GitHub Packages (Zod 4 + OpenAPI Spec)
+* _Mobile_: UE5 5.4+ C++/Blueprints (dormant, nicht aktiv)
+* _Auth_: Supabase Auth (JWKS-verified im api über JWT)
+* _AI / Bild_: fal.ai FLUX-Pipeline für Portraits/Maps
+
+'''
 
 
 == Backend-Architektur
 
 
-Siehe link:./backend.adoc[backend.adoc] für detaillierte Erklärung der 3-Schichten, warum Hono statt NestJS/.NET, und den EffectProcessor Service.
+Hono 4.6 als alleiniger API-Layer (kein PostgREST-Mix mehr). Prisma 6 als ORM gegen Supabase Postgres. Detaillierte Beschreibung siehe link:./backend.adoc[backend.adoc].
+
+Wichtige Charakteristika:
+
+* TypeScript-native, Zod-native Validierung
+* Edge-kompatibel (initial auf Cloudflare Workers gelauncht, jetzt auf Railway)
+* OpenAPI-3.1-Spec automatisch generiert über `@hono/zod-openapi`
+* JWT-Auth über Supabase JWKS (`/health` + `/version` ohne Auth)
+
+'''
 
 
-== Repository-Struktur
+== Repository-Struktur (8 Repos)
 
 
-Siehe link:./repo-struktur.adoc[repo-struktur.adoc] für die Multi-Repo-Anatomie:
+Detaillierte Beschreibung siehe link:./repo-struktur.adoc[repo-struktur.adoc]. Kurzüberblick:
 
-* `shared` — API Types und OpenAPI Specs
-* `api` — Hono Business Logic
-* `session-gm` — React Web für GM
-* `session-player` — React Web für Spieler
-* `lore-admin` — React Admin Interface
-* `ue5` — Unreal Engine 5 Mobile Client
-* `docs` — Diese Dokumentation
-* `orchestrator` — Central coordination repository
-
-
-== Shared Types & Enums
-
-
-Siehe link:./shared-types.adoc[shared-types.adoc] für:
-
-* _MechanicalEffect_ — Der universelle Typ für alle Effekte
-* _Enums_ — ~50 feste Enums vs. ~15 CRUD-Lookup-Tabellen
-* _Zod Schemas_ — Typ-Validierung in allen Apps
-
-
-== Typ-Flow
-
-
-----
-PostgreSQL Schema
-  ↓
-supabase gen types (Supabase CLI)
-  ↓
-@flammenreiter/shared-types (TypeScript)
-  ↓
-Zod Schemas (Validierung)
-  ↓
-npm publish @flammenreiter/*
-  ↓
-Alle Apps importieren
-----
-
-
-== Authentifizierung & RLS
-
-
-* _Auth_: Supabase Auth (Email/OAuth)
-* _RLS_: Row Level Security auf `auth.uid()` und `campaign_id`
-* _Tokens_: JWT in Session + Refresh Tokens in HttpOnly Cookies
-
-
-== Hosting & Infrastruktur
-
-
-
-[cols="1,1,1",options="header"]
+[cols="1,2,2",options="header"]
 |===
-| Komponente | Platform | Plan
+| Repo | Zweck | Stack
 
-| Datenbank | Supabase PostgreSQL | Pro (100GB, 250GB BW)
-| API | Supabase Edge Functions | Included
-| File Storage | Supabase Storage | 100GB + CDN
-| Frontend Web | Vercel | Pro
-| Frontend Mobile | EAS Build + EAS Update | Free/Paid
-| Logging | Sentry | Standard
-| Analytics | PostHog | Startup
+| `workspace` | Orchestrierung, `.scrum/`, ADRs | Markdown only
+| `shared` | OpenAPI + Zod-Schemas, npm-Package | Zod 4 + tsup
+| `api` | Hono Business Logic + Prisma | Hono 4.6 + Prisma 6 + PostgreSQL
+| `lore-admin` | React Admin UI (Welt-Daten, NPCs) | React 19 + Vite 6 + TanStack
+| `session-gm` | GM Live-Session UI | React 19 + Vite 6 + TanStack + D3
+| `session-player` | Player Live-Session UI | React 19 + Vite 5 + TanStack + Three.js
+| `docs` (this) | AsciiDoc Doku | asciidoctor-pdf
+| `ue5` | Mobile App (Future, dormant) | UE5 5.4+ C++ + Blueprints
 |===
 
+'''
 
 
-== Tech Stack Überblick
+== Shared Types & Schemas
 
 
+`@flammenreiter/api-types` (publisht aus `shared/`) ist die Single-Source-of-Truth für API-Schemas:
 
-[cols="1,1,1",options="header"]
+* _Zod 4_ Schemas für Validierung in api + 3 Frontends
+* _OpenAPI 3.1_ Spec automatisch via `@asteasolutions/zod-to-openapi`
+* _TypeScript Types_ via `openapi-typescript`
+* _Versioning_: SemVer + Changesets → GitHub Packages auf `v*` Tag
+
+Detaillierte Beschreibung siehe link:./shared-types.adoc[shared-types.adoc] und link:./ai-prompt-system.adoc[ai-prompt-system.adoc] (ADR-017 Unified-Prompts).
+
+Aktuelle Version (2026-05-11): `v3.19.x` live.
+
+'''
+
+
+== Auth & Berechtigung
+
+
+* _Auth-Provider_: Supabase Auth (Email/OAuth) — JWT-basiert
+* _api-Verify_: JWKS-Endpoint von Supabase wird in Hono-Middleware konsumiert
+* _RLS_: aktuell nicht primär — Berechtigung läuft über api-Layer-Checks (campaign_id Scoping)
+* _Tokens_: JWT in Frontend-Storage, kein Refresh-Token-Cookie
+
+'''
+
+
+== Hosting & Infrastruktur (Live)
+
+
+[cols="1,1,2",options="header"]
 |===
-| Layer | Technologie | Grund
+| Komponente | Platform | URL / Domain
 
-| _Database_ | PostgreSQL 16 + PostGIS | 5NF Normalform, geographische Daten
-| _Backend API_ | Hono.js + TypeScript | Leicht (14KB), Zod-native, Edge-kompatibel
-| _Web Frontend_ | React 18 + TypeScript | SPA mit Redux-wie State
-| _Mobile_ | Expo (React Native) | Code-Sharing mit Web
-| _State Management_ | Zustand + TanStack Query | Reaktiv ohne Redux-Komplexität
-| _API Client_ | Supabase JS Client + Fetch | PostgREST + Hono dual-mode
-| _UI Components_ | shadcn/ui + Tailwind | Accessible, customizable
-| _Schema Validation_ | Zod | TypeScript-native, leicht
-| _Bot_ | discord.js | Standard für Discord Bots
+| Datenbank | Supabase PostgreSQL (Pooler aws-1-eu-central-1) | (intern, via DATABASE_URL)
+| API (Hono) | Railway (auto-deploy on push-to-main) | https://api.flammenreiter.gmolike.me
+| Frontend Web (GM) | Cloudflare Pages | https://gm.flammenreiter.gmolike.me
+| Frontend Web (Player) | Cloudflare Pages | https://player.flammenreiter.gmolike.me
+| Frontend Web (Lore-Admin) | Cloudflare Pages | https://lore.flammenreiter.gmolike.me
+| Shared Types (npm) | GitHub Packages (`npm.pkg.github.com`) | `@flammenreiter/api-types`
+| AI / FLUX | fal.ai | https://fal.run/fal-ai/flux-pro
 |===
 
+WARNING: `api/main` push → Railway deploy ist **automatisch und ohne Bestätigung**. Push-to-main nur mit grünem CI und Tests.
+
+Siehe link:../10-infrastruktur/[10-infrastruktur/] für Details.
+
+'''
+
+
+== Tech Stack — Live-Snapshot
+
+
+[cols="1,1,2",options="header"]
+|===
+| Layer | Technologie | Bemerkung
+
+| _Database_ | PostgreSQL 16+ (Supabase) + PostGIS | 5NF Normalform, geographische Daten
+| _ORM_ | Prisma 6 | TypeScript-native, Migrationen verwaltet
+| _Backend API_ | Hono 4.6 + `@hono/zod-openapi` | Edge-kompatibel, Zod-native, OpenAPI auto-gen
+| _Auth_ | Supabase Auth (JWKS) | JWT-Verify in api-Middleware
+| _Web Frontends_ | React 19 + Vite 5/6 + TypeScript | FSD-Architektur, TanStack Router/Query 5
+| _Mobile_ | UE5 5.4+ C++ + Blueprints | dormant, kein Expo/React-Native
+| _State Management_ | Zustand + TanStack Query | Frontend-State + Server-State
+| _UI Components_ | Radix + Tailwind + shadcn4 + base-ui | Pro Frontend leicht variabel
+| _Schema Validation_ | Zod 4 | Cross-Repo via `@flammenreiter/api-types`
+| _Visualisierung_ | D3.js (session-gm), Three.js/R3F (session-player), Leaflet (Karten), Tiptap (Rich-Text) | Pro Use-Case spezialisiert
+| _AI / FLUX_ | fal.ai (Pay-as-you-go) | Portrait + Map-Generation
+| _Realtime_ | Supabase Realtime | Live-Session-Synchronisation
+|===
+
+'''
 
 
 == Design-Prinzipien
 
 
-
 === 1. Separation of Concerns
 
-
-* _DB macht nur_: Datenspeicherung, FK-Constraints, RLS, Realtime Events
-* _Business Logic_: NICHT in Triggers/Stored Procedures, sondern in Hono Services
-* _Edge Functions_: NUR für externe Integrationen (KI, Webhooks)
+* _DB_: Datenspeicherung, FK-Constraints, Migrations (Prisma)
+* _Business Logic_: Hono-Routes + Services, **nicht** in Stored Procedures
+* _Auth_: Supabase Auth JWT-Layer, in api per Middleware verifiziert
+* _Frontends_: Pure UI + State (Zustand) + Server-State (TanStack Query)
 
 
 === 2. Type Safety durch die ganze Chain
 
-
 [source,typescript]
 ----
-PostgreSQL → TypeScript Types → Zod Schemas → Runtime Validierung
+Prisma Schema → Generated DB-Types
+              → Zod Schemas (in shared/)
+              → OpenAPI Spec (auto-gen via @hono/zod-openapi)
+              → TypeScript Types (openapi-typescript)
+              → Konsumiert in api + 3 Frontends
 ----
 
 Jeder Layer validiert; niemand vertraut auf vorherige Ebene.
@@ -137,34 +163,62 @@ Jeder Layer validiert; niemand vertraut auf vorherige Ebene.
 
 === 3. Multi-Repo statt Monorepo
 
-
-* _Grund_: 200 DB-Tabellen + 5 Apps → zu viel für ein Repo
-* _Lösung_: Separate Repos mit shared npm packages
-* _Vorteil_: Unabhängige Deployments, klare Boundaries
+* _Grund_: Klare Boundaries (api / shared / 3 Frontends / docs / ue5), unabhängige Deploys
+* _Lösung_: 8 Repos + zentrales `workspace` für Orchestration
+* _Cross-Repo-Workflow_: shared-Bump → api consumes → Frontends consumes (lockfile-sync)
 
 
 === 4. No Stored Procedures (Mostly)
 
-
 Geschäftslogik gehört in Hono, nicht in SQL. Ausnahmen:
-* RLS Policies (Sicherheit)
-* Trigger für Auditing (session_mechanical_log)
-* Realtime Event Publishing
+
+* Trigger für Auditing (`session_mechanical_log`)
+* Supabase Realtime Event Publishing
 
 
-=== 5. Progressive Offenbarung
+=== 5. Progressive Reveal
+
+Szenen-Elemente werden progressiv revealed (Title → Description → Image → NPCs). DB speichert JSON mit `is_revealed`-Boolean. Realtime-Sync zwischen GM und Spielern via Supabase Channels.
+
+'''
 
 
-Szenen-Elemente werden progressiv revealed (Title → Description → Image → NPCs). DB speichert JSON mit `is_revealed` Boolean.
+== Typ-Flow
+
+
+[source]
+----
+Prisma Schema (api/prisma/schema.prisma)
+  ↓
+prisma generate → DB-Types (TypeScript)
+
+Zod Schemas (shared/src/schemas/)
+  ↓
+@asteasolutions/zod-to-openapi → OpenAPI 3.1 Spec
+  ↓
+openapi-typescript → TypeScript API Types
+  ↓
+@flammenreiter/api-types (GitHub Packages)
+  ↓
+api + lore-admin + session-gm + session-player consumieren
+----
+
+'''
 
 
 == Weitere Ressourcen
 
 
+* link:./backend.adoc[backend.adoc] — Hono-Schichten, EffectProcessor, Routes
+* link:./repo-struktur.adoc[repo-struktur.adoc] — Multi-Repo-Anatomie + FSD-Struktur
+* link:./shared-types.adoc[shared-types.adoc] — MechanicalEffect, ~50 Enums, Zod-Schemas
+* link:./ai-prompt-system.adoc[ai-prompt-system.adoc] — ADR-017 Unified-Prompts-Architektur
+* link:./flux-pipeline.adoc[flux-pipeline.adoc] — FLUX Image-Generation-Pipeline
 * link:../03-datenbank/[Datenbank-Schema] — ~200 Tabellen Referenz
 * link:../02-spielmechaniken/[Spielmechaniken] — Regeln und Systeme
 * link:../07-gm-dashboard/[GM Dashboard] — UI/UX für GMs
 * link:../08-design-system/[Design System] — UI-Komponenten & Branding
+* link:../10-infrastruktur/[Infrastruktur] — Deploy-Stack + CI/CD
 
 // === Detail-Includes ===
 

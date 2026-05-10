@@ -2,7 +2,9 @@
 = Shared Types & Enums
 
 
-Zentrale Typ-Definitionen und Enums für das gesamte System.
+Zentrale Typ-Definitionen und Enums für das gesamte System. Publisht als `@flammenreiter/api-types` auf GitHub Packages.
+
+NOTE: Diese Doku beschreibt die kanonischen Typen. Detail-Patterns für DB-Migrations und Repo-Workflow stehen in link:./repo-struktur.adoc[repo-struktur.adoc].
 
 
 == MechanicalEffect: Das Universelle System
@@ -552,44 +554,42 @@ Diese sind eigene DB-Tabellen, nicht Enums. Wachsen über Zeit:
 
 
 
-== Typ-Generierung aus DB
+== Typ-Generierung
 
+
+Live-Pipeline (Sprint 2026-04 ff.):
 
 [source,bash]
 ----
-# CLI command
-supabase gen types typescript --project-id $PROJECT_ID > database.types.ts
+# 1. Prisma generiert DB-Types aus Schema (api/prisma/schema.prisma)
+cd api && pnpm prisma generate
+
+# 2. zod-to-openapi generiert OpenAPI-Spec aus Zod-Schemas (in shared/)
+cd shared && pnpm build:openapi
+
+# 3. openapi-typescript generiert API-Types für Frontends
+cd lore-admin && pnpm generate:api-types
+cd session-gm && pnpm generate:api-types
+cd session-player && pnpm generate:api-types
 ----
 
-Generiert automatisch TypeScript Interfaces für alle Tabellen und ihre Spalten:
+Konsumiert wird `@flammenreiter/api-types` (aus GitHub Packages) für alle 4 Consumer-Repos.
 
-[source,typescript]
+
+=== Publishing-Workflow
+
+[source,bash]
 ----
-// Generiert automatisch:
-export interface Database {
-  public: {
-    Tables: {
-      characters: {
-        Row: {
-          id: string
-          user_id: string | null
-          campaign_id: string
-          name: string
-          level: number
-          hp_current: number
-          hp_max: number
-          // ... alle Spalten
-        }
-        Insert: { /* ohne id, created_at */ }
-        Update: { /* alle optional */ }
-      }
-      // ... 200 weitere Tabellen
-    }
-  }
-}
+# In shared/:
+pnpm changeset                          # SemVer-Bump + Beschreibung
+git commit
+git push                                 # PR
+# Nach Merge auf main:
+git tag v3.x.x
+git push --tags                          # CI publisht auf GitHub Packages
 ----
 
-Diese generieren Types werden dann in `@flammenreiter/shared-types` handbearbeitet und validiert.
+Consumer-Bumps via `pnpm install` ziehen automatisch die neue Version aus `npm.pkg.github.com`. Lockfile-Sync ist Pflicht (Workflow-Default §6).
 
 
 == Best Practices
@@ -640,4 +640,4 @@ const season: string = 'winter';
 
 '''
 
-Siehe auch: link:./backend.adoc[backend.adoc] für Hono Service-Integration.
+Siehe auch: link:./backend.adoc[backend.adoc] für Hono Service-Integration und link:./repo-struktur.adoc[repo-struktur.adoc] für den Cross-Repo-Workflow.
