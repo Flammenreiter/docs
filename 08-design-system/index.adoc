@@ -2,6 +2,9 @@
 = Design System & Component Library
 
 
+image::chapter-design-system.png[Chapter Banner: Design System,width=100%]
+
+
 _Vollständiges Design-Token-System und wiederverwendbare Komponenten-Architektur basierend auf Feature-Sliced Design (FSD)._
 
 '''

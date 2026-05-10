@@ -2,6 +2,9 @@
 = Datenbank-Schema
 
 
+image::chapter-datenbank.png[Chapter Banner: Datenbank,width=100%]
+
+
 Umfassende Referenz für die PostgreSQL-Datenbankarchitektur des Flammenreiter-Systems.
 
 

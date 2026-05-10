@@ -2,6 +2,9 @@
 = Architektur und Technologie
 
 
+image::chapter-architektur.png[Chapter Banner: Architektur,width=100%]
+
+
 _Stand: {revdate}._ Architektur-Übersicht des Flammenreiter-Systems — Live-Stack der 8 Repositories (7 aktiv + ue5 dormant).
 
 NOTE: Diese Doku spiegelt den **aktuellen** Live-Stack (Sprint 2026-05-x). Frühere Versionen referenzierten Supabase PostgREST, Vercel und Expo — siehe `meta/AUDIT-2026-03-25.adoc` für die historische Vision.

@@ -2,7 +2,10 @@
 = Mobile App — Unreal Engine 5
 
 
-_PLACEHOLDER — Wird nach Web MVP Architektur-Design befüllt_
+image::chapter-mobile.png[Chapter Banner: Mobile (UE5),width=100%]
+
+
+WARNING: Dieses Kapitel ist ein **PLACEHOLDER**. `ue5/` Repo ist scaffolded aber nicht aktiv in Entwicklung (Workflow-Default §8). Inhalt wird ergänzt, sobald Web-MVP stabilisiert und UE5-Mobile-Spec erarbeitet ist.
 
 '''
 

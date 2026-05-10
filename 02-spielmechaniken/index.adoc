@@ -2,6 +2,9 @@
 = Spielmechaniken — Übersicht
 
 
+image::chapter-spielmechaniken.png[Chapter Banner: Spielmechaniken,width=100%]
+
+
 Umfassende Dokumentation aller Kern-Systeme des Flamenritter-RPGs. Jede Mechanik ist designed für tiefere narrative Integration statt reiner Regeltechnische Abwicklung.
 
 

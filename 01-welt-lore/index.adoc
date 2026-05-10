@@ -2,6 +2,9 @@
 = Flammenreiter: Welt & Lore Enzyklopädie
 
 
+image::chapter-welt-lore.png[Chapter Banner: Welt & Lore,width=100%]
+
+
 Komplette Dokumentation der Flammenreiter-Welt. Geschichte, Pantheon, Sigillen, Geographie und Kreaturen im Detail.
 
 

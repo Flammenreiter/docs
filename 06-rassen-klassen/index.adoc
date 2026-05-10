@@ -2,6 +2,9 @@
 = 06 Rassen, Klassen & Herkunft
 
 
+image::chapter-rassen-klassen.png[Chapter Banner: Rassen & Klassen,width=100%]
+
+
 Umfassende Dokumentation des Charakter-Erstellungs-Systems basierend auf D&D 5e 2014 mit Flammenreiter-Hybrid-Modifications.
 
 

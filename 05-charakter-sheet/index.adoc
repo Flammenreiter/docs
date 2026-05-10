@@ -2,6 +2,9 @@
 = 05 Charakter-Sheet Design
 
 
+image::chapter-charakter.png[Chapter Banner: Charakter-Sheet,width=100%]
+
+
 Umfassende Dokumentation des Charakter-Sheets für Flammenreiter. Das System verbindet Spieler-Management mit Web und Mobile Plattformen.
 
 

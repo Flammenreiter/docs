@@ -2,6 +2,9 @@
 = Infrastruktur & DevOps
 
 
+image::chapter-infrastruktur.png[Chapter Banner: Infrastruktur,width=100%]
+
+
 _Live-Stand 2026-05-11._ Diese Dokumentation beschreibt den **aktuellen** Deploy-Stack des Flammenreiter-Projekts. Frühere Versionen dieses Dokuments waren ein PLACEHOLDER — die folgenden Abschnitte spiegeln den Live-Stand wider.
 
 '''

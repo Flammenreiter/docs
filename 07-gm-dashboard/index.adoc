@@ -2,6 +2,9 @@
 = GM Dashboard — Referenz-Dokumentation
 
 
+image::chapter-gm-dashboard.png[Chapter Banner: GM Dashboard,width=100%]
+
+
 _Zentrale Verwaltungsplattform für GM-Aufgaben: Session-Planung, Szenen-Steuerung, NPC-Management, Kämpfe und Post-Session-Workflows._
 
 '''
