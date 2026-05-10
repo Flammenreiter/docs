@@ -1,13 +1,15 @@
 /**
  * Flammenreiter — Flux Image Generator via fal.ai
- * Usage: node generate-images.mjs
+ * Usage: node scripts/generate-images.mjs  (run from repo root)
  */
 
 import { writeFileSync, existsSync, mkdirSync } from "fs"
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
 
+// Script lives in scripts/, but writes paths are relative to repo root (../).
 const __dirname = dirname(fileURLToPath(import.meta.url))
+const REPO_ROOT = join(__dirname, "..")
 const FAL_KEY = "9d8ded87-fc6c-4022-8fbd-1744ad07f82a:fe0625317a6c456f839c3f267961d317"
 const API_URL = "https://fal.run/fal-ai/flux/schnell"
 
@@ -39,7 +41,7 @@ const images = [
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const generate = async (img, idx) => {
-  const outPath = join(__dirname, img.path)
+  const outPath = join(REPO_ROOT, img.path)
   const outDir = dirname(outPath)
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
   if (existsSync(outPath)) { console.log(`  SKIP [${idx + 1}/${images.length}] ${img.path}`); return true }
