@@ -34,22 +34,25 @@ _Kernmerkmale:_
 == Dokumentationsstruktur
 
 
+NOTE: Status-Legende — _Live_ = produktiv eingesetzt, _Spec_ = vollständig spezifiziert (auch ohne UI-Live), _WIP_ = Work-in-Progress, _Placeholder_ = noch nicht ausgearbeitet.
 
-[cols="1,1,1,1",options="header"]
+[cols="1,1,2,1",options="header"]
 |===
 | # | Ordner | Inhalt | Status
 
-| 01 | link:01-welt-lore/[01-welt-lore/] | Weltgeschichte, Pantheon, Sigillen, Geographie, Kreaturen | ✅
-| 02 | link:02-spielmechaniken/[02-spielmechaniken/] | Traits, Items, Beziehungen, Ökonomie, Crafting, Magie, Kampf, Dragon Bond, Reise, Recht | ✅
-| 03 | link:03-datenbank/[03-datenbank/] | DB-Schema (~200 Tabellen, PostgreSQL, 5NF) | ✅
-| 04 | link:04-architektur/[04-architektur/] | Backend (Supabase+Hono), Repo-Struktur, Shared Types | ✅
-| 05 | link:05-charakter-sheet/[05-charakter-sheet/] | 9 Domains, 4 Kontext-Modi, 26 Entscheidungen, 50+ Use Cases | ✅
-| 06 | link:06-rassen-klassen/[06-rassen-klassen/] | 10 Rassen, 12 Klassen, 19 Abstammungen, Akademie-Lehrplan | ✅
-| 07 | link:07-gm-dashboard/[07-gm-dashboard/] | Auth, Kampagne, Einladung, Session-Lifecycle, Session-Planer, Szenen-Steuerung, Map-Viewer, Foundry-Sync | ✅
-| 08 | link:08-design-system/[08-design-system/] | Design Tokens, Component Library, FSD-Struktur | 📝
-| 09 | link:09-mobile/[09-mobile/] | Unreal Engine 5 Mobile App | 📝
-| 10 | link:10-infrastruktur/[10-infrastruktur/] | CI/CD, Testing, Deployment, Monitoring | 📝
+| 01 | link:01-welt-lore/[01-welt-lore/] | Weltgeschichte, Pantheon, Sigillen, Geographie, Kreaturen | Spec
+| 02 | link:02-spielmechaniken/[02-spielmechaniken/] | Traits, Items, Beziehungen, Ökonomie, Crafting, Magie, Kampf, Dragon Bond, Reise, Recht, Social-3-Ebenen, Story-Arc, Wegenetz, Cantrips, Jahr-1-Blueprint | Live
+| 03 | link:03-datenbank/[03-datenbank/] | DB-Schema (~200 Tabellen, PostgreSQL, 5NF) | Live
+| 04 | link:04-architektur/[04-architektur/] | Hono+Prisma Backend, FSD-Frontends, Shared-Types, AI-Pipeline | Live
+| 05 | link:05-charakter-sheet/[05-charakter-sheet/] | 9 Domains, 4 Kontext-Modi, 26 Entscheidungen, 44 Charakter-UCs | Live
+| 06 | link:06-rassen-klassen/[06-rassen-klassen/] | 10 Rassen, 12 Klassen, 19 Abstammungen, Akademie-Lehrplan, NPC-Katalog | Live
+| 07 | link:07-gm-dashboard/[07-gm-dashboard/] | Auth, Kampagne, Einladung, Session-Lifecycle, Session-Planer, Szenen-Steuerung, Map-Viewer, Foundry-Sync, Post-Session | Live
+| 08 | link:08-design-system/[08-design-system/] | Design Tokens, Component Library, FSD-Struktur | WIP
+| 09 | link:09-mobile/[09-mobile/] | Unreal Engine 5 Mobile App | Placeholder
+| 10 | link:10-infrastruktur/[10-infrastruktur/] | Railway, Cloudflare Pages, GitHub Packages, CI/CD | Live
 |===
+
+WARNING: Kapitel 09 (Mobile/UE5) ist nicht aktiv in Entwicklung (Workflow-Default §8). Kapitel 08 (Design-System) ist teilweise implementiert (Tokens + Atoms/Molecules live, Organisms in Arbeit).
 
 
 '''
@@ -213,9 +216,12 @@ End-User-Handbuecher fuer den jeweiligen Workflow:
 == Stand & Version
 
 
-* _Letztes Update:_ 25.03.2026
-* _Wiki Version:_ 8
-* _Status:_ In aktiver Entwicklung
+* _Letztes Update:_ {revdate}
+* _Status:_ In aktiver Entwicklung (Sprint 2026-05-x)
+* _Live-Stack:_ Hono + Prisma + Postgres (Supabase) auf Railway · 3 React-FSD-Frontends auf Cloudflare Pages
+* _Shared-Types:_ `@flammenreiter/api-types` v3.19.x via GitHub Packages
+
+NOTE: `:revdate:` wird beim Build automatisch auf das Build-Datum gesetzt (siehe Makefile `COMMON_OPTS`).
 
 '''
 
