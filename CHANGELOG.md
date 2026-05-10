@@ -4,6 +4,51 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ## [Unreleased]
 
+### Sprint 2026-05-11 — Welle-4 AsciiDoc-Cleanup (STORY-WELLE-4-DOCS)
+
+Basierend auf dem Cross-LLM-Audit `workspace-docs/audits/2026-05-10/docs-claude.md` (303 Z. Hauptaudit + Gemini-Diff). 12 Akzeptanzkriterien, 18 atomare Commits in `refactor/welle-4-2026-05-11`.
+
+**Quick-Wins:**
+- _AC-4-A_ — `02-spielmechaniken/INDEX.adoc` (UPPERCASE, md5-Dublette mit `index.adoc`) konsolidiert auf lowercase. Root `index.adoc:223` Include-Pfad angepasst.
+- _AC-4-E_ — 24 Markdown-Style-Links `[Title](./file.adoc)` in 01-welt-lore + 02-spielmechaniken auf `link:./file.adoc[Title]` konvertiert. Inhaltsverzeichnisse jetzt in PDF/HTML klickbar.
+- _AC-4-I_ — Root-Artefakte aufgeraeumt: `feature-workflow.html` (404 Z. Orphan-Mockup) + `flux-image-prompts.md` (redundant) geloescht. `generate-images.mjs` -> `scripts/`, `ANALYSIS-2026-04-19.md` -> `meta/`.
+
+**Strukturelle Entscheidungen:**
+- _AC-4-B_ — `flammenreiter.adoc` (parallel Master-Dok mit Stack-Drift) geloescht. `index.adoc` ist alleiniges Master-Dokument (vom Makefile gebaut).
+- _AC-4-D_ — 14 orphan Sub-Files via `include::file.adoc[leveloffset=+1]` in jeweilige Chapter-Indizes eingebunden:
+  - 02-spielmechaniken: 6 Sprint-04/05-Dateien (social-interaction, szenen-reveal-toggles, cantrips, wegenetz-live-play, story-arc-system, jahr-1-blueprint) + 14 weitere
+  - 04-architektur: ai-prompt-system (ADR-017), flux-pipeline, backend, repo-struktur, shared-types
+  - 05-charakter-sheet: journey-narrative (EPIC-24), architektur, domains, use-cases
+  - 06-rassen-klassen: akademie-schueler (DOCS-001), npc-katalog (DOCS-004), rassen, klassen, herkunft
+  - 07-gm-dashboard: session-abschluss, story-tagebuch
+  - 03-datenbank: schema-uebersicht, schema-details
+  - 10-infrastruktur: deployment
+  - Resultat: ~3.300 Zeilen Spec-Inhalt jetzt im Haupt-PDF sichtbar
+- _AC-4-H_ — `10-infrastruktur/index.adoc` von PLACEHOLDER auf Live-Stand (Railway+Cloudflare Pages+GitHub Packages) umgeschrieben. Orphan `deployment.adoc` als Live-Doku integriert. Veraltete Vercel/Edge-Functions/EAS-Pfade entfernt.
+- _AC-4-G_ — `AUDIT.adoc` (6 Wochen veraltet) als `meta/AUDIT-2026-03-25.adoc` archiviert. Neue `AUDIT.adoc` als high-level Stub mit Verweisen auf `workspace-docs/audits/` als kanonische Quelle.
+
+**Live-Stack-Sync (AC-4-C):**
+- `04-architektur/index.adoc`, `backend.adoc`, `repo-struktur.adoc` komplett neu geschrieben:
+  - _Raus:_ Supabase PostgREST (~70%), Edge Functions (~5%) als Primaer-Layer, Vercel, EAS Build (Expo), fiktive `flammenreiter-framework/{shared-types,-ui,-api}` und `flammenreiter-supabase/` Repos.
+  - _Rein:_ Hono 4.6 + Prisma 6 + PostgreSQL (Supabase) auf Railway, Cloudflare Pages fuer 3 React-19-FSD-Frontends, GitHub Packages fuer `@flammenreiter/api-types`, UE5 (kein Expo/React-Native), korrektes 8-Repo-Layout (workspace + shared + api + 3 Frontends + docs + ue5).
+- `shared-types.adoc`: `supabase gen types`-Pipeline durch Prisma + zod-to-openapi + openapi-typescript ersetzt. `npm publish` -> `pnpm changeset`-Workflow.
+
+**Image-Assets (AC-4-J):**
+- 10 Chapter-Banner-Images als Section-Cover in Chapter-Indizes eingebunden (`image::chapter-*.png[width=100%]`).
+- `images/FLUX-PROMPTS.md` (redundant mit `scripts/generate-images.mjs`) geloescht.
+- Diagram-Bilder + `login-academy-gates.png` bleiben fuer spaetere Embeddings.
+
+**UC-Strategie (AC-4-F):**
+- `05-charakter-sheet/use-cases.adoc`: Titel von "Alle 50+ Workflows" auf "44 Domain-UCs" korrigiert (tatsaechlicher Stand). Verweis auf `.scrum/usecases/` als kanonische 340-UC-Quelle ergaenzt.
+
+**Polish (AC-4-K + AC-4-L):**
+- _AC-4-K_: 8 `[[anchor]]`-Definitionen + `<<anchor,Label>>`-xrefs im Root-`index.adoc` fuer Kern-Konzepte (Traits, Dragon Bond, Cantrips, Wegenetz, Social Interaction, Story Arc, EffectProcessor, Unified Prompts ADR-017). Enables in-PDF concept jumping.
+- _AC-4-L_: Status-Spalte im Root-`index.adoc` von Emoji ✅/📝 auf Text-Labels (Live/Spec/WIP/Placeholder) + NOTE/WARNING-Admonitions umgestellt. Stale "Letztes Update: 25.03.2026" durch `{revdate}` (build-date) ersetzt.
+
+**Build-Verify:**
+- Alle 5 PDF-Build-Targets gruen: `index.pdf` (14 MB, +280% vs vorher dank inklusiver orphans), `spieler-handbuch.pdf`, `gm-manual.pdf`, `player-manual.pdf`, `setup-guide.pdf`.
+- HTML-Build von `index.html` ebenso erfolgreich.
+
 ### Sprint 2026-05-06 — User-Manuals (GM + Player + Setup-Guide)
 
 - _Neue Sektion `manuals/`_ mit drei eigenstaendigen User-Handbuechern, parallel zu `spieler-handbuch.adoc` (Spielregeln) gepflegt.
