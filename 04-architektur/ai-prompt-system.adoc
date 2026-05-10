@@ -1,4 +1,5 @@
-= AI Prompt System — Universelles Template-Schema
+[[unified-prompts]]
+= AI Prompt System — Universelles Template-Schema (ADR-017)
 :toc:
 
 == Ueberblick

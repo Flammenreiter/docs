@@ -176,6 +176,21 @@ link:03-datenbank/[03-datenbank/] und link:04-architektur/[04-architektur/] für
 '''
 
 
+== Kern-Konzepte (xrefs)
+
+
+Schneller Zugriff auf die zentralen Konzepte der Plattform (innerhalb des Master-PDFs verlinkt):
+
+* <<traits,Trait-Spektrum>> — Persönlichkeits-System (-5 bis +5)
+* <<dragon-bond,Dragon Bond>> — Reiter-Drachen-Beziehung
+* <<cantrips,Cantrips>> — Basis-Beschwörungen (jeder Charakter mindestens einer)
+* <<wegenetz,Wegenetz>> — Graph-Navigation im Live-Play
+* <<social-interaction,Social Interaction>> — NPC-Reaktions-Pipeline (3 Ebenen)
+* <<story-arc,Story-Arc-System>> — 6-stufige Erzaehl-Hierarchie
+* <<effect-processor,EffectProcessor>> — Modifier-Stack-Engine
+* <<unified-prompts,Unified Prompts (ADR-017)>> — AI-Template-Schema
+
+
 == Zusätzliche Ressourcen
 
 

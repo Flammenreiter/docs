@@ -1,4 +1,5 @@
 
+[[story-arc]]
 = Story-Arc-System — 6-stufige Erzaehl-Hierarchie
 
 

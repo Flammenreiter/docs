@@ -158,6 +158,7 @@ OpenAPI-Spec wird automatisch unter `/openapi.json` exposed, Swagger UI unter `/
 '''
 
 
+[[effect-processor]]
 == EffectProcessor (Herz des Systems)
 
 
