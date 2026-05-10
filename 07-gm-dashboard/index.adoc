@@ -1542,3 +1542,9 @@ Charakter-Karte zeigt HP bereits mehrfach.
 '''
 
 _Diese Dokumentation steht unter Versionskontrolle. Letzte Aktualisierung: 2026-04-23 (Sprint Live-Session-Stabilisierung)_
+
+// === Detail-Includes ===
+
+include::session-abschluss.adoc[leveloffset=+1]
+
+include::story-tagebuch.adoc[leveloffset=+1]
