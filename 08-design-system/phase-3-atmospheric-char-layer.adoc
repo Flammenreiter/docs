@@ -1,0 +1,288 @@
+= Phase 3 — Atmospheric Char-Layer
+:doctype: book
+:imagesdir: ../images
+
+
+[NOTE]
+====
+*Datum:* 2026-05-12 +
+*Status:* Vision finalisiert, Implementation läuft (Sprint 1A done, Sprint 1B in Cleanup) +
+*Quellen:* `workspace-docs/design/atmospheric-char-layer.md`, `.claude/skills/designer/SKILL.md` (Phase-3 Vision Section)
+====
+
+
+[quote, Glenn, 2026-05-12]
+____
+Ich hätte gerne, dass wir wirklich mit vielen Bildern, Kleinanimationen arbeiten. Beim Turm von Liebe und Leben soll sich was übers Bildschirm ranken. Bei einem Zwerg ist alles mehr aus Stein. Bei einem Aasimar mehr göttliche Richtung. Bei einem Halbelfen ein bisschen angehaucht in die Magierichtung. Roll20-Overlay-Richtung, aber modern, mit Transitions, auf einer epischen Ebene.
+____
+
+
+== Konzept
+
+
+Über dem statischen UI liegt ein adaptiver Hintergrund-Layer, der drei Dimensionen des aktiven Charakters in Echtzeit reflektiert.
+
+
+.Die drei Layer
+[cols="1,3,3",options="header"]
+|===
+| Layer | Dimension | Trigger
+
+| _Layer A_ | _Akademie_ (4 Häuser) | Page-Wechsel, Char-Switch
+| _Layer B_ | _Rasse / Ancestry_ (19 Rassen) | Char-Switch (dauerhaft)
+| _Layer C_ | _Klasse / Pfad_ (12 Klassen) | Aktionen (ephemer, 1-2s)
+|===
+
+
+== Layer A — Die 4 Akademien
+
+
+=== Drachenfeste
+
+image::phase-3/akademie-drachenfeste.webp[Drachenfeste — Schmiede-Glut + Drachenschuppen,width=80%]
+
+
+_Farben:_ Tiefes Rot `#8B1A1A` + glühendes Gold `#D4A843`. +
+_Atmosphäre:_ Schmiede-Glut, Schmiede-Funken, Drachenschwingen-Schatten. +
+_Animationen:_ Rote Asche driftet nach oben, gelegentlich Funkenregen, Schwingen-Silhouetten am Rand.
+
+
+=== Turm der Ketten
+
+image::phase-3/akademie-turm-der-ketten.webp[Turm der Ketten — Gothic-Hall mit Sigil-Ketten,width=80%]
+
+
+_Farben:_ Tiefes Marineblau `#1A3A5C` + Silber `#A8B8C8`. +
+_Atmosphäre:_ Kette-Glyphen, blaue Tinte auf Pergament, schmale Strahlen. +
+_Animationen:_ Hauchdünne Ketten-Ornamente am Frame, Schriftzeichen-Glitch-Effekte, Silber-Streifen.
+
+
+=== Tiefe Esse
+
+image::phase-3/akademie-tiefe-esse.webp[Tiefe Esse — Glühende Stein-Adern,width=80%]
+
+
+_Farben:_ Warmes Braun `#6B4226` + Bernstein `#C8842A`. +
+_Atmosphäre:_ Hammer-Echo, Glühende Adern in Stein, Bernstein-Pulse. +
+_Animationen:_ Stein-Risse mit warmen Adern, Hammer-Vibration auf Click, Erz-Splitter bei Hover.
+
+
+=== Liebe & Leben
+
+image::phase-3/akademie-liebe-leben.webp[Liebe & Leben — Rankendes Atrium,width=80%]
+
+
+_Farben:_ Tiefes Grün `#2A5C3A` + Jade `#7AB88A`. +
+_Atmosphäre:_ Rankende Pflanzen, Blütenblätter, weiches Atemlicht. +
+_Animationen:_ *Ranken wachsen aus den Ecken über den Bildschirm* (Glenn-Wunsch), Blütenblätter driften, Heilungs-Aura-Puls.
+
+
+== Layer B — Rassen-Material-Modulation
+
+
+19 Ancestries werden über das Akademie-Idiom modulationiert. Drei Beispiele:
+
+
+=== Drakonid (rot) — Schuppen + Glut
+
+image::phase-3/ancestry-drakonid-rot.webp[Drakonid-Rot Scale-Tile,width=40%]
+
+
+Seamless-Tile-Texture, feurig-rote Schuppen mit Bernstein-Highlights. +
+Effekte: glühende Adern in Cards, Hitze-Distortion bei Animationen, gelegentlich Funkenregen.
+
+
+=== Aasimar — Göttliches Licht
+
+image::phase-3/ancestry-aasimar.webp[Aasimar — Celestial Star-Field,width=80%]
+
+
+Sterne-Glitter im Idle, sanftes warmes Pulsieren des Hintergrunds, aktive Elemente strahlen leicht. +
+Sub-tile Sterne-Drift wie kleine Engel-Augen, im Power-Mode konzentrische Heiligen-Strahlen.
+
+
+=== Genasi (Feuer) — Element-Pur
+
+image::phase-3/ancestry-genasi-feuer.webp[Genasi-Feuer Flammen-Wisps,width=80%]
+
+
+Flackernde Flammen-Wisps an den Rändern, Element-Energie strömt nach oben. +
+Sub-Rassen-spezifisch — Wasser-Genasi hat Wasser-Wellen, Feuer-Genasi Flammen-Wisp.
+
+
+.Vollständiges Ancestry-Mapping
+[cols="1,1,2,2",options="header"]
+|===
+| Ancestry | Material | Idle-Effekt | Hover/Click-Effekt
+
+| _Mensch_ | Pergament, neutral | keine Modulation | –
+| _Hochelf_ | fließendes Licht | Cursor-Lichtspur | Halo um Buttons
+| _Holzelf_ | Naturgrün-Tint | Blätter-Spuren | Blatt-Spread
+| _Dunkelelf_ | Schatten-violett | langgezogene Schatten | violette Aura
+| _Halbelf_ | Licht + Magie | Magie-Glyph blitzt (~10s) | Glyph-Bloom
+| _Bergzwerg_ | Stein, Erz | Steinkanten an Buttons | Staub-Partikel
+| _Hügelzwerg_ | warm-Bernstein | Erdton-Pulse | Glanz-Drift
+| _Halbling_ | Holz, Heim | Lampen-warmes Licht | Lampen-Flackern
+| _Aasimar_ | göttliches Licht | sanftes warmes Pulsen | Sterne-Glitter
+| _Tiefling_ | Schatten, Schwefel | rote Funken (rare) | dunkler Rauch
+| _Drakonid rot_ | Schuppe, Hitze | glühende Adern | Hitze-Distortion
+| _Drakonid blau_ | Schuppe, Blitz | elektrische Funken | Blitz-Crack
+| _Drakonid grün_ | Schuppe, Säure | Säure-Tropfen | Säure-Spritzer
+| _Drakonid schwarz_ | Schuppe, Säure | dunkle Aura | Schatten-Crack
+| _Drakonid weiß_ | Schuppe, Eis | Eiskristall-Funken | Eis-Crack
+| _Genasi Feuer_ | Element-Feuer | Flammen-Wisp | Flammen-Burst
+| _Genasi Wasser_ | Element-Wasser | Wasser-Wellen | Wasser-Spritzer
+| _Genasi Erde_ | Element-Erde | Stein-Rumbling | Stein-Welle
+| _Genasi Luft_ | Element-Luft | Wind-Streifen | Wind-Stoß
+|===
+
+
+== Layer C — Klassen-Aktions-Effekte
+
+
+Layer C ist *event-driven* — wirkt nur bei Aktionen, nicht im Idle.
+
+
+.Die 12 Klassen-Effekte
+[cols="1,1,3",options="header"]
+|===
+| Klasse | Trigger | Visueller Effekt
+
+| _Magier_ | Spell-Cast | Arkaner Glyph-Bloom an Action-Position (1-2s)
+| _Zauberer_ | Wild-Surge | Random-Color-Funken + gelegentlich Glitch
+| _Hexenmeister_ | Pakt | Dunkle Aura mit violetten Highlights
+| _Kleriker_ | Heal/Divine | Goldener Aura-Bloom über Page (800ms)
+| _Paladin_ | Divine-Strike | Heiligen-Strahl von oben (kurz)
+| _Druide_ | Nature-Cast | Blätter-Cascade über Action
+| _Barde_ | Song | Notenwellen-Ripple (musical visualizer)
+| _Krieger_ | Attack-Roll | Klingen-Glanz / Funken bei Hit
+| _Barbar_ | Rage/Strike | Wut-Flammen am Rand (2-3s)
+| _Schurke_ | Stealth | UI dimmt 30%, Schatten wachsen
+| _Mönch_ | Ki-Strike | Konzentrische Ki-Welle (Wasser-Tropfen-Effekt)
+| _Ranger_ | Arrow-Shot | Pfeil-Spur am Click-Pfad
+|===
+
+
+== UI-Composites — die Vision konkret
+
+
+=== Charakter-Sheet — Mirael (Halbelf · Magier · Liebe & Leben)
+
+image::phase-3/composite-char-sheet.webp[Composite Char-Sheet,width=100%]
+
+
+Ranken (Liebe & Leben Macro) wachsen aus den Ecken über den Content. Mirael's Halbelf-Magie-Glyphen blitzen gelegentlich an Random-Positionen. Beim Klick auf "Spell Roll" kommt der Magier-Glyph-Bloom (Layer C).
+
+
+=== Combat — Thorin (Zwerg · Krieger · Drachenfeste)
+
+image::phase-3/composite-combat.webp[Composite Combat,width=100%]
+
+
+Drachenfeste-Funkenregen, dwarvenische Steinkanten an Buttons (Zwerg-Modulation). Beim Klick auf Greatsword: Klingen-Glanz/Funken (Krieger-Aktions-Effekt).
+
+
+=== GM-Session — Zara (Mensch · Kleriker · Tiefe Esse)
+
+image::phase-3/composite-session.webp[Composite GM-Session,width=100%]
+
+
+Tiefe-Esse-Stein-Adern pulsieren glühend im Hintergrund. NPC-Panel rechts (Phase-3-NPC-rechts-Spec). Heal-Aktion erzeugt goldenen Aura-Bloom über die Page.
+
+
+== Technische Architektur
+
+
+=== Asset-Pipeline
+
+[cols="2,2,3",options="header"]
+|===
+| Asset-Typ | Quelle | Storage
+
+| Akademie-Macros | fal.ai (12 Stills, 4 H × 3 Var) | `shared/src/assets/atmospheric/<haus>/`
+| Animierte SVG-Patterns | Hand-authored + Framer-Motion-Variants | `shared/src/ui/atmospheric/svg/`
+| Lottie-Animations | LottieFiles / fal.ai → AE | `shared/src/assets/atmospheric/lottie/`
+| Procedural-SVG-Generators | TS-Funktion + Seed (deterministisch pro Char) | `shared/src/lib/atmospheric/generators/`
+|===
+
+
+=== Performance-Budget
+
+* _Idle-State:_ CPU < 2%, GPU < 5%. Animations pausiert oder im 5-10s-Loop.
+* _Power-Mode:_ CPU < 10%, GPU < 20%. 1-2s Burst dann zurück auf Idle.
+* _Reduced-Motion-Mode:_ Alle Animationen aus, nur statische Hintergründe.
+* _Mobile:_ 3-stufiger Detection-Fallback (modern → reduced → static).
+* _Bundle-Impact:_ pro Akademie ~30-50 KB gzipped, pro Rasse ~10-20 KB. Lazy-loaded nach aktivem Char.
+
+
+=== Procedural Generators
+
+
+Deterministisch pro Char (Seed = `character.id`-Hash):
+
+[source,typescript]
+----
+// shared/src/lib/atmospheric/generators/generate-vines.ts
+export const generateVines = (options: {
+  seed: string                              // character.id
+  startCorner: 'tl' | 'tr' | 'bl' | 'br'
+  depth: number                             // L-system iterations
+  length: number                            // total px
+}): SVGPathElement[] => {
+  // L-System-basiertes Pflanzen-Wachstum
+}
+----
+
+
+6 Generators planned:
+
+* `generate-stone-cracks.ts` (für Zwerge)
+* `generate-magic-glyphs.ts` (für Halbelf, Tiefling, Hexenmeister)
+* `generate-celestial-stars.ts` (für Aasimar) — Poisson-disc-distribution
+* `generate-vines.ts` (für Liebe-&-Leben + Holzelf/Halbling)
+* `generate-dragon-scales.ts` (für Drakonide) — Voronoi-Tessellation
+* `generate-elemental-wisps.ts` (für Genasi-Sub-Rassen)
+
+
+== Sprint-Plan
+
+
+[cols="1,3,2",options="header"]
+|===
+| Sprint | Inhalt | Status
+
+| _Sprint 1A_ | shared@6.0.0/6.0.2 Token-System (6 Module + CSS-Pipeline) | ✅ done
+| _Sprint 1B_ | 3 Frontends consumes Tokens + framer-motion + animations + NPC-Panel | ⏳ in Cleanup (Gemini-Followups)
+| _Sprint 2_ | Atmospheric-Foundation (Layer A — 4 Akademie-Macros) | wartet
+| _Sprint 3_ | Ancestry-Modulation (Layer B — 19 Rassen-Filter) | wartet
+| _Sprint 4_ | Class-Action-Layer (Layer C — 12 Klassen-Effekte) | wartet
+|===
+
+
+== Glenn-Decisions (2026-05-12)
+
+
+* _C.1=d_ Alle 3 Frontends parallel (in eigenen Worktrees)
+* _C.2=c_ Framer Motion + Radix-UI Stack bleibt
+* _C.3=d_ Designer-Skill mit Creative-Authority — fal.ai Assets ok
+* _C.4=c_ Game-UI-Inspiration (D&D Beyond / Roll20) + Atmospheric-Layer als Schippe drauf
+* _Asset-Quelle:_ fal.ai für 12 Akademie-Stills + Raster-Modulation pro Rasse
+* _Scope:_ Alle 19 Rassen + alle 12 Klassen in Phase 3.0 (kein Phasing)
+* _Mobile:_ 3-stufiger Detection-Fallback
+* _Reduced-Motion:_ voll-statische Reichhaltigkeit
+
+
+== Cross-LLM-Review (Gemini, 2026-05-12)
+
+
+🟢 *Verdict:* Ready for final polish (merge-with-followups). +
+Details: `workspace-docs/audits/2026-05-12/gemini-phase-3-review.md`.
+
+
+_"Ambitious and well-structured leap that successfully modernizes the Roll20-overlay aesthetic into a reactive, character-driven experience."_ — Gemini Pro
+
+
+'''
+
+
+_Diese Doku ist generiert via asciidoctor-pdf. Bilder von fal-ai/flux-pro/v1.1 (2026-05-12 Generation Batch)._

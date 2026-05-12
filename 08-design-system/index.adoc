@@ -559,4 +559,18 @@ Die folgenden Atoms sind _geplant_ für zukünftige UI-Iterationen:
 
 '''
 
-_Diese Dokumentation steht unter Versionskontrolle. PLACEHOLDER-Markierungen zeigen geplante, noch nicht implementierte Elemente an. Letzte Aktualisierung: 2026-03-26_
+
+== Phase 3 — Atmospheric Char-Layer (in Implementierung)
+
+
+Drei Layer (Akademie + Rasse + Klasse) modulieren das UI in Echtzeit pro aktivem Charakter. Status 2026-05-12: Sprint 1A (Token-System) ✅ done, Sprint 1B (3 Frontends) in Cleanup, Sprint 2-4 (Layer A/B/C) wartet.
+
+Detaillierte Vision-Doku siehe link:phase-3-atmospheric-char-layer.adoc[Phase 3 — Atmospheric Char-Layer] oder direkter Include im Master-PDF:
+
+
+include::phase-3-atmospheric-char-layer.adoc[leveloffset=+1]
+
+
+'''
+
+_Diese Dokumentation steht unter Versionskontrolle. PLACEHOLDER-Markierungen zeigen geplante, noch nicht implementierte Elemente an. Letzte Aktualisierung: 2026-05-12 (Phase 3 — Atmospheric Char-Layer)_
