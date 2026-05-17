@@ -20,21 +20,34 @@ Jeder Trait ist ein Spektrum mit zwei Polen:
 * _Bewertung_: Beide Pole haben eigene Stärken UND Schwächen. Es gibt kein objektiv 'gutes' oder 'schlechtes' Ende
 
 
-=== Beispiel-Spektren
+=== Kanon: 17 Basis-Spektren
 
+Seit STORY-WORLD-001 (2026-05-17) ist der Spektren-Kanon auf *17 bipolare Achsen* konsolidiert (vorher zwei parallele Tabellen `trait_spectrums` und `trait_axes` mit jeweils 12 unterschiedlichen Achsen — als Migrations-Drift im Mai 2026 entstanden). Die `trait_axes`-Tabelle wird nach Frontend-Refactor entfernt; Source-of-Truth ist `trait_spectrums` mit `sort_order INTEGER`.
 
-
-[cols="1,1,1,1,1",options="header"]
+[cols="1,2,2,2,3",options="header"]
 |===
-| Pol 1 | Wert | Pol 2 | Pol 1 Stärken | Pol 2 Stärken
+| # | Slug | Positiv-Pol | Negativ-Pol | Kurz-Beschreibung
 
-| Loyal | -5...0...+5 | Treulos | +5 Schutz-Checks, Advantage auf Inspiration | +5 Deception, +5 Selbsterhaltung
-| Mutig | -5...0...+5 | Feige | +5 Initiative, Advantage bei Furcht-Saves | +5 Stealth, +5 Flucht
-| Ehrlich | -5...0...+5 | Verlogen | +5 Persuasion (bei Wahrheit) | +5 Deception
-| Gnädig | -5...0...+5 | Grausam | Charisma-Boni mit Schwachen | Intimidation-Boni
-| Neugierig | -5...0...+5 | Gleichgültig | Exploration-Boni, Loot-Awareness | Konzentration unter Stress
-| Gierig | -5...0...+5 | Großzügig | +2 beim Feilschen | +2 Persuasion (bei NPC-Gunst-Gewinn)
+| 1  | `courage-cowardice`         | Mutig          | Feige           | Wie geht der Charakter mit Gefahr um?
+| 2  | `curiosity-indifference`    | Neugierig      | Gleichgültig    | Wissensdurst vs. Indifferenz; Mysterien und Gerüchte.
+| 3  | `discipline-impulsiveness`  | Diszipliniert  | Impulsiv        | Plan vs. Bauchgefühl; Strategie vs. Provokation.
+| 4  | `analysis-gut-instinct`     | Analytisch     | Bauchgesteuert  | Überlegung vs. Intuition; logische vs. emotionale Appelle.
+| 5  | `carefulness-negligence`    | Sorgfältig     | Nachlässig      | Genauigkeit vs. Hast; Qualität vs. Tempo.
+| 6  | `honesty-deception`         | Ehrlich        | Verlogen        | Wahrheit hoch vs. nach Belieben formen.
+| 7  | `loyalty-treachery`         | Loyal          | Treulos         | Wort halten vs. Allianzen als Mittel zum Zweck.
+| 8  | `honor-treachery-tactical`  | Ehrenhaft      | Hinterlistig    | Offenes Visier vs. Hinterhalte; Ritterorden vs. Schatten.
+| 9  | `mercy-cruelty`             | Gnädig         | Grausam         | Verschonen vs. demütigen / vernichten.
+| 10 | `generosity-greed`          | Großzügig      | Gierig          | Teilen vs. horten und fordern.
+| 11 | `empathy-coldness`          | Empathisch     | Kalt            | Mitfühlen vs. distanzieren; emotionaler Resonanz-Filter.
+| 12 | `diplomacy-confrontation`   | Diplomatisch   | Konfrontativ    | Ausgleich vs. Konflikt; Verhandlung vs. Provokation.
+| 13 | `humility-arrogance`        | Demütig        | Arrogant        | Anerkennung suchen vs. bescheiden bleiben.
+| 14 | `faith-skepticism`          | Gläubig        | Skeptisch       | Göttern und Visionen vertrauen vs. Beweise fordern (institutionell).
+| 15 | `spirituality-materialism`  | Spirituell     | Materialistisch | Transzendenz suchen vs. Greifbarem vertrauen (persönlich-mystisch).
+| 16 | `nature-alienation`         | Naturverbunden | Entfremdet      | Wildnis und Druiden vertrauen vs. Mauern und Akademie-Magie.
+| 17 | `tradition-progress`        | Traditionell   | Fortschrittlich | Vertrauen ins Alte vs. ins Neue; Reform-Reaktion.
 |===
+
+NOTE: Die Spektren 4, 5, 11, 15, 16 sind 2026-05-17 als Vereinigungsmenge aus den beiden Legacy-Tabellen hinzugekommen. Doku-Sortierung folgt `sort_order` aus `trait_spectrums`.
 
 
 
@@ -267,35 +280,60 @@ Neben den bipolaren Basis-Trails gibt es eine zweite Trait-Art: _einseitige Pers
 
 [cols="1,2,2",options="header"]
 |===
-| Aspekt | Bipolare Basis-Trails | Einseitige Persönlichkeits-Aspekte
+| Aspekt | Bipolare Basis-Spektren | Einseitige Persönlichkeits-Aspekte
 
 | Struktur | Spektrum -5 bis +5 zwischen zwei Polen | Skala 0 bis +5 (nur eine Richtung)
 | Gegenpol | Ja (z.B. Loyal ↔ Treulos) | Nein — Abwesenheit ist neutral, kein Gegen-Trait
-| Beispiele | Loyal, Mutig, Ehrlich, Gnädig, Neugierig, Gierig | Paranoid, Ehrgeizig, Wissbegierig, Pedantisch, Aberglaeubisch, Perfektionistisch
+| Beispiele | Loyal, Mutig, Ehrlich, Gnädig, Neugierig, Großzügig | Paranoid, Ehrgeizig, Charmeur, Archivar, Resonanzhörer, Ritualtreu
 | Wirkung | Beide Pole haben Stärken UND Schwächen | Hat positive UND negative Auswirkungen auf Würfe, je nach Kontext
 | Erwerb | Bei Charaktererschaffung + Evolution | Durch Story-Events, Ausbildung, Trauma, Hintergrund
-| Anzahl pro Charakter | Standard-Set (8-12 Basis-Trails) | Frei (typisch 0-5 pro Charakter)
+| Anzahl pro Charakter | Kanon-Set (17 Basis-Spektren) | Frei (typisch 0-5 pro Charakter aus 17 Master-Aspekten)
 |===
 
 
-=== Beispiel-Aspekte
+=== Kanon: 17 Master-Aspekte
 
+Seit STORY-WORLD-002 (2026-05-17) ist der Aspekt-Kanon auf *17 Master-Aspekte* festgelegt. Drei Aspekte aus dem ursprünglichen 8er-Set wurden entfernt, weil sie mit den 17 Basis-Spektren überlappten:
 
-[cols="1,1,3,3",options="header"]
+* `wissbegierig` → ersetzt durch das Spektrum `curiosity-indifference`
+* `pedantisch` → ersetzt durch `carefulness-negligence`
+* `perfektionistisch` → ebenfalls durch `carefulness-negligence` abgedeckt
+
+12 neue Aspekte füllen vorher unbesetzte Domain-Tags (combat, magie, glaube, adel, kriminalität, fremd) und sorgen für vollständige Coverage.
+
+[cols="1,1,2,3,3",options="header"]
 |===
-| Aspekt | Domain | Positive Auswirkung | Negative Auswirkung
+| Slug | Trauma? | Domain-Tags | Positive Wirkung (Kontext) | Negative Wirkung (Kontext)
 
-| Paranoid | Wahrnehmung / Sozial | +2 Insight gegen Lügen, +2 Perception für Hinterhalte | -2 Persuasion (Trust-basiert), -2 Group-Checks bei Allianzen
-| Wissbegierig | Wissen / Magie | +2 Arcana, +2 History, +1 auf Investigation | -2 Stealth bei Forschungs-Locations (kann nicht widerstehen), kostet +1 Turn bei Dungeons
-| Ehrgeizig | Sozial / Combat | +2 Persuasion bei Aufstiegs-Themen, +1 Initiative gegen ranghöhere Gegner | -2 bei Compromise-Verhandlungen, -2 Insight bei Verbündeten (übersieht Probleme)
-| Pedantisch | Crafting / Wissen | +2 Crafting-Quality, +2 Investigation bei Detail-Suche | -2 unter Zeitdruck, -2 Improvisations-Checks
-| Aberglaeubisch | Wahrnehmung / Sozial | +2 Insight für unnatürliche Phänomene, +2 Religion | -2 Decisions wenn Omen widersprechen, -2 Logik-Checks
-| Perfektionistisch | Crafting / Combat | +2 zweite Versuche, +2 Crafting bei genug Zeit | -2 erste Versuche unter Druck, -2 Quick-Decisions
-| Loyal-zu-Akademie* | Sozial | +3 mit Akademie-NPCs, +2 mit Studenten | -2 mit Akademie-Feinden, lose Quests bei Konflikt zwischen Akademie und Freunden
-| Trauma-Höhenangst | Movement | — | -3 Athletics bei Klettern, -2 Initiative auf Höhen
+| `paranoid`               | — | wahrnehmung, sozial         | +2 Insight gegen Lügen, +2 Perception bei Hinterhalt | -2 Persuasion (Trust-basiert)
+| `ehrgeizig`              | — | sozial, combat              | +2 Persuasion (Aufstieg), +1 Initiative gegen Ranghohe | -2 bei Kompromiss-Verhandlungen, -2 Insight bei Verbündeten
+| `aberglaeubisch`         | — | wahrnehmung, sozial         | +2 Insight für Übernatürliches, +2 Religion | -2 Entscheidungen gegen Omen, -2 Logik-Rätsel
+| `loyal-zu-akademie`      | — | sozial, akademie            | +3 mit Akademie-NPCs, +2 mit Studenten | -2 mit Akademie-Feinden
+| `trauma-hoehenangst`     | *ja* | movement, trauma          | — | -3 Athletics-Klettern, -2 Initiative auf Höhen
+| `kaltbluetig`            | — | combat, wahrnehmung         | +2 wenn bloodied, +2 vs. Furcht-Saves | -2 Erstschlag, -2 Tötungsstoß
+| `charmeur`               | — | sozial, kriminalitaet       | +2 erster Eindruck, +2 Schmeichelei | -2 langfristige Freundschaft, -2 ernste Verhandlung
+| `archivar`               | — | wissen, akademie            | +2 Quellen-Recall, +2 Bibliotheks-Investigation | -2 Feld-Improvisation, -2 unter Zeitdruck
+| `resonanzhoerer`         | — | magie, wahrnehmung          | +2 Detect Magic, +2 Counterspell | -2 in Dead-Zones, -2 Konzentration im arkanen Trubel
+| `improvisator`           | — | crafting, movement          | +2 Notfall-Reparatur, +2 aus Schrott bauen | -2 Meisterwerk, -2 Langzeit-Projekt
+| `pfadfinder`             | — | movement, wahrnehmung       | +2 Wildnis-Navigation, +2 Eilmarsch | -2 in Dungeons (Indoor), -2 städtische Etikette
+| `fakultaets-intrigant`   | — | akademie, sozial            | +2 Akademie-Politik, +2 Fakultäts-NPC-Persuasion | -2 außerhalb Akademie, -2 Insight (ehrliches Motiv)
+| `spurenleser`            | — | wahrnehmung, kriminalitaet  | +2 physische Spuren, +2 Tatort-Investigation | -2 in Menschenmenge, -2 Party-Fokus
+| `gassenkind`             | — | kriminalitaet, sozial       | +2 Unterwelt-Kontakte, +2 Stealth (urban) | -2 am Adelshof, -2 bei offiziellen Untersuchungen
+| `ritualtreu`             | — | glaube, wissen              | +2 Ritual-Ausführung, +2 Saves vs. göttliche Effekte | -2 bei gebrochenem Tabu, -2 mit Häretikern
+| `standesbewusst`         | — | adel, sozial                | +2 mit Adels-NPC, +2 Heraldik-Wissen | -2 mit gemeinen Volk, -2 Stealth (Verkleidung als Bürgerlicher)
+| `weltenbummler`          | — | fremd, wissen               | +2 fremde Kulturen, +2 exotisches Lore-Wissen | -2 in Heimat-Gemeinschaft, -2 vs. Heimweh
 |===
 
-* Charakter-spezifisch / story-spezifisch — werden ad-hoc ergänzt durch GM
+NOTE: Vollständige Modifier-Regeln, Story-Hooks und context_match-Patterns liegen im Master-Katalog `personality_aspects` und im Seed-File `api/prisma/seed-personality-aspects.ts`. Lore-Admin (`/personality-aspects`) ist die kanonische Edit-Surface.
+
+==== Trauma-Aspekte
+
+Mit STORY-WORLD-002 trägt jeder Aspekt ein boolesches `trauma_type`-Flag (Spalte `personality_aspects.trauma_type`). Trauma-Aspekte unterscheiden sich von normalen Aspekten:
+
+* *Nur Mali, keine Boni* (z.B. `trauma-hoehenangst`)
+* *Höhere Modifier-Magnitude erlaubt* (-3 statt sonst -2)
+* *Schwer abbaubar* (lifetime-Konditionierung, keine reguläre Trait-Evolution)
+* *UI-Highlighting*: Lore-Admin und Character-Sheet stellen sie visuell hervor (eigenes Icon, roter Rahmen)
 
 
 === Mechanik: Wann greifen die Modifier
@@ -306,6 +344,25 @@ Der Modifier-Trigger eines Persönlichkeits-Aspekts ist *kontextbasiert*. Er gre
 . Der Wurf-Kontext zur Domain des Aspekts passt (siehe Tabelle)
 . Der GM den Kontext-Trigger akzeptiert / oder das System ihn automatisch erkennt
 . Das `personality_aspect_relevance` Flag im Roll-Request gesetzt ist
+
+==== Modifier-Skalierung mit Level
+
+Die in `modifier_rules` gespeicherten Werte gelten für *Level 3* als Doku-Baseline. Bei abweichendem Level skaliert der Wert linear:
+
+----
+effective_modifier = sign(base) * max(1, trunc(|base| * level / 3))
+----
+
+Wichtig: STORY-WORLD-002 erzwingt eine *Mindest-Magnitude von 1* — das verhindert, dass Level-1-Aspekte durch Truncation auf 0 fallen (vorher: `base=2, level=1 → 0.66 → 0`, neu: `→ 1`). Ein `base=0` bleibt 0, kein Floor.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Base-Modifier | Level 1 | Level 3 (Baseline) | Level 5
+
+| +2 | +1 (gefloort) | +2 | +3
+| -3 (Trauma) | -1 (gefloort) | -3 | -5
+| 0 | 0 | 0 | 0
+|===
 
 *Beispiel: Paranoid+3 Charakter*
 
@@ -326,8 +383,8 @@ Der Modifier-Trigger eines Persönlichkeits-Aspekts ist *kontextbasiert*. Er gre
 Aspekte entstehen durch *Story-Events*, nicht durch Level-Up:
 
 . *Hintergrund-Wahl bei Charaktererschaffung* — z.B. ein "Ehemaliger Inquisitor" startet mit `Paranoid+2`
-. *Trauma-Event in Session* — schwere Verletzung in Höhe gibt `Trauma-Höhenangst+3` (GM-Entscheidung, narrativer Ankerpunkt)
-. *Ausbildung / Quest* — abgeschlossene Akademie-Forschungs-Arc kann `Wissbegierig+2` gewähren
+. *Trauma-Event in Session* — schwere Verletzung in Höhe gibt `Trauma-Höhenangst+3` (GM-Entscheidung, narrativer Ankerpunkt, `trauma_type=true`)
+. *Ausbildung / Quest* — abgeschlossene Akademie-Forschungs-Arc kann `Archivar+2` gewähren
 . *Trait-Resonanz* — wer Loyal+5 hat, entwickelt natürlich oft `Loyal-zu-Akademie+1` als Spezialisierung
 
 
@@ -335,29 +392,43 @@ Aspekte entstehen durch *Story-Events*, nicht durch Level-Up:
 
 
 ----
-character_personality_aspects
+personality_aspects (Master-Katalog)
+├── id (PK, UUID)
+├── slug (varchar — z.B. "paranoid", "archivar"; UNIQUE)
+├── name (varchar — Display, z.B. "Paranoid")
+├── domain_tags (jsonb — array: ["sozial", "wahrnehmung"])
+├── description (text)
+├── modifier_rules (jsonb — array von { context_match, modifier, reason })
+├── story_hooks (jsonb — array von Strings, narrative Verhaltensweisen)
+├── is_default (bool — true = Master-Catalog, false = soft-deprecated)
+├── trauma_type (bool — true = nur Mali, höhere Magnitude, UI-Highlighting) [STORY-WORLD-002]
+├── created_at, updated_at
+└── (Indizes: is_default, trauma_type, slug UNIQUE)
+
+character_personality_aspects (Junction)
 ├── id (PK)
 ├── character_id (FK)
-├── aspect_name (varchar — z.B. "paranoid", "wissbegierig")
-├── domain_tags (jsonb — array: ["sozial", "wahrnehmung"])
+├── aspect_id (FK → personality_aspects.id)
 ├── current_level (1-5, kein Negativbereich)
-├── modifier_rules (jsonb — array von { context_match, modifier, reason })
-├── acquired_at (timestamp)
-├── acquired_via (enum: background | trauma | training | quest | gm_grant)
+├── acquired_via (enum: background | trauma | training | quest | gm_grant | trait_resonance)
 ├── acquired_note (text — narrative Beschreibung)
-└── locked (bool — kann nicht durch normale Evolution ändern)
+├── modifier_rules (jsonb — optional per-char Override; null = Master-Default)
+├── locked (bool — kann nicht durch normale Evolution ändern)
+├── acquired_at (timestamp)
+└── updated_at (timestamp)
 ----
 
-*modifier_rules-Beispiel (paranoid):*
+*modifier_rules-Beispiel (paranoid, Master-Default seit STORY-WORLD-002):*
 
 ----
 [
   { "context_match": "insight.deception", "modifier": 2, "reason": "Misstrauen schärft Lügen-Erkennung" },
   { "context_match": "perception.ambush", "modifier": 2, "reason": "Erwartet Hinterhalte" },
-  { "context_match": "persuasion.trust", "modifier": -2, "reason": "Misstrauen mindert Charme" },
-  { "context_match": "group_check.alliance", "modifier": -2, "reason": "Vermutet Verrat in Bündnissen" }
+  { "context_match": "persuasion.trust", "modifier": -2, "reason": "Misstrauen mindert Charme" }
 ]
 ----
+
+NOTE: Die vierte Regel `group_check.alliance` aus dem ursprünglichen 8er-Seed wurde im Sinn-Check-Audit als redundant zur Persuasion-Trust-Regel identifiziert und entfernt.
 
 
 === Anzeige im Character Sheet
