@@ -12,9 +12,9 @@ Die Regionen sind alphabetisch nach Display-Name geordnet. Race-Slugs in den `Do
 == Karte
 
 
-image::../../../orchestrator/workspace-docs/world-map/caldrithar-master.jpg[Caldrithar — Welt-Karte mit 13 Regionen,width=100%]
+image::caldrithar-master.jpg[Caldrithar — Welt-Karte mit 13 Regionen,width=100%]
 
-NOTE: Die Master-Karte liegt im Workspace unter `workspace-docs/world-map/caldrithar-master.jpg`. Zusätzlich existiert pro Region ein eigener Karten-Ausschnitt (`workspace-docs/world-map/<slug>.jpg`). Die PostGIS-Polygone der Regionen sind in der `regions`-Tabelle als `geographic_polygon` hinterlegt; eine separate Tabelle `world_map_assets` referenziert die Bild-Bytea-Blobs der Karten-Ausschnitte für das Frontend-Rendering.
+NOTE: Die Master-Karte ist im `docs/images/`-Verzeichnis hinterlegt. Pro Region existiert zusätzlich ein eigener Karten-Ausschnitt im Workspace (`workspace-docs/world-map/<slug>.jpg`). Die PostGIS-Polygone der Regionen sind in der `regions.polygon`-Spalte hinterlegt; eine separate Tabelle `world_map_assets` hält die Bild-Bytea-Blobs für das Frontend-Rendering der Master- und Region-Crops.
 
 
 '''
