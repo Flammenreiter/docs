@@ -1,0 +1,1509 @@
+
+= Regionen-Kompendium Caldrithars
+
+
+Caldrithar — der Kontinent, auf dem die Flammenreiter-Welt spielt — gliedert sich in eine Wurzel-Region (`caldrithar`) und 13 untergeordnete Regionen, die zusammen die geographische und kulturelle Topographie des Kontinents tragen. Jede dieser Regionen ist als eigenes Polygon in PostGIS modelliert und über das Multi-Layer-Welt-System (siehe link:./geographie.adoc[Geographie]) mit politischen, kulturellen, religiösen und handelsbezogenen Layern verknüpft.
+
+Dieses Kompendium ist die kanonische Lore-Referenz für alle 13 Caldrithar-Regionen. Es entstand 2026-05 aus einer mehrstufigen Welt-Bau-Pipeline und wurde nach einem Cross-Region-Konsistenz-Pass in die `regions`-Tabelle der Live-DB überführt. Die hier dokumentierten Inhalte spiegeln den Stand der `regions`-JSONB-Felder (`lore_long`, `appearance`, `climate_detail`, `culture_notes`, `economy`, `dominant_species`, `known_for`, `notable_locations`, `historical_events`, `dangers`, `backstory_summary`).
+
+Die Regionen sind alphabetisch nach Display-Name geordnet. Race-Slugs in den `Dominante Völker`-Listen folgen der englischen DB-Konvention; die deutsche Bezeichnung steht in Klammern dahinter.
+
+
+== Karte
+
+
+image::../../../orchestrator/workspace-docs/world-map/caldrithar-master.jpg[Caldrithar — Welt-Karte mit 13 Regionen,width=100%]
+
+NOTE: Die Master-Karte liegt im Workspace unter `workspace-docs/world-map/caldrithar-master.jpg`. Zusätzlich existiert pro Region ein eigener Karten-Ausschnitt (`workspace-docs/world-map/<slug>.jpg`). Die PostGIS-Polygone der Regionen sind in der `regions`-Tabelle als `geographic_polygon` hinterlegt; eine separate Tabelle `world_map_assets` referenziert die Bild-Bytea-Blobs der Karten-Ausschnitte für das Frontend-Rendering.
+
+
+'''
+
+
+== Die 13 Regionen
+
+
+
+=== Althain
+
+
+:slug-althain: althain
+:biom-althain: grassland
+:klima-althain: temperate
+:gefahr-althain: 1/5
+
+
+Althain liegt eingebettet zwischen den sanften Hügeln im Westen Caldrithars und den ersten Felsstufen des Skybreaker-Hochlands im Osten. Im Zentrum erhebt sich der Drachenberg — ein freistehender Massiv, dessen Gipfel selbst im Sommer Schnee trägt und an dessen Fuß die Akademie von Altheim gegründet wurde. Wer aus den Kornfeldern zur Anlage hochschaut, sieht zuerst vier Türme über dem Hügel: Bernstein, Esche, Granit und Obsidian. Sie sind die Wohnsitze der vier Häuser und das Erkennungsbild der Region.
+
+Die Akademie ist mehr als eine Schule. Sie ist seit rund sechshundert Jahren der Stabilitätsanker dieses Landstrichs — gegründet von den Fünf, philosophisch verankert im Satz „Jeder ist willkommen, unabhängig von Rasse, Stand und Herkunft". Diese Offenheit hat die Bevölkerungsstruktur geprägt: Menschen stellen die Mehrheit, doch Halbelfen, Aasimar, Elfen, Gnome, Halborks und Tieflinge gehören selbstverständlich zum Bild der Akademieflure. Die Reichshaupt-Verwaltung sitzt im Rektorat, der Pflichtdienst-Mond im Heiltrakt verbindet alle Schüler unabhängig vom Haus.
+
+Die vier Häuser tragen die vier Disziplinen: Drachenfeste (Wohnturm Bernstein, Linie Leomar) für Kampfkunst und Disziplin; Liebe & Leben (Esche, Linie Morla) für Heilkunst und Pflichtdienst; Tiefe Esse (Granit, Linie Romoschoch) für Schmiede- und Bondings-Handwerk; Turm der Ketten (Obsidian, Linie Hesidia) für Theoretische Magie und Bibliotheks-Arbeit. Hausrivalität gehört zum Alltag, Gewalt zwischen den Häusern ist seit Generationen tabu.
+
+Der Drachenberg ist die zweite Säule. Seit etwa hundert Jahren brüten die Drachen wieder in den Horsten oberhalb der Akademie. Die Drachenbindung ist seither Kerncurriculum: jedes Jahr ziehen Schüler in der Bonding-Saison hinauf zum Drachenhorst, manche kehren mit einem Partner zurück, viele nicht. Am Fuß des Berges liegen die Weidegründe — Wildherden, deren einziger Zweck die Versorgung der Drachen ist. Der See am Bergfuß dient Drachen und Akademie als gemeinsame Trinkquelle.
+
+Wirtschaftlich trägt das Dorf Weidengrund die Region. Bauern liefern Korn, Milch und Schlachtvieh; der Marktstand am Dorfplatz wird zweimal die Woche aufgebaut, der Gasthof „Zum Reiher" ist die einzige Herberge für reisende Magister, Pilger und Händler. Die Alchemisten-Gilde hat ihren Hauptsitz in den Räumen der Akademie und beliefert von hier aus die Städte Caldrithars mit Tränken und Reagenzien. Die Handelsachse zwischen Westen und Osten — Westlande nach Skybreaker und Grenzwald — läuft durch Weidengrund; das Schwarze Brett im Akademieflur ist deshalb auch ein inoffizieller Quest-Knotenpunkt.
+
+Religiös ist die Region ein Aeolyn-Land: der Gott von Luft, Freiheit und Wissen passt zur Akademie wie nichts sonst. Die Reaktion auf Häresie ist Toleranz, nicht Verfolgung. Die Sigillen-Geschichte wird als Theologie unterrichtet, nicht als praktische Magie — bis zur Stunde, in der die erste Sigille tatsächlich erwacht. Genau das geschieht jetzt. Die Akademie war 600 Jahre lang der Ort, an dem Wissen gesammelt wurde. Sie wird in dieser Generation zum Ort, an dem dieses Wissen das erste Mal seit Zehntausenden von Jahren wieder gebraucht wird.
+
+Über allem schwebt ein Geheimnis: Anground, der fünfte Gründer, lebt nach sechshundert Jahren noch. Quellen widersprechen sich über seine Rasse, sein Aufenthaltsort wird im Inneren des Drachenbergs vermutet. Eingeweihte kennen den Namen, alle anderen erinnern sich an vier Statuen im Großen Hof. Die fünfte fehlt.
+
+
+==== Aussehen
+
+
+Vier Türme aus Stein und Holz heben sich gegen den dunkleren Drachenberg ab, während drunten die Kornfelder im Wind wogen wie ein zweites Goldmeer. Mittags wandert manchmal ein Drachenschatten über die Felder, abends schlagen die Glocken der Großen Halle, und aus der Esse weht der Geruch nach heißem Eisen den Hügel hinunter nach Weidengrund. Am See spiegeln sich die Sterne im klaren Bergwasser, am Schwarzen Brett knattern Pergamente im Wind. Aus dem Kräutergarten zieht abends Salbei in den Innenhof.
+
+
+==== Klima
+
+
+Temperate Hügelzone mit vier klar getrennten Jahreszeiten. Sommer warm und trocken (Kornernte ab spätem Brachet), Herbste mild und nebelreich, Winter schneereich mit scharfem Bergwind vom Drachenberg-Nordhang, Frühling stürmisch. Lokale Phänomene: warme Drachen-Thermik über dem Drachenhorst, im Hochsommer sichtbar als flirrende Luftsäule; kalte Fallwinde aus den Skybreaker-Pässen im Spätherbst.
+
+
+==== Kultur
+
+
+Celestis-Kulturzone — Wissen vor Geburt, Disziplin vor Ehrgeiz. Die Akademie prägt das gesamte gesellschaftliche Leben: Anrede nach Rang (Schüler, Magister, Rektor), Pflichtdienst-Mond für jeden Schüler im Heiltrakt und ein Mond auf dem Trainingsgelände, Hauszugehörigkeit ein Leben lang. Hausrivalität ja, Gewalt nein. Sprache ist gemeines Caldritharisch im Alltag, akademisches Hochelfisch in Schriften und Ritualen. Pluralismus ist gelebter Ethos — der Bauern-Marktstand in Weidengrund bedient den Aasimar-Stipendiaten so selbstverständlich wie den Halbork-Schmiedegesellen.
+
+
+==== Wirtschaft
+
+
+Die Akademie ist der größte Arbeitgeber: Lehre, Forschung, Drachenpflege, Bibliotheksarbeit, Verwaltung. Die Alchemisten-Gilde hat hier ihren Hauptsitz und beliefert die größeren Städte Caldrithars mit Tränken. Weidengrund liefert Korn, Milch und Schlachtvieh; Holz und Wildbret kommen vom Rand des Grenzwalds. Die Weidegründe halten Wildherden für die Drachenfütterung. Stipendien finanzieren mittellose Schüler. Die Ost-West-Handelsachse zwischen Westlande, Skybreaker und Grenzwald läuft durch Weidengrund — der Gasthof zum Reiher lebt davon.
+
+
+==== Bemerkenswerte Orte
+
+
+* akademie-von-altheim
+* drachenberg
+* drachenhorst
+* bibliothek
+* grosse-halle
+* weidengrund
+* gasthof-zum-reiher
+* torbens-huette
+
+
+==== Dominante Völker
+
+
+* `human` (Mensch)
+* `half_elf` (Halbelf)
+* `aasimar` (Aasimar)
+* `elf` (Elf)
+* `gnome` (Gnom)
+* `half_orc` (Halbork)
+* `tiefling` (Tiefling)
+
+
+==== Bekannt für
+
+
+* Akademie von Altheim
+* Drachenbindung
+* Vier-Häuser-System
+* Sigillen-Theologie
+* Aeolyn-Toleranz
+* Alchemisten-Gilde
+
+
+==== Geschichte
+
+
+* ~600 v.h.: Gründung der Akademie von Altheim durch die Fünf Gründer
+* ~200 v.h.: Akademie übersteht das Große Erdbeben dank arkan verstärkter Gründungsmauern
+* ~100 v.h.: Rückkehr der Drachen — Drachenbindung wird Akademie-Disziplin
+* JETZT: Erste Sigille manifestiert sich in der materiellen Welt
+
+
+==== Gefahren
+
+
+* Verirrte Drachenjungtiere bei den Weidegründen
+* Magische Unfälle auf dem Trainingsgelände und im Arkaneum
+* Sigillen-Echos und arkane Resonanzen
+* Politische Intrigen am Rektorat
+* Einsame Pfade am Drachenberg-Nordhang
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Vor rund sechshundert Jahren fanden sich fünf außergewöhnliche Magier am Fuß eines damals namenlosen Berges zusammen und gründeten die Akademie von Altheim. Drei Menschen — Hesidia, Morla, Leomar —, ein Bergzwerg — Romoschoch — und ein Fünfter, dessen Name nur Eingeweihte kennen: Anground. Der Ort war bewusst gewählt: zentral genug, um aus dem ganzen Kontinent erreichbar zu sein, abseits genug von den Königreichen, um nicht Spielball ihrer Politik zu werden. Die Philosophie war von Anfang an radikal: Magie sollte gelehrt werden, nicht gehortet; jeder sollte willkommen sein, unabhängig von Rasse, Stand und Herkunft.
+
+Zwei Ereignisse haben die Region seither geprägt. Vor zweihundert Jahren erschütterte das Große Erdbeben den Kontinent. Küstenstriche versanken, neue Gebirgszüge hoben sich — die Akademie überstand das Beben, weil ihre Gründungsmauern arkan verstärkt waren. Vermutlich war es Anground, der die Schutzwirkung legte. Hundert Jahre später kehrten die Drachen zurück. Sie suchten den Drachenberg, brüteten in den Horsten oberhalb der Akademie, und die Akademie integrierte die Drachenbindung in ihr Kerncurriculum. Aus der Magierschule wurde die Wiege der Flammenreiter.
+
+Jetzt manifestiert sich die erste Sigille in der materiellen Welt. Sechshundert Jahre lang war die Akademie der Ort, an dem dieses Wissen archiviert wurde, ohne dass es jemals praktisch gebraucht wurde. In dieser Generation wird sich das ändern. Die Akademie ist als Erste am Ball — der Rektor weiß es, einige Magister ahnen es, die meisten Schüler erfahren es erst, wenn sie zum ersten Mal selbst einer Sigille gegenüberstehen.
+
+
+'''
+
+
+=== Aussenmarkt-Wüste
+
+
+:slug-aussenmarkt: aussenmarkt-wueste
+:biom-aussenmarkt: desert
+:klima-aussenmarkt: arid
+:gefahr-aussenmarkt: 4/5
+
+
+Im Osten Caldrithars, jenseits der Grenzmark und nördlich der Feuergipfel, liegt die Aussenmarkt-Wüste — von den älteren Karawanen-Familien noch immer „Aschenwüste" genannt, nach der grauen Decke, die hier statt Sand den Boden bildet. Die Asche stammt nicht von einem Sandsturm und nicht von der Sonne, sondern aus einer Zeit, in der die Welt brannte: dem Götterkrieg der Sieben, dessen Narbe hier sichtbar geblieben ist, lange nachdem die Götter sich zurückzogen.
+
+Im Zentrum der Region erhebt sich der Gipfel von Aschenmoor, ein erloschener Vulkankegel, der die Ebene um sechshundert Schritt überragt. Er war einst der Atemschacht jenes Brandes — heute ist er kalt, sein Krater mit feinem grauen Staub gefüllt, und sein Anblick begleitet jeden Reisenden vom ersten Aufgang an. Tiefling-Familien, die den Markt seit Generationen führen, sprechen vom Aschenmoor als „dem Grossvater": ein Verwandter, vor dem man sich verneigt, ohne ihn zu lieben.
+
+Der Aussenmarkt — die Stadt, die der Region ihren Namen gibt — sitzt auf der einzigen artesischen Quelle weit und breit. Hier kommt das Wasser aus der Tiefe, und hier endet jede Karawane, die aus dem Skybreaker-Hochland nach Osten will, oder aus den Grünen Tiefen nach Norden. Wasser ist hier nicht Ware, sondern Verfassung: wer Wasser teilt, ist Gast für drei Tage; wer Wasser stiehlt, hängt am Brunnenrand. Die Markt-Schreiber, fast alle Tieflinge, verwalten Karawanenrechte, Zoll-Belege und Schuldverschreibungen mit jener trockenen Genauigkeit, die ein Volk entwickelt, das nirgendwo sonst willkommen ist.
+
+Zwischen dem Markt und der Ostküste verriegelt die Odem-Festung den einzigen passierbaren Pass. Ihre Garnison — gemischt aus Skybreaker-Veteranen und Tiefling-Söldnern — kämpft jeden Tag denselben stillen Kampf gegen den Aschenstaub, der sich in Lungen, Helmen und Vorratstöpfen festsetzt. „Odem" heisst Atem, und die Festung trägt den Namen, weil die Wache eine eigene Atem-Disziplin entwickelt hat: durch das Tuch, durch die Nase, niemals tief. Wer hier dient, hustet sein Leben lang.
+
+Östlich der Festung fällt das Land zur Grausand-Küste ab, einer Linie zerschlagener Strände, deren Sand schwarz und grau ist, durchsetzt mit Glasscherben aus vulkanischem Obsidian. Hier strandet, was im Sturm fehlgesteuert wird, und hier bergen Männer und Frauen mit kurzen Spitzhacken die Wracks, bevor die Sahuagin aus der Tiefe dasselbe versuchen. Die Grausand-Bergung ist ein eigener Berufsstand, und ihr Verhältnis zu Wüstenmarkt und Odem-Festung ist das einer geduldeten Schwester: nützlich, halb-illegal, niemals respektabel.
+
+Religiös zieht sich Nocthari leise durch die Region — Tiefling-Familien halten kleine Schreine in Innenhöfen, gut verborgen vor den Karawanen aus Pyrathis-treuen Königreichen. Aethyran, Gott der Zeit und der Schicksale, wird stiller verehrt, als „Gott der erloschenen Dinge"; ihm gehören die Wegmarken am Pass und das Schweigen vor dem Aschenmoor-Aufstieg. Pyrathis selbst hat hier keinen Tempel. Sein Brand hat dieses Land geschaffen, und die Bewohner sind nicht erpicht darauf, ihn zurückzurufen.
+
+Politisch ist die Region kein Königreich, sondern ein Markt-Verbund: der Wüstenmarkt-Rat (sieben Sitze, fünf davon traditionell Tiefling) verhandelt mit der Odem-Hauptmannschaft, mit den Karawanen-Gilden und gelegentlich mit Gesandten aus Skybreaker oder den Grünen Tiefen. Kein Adel, kein Erbrecht — nur Verträge, Wasser-Anteile und Karawanen-Lizenzen. Wer hier Macht will, kauft Wasser; wer hier bleiben will, lernt Aschen-Atmen.
+
+Die Aussenmarkt-Wüste ist keine Region für Helden, die Ehre suchen. Sie ist eine Region für jene, die einen Ort brauchen, an dem ihre Herkunft nicht zählt — solange sie ihre Schuld in Wasser oder Münze begleichen. Wer hier hindurchreist, geht zwischen zwei Welten: dem Inland, das vergessen hat, dass es einst brannte, und der Küste, die jeden Tag aufs Neue zerbricht.
+
+
+==== Aussehen
+
+
+Eine Ebene aus grauem Aschenstaub, fein wie Mehl und schwer wie Sand. Der Aschenmoor-Kegel zeichnet im Süden eine ständige schwarze Silhouette gegen den Himmel. Morgens schimmert die Asche rosa, mittags bleicht sie alles weiss-grau, abends färbt sie sich blutrot vom Sonnenuntergang. Es riecht trocken und mineralisch, mit einer Spur Schwefel — ein Erbe, das niemals ganz verfliegt. Vögel singen hier nicht; die einzige Musik sind Wind über tote Ebene und das ferne Klingeln einer Karawanen-Glocke. An der Grausand-Küste schwarz-graue Dünen, gebrochene Schiffsrippen, Salznebel, der sich mit Aschenstaub zu einer klebrigen Kruste auf der Haut verbindet.
+
+
+==== Klima
+
+
+Arid bis hyperarid, Niederschlag unter fünfzig Millimetern pro Jahr. Tagsüber Glashitze von fünfundvierzig bis fünfundfünfzig Grad, nachts Kälteeinbruch auf fünf bis zehn Grad — der Temperatursprung ist die Hauptgefahr für ungeübte Reisende. Sechs bis zehn Aschestürme im Jahr, „graue Wand" genannt, jeder eine Stunde bis drei Tage lang, mit Sichtweite unter zwei Schritt und stark erhöhter Erstickungsgefahr. Klassische Jahreszeiten gibt es nicht; die Bewohner unterscheiden „Brandzeit" (Hochsommer-Hitze) und „Grauzeit" (Sturm-Hochsaison im Spätherbst). An der Grausand-Küste bildet sich morgens dichter Meeresnebel, der sich mit dem Aschenstaub zu einer klebrigen Salzkruste verbindet. Die einzige zuverlässige Wasserquelle ist die artesische Tiefe unter dem Wüstenmarkt — alle anderen Brunnen sind saisonal, salzig oder versiegt.
+
+
+==== Kultur
+
+
+Die kulturelle Mehrheit stellen Tiefling-Familien, die den Wüstenmarkt seit Generationen führen — pragmatisch, im Handel ehrenhaft, im Privaten verschlossen. Wort gilt: ein gebrochener Vertrag bedeutet Marktausschluss, was in dieser Region einem Todesurteil nahekommt. Daneben pulsiert ein Karavanen-Mischvolk durch die Region — Halborks aus der Grenzmark als Geleitschutz, Menschen aus Skybreaker als Frachtführer, vereinzelt Echsen-Händler aus dem Süd-Wüstenarchipel. Diese „Wüstenwanderer" bleiben selten lange; sie sprechen den Handelsdialekt „Aschenrede", einen Tiefling-Akzent mit eingebauten Handelsformeln. Das oberste Wertesystem ist das Wasser-Recht: wer Wasser teilt, ist Gast für drei Tage, danach zahlt oder geht er; wer Wasser stiehlt, stirbt am Brunnenrand. Religiös wird Nocthari als minority gelebt — kleine Tiefling-Schreine in Innenhöfen, niemals öffentlich. Aethyran, Gott der erloschenen Dinge, hat stille Wegmarken am Pass. Pyrathis wird nicht verehrt; sein Brand ist erinnerter Schmerz, nicht aktiver Glaube.
+
+
+==== Wirtschaft
+
+
+Die Region lebt vom Karawanen-Handel zwischen Inland und Ostküste. Hauptgüter sind Wasser (am Wüstenmarkt rationiert und verkauft, Preis ungefähr dreifach gegen den Reichsdurchschnitt), Karawanen-Lizenzen (Odem-Zoll), Vulkan-Reagenzien aus dem Aschenmoor-Geröll (begehrt bei der Alchemisten-Gilde, lokal etwa zwanzig Prozent unter Marktpreis), Schiffswrack-Bergegut von der Grausand-Küste und exotische Importe — Gewürze, Stoffe, Edelsteine — aus dem Süd-Wüstenarchipel. Berufsbilder: Karawanen-Führer, Brunnen-Wächter, Aschen-Schürfer, Odem-Garnisons-Soldat, Wrack-Berger, Markt-Schreiber. Zwei Verkehrsachsen prägen die Region: die Nord-Süd-Route über den Odem-Pass (Skybreaker-Hochland in Richtung Feuergipfel) und die Ost-West-Route durch den Wüstenmarkt (Inland in Richtung Grausand-Häfen). Frischwaren sind faktisch unbezahlbar, weshalb Trockenfleisch, Hartkäse und gepökelte Wurzeln das Standard-Reisemahl bilden. Die Karavanen-Gilde unterhält eine Branch im Wüstenmarkt.
+
+
+==== Bemerkenswerte Orte
+
+
+* wuestenmarkt
+* odem-festung
+* gipfel-von-aschenmoor
+* grausand-kueste
+
+
+==== Dominante Völker
+
+
+* `tiefling` (Tiefling)
+
+
+==== Bekannt für
+
+
+* Aschenwüste — Götterkrieg-Narbe im Osten
+* Wüstenmarkt — Karawanen-Drehscheibe und einzige artesische Quelle
+* Odem-Festung — der Asche-Pass-Riegel
+* Tiefling-Heimat ohne Erlaubnis-Schein
+* Grausand-Küste — Schiffswracks und Aschestrände
+* Gipfel von Aschenmoor — erloschener Götterkrieg-Vulkan
+
+
+==== Geschichte
+
+
+* Götterkrieg-Brand: Pyrathis-Feuer und Nocthari-Schatten zünden die Vulkankette der Ebene; Land wird zur Asche (~80.000–20.000 v.h.)
+* Erlöschen des Aschenmoor-Vulkans am Ende der Kriege; letzter Atemzug verglüht (~20.000 v.h.)
+* Gründung des Wüstenmarkts durch Tiefling-Familien an der artesischen Quelle (~800–600 v.h.)
+* Bau der Odem-Festung als Pass-Riegel durch ein Bündnis aus Skybreaker-Veteranen und lokalen Tiefling-Häusern (~600 v.h.)
+
+
+==== Gefahren
+
+
+* Aschestürme — Erstickung und vollständiger Orientierungsverlust
+* Hitzschlag und Dehydrierung — Wasser-Mangel ist Standard, nicht Ausnahme
+* Fiend-Echos am Gipfel von Aschenmoor — Geister und Cambion-Manifestationen aus dem Götterkrieg
+* Schmuggler- und Wrack-Berger-Banden an der Grausand-Küste
+* Karawanen-Räuber aus den Grenzmark-Hügeln, oft Halbork-Söldner ohne Ehrenkodex
+
+
+==== Hintergrund (Kurzfassung)
+
+
+_Ursprung._ In der Epoche der Kriege brannte zwischen Pyrathis-Feuer und Nocthari-Schatten ein Vulkangürtel, dessen Asche eine Ebene im Osten Caldrithars zudeckte. Der höchste Kegel, später Gipfel von Aschenmoor genannt, war der Atemschacht jenes Brandes. Als die Götter sich am Ende der Kriege erschöpft zurückzogen und die Stille-Epoche begann, erlosch auch dieser Vulkan. Was blieb, war eine graue Wüste, die kein Regen mehr durchdringen wollte, und ein erloschener Kegel als Mahnmal über einem toten Land.
+
+_Wandel._ Zehntausende Jahre stand die Ebene leer. In der Stille-Epoche war hier nichts zu holen — kein Wasser, kein Wild, kein Weg, der irgendwo hinführte. Erst spät, in den ersten Jahrhunderten der modernen Königreichs-Zeit, begannen Tiefling-Familien aus den Inland-Städten hierher zu ziehen — vertrieben, verdächtigt, ausgegrenzt. Sie fanden, was niemand sonst suchte: eine artesische Quelle in der Tiefe, die niemals versiegte. Um diese Quelle wuchs der Wüstenmarkt, anfangs ein Brunnen-Camp, später eine Karawanen-Drehscheibe. Als der schmale Pass zwischen Wüstenmarkt und Grausand-Küste zum strategischen Engpass wurde, bauten Skybreaker-Veteranen gemeinsam mit lokalen Tiefling-Häusern die Odem-Festung — Garnison und Zollhaus in einem.
+
+_Gegenwart._ Heute ist die Aussenmarkt-Wüste ein lockerer Markt-Verbund ohne Königreich und ohne Adel. Der Wüstenmarkt-Rat (sieben Sitze, fünf traditionell Tiefling) regelt Wasser-Anteile, Karawanen-Lizenzen und Schuld-Schiedssprüche. Die Odem-Festung kontrolliert den Pass und treibt den Zoll ein. Am Aschenmoor pilgern Tiefling-Familien, um ihre Vorfahren-Echos zu hören — manchmal hört man wirklich etwas. An der Grausand-Küste bergen halb-legale Banden, was die See an Wracks ausspuckt. Die Region ist gefährlich genug, dass sie nicht von einem Königreich überrannt wird, und nützlich genug, dass alle umliegenden Mächte sie als Knotenpunkt brauchen. Sie ist die Narbe, die der Welt einen Hinweis gibt: dass dieser Kontinent einst gebrannt hat, und dass die Götter, die das taten, nicht ganz frei von Schuld waren.
+
+
+'''
+
+
+=== Eismark
+
+
+:slug-eismark: eismark
+:biom-eismark: tundra
+:klima-eismark: arctic
+:gefahr-eismark: 4/5
+
+
+Eismark ist das Dach Caldrithars. Wo die Skybreaker-Hänge in Permafrost übergehen, beginnt eine Landschaft, in der das Wetter selbst Werkzeug und Gegner zugleich ist. Im Norden frisst gefrorenes Meer den Horizont auf, im Osten ragt der Drachengletscher wie ein eingestürzter Tempel aus Eis, und im Süden riegelt der Hornschneider-Pass die Region gegen den Rest des Kontinents ab. Wer hier lebt, lebt nicht in einer Tundra-Idylle, sondern in einer Festung aus Wind und Salzkristall.
+
+Das Zentrum dieser Festung ist Eisethar. Die Stadt wurde nicht auf das Eis gebaut, sondern hinein. Tunnel, Hallen und Treppen ziehen sich durch ein Gletscher-Massiv, das durch eine sehr alte Resonanz nicht schmilzt — niemand in Caldrithar weiß heute mehr genau, welche Reliquie diese Wärme spendet, und die Ältesten der Stadt geben sich Mühe, das auch so zu belassen. In Eisethar treffen sich Pelzhändler, Söldner, Akademie-Lehrlinge und Pilger; hier wird die Große Klan-Versammlung abgehalten, hier liegen die Schmieden, in denen Frost-Stahl seine letzte Politur bekommt.
+
+Die Hauptbevölkerung sind die Halb-Ork-Stämme der Eismark, die sich selbst als Ältesten-Linie verstehen. Ihre Vettern in der Grenzmark gelten als die abgewanderten Sippen, jünger und unruhiger; in Eismark dagegen wird Klan-Politik mit jahrhundertealten Eid-Verträgen geführt, nicht mit Faustkampf. Ehre im Kampf, Loyalität zur Wahlfamilie und das Gastrecht im Schneesturm sind die drei Achsen, auf denen sich diese Gesellschaft hält.
+
+Trug-Dorn ist die zwergische Enklave der Region — Bergzwerge aus den nordöstlichen Ketten, die seit Generationen eine eigene Esse-Tradition pflegen. Ihre Spezialität ist Kalt-Härtung: Stahl, der im Frost geschlagen wird und seine Schneide hält, wo andere Klingen splittern. Misstrauen gegen Fremde ist hier weniger Bosheit als Statistik; einmal im Jahr nimmt das Dorf einen Akademie-Lehrling aus Althain auf, der für einen Mond unter dem Hammer schwitzen darf — eine Tradition, die auf Anground der Tiefen Esse zurückgeht.
+
+An der Südgrenze steht Waechterspitze. Die Festung wurde nach dem Großen Beben neu aufgerichtet, ihre Garnison hält den Hornschneider-Pass und damit den einzigen verlässlichen Übergang nach Caldrithar. Das Haus Drachenfels stellt traditionell den Hauptmann; aus dieser Linie stammt auch Garron Drachenfels, der seinen Adelstitel ablegte, um die Akademie zu gründen. Die heutige Garnison erinnert daran in jeder Wachablösung, mit zwei gekreuzten Schwertern über dem Tor.
+
+Im Osten liegen die drei Echo-Orte des verlorenen Reichs Khar-Vethal: Der Drachengletcher mit seinen wind-geformten Eisskulpturen, zu denen Drachenblütige aus dem Süden pilgern, um den „Tongues of Stone" der ältesten Frostdrachen zu lauschen. Der Karnuss-See, dessen gläsernes Eis bei Vollmond zu singen beginnt, weil die versunkene Imperialhauptstadt unter ihm noch immer atmet. Und Shur-Ovis, die letzte Ruine an Land — eine Grenzfestung, deren Verteidiger heute weniger sind als die Wachposten, aber sturer als jeder Lebende. Zwischen diesen drei Orten findet die Eismark ihre tieferen Geschichten; sie sind der Grund, warum die Region nicht nur eine Eiswüste, sondern ein Friedhof mit Stimme ist.
+
+Wirtschaftlich hält sich Eismark über drei Achsen: Frost-Stahl aus Trug-Dorn, Pelze und Walbein von der Nordküste, und Söldner-Verträge der Klan-Krieger. Alles davon verlässt die Region über Gruenmarkt — das einzige Stück Land der Eismark, das in der Kurzen Helle wirklich grün wird — und von dort über den Hornschneider-Pass nach Süden. Was hereinkommt, ist Korn, Wein, Tinte, Bücher und gelegentlich ein Sigillen-Reagenz aus den südlicheren Kulten. Drei Karawanen pro Helle-Saison gelten als gutes Jahr.
+
+Die Region ist im danger_level 4 nicht wegen einer einzelnen großen Bedrohung, sondern wegen ihrer Akkumulation: das Wetter selbst tötet, die Pässe töten, die Frost-Bestien töten, und die Geister von Khar-Vethal tun den Rest. Wer Eismark überlebt, hat das nicht gegen Gegner getan, sondern mit dem Land — durch Eide, Schmiedekunst und das stillschweigende Verständnis, dass der Schneesturm immer gewinnt, wenn man ihn nicht respektiert.
+
+
+==== Aussehen
+
+
+Weite Eisflächen unter blassem Polarlicht, im Norden das gefrorene Meer als blauer Spiegel, im Osten der Drachengletcher wie eine versteinerte Drachenhaut. Der Wind pfeift wie geschliffenes Glas und trägt den Geruch von kaltem Stein und Pelzfett. In Eisethar dagegen warme Luft, Bernstein und Schmiedekohle, das stetige Pochen unterirdischer Essen. Nachts funkeln die Sterne so klar wie eingegrabenes Salz, und in der Lange-Nacht-Saison zieht die Aurora grün und purpurn über die Tundra. Am Karnuss-See, bei Vollmond, hört man das Eis singen.
+
+
+==== Klima
+
+
+Polarklima mit zwei harten Saisons: Die Lange Nacht dauert vier Monate, mit Polarnacht, Durchschnittstemperaturen um –40 °C und ununterbrochenen Schneestürmen. Die Kurze Helle bringt drei Monate Polartag, kurzes Tauwasser im Tiefland um Gruenmarkt und eine schmale Vegetationsperiode. Dazwischen zwei Übergangsphasen mit starker Auroren-Aktivität. Wetterextreme: der Geistwind, ein katabatischer Sturz vom Polareis, der Sicht und Atem nimmt, und Glas-Frost, durchsichtiges Schwarzeis auf Wegen und Pässen. Lokal singt das Eis am Karnuss-See bei Vollmond, und der Drachengletcher bringt jeden Hochsommer einen Tag, an dem die Gletscherspalten hörbar arbeiten.
+
+
+==== Kultur
+
+
+Hauptbevölkerung sind die Halb-Ork-Stämme der Eismark, die sich als Ältesten-Linie der Halb-Ork-Klans Caldrithars verstehen und die Großen Klan-Versammlungen in Eisethar einberufen. Daneben eine geschlossene Bergzwerg-Enklave in Trug-Dorn mit eigener Kalt-Härtungs-Tradition und kleinem Akademie-Austausch. Drachenblütige sind keine Dauerbewohner, sondern Pilger zum Drachengletscher. In Waechterspitze hält sich eine Adels-Militär-Kultur um das Haus Drachenfels, mit Disziplin und Wach-Eiden. Sprachen: Halb-Orkisch als Stammeszunge und ein langsamer, vokal-betonter Eis-Dialekt des Gemeinen. Geteilte Werte: Stärke vor Geschmeidigkeit, gehaltene Eide vor Geschmeidigkeit, Gastrecht im Schneesturm als heilige Pflicht.
+
+
+==== Wirtschaft
+
+
+Drei Achsen tragen die Eismark wirtschaftlich. Frost-Stahl und Eisenwaffen aus Trug-Dorn ziehen nach Eisethar und von dort über den Hornschneider-Pass ins Skybreaker-Hochland und weiter zur Akademie. Pelze, Walbein und Eisfischerei kommen von der Nordküste und dem Karnuss-See nach Gruenmarkt, dem einzigen regulären Süd-Tor mit wöchentlichem Markt. Söldner und Klan-Krieger sind das dritte Exportgut — viele Garnisonen in Grenzmark und Skybreaker-Hochland bauen auf Eismark-Veteranen. Importe sind Korn, Wein, Tinte und Bücher aus Althain, sowie gelegentliche Sigillen-Reagenzien aus den südlichen Kulten. Drei Karawanen pro Kurzer Helle gelten als gutes Handelsjahr.
+
+
+==== Bemerkenswerte Orte
+
+
+* eisethar
+* waechterspitze
+* trug-dorn
+* hornschneider-pass
+* gruenmarkt
+* karnuss-see
+* drachengletcher
+* shur-ovis
+
+
+==== Dominante Völker
+
+
+* `half_orc` (Halbork)
+* `dwarf` (Zwerg)
+* `dragonborn` (Drachengeborener)
+
+
+==== Bekannt für
+
+
+* Frost-Stahl-Schmiede
+* Halb-Ork-Klan-Versammlung
+* Hornschneider-Pass
+* versunkenes Reich Khar-Vethal
+* Drachengletcher-Pilger
+* Aurora und Singendes Eis
+
+
+==== Geschichte
+
+
+* Vor mehr als 200 Jahren versank die Hauptstadt des Eis-Imperiums Khar-Vethal beim Großen Beben unter dem heutigen Karnuss-See
+* Shur-Ovis wurde nach dem Beben verlassen und gilt seither als Ruine mit untoter Restbesatzung
+* Gründung von Eisethar durch überlebende Halb-Ork-Stämme und eine Bergzwerg-Enklave aus den nordöstlichen Ketten
+* Leomar Drachenfels verließ Waechterspitze, um die Akademie zu gründen, und etablierte die Disziplin-Tradition des Hauses
+
+
+==== Gefahren
+
+
+* Schneestürme und Geistwind, die Atem und Sicht rauben
+* Klan-Fehden und Banditenüberfälle am Hornschneider-Pass
+* Frost-Bestien: Polarwölfe, Yetis, Mammut-Herden, ein Remorhaz unter dem Karnuss-See
+* Untote Wachen des versunkenen Reichs Khar-Vethal in den Shur-Ovis-Ruinen
+* Junge Weiße Drachen am Drachengletscher und Glas-Frost auf den Wegen
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Vor dem Großen Beben, vor mehr als zweihundert Jahren, war Eismark Kerngebiet des Eis-Imperiums Khar-Vethal. Seine Hauptstadt stand auf einer Insel im damaligen Binnenmeer, mit Außenfestungen wie Shur-Ovis und einer langen Handelsachse Richtung Süden. Khar-Vethal war kein freundliches Reich, aber ein hochgeordnetes: Halb-Ork-Klans, Bergzwerge und Drachenblütige dienten in eigenen Kasten unter einer dünnen imperialen Spitze.
+
+Das Beben kontinentaler Größenordnung beendete dieses Reich in einer einzigen Saison. Die Hauptstadt versank, das Binnenmeer wurde zum Karnuss-See, neue Gebirgsketten hoben sich entlang dessen, was heute der Hornschneider-Pass ist. Shur-Ovis blieb stehen, aber leer; die Versorgungslinien waren tot. Über die folgenden Generationen sammelten sich die überlebenden Klans um die warmgehaltenen Tunnel von Eisethar, die Bergzwerge zogen sich nach Trug-Dorn zurück, und einzelne Drachenblütige begannen, den Drachengletcher als Heiligtum zu interpretieren.
+
+Heute ist Eismark ein loser Klan-Verbund unter der Schirmherrschaft der Eisethar-Ältesten. Waechterspitze hält die Südgrenze für Caldrithar, Trug-Dorn liefert Frost-Stahl, Gruenmarkt vermittelt den Süd-Handel. Khar-Vethal ist nicht zurückgekehrt, aber es ist auch nicht still — das Singende Eis, die Untoten in Shur-Ovis und die Sigel-Funde unter dem See halten die Erinnerung wach, und mehr als ein Pilger verschwindet pro Jahr, ohne dass jemand ihn sucht.
+
+
+'''
+
+
+=== Feuergipfel
+
+
+:slug-feuergipfel: feuergipfel
+:biom-feuergipfel: volcanic
+:klima-feuergipfel: volcanic
+:gefahr-feuergipfel: 2/5
+
+
+Die Feuergipfel sind keine Kette, sondern ein Kranz: ein Halbkreis schwarzer Basalt-Kegel, in dessen Mitte eine breite Caldera dampft, deren Rand seit Generationen bewohnt wird. Auf dem höchsten Gipfel thront das Kloster der Stillen Flamme — ein schweigender Pyrathis-Orden, der jenes „stille Feuer" hütet, das in der innersten Schreinkammer brennt: ein Brand, der nicht knistert, nicht raucht und nie erlischt, solange die Mönche ihre Disziplin halten. Wer dorthin pilgert, geht die letzten drei Wegstunden ohne Worte, ohne Waffe, ohne Schmuck.
+
+Unter den Gipfeln liegen die Tiefen-Essen der Bergzwerg-Klans. Die Klans graben dem Magma entgegen, statt vor ihm zu fliehen: ihre Schmieden sitzen direkt über lebenden Lava-Adern, gehalten von rituell verstärkten Kammern, die in der Tradition Romoschochs gemauert wurden. Hier entstehen die Bondings-Geschirre der Akademie von Altheim — jeder Drachenreiter-Sattel, jeder Brust-Riemen, jede Sigillen-Halterung kommt aus diesem Berg, und kein zweiter Ort auf dem Kontinent kann sie ersetzen.
+
+Über den Hangsiedlungen leben die Dragonborn-Sippen. Sie sind klan-strukturiert wie die Zwerge, aber ihre Ehre wendet sich nach außen: sie stellen die Klosterwächter, die Pilgerführer, die Pass-Patrouillen. Eine Sippe ohne Wache-Vertrag gilt als ungebunden, ohne Stand. In den Sippen werden draconic Eide noch lebendig gesprochen, und die alten Familien führen ihre Linie auf Drachen zurück, die im Götterkrieg gefallen sein sollen.
+
+Östlich öffnet sich Ashenmoor, das Aschland-Plateau. Hier liegt der Vulkan-Auswurf zehntausender Jahre meterhoch, hat sich an Stellen zu schwarzem Glas verbacken und trägt eine eigene, asche-blühende Flora. Die Gnom-Tinkerer haben das Plateau erschlossen: ihre Druckkocher, Geothermie-Maschinen und Asche-Glas-Manufakturen treiben einen Industriezweig, den weder Zwerge noch Dragonborn übernehmen wollen. Über Ashenmoor zieht der Aschefall hinüber in die Aussenmarkt-Wüste — die graue Asche, für die die Wüste berüchtigt ist, kommt von hier.
+
+Im Süden, im flachen Meer vor der Halbinsel-Spitze, ragen die Gravenward-Ruinen aus dem Wasser. Das Große Erdbeben vor zweihundert Jahren hat sie aus dem Schlamm gehoben: eine Befestigung aus der Kriegs-Epoche, deren Steine pyrathische Sigillen-Splitter tragen und in deren Gewölben Aschegeister hausen — Seelen toter Sigillen-Träger, die niemand mehr nennt. Schmuggler aus dem Süd-Wüstenarchipel meiden die Untiefen, Schatzsucher zahlen viel für eine Karte, und die Mönche lassen jeden Aschegeist in Ruhe, der ihnen begegnet — ein Frieden ohne Vertrag.
+
+Politisch ist die Region eine lose Föderation der Schmied-Klans, formal unter Caldrithars Kronvertrag, faktisch autonom. Der Kloster-Abt hat informelles Vetorecht in Klan-Streitfragen; ein offiziell ernannter Reichsvogt sitzt in der einzigen Pass-Festung und greift selten ein. Die Religion ist Pyrathis-zentriert (strong-bis-dominant), Verathos wird in der Esse mit-angerufen, andere Götter haben kleine Schreine, keine Tempel.
+
+Die Bedrohungslage bleibt unter dem, was ein Vulkan-Setting nahelegt — Pässe, Klöster und Klan-Hallen sind gesichert. Die Gefahr liegt in den Außenzonen: Ashenmoor bei Nacht, Gravenward unter Wasser, alte Stollen, deren Karten verbrannt sind. Wer im befriedeten Kern bleibt, hört das Grollen des Berges und schläft daneben ein.
+
+
+==== Aussehen
+
+
+Schwarzer Basalt mit roten Lava-Adern, weißer Schwefeldampf, der aus Spalten und Caldera-Rändern aufsteigt; der Boden schwankt zwischen scharfkantigem Obsidian-Geröll und einer fußhohen Schicht warmer, grauer Asche. Bei Nacht glühen die Hauptkrater orange — sichtbar bis hinüber in die Wüste. Tagsüber sticht die Sonne hart durch Aschestaub, in den Tälern wabern Schwefel-Nebel zwischen den Hangsiedlungen. Der Berg ist hörbar: ein tiefes Grollen unter den Füßen, das Hissen der Fumarolen, der dumpfe Takt der Hammerschläge aus den Tiefen-Essen. Im Kloster auf dem höchsten Gipfel herrscht eine andere Akustik — Schweigen, in das nur das Knacken des stillen Feuers tritt. Es riecht nach Schwefel, glühendem Metall, Asche, und in den Klostergärten nach dem bitteren Lavendel-Asche-Tee, den die Mönche an Pilger reichen.
+
+
+==== Klima
+
+
+Das Klima folgt keinem Jahreszeiten-Rhythmus, sondern dem Atem des Berges: Phasen ruhigen Grollens wechseln mit Wochen erhöhter Aktivität, in denen Aschefall („Grauer Regen") über die Hänge zieht und sich in den Talsiedlungen meterweise sammelt. Schwefel-Nebel-Inversionen drücken die Atemluft in tiefer gelegene Caldera-Ränder; Karawanen wissen die Tage zu lesen, an denen ein Pass ohne Atemschutz nicht zu queren ist. In den Magma-nahen Hangsiedlungen herrscht warm-trockenes Klima ganzjährig (12-22°C), in den Calderen geothermal-feucht mit heißen Quellen, im östlichen Ashenmoor staubtrocken und windgepeitscht (sommerliche Hitze bis 40°C, Sandstürme aus Glas-Asche). Wirkliche Eruptionen sind selten (zuletzt vor 60 Jahren, lokal), produzieren aber pyroklastische Wolken, die jeden Reisenden auf den Pass-Routen treffen können — die Klosterwächter blasen dann das _Asche-Horn_, dessen Klang bis ans Aschenmoor trägt.
+
+
+==== Kultur
+
+
+Die dominante Kultur ist eine pyrathische Dunmar-Variante: standhaft, loyal, handwerklich-stolz, mit hohem Status für Schmiede und Pilger. Bergzwerg-Klans und Dragonborn-Sippen organisieren das soziale Leben — Klan und Sippe sind die primäre Identität, das Reich kommt danach. Pyrathis ist religiös bestimmend; das Kloster der Stillen Flamme stellt eine kulturelle Autorität, gegen die selbst die Klan-Älteren selten öffentlich opponieren. Sprache: das gemeine Caldrithar-Idiom als Lingua Franca, dwarvish in der Esse und unter Klan-Mitgliedern, draconic für Eide und Klosterriten. Wichtige Bräuche: der _Esse-Schwur_ (eine Lebensphasen-Markierung mit selbst geschmiedetem Anhänger), die _Aschereise_ (ein Hinterbliebener trägt die Asche eines Verstorbenen zu einem ausgewählten Krater und wirft sie hinab), die _Stille Pilgerschaft_ (drei wortlose Stunden auf dem letzten Aufstieg zum Kloster). Tiefling-Familien sind selten, aber respektiert — ihre Hitze-Resistenz gilt als Pyrathis-Erbe. Gnom-Tinkerer aus Ashenmoor sind kulturell halb-zugehörig: man kauft ihre Maschinen, lädt sie aber nicht zum Klan-Mahl.
+
+
+==== Wirtschaft
+
+
+Die Region exportiert Schmiede-Arbeit auf höchstem Niveau: Drachen-Bondings-Geschirre für die Akademie, Pyrathis-geweihte Klingen, Esse-Artefakte mit Sigillen-Affinität. Daneben Obsidian-Werkzeuge, Schwefel-Konzentrate, geothermische Erze und Pyrathis-Reliquien an Pilger. Aus Ashenmoor kommen Asche-Glas (Manufaktur-Produkt der Gnome), Druckkessel und Geothermie-Mechanik. Berufsbild der Bevölkerung: Bergzwerg-Schmied und -Bergarbeiter, Dragonborn-Wächter und -Pass-Patrouilleur, Gnom-Tinkerer und Asche-Sammler, pyrathische Mönche, Klan-Älteste, Karawanen-Führer. Verkehrsachsen: der Hornschiefer-Pass durch den Grenzwald hinaus zum Caldrithar-Kernland (Pilger, Waffen-Karren, Akademie-Aufträge), die Asche-Karren-Route nach Norden in die Aussenmarkt-Wüste, der vorsichtige Schiffsweg durch die Gravenward-Untiefen Richtung Süd-Wüstenarchipel. Preise vor Ort: Schmiede-Waren günstiger als anderswo, alles andere teurer (Importe müssen den Berg hoch).
+
+
+==== Bemerkenswerte Orte
+
+
+* Kloster der Stillen Flamme
+* Tiefen-Essen
+* Ashenmoor
+* Gravenward-Ruinen
+* Hornschiefer-Pass-Festung
+* Dragonborn-Hangsiedlungen
+* Asche-Horn-Warte
+
+
+==== Dominante Völker
+
+
+* `dragonborn` (Drachengeborener)
+* `dwarf` (Zwerg)
+* `gnome` (Gnom)
+* `tiefling` (Tiefling)
+
+
+==== Bekannt für
+
+
+* Kloster der Stillen Flamme
+* Magma-Esse-Schmieden der Bergzwerg-Klans
+* Drachen-Bondings-Geschirre für die Akademie
+* Ashenmoor und der Graue Regen
+* Gravenward-Ruinen mit Aschegeistern
+* Pyrathis-Pilgerschaft
+
+
+==== Geschichte
+
+
+* Götterkrieg-Brandzone — pyrathische Sigillen-Träger kämpften hier (Epoche der Kriege)
+* Großes Erdbeben (~200 v.h.) — weckte die Gipfel, hob Gravenward aus dem Meer
+* Gründung des Klosters der Stillen Flamme (~190 v.h., kurz nach dem Beben)
+* Letzte lokale Eruption (~60 v.h., zerstörte zwei Hangsiedlungen)
+* Drachen-Rückkehr (~100 v.h.) — erste Bondings-Geschirre aus den Tiefen-Essen
+
+
+==== Gefahren
+
+
+* Aschegeister in Gravenward-Ruinen und in Ashenmoor bei Nacht
+* Pyroklastische Wolken auf den Pass-Routen während Aktivitäts-Phasen
+* Schwefel-Nebel-Inversionen in den Tälern (Erstickungsgefahr)
+* Unkartierte Lava-Stollen unter alten Klan-Hallen
+* Asche-Glas-Sandstürme im Ashenmoor
+
+
+==== Hintergrund (Kurzfassung)
+
+
+_Ursprung._ Die Feuergipfel sind Brandnarben der Kriegs-Epoche. Pyrathische Sigillen-Träger trugen den Krieg an dieser Stelle aus, brannten Berge auf, brannten Berge nieder; die schwarzen Kegel sind erstarrte Reste dieser Schlachtfelder. In der Stille danach kühlten die Gipfel ab, die Caldera schlief halb, das Land vergaß. Während der Stillen Epoche siedelten erste Bergzwerg-Klans am Rand, gruben dem Magma entgegen statt vor ihm zu fliehen, fanden eine Tradition: man schmiedet hier, wo die Welt verbrannt war, das, was die Welt wieder schützt.
+
+_Wandel._ Vor zweihundert Jahren erschütterte das Große Erdbeben den Kontinent. Die Feuergipfel erwachten — neue Krater rissen auf, die Caldera füllte sich, und im flachen Meer im Süden hob sich Gravenward aus dem Schlamm: eine Befestigung aus der Kriegs-Zeit, die niemand vermisst, niemand verstanden hatte. Wenige Jahre später gründeten pyrathische Asketen das Kloster der Stillen Flamme auf dem höchsten Gipfel, um die wiederkehrende Glut zu hüten und in Schweigen zu beten. Dragonborn-Sippen, die zuvor durchgewandert waren, ließen sich an den Hängen nieder. Hundert Jahre später kehrten die Drachen zurück, die Akademie öffnete den Drachenstall, und die Tiefen-Essen lieferten das erste Bondings-Geschirr.
+
+_Aktueller Stand._ Heute ist die Region eine lose Föderation: Bergzwerg-Klans an den Essen, Dragonborn-Sippen als Wächter, Gnom-Tinkerer im Ashenmoor, Mönche im Kloster, ein einzelner Reichsvogt an der Pass-Festung. Caldrithar bekommt seine Drachenreiter-Ausrüstung von hier, die Aussenmarkt-Wüste ihren grauen Aschefall, der Süd-Archipel seine Schmuggel-Untiefen. Aschegeist-Sichtungen häufen sich seit dem Erwachen der ersten Sigille — die Mönche schweigen dazu, die Klans rüsten, und das stille Feuer brennt weiter, einstweilen.
+
+
+'''
+
+
+=== Grenzmark
+
+
+:slug-grenzmark: grenzmark
+:biom-grenzmark: forest
+:klima-grenzmark: temperate
+:gefahr-grenzmark: 2/5
+
+
+Die Grenzmark ist Caldrithars Vorfeld nach Osten: ein hügeliger Wald-Korridor zwischen dem geordneten Akademie-Kernland von Althain und den drei harten Kanten des Kontinents — dem tieferen Grenzwald, der Aussenmarkt-Wüste im Südosten und der nördlich vorgelagerten Eismark. Hier verlieren die alten Handelsstrassen ihre Pflasterung, hier hören die Wegweiser aus Akademie-Stein auf, und hier beginnt das Land, in dem Streit nicht vor einem Richter, sondern in einem Kreis aus Holzkohle ausgetragen wird.
+
+Die Halbork-Clans sind die älteste Konstante dieses Landstrichs. Sie sind keine Stämme im wandernden Sinn, sondern sesshafte Sippen-Verbände aus mehreren Familien, jede mit eigenem Mal auf der linken Schläfe, eigener Schwarzen Tafel voller Präzedenz-Urteile und eigenem Ältesten-Rat. Ihr Ehrenkodex ist pragmatisch: Wort halten, Schulden begleichen, Schwäche nicht ausnutzen. Streit wird im Zweikampf bis zur ersten Blutung oder bis zur Aufgabe geregelt, selten bis zum Tod. Wer einen Söldnervertrag verrät, gilt als schwertfreundbrüchig und verliert jeden Anspruch auf Clan-Schutz.
+
+Die Söldnerbanden sind das jüngere, lautere Element. Companies mit Namen wie _Eiserne Klinge_, _Aschebrand_ oder _Pass-Hammer_ verkaufen Eskort-Dienste an die Händler aus Althain, an die Karawanen aus der Wüste und an alle, die durch den Grenzwald nach Wolfsdorf oder über den Hornschiefer-Pass müssen. Ihre Verträge werden in eigener Schrift festgehalten, gehandelt wie Wechsel, und sie sind eines der wenigen Wirtschaftsgüter, die hier mehr wert sind als Silber. Zwerge aus dem Skybreaker-Hochland tauchen regelmäßig als Erz-Sucher und Schmiede-Gesellen auf, gnomische Mechaniker und Spurensucher mischen sich in die Söldner-Companies. Die Bevölkerung ist gemischt — kein Volk dominiert, alle teilen das Marken-Recht.
+
+Wirtschaftlich ist die Grenzmark eine Umschlag-Region. Pelze und Wild aus dem Grenzwald, Erz und Werkzeug-Eisen aus Skybreaker, Wüsten-Salz, Asche-Pigment und Glas aus Aussenmarkt — alles passiert die Grenzmark, bevor es Althain erreicht oder von dort weiterzieht. Die Schmieden in den größeren Lagern arbeiten Tag und Nacht; das Pyrathis-Schmiedfeuer ist hier der häufigste religiöse Schrein, oft nur ein Steinkreis mit eingelassener Esse. Der Aschenwind, der jedes Frühjahr grauen Staub aus der Wüste in die Hügel weht, färbt den letzten Schnee grau und erinnert daran, dass auch das Klima hier eine Verhandlungssache ist.
+
+Die Akademie von Althain hat formell Oberhoheit über die Grenzmark, faktisch endet ihre Verwaltung an der letzten Akademie-Wegmarke. Magier-Patrouillen reisen regelmäßig hindurch, geleitet von einem ungeschriebenen Pakt: Sie respektieren das Marken-Recht, die Clans gewähren freie Durchreise. Beide Seiten misstrauen einander, beide brauchen einander. Mit der jüngsten Sigillen-Manifestation hat sich die Frequenz der Patrouillen verdreifacht, und das Misstrauen wächst.
+
+Das Große Erdbeben vor zweihundert Jahren hat die Grenzmark stärker geprägt, als die Akademie wahrhaben will. Ganze Hügelflanken brachen ein, alte Gräber und Stein-Tafeln aus der Stillen Epoche kamen ans Licht. Manche Halbork-Clans hüten Wegmarken, die älter sind als das Geschriebene Wort der Akademie. Wer in den freigelegten Ruinen Sigillen-Spuren sucht, muss zuerst mit dem zuständigen Clan reden — und sich auf den Zweikampf einlassen, wenn das Gespräch schiefgeht.
+
+Heute ist die Grenzmark angespannter als seit Generationen. Söldner-Verträge sind teurer, Karawanen reisen in größeren Verbänden, Akademie-Magier stellen Fragen, die niemand beantworten will. Über dem Hornschiefer-Pass wurde ein nicht-akademischer Drache gesichtet, und die ältesten Clan-Frauen schweigen, wenn man sie darauf anspricht. Das ist die Grenzmark: das letzte Land vor dem anderen Caldrithar, und vielleicht das erste Land, an dem das nächste Kapitel der Welt entschieden wird.
+
+
+==== Aussehen
+
+
+Hügelige Eichen- und Birken-Wälder mit lichten Hochheiden auf den Kuppen. Wegmarken aus dunklem Stein, manche umgestürzt, manche mit frischen Clan-Runen in Holzkohle und Blut überschrieben. Holzpalisaden um Söldner-Lager und Halbork-Höfe, dazwischen Stein-Kreise alter Markierungen, die niemand mehr lesen kann. Die Luft riecht nach Harz, Holzkohle aus den Schmiede-Feuern und bei Südwind nach Schwefel vom Feuergipfel. Wölfe heulen aus dem östlichen Grenzwald, Hörner der Karawanen-Patrouillen antworten von den Hügeln. Morgens steht die Sonne lange hinter den Wüsten-Bergen, sodass die Hänge in tiefem Schatten liegen, während die Gipfel schon glühen. Nachts pulsiert am Südhorizont der rote Schein des Feuergipfels.
+
+
+==== Klima
+
+
+Gemäßigt mit klar geschnittenen Jahreszeiten. Sommer warm und überraschend trocken, weil der Wüsten-Föhn aus der Aussenmarkt-Wüste über die Hügel zieht und die Luft auswringt. Herbst regnerisch, mit schweren Talnebeln an den Nordhängen. Winter hart — Schneestürme aus der nördlichen Eismark können tagelang die Pässe schließen, ohne dass die Region selbst arktisch wird. Das prägende lokale Phänomen ist der *Aschenwind*: ein Frühjahrs-Wind aus dem Südosten, der grauen Wüstenstaub und Vulkanasche aus dem Feuergipfel-Vorland mitbringt, den letzten Schnee grau färbt und Halborks dazu zwingt, Tücher vor Mund und Brunnen zu binden. In manchen Jahren ist der Aschenwind mild, in anderen vergiftet er die Weiden.
+
+
+==== Kultur
+
+
+Zwei Sozialstrukturen dominieren: *Halbork-Clans* und *Söldner-Companies*. Beide teilen das Marken-Recht: kein königliches Gesetz, sondern Schiedsgericht der Clan-Ältesten oder der Söldner-Hauptleute, dazu der Ehrenzweikampf als letzte Instanz. Zweikämpfe enden meist mit der ersten Blutung oder der Aufgabe — Todeszweikampf gilt als unschick und wird nur bei Mord oder Vertragsbruch geduldet. Die Verkehrssprache ist Caldrithisch mit Ork-Lehnwörtern und Söldner-Slang. Werte: Wort halten, Schulden begleichen, keine Schwäche ausnutzen. Tabus: Vertragsbruch gegen einen Schwertgefährten (_Schwertfreundverrat_), Angriff auf den, der um Gast-Recht bittet. Vier Mal im Jahr findet der *Markentag* statt — Clans und Companies versammeln sich an der Schwarzen Stein-Wegmarke, verhandeln Streitfälle, schließen Verträge, tauschen Erz, Pelze und Söhne aus.
+
+
+==== Wirtschaft
+
+
+Die Grenzmark lebt vom Durchgang. Hauptgut ist die *Karawanen-Eskorte*: Söldner-Companies verkaufen Schutz an Händler aus Althain Richtung Grenzwald oder Aussenmarkt-Wüste. Daneben Pelz- und Wildhandel aus dem Grenzwald-Saum, *Erz-Veredlung* von Skybreaker-Hochland-Rohstahl in den Hügel-Schmieden, und Umschlag von Wüsten-Salz, Asche-Pigment und Halmglas aus der Aussenmarkt-Wüste. Söldner-*Verträge* werden auf Pergament gehandelt wie Wechsel und sind hier wertvoller als Münzen. Berufsbild: Eskort-Krieger, Karawanen-Wirt, Schmied, Spurensucher, Clan-Runner. Verkehrsachsen: die Alte Handelsstrasse aus Althain endet hier an der Schwarzen Wegmarke und gabelt sich in die Wüsten-Route nach Süden und den Hornschiefer-Pfad nach Osten in den Grenzwald.
+
+
+==== Bemerkenswerte Orte
+
+
+* Schwarze Wegmarke
+* Hornschiefer-Pfad
+* Esse-Lager der Eisernen Klinge
+* Aschenkamm-Höhen
+* Halbork-Clanhof der Drei Mahle
+* Pakt-Stein am Pass
+
+
+==== Dominante Völker
+
+
+* `half_orc` (Halbork)
+* `human` (Mensch)
+* `dwarf` (Zwerg)
+* `gnome` (Gnom)
+
+
+==== Bekannt für
+
+
+* Halbork-Clans
+* Söldner-Companies
+* Ehrenzweikampf-Recht
+* Karawanen-Korridor
+* Aschenwind
+* Markentag
+
+
+==== Geschichte
+
+
+* ~200 v.h.: Großes Erdbeben — Hügelflanken brechen ein, alte Stein-Tafeln aus der Stillen Epoche werden freigelegt.
+* ~150 v.h.: Pakt von der Schwarzen Wegmarke — Halbork-Clans und Akademie einigen sich auf freie Patrouillen-Durchreise gegen Respekt vor dem Marken-Recht.
+* ~100 v.h.: Drachen-Rückkehr — erste Sichtungen über dem Hornschiefer-Pass; die ältesten Clan-Frauen schweigen seither.
+* Jüngst: Sigillen-Manifestation — Akademie-Patrouillen verdreifachen sich, Söldner-Verträge werden teurer, Spannung wächst.
+
+
+==== Gefahren
+
+
+* Halbork-Späher und Worg-Reiter aus dem Grenzwald-Saum
+* Söldner-Hinterhalte bei abgelaufenen Verträgen
+* Bugbear- und Wolfsstreuner aus dem tieferen Grenzwald
+* Freigelegte Vor-Akademie-Ruinen mit Mimics, Spectern und Animated Armor
+* Aschenwind-Krankheit im Frühjahr
+
+
+==== Hintergrund (Kurzfassung)
+
+
+_Ursprung._ Vor der Akademie war die Grenzmark Heimat einzelner Halbork-Sippen und Splitter-Gruppen, die die Stille Epoche überdauert hatten. Kein Reich beanspruchte das Land ernsthaft — die Hügel waren schwer zu kontrollieren, die Ork-Nachfahren wehrten jede Eroberung ab. Aus dieser Zeit stammen die Wegmarken aus dunklem Stein, die noch heute an Pfaden stehen, und die Schwarzen Tafeln der Clans, in denen Präzedenz-Urteile in Runen geritzt sind.
+
+_Wandel._ Mit der Gründung der Akademie vor sechshundert Jahren und dem wachsenden Handelsstrom nach Osten wurde die Grenzmark zum Korridor. Söldner-Companies entstanden als Antwort auf den Bedarf an Eskorten, die Halbork-Clans öffneten ihre Höfe für Übernachtung gegen Wegezoll, und die Schmieden begannen, Skybreaker-Erz für die Karawanen zu verarbeiten. Der Pakt von der Schwarzen Wegmarke (vor etwa 150 Jahren) regelte das Verhältnis zwischen Akademie und Clans: freie Patrouillen-Durchreise gegen Respekt vor dem Marken-Recht. Das Große Erdbeben vor zweihundert Jahren riss Hügelflanken auf, legte alte Ruinen frei und veränderte die Pfade — manche Familien verloren ihre Höfe, andere fanden in den freigelegten Gräbern Wegmarken, die älter sind als die Akademie selbst.
+
+_Aktueller Stand._ Mit der Sigillen-Manifestation hat sich die Frequenz der Akademie-Patrouillen verdreifacht. Die Clans sind nervös, die Söldner-Companies verdienen besser, und die alten Frauen am Hornschiefer-Pass schweigen, wenn man sie nach dem Drachen fragt, der dort gesichtet wurde. Wer durch die Grenzmark reist, weiß heute: Hier endet die Akademie-Welt. Hier beginnt das andere Caldrithar — und niemand kann mehr garantieren, wie lange der Pakt von der Schwarzen Wegmarke noch hält.
+
+
+'''
+
+
+=== Grenzwald (Ost)
+
+
+:slug-grenzwald: grenzwald
+:biom-grenzwald: forest
+:klima-grenzwald: temperate
+:gefahr-grenzwald: 3/5
+
+
+Zwischen den sanften Hügeln Althains und der grauen Asche der Aussenmarkt-Wüste dehnt sich der Grenzwald — das größte zusammenhängende Wald-Massiv Caldrithars, ein dunkelgrünes Halbrund aus Säuleneichen und Schwarzkiefern, das auf den Akademie-Karten seit zwei Jahrhunderten denselben Schatten wirft. Wer von Altheim aus ostwärts reist, betritt den Wald an unmarkierten Stellen: Es gibt keine Grenzsteine, nur einen Wechsel des Lichts, das plötzlich grünlich gefiltert herabfällt, und das Verstummen der Lerchen.
+
+Der Wald gehört niemandem — und gerade deshalb gehört er den Sippen. Wald-Elfen leben in losen Älteren-Konzilien, deren Sprache mit Erinnerungen an die Epoche der Kriege geflochten ist; ein Wald-Elf, der trancet, sieht oft Bilder, die siebzig Generationen zurückreichen, und entscheidet danach. Es gibt keinen Thron im Grenzwald, keinen einzigen Herrscher. Das Konzil von Thulmorin tritt zu Vollmondnächten unter dem ältesten Eichenkreis Caldrithars zusammen, und seine Beschlüsse gelten so weit, wie die Sippen es zulassen.
+
+Neben den Elfen wandern Halbork-Familien durch den Wald — und genau hier liegt der Unterschied zur östlich angrenzenden Grenzmark: Die Wald-Halborken sind keine Krieger-Clans. Es sind Jäger, Späher, Fährtenleser, oft aus Mischehen mit Wald-Elfen hervorgegangen, seit gut hundertfünfzig Jahren in einer fragilen Allianz mit den Konzilien. Sie reden weniger, lesen Spuren besser und kennen jeden Wechsel, jede Mulde, jeden Wolfswurfplatz.
+
+Wolfsdorf liegt am westlichen Saum, dort wo der Wald in die Akademie-Hügel ausgreift. Es ist die einzige Mensch-geführte Siedlung im Grenzwald, vor rund hundertachtzig Jahren von Holzfäller-Familien aus Altheim gegründet, die nach dem Großen Erdbeben neuen Wald-Zugang suchten. Wolfsdorf lebt von zwei Dingen: kontrolliertem Holzschlag (Lizenzen vom Konzil) und der Schattenwolf-Plage, die ihm den Namen gegeben hat. Wer im Wolfsmond — den drei Wochen der Schattenwolf-Brut — durchs Tal reist, tut es bewaffnet und in Begleitung.
+
+Im Süden bricht das Land jäh ab. Der Hornschiefer Pass ist ein schmaler Quergang aus dunklem, glimmerndem Gestein, der den Grenzwald mit der Aussenmarkt-Wüste und mittelbar mit Feuergipfel und Grünen Tiefen verbindet. Im Winter ist er wochenlang geschlossen, im Sommer ein Engpass für Karawanen, Pilger und gelegentliche Akademie-Expeditionen. Die Pass-Wachzunft wechselt regelmäßig — Söldner, Sippen-gestellte Wachen, manchmal Banditen, die sich kurzzeitig als Zollherren ausgeben. Wer den Pass kontrolliert, kontrolliert den Süd-Ost-Handel.
+
+Tief im Wald gibt es Orte, an denen kein Sippen-Mitglied freiwillig schläft. Vereinzelte Erdenwächter sollen dort wachen, Jahrtausende alte Hüter, die seit der Schöpfung nicht gesprochen haben. Akademie-Botaniker tragen Geschichten zurück, denen kaum jemand glaubt. Und seit dem Beben vor zweihundert Jahren, das nach Akademie-Quellen mehrere Sigillen-Verstecke freigelegt haben soll, gibt es Gerüchte, dass eines davon hier liegt — unter einer Eiche, deren Wurzeln in eine Zeit reichen, in der die Sieben noch nicht zerstritten waren.
+
+
+==== Aussehen
+
+
+Säulenartige Eichen und Schwarzkiefern, deren Kronen das Licht zu einem kühlen Grün filtern; Boden aus Farn und Moos, der jeden Schritt schluckt. Nebelbänke liegen im Flusstal um Thulmorin bis weit in den Vormittag. Im Süden brechen die Hornschiefer-Klippen aus dem Wald hervor — dunkles Gestein mit Glimmer-Einschlüssen, das in der Abendsonne wie zerbrochenes Eisen schimmert. Geräuschkulisse: Wind in den Wipfeln, der entfernte Ruf eines Schattenwolfs zur Dämmerung, das Klopfen von Holzfäller-Äxten aus Wolfsdorf am westlichen Rand.
+
+
+==== Klima
+
+
+Temperate, mit ausgeprägtem Mikroklima. Die Westseite empfängt feuchte Winde aus dem Akademie-Land und ist regenreich; im Frühjahr stehen Pilzteppiche kniehoch. Die Ostseite trocknet unter Wüsten-Föhn aus der Aussenmarkt-Wüste, hier sind Pinien und Zedern häufiger als Eichen. Der Hornschiefer Pass ist von Spätherbst bis frühem Frühling wochenlang verschneit; Karawanen warten dann in den Pass-Hütten oder kehren um. Vier-Wochen-Phänomen „Wolfsmond" im späten Frühjahr (Brutzeit der Schattenwölfe) — gefürchtete Wanderzeit, Sippen-Konzile verhängen oft Reisesperren.
+
+
+==== Kultur
+
+
+Zwei Hauptbevölkerungen, eine fragile Allianz. *Wald-Elfen-Sippen* organisieren sich in oligarchischen Ältesten-Konzilien; Entscheidungen fallen in Trance-Runden bei Vollmond, oft über Tage. Sprache: Sylvan-Dialekt mit Erinnerungs-Lehnwörtern aus der Epoche der Kriege. Wenig Schrift, viel mündliche Tradition. *Halbork-Wanderer* sind familienbasierte Späher-Linien, häufig mit Halb-Elfen-Anteil; eigene Jagd-Coden, Respekt vor Sippen-Ältesten als politische Konvention seit der Banditen-Welle vor 150 Jahren. *Wolfsdorf-Menschen* sind Holzfäller-Pragmatiker aus Althain-Tradition, halten Akademie-Kontakte aufrecht. Kulturmatch mit Celestis (Akademie) nur in Wolfsdorf nennenswert; die Sippen pflegen eine eigene Identität.
+
+
+==== Wirtschaft
+
+
+Holzschlag streng konzils-lizenziert (Eiche und Schwarzkiefer für Akademie-Bauten); Pelze und Felle aus Sippen-Jagd, Schattenwolf-Fell nur mit Lizenz legal; Heilkräuter und seltene Pilze (Hauptabnehmer: Akademie-Apothekarium in Altheim); Pass-Zoll am Hornschiefer als Haupteinnahme der wechselnden Wachzünfte; geringe Wildbret-Ausfuhr nach Grenzmark. Keine eigene Münzprägung — Tauschwirtschaft im Wald, Akademie-Silber an der Westgrenze.
+
+
+==== Bemerkenswerte Orte
+
+
+* Wolfsdorf
+* Thulmorin
+* Hornschiefer Pass
+* Eichenkreis-Konzil
+* Schwarzkiefern-Saum
+
+
+==== Dominante Völker
+
+
+* `elf` (Elf)
+* `half_orc` (Halbork)
+
+
+==== Bekannt für
+
+
+* Wald-Elfen-Konzil von Thulmorin
+* Schattenwolf-Rudel
+* Hornschiefer Pass-Zoll
+* Akademie-Holz
+* Wolfsmond-Brutzeit
+* fragile Elfen-Halbork-Allianz
+
+
+==== Geschichte
+
+
+* ~200 v.h. Großes Erdbeben legt mutmaßliche Sigillen-Verstecke unter alten Eichen frei
+* ~180 v.h. Gründung Wolfsdorfs durch Holzfäller-Familien aus Althain
+* ~150 v.h. Pakt der Sippen — Wald-Elfen und Halbork-Späher schließen Schutzbündnis gegen Pass-Banditen
+* ~60 v.h. Letzter dokumentierter Erdenwächter-Sichtkontakt durch Akademie-Botaniker
+
+
+==== Gefahren
+
+
+* Schattenwolf-Rudel besonders im Wolfsmond
+* Pass-Banditen und wechselnde Wachzünfte am Hornschiefer
+* Sippen-Justiz bei Wilderei oder Holzfrevel ohne Lizenz
+* Verirren im immergrünen Dickicht ohne Späher
+* alte Lichtungen, die Erdenwächter bewachen
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Vor der Epoche der Stille war der Grenzwald ein heiliger Hain — Aeolyn-Schreine standen an seinen Lichtungen, Drachen sollen über seinen Wipfeln gekreist sein. Während des Götterkriegs flüchteten elfische Sippen in seine Tiefen, als die östlichen Reiche brannten. Sie fanden den Wald von Geistern bewohnt und Stille überzogen.
+
+Die Epoche der Stille legte den Grenzwald in einen langen Schlaf: kaum Bewohner, vergessene Pfade, Eichen, die ungestört zu Säulen wuchsen. Erst die Akademie-Epoche brachte Bewegung zurück — vor rund einhundertachtzig Jahren errichteten Holzfäller aus Althain Wolfsdorf, kurz darauf wanderten Halbork-Familien aus dem Osten ein, vertrieben durch Clan-Konflikte in der Grenzmark. Vor einhundertfünfzig Jahren — nach einer schweren Banditen-Welle am Hornschiefer Pass — schlossen die Wald-Elfen-Konzilien und die Halbork-Späher den Pakt der Sippen.
+
+Heute ist der Grenzwald ein Korridor zwischen Akademie-Land und Wildnis, dessen Allianz dünn aber funktionstragend ist. Das Konzil von Thulmorin spricht Recht, Wolfsdorf liefert Holz an Altheim, und der Hornschiefer-Zoll wechselt regelmäßig die Herren. Akademie-Botaniker suchen nach Spuren der Sigillen-Verstecke, die das Beben freigelegt haben soll. Niemand weiß, ob sie sie finden — oder ob sie sie finden wollen.
+
+
+'''
+
+
+=== Grüne Tiefen
+
+
+:slug-gruene-tiefen: gruene-tiefen
+:biom-gruene-tiefen: jungle
+:klima-gruene-tiefen: tropical
+:gefahr-gruene-tiefen: 2/5
+
+
+Die Grünen Tiefen liegen im Becken zwischen drei Wettern. Im Nordwesten halten die Skybreaker-Berge die Wolken auf, im Osten dampfen die Feuergipfel Asche in den Wind, im Süden trocknet die Wüste alles, was an Wasser denkt. Was übrig bleibt, fällt als Regen über das Becken — und seit dem Schweigen der Götter wächst hier nichts mehr, was nicht mit Schatten zu tun hat. Die Bäume sind hoch genug, dass ein Schrei im Kronendach stirbt, bevor er den Boden erreicht. Die Karten der Akademie zeigen einen grünen Fleck. Wer hineingeht, lernt, dass Grün eine Sammlung von zwölf Farben ist.
+
+Vor den Götterkriegen stand hier eine Hochkultur, deren Namen niemand mehr ausspricht. Die Tempel sind unter Lianen verschwunden, die Stufen ihrer Plätze tragen Moos, das so alt ist wie das Schweigen. Wer sie erbaute, ob er Aeolyn oder Aethyran diente oder einer noch älteren Gestalt, lässt sich aus den Resten nicht mehr lesen. Geblieben sind die Hüter — die _Schutzwächter_, eine generationen-alte Sippe, die in offenen Häusern unter Schirm-Bäumen lebt und die Tempel betreut, ohne sie zu betreten. Sie sprechen wenig. Sie behandeln Fremde mit ruhiger Selbstverständlichkeit, was eine Erleichterung sein kann oder eine Form von Nicht-Sehen.
+
+In der Linie der Schutzwächter schlummert ein himmlisches Erbe. Aasimar werden hier geboren wie überall — selten, ungesehen, und meist erst in Altheim, viele Jahre nach ihrem siebzehnten, erweckt. Die Sippe weiß das. Sie zieht ihre Kinder so auf, dass keine Erweckung im Dschungel passieren muss. Wer aus den Grünen Tiefen an die Akademie kommt, kommt als Protector, leise, und mit einem Heimweh, das die anderen Häuser nicht zu deuten wissen.
+
+Die Wanderbevölkerung kennt vier Schichten. Wald-Elfen aus dem Grenzwald ziehen im Winter ein und im Sommer wieder fort; sie kennen Pfade, die keine Karte zeichnet. Drachenblut-Späher der Glutwacht patrouillieren die Ostgrenze gegen den Feuergipfel, wo Sigillen-Verderber aus freigelegten Tempeln gelegentlich an die Luft kriechen. Akademie-Expeditionen tauchen alle paar Jahre auf, höflich angekündigt, höflich begleitet, höflich wieder hinausbegleitet. Und es gibt die wenigen, die hierhergekommen sind, um nicht mehr gesehen zu werden — Soriel ist nicht der einzige, aber sein Name kennt man.
+
+Zwei Orte tragen die Region in den Atlanten. _Die Grünen Inseln_ im Westen, eine Gruppe tropischer Eilande mit kristallklarem Wasser, in dessen Boden Korallenriffe stehen und auf deren Hügeln Mauerreste einer Hochkultur unter dem Regenwald liegen. Händler aus dem Süd-Wüstenarchipel ankern hier, tauschen Süßwasser gegen Salz, fragen nicht nach den Ruinen. Und die _Leuchtend-Festung_, eine in leuchtendem Stein gehauene Festung mitten im Urwald, die seit etwa achtzig Jahren des Nachts in einem stetigen Grün glimmt. Niemand weiß, was das Licht macht. Die Schutzwächter glauben es zu wissen. Sie sagen es niemandem.
+
+Seit das Große Erdbeben vor zweihundert Jahren mehrere Tempel-Eingänge freilegte und seit die erste Sigille weltweit zu erwachen begonnen hat, kommen häufiger Reisende. Die Schutzwächter notieren jeden Besuch in Liturgie-Sprache, die niemand außerhalb der Linie spricht. Was sie schreiben, lesen sie sich gegenseitig vor, am Morgen, sehr leise. Wer das einmal gehört hat, vergisst es nicht. Wer es zweimal hört, geht nicht mehr fort.
+
+
+==== Aussehen
+
+
+Drei Schichten: oben das Kronendach, smaragd-grün und so dicht, dass das Mittagslicht in Säulen herunterfällt; in der Mitte ein Geflecht aus Lianen, hängenden Farnen und Orchideen, durch das nur Vögel und Affen kommen; unten der Boden, warm, weich, mit Polstern aus Moos und einem Atem, der nach süßem Pilzen und feuchter Rinde riecht. Tags Vogelgeschrei, das niemandem antwortet, nachts ein Insekten-Chor, der mit dem Mond auf- und abklingt. Am Ostrand mischt sich Aschegeruch aus dem Feuergipfel in den Regen. Wer länger als drei Tage hineinwandert, hört irgendwann auf, die eigenen Schritte zu zählen.
+
+
+==== Klima
+
+
+Tropisch-feucht ganzjährig. Zwei Monsun-Phasen prägen das Jahr: im Frühjahr warme Regenfronten aus dem nord-westlichen Skybreaker-Schatten, im Spätsommer kühlere Schauer, die der Süden vorbeiträgt. Dazwischen liegen zwei bis drei trockene Wochen — die _Grauen Tage_, in denen Aschestaub aus der Aussenmarkt-Wüste in dünnen Schleiern über den östlichen Lichtungen liegt und die Blätter eine Schicht Asche tragen. Temperaturen halten sich zwischen 28 und 34 Grad, nachts selten unter 22. Frost ist unbekannt; Hagel kommt einmal in einer Generation und gilt als schlechtes Vorzeichen.
+
+
+==== Kultur
+
+
+Keine vereinte Kultur, sondern drei Sippen, die nebeneinander leben, ohne sich zu vermischen. Die Schutzwächter, eine vor-Akademie-Linie alter Tempel-Hüter, leben still in offenen Häusern; ihre Sprache ist Gemein im Alltag, eine eigene Liturgie-Sprache am Morgen. Die Wald-Elfen aus dem Grenzwald ziehen saisonal ein, Jäger und Geschichten-Erzähler, sprechen Sylvanisch und ein wenig Gemein. Die Glutwacht-Späher aus dem Feuergipfel sind selten länger als zwei Monden im Becken, sprechen Drakonisch untereinander und Gemein mit allen anderen. Gemeinsam ist allen, dass niemand laut redet — der Dschungel schluckt jeden Ton, und wer schreit, hört sich selbst nicht. Werte: Geduld, Schweigen, Spuren-Lesen, das Akzeptieren von Dingen, die man nicht versteht.
+
+
+==== Wirtschaft
+
+
+Keine Städte, keine Industrie. Tauschwirtschaft mit den Nachbar-Regionen: tropische Hölzer (Eisen-Mahagoni für Akademie-Werkstätten in Altheim), Heilpflanzen und seltene Pilze gegen Salz und Werkzeuge aus dem Süd-Wüstenarchipel, Süßwasser aus den Stillen Furten für Karawanen, exotische Federn und Häute für Akademie-Magier. Wenige, aber wertvolle Reliquien-Funde gelangen über vertrauenswürdige Akademie-Botschafter nach Norden; die Schutzwächter wählen aus, was gehen darf, und schweigen über das Übrige. Eine Schmugglerroute aus der Aussenmarkt-Wüste durch das Becken zu den Inseln existiert; die Schutzwächter beobachten sie, unterbrechen sie gelegentlich, ohne Aufsehen.
+
+
+==== Bemerkenswerte Orte
+
+
+* gruene-inseln
+* leuchtend-festung
+* Schwarzlaub-Lichtung
+* Aschegrenz-Steig
+* Stille Furten
+* Soriels Haus
+
+
+==== Dominante Völker
+
+
+* `aasimar` (Aasimar)
+* `elf` (Elf)
+* `dragonborn` (Drachengeborener)
+
+
+==== Bekannt für
+
+
+* verlorene Tempel
+* Schutzwächter-Linie
+* Leuchtend-Festung
+* Grüne Inseln
+* Refugium der Rückgezogenen
+* schlummernde Aasimar-Erben
+
+
+==== Geschichte
+
+
+* Untergang der namenlosen Hochkultur im Götterkrieg
+* Rückzug der Schutzwächter nach dem Schweigen der Götter
+* Großes Erdbeben legt mehrere Tempel-Eingänge frei (vor ~200 Jahren)
+* Beginn des grünen Leuchtens der Leuchtend-Festung (vor ~80 Jahren)
+
+
+==== Gefahren
+
+
+* Aschestürme am Ostrand
+* Sumpf-Fieber in den Niederungen
+* Würgepython-Schwärme in der Mittelschicht
+* Sigillen-Verderber in freigelegten Tempeln (selten)
+* Schutzwächter-Patrouillen für unbefugte Tempel-Besucher
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Lange bevor die Götter schwiegen, lebte im Becken zwischen Berg, Vulkan und Wüste eine Hochkultur, deren Tempel zu den ältesten der Welt zählten. Wer sie war, weiß heute niemand; ihre Schrift liegt unter Moos, ihre Götter sind unter den Sieben nicht aufgezählt. Sicher ist nur, dass ihre Hüter eine eigene Linie ausbildeten — Familien, die für die Tempel da waren und für nichts sonst.
+
+Als die Götterkriege die Welt verbrannten, fiel auch das Becken. Die Stadt-Anlagen wurden überwachsen, die Bevölkerung verging oder zog fort, nur die Hüter blieben. Sie wurden zu den Schutzwächtern, einer stillen Sippe, die in den ersten Generationen die Tempel wirklich beschützte, in den späteren nur noch ihr Versprechen, sie nicht zu betreten. Das himmlische Erbe ihrer Linie schlief ein und wachte über Jahrhunderte einmal pro Generation auf, meist erst Jahre nach der Geburt, meist außerhalb der Region.
+
+Heute ist das Becken wieder in Bewegung. Vor zweihundert Jahren legte das Große Erdbeben mehrere Tempel-Eingänge frei — die Schutzwächter ließen sie wieder zuwachsen, soweit es ging. Vor achtzig Jahren begann die Leuchtend-Festung zu glimmen, ein grünes Licht, das die Akademie alle paar Jahre eine Expedition kostet und das niemand erklären kann. Seit die erste Sigille weltweit erwacht, kommen häufiger Späher, häufiger Schmuggler, häufiger Gelehrte. Soriel lebt zurückgezogen in einem Haus, das niemand zeichnet. Die Schutzwächter notieren jeden Besuch. Sie warten — aber niemand außerhalb der Linie weiß, worauf.
+
+
+'''
+
+
+=== Grünwall
+
+
+:slug-gruenwall: gruenwall
+:biom-gruenwall: forest
+:klima-gruenwall: temperate
+:gefahr-gruenwall: 2/5
+
+
+Grünwall ist ein gemäßigter Misch-Laubwald im mittleren Westen Caldrithars, eingerahmt vom hügeligen Westlande, dem fruchtbaren Althain, den nördlichen Ausläufern des Skybreaker-Hochlands und den Saumpfaden zu den Hohlen Gezeiten. Anders als sein größerer Vetter Grenzwald im Osten ist Grünwall handlich, übersichtlich, und gilt seit Generationen als Hinterland der Akademie zu Altheim — kein Hörsaal, sondern das offene Lehrbuch, das jeder Botaniker, jede Druidin und jeder Ranger einmal durchschritten haben muss.
+
+Der Wald liegt in Schichten. Die hellen Eichen-Buchen-Ränder grenzen an Felder und Reichsstraßen, die mittlere Mischzone wird von Hainen alter Ulmen und Lindeninseln getragen, und im Inneren beginnt das Schweigen des Dunwald — dichtes, schattenkaltes Holz, in dem selbst erfahrene Hainsprecher ungern allein bleiben. Dazwischen ziehen klare Bäche aus dem Hochland, sammeln sich in Lichtungen und versickern in moosigem Wurzelgrund.
+
+Bewohnt ist Grünwall in einem leisen, verteilten Muster. Elfen-Familien halten Halbbauten in Hochkronen und führen die Erinnerung jenseits der Stille. Gnome wohnen in Wurzel- und Hügelhöhlen, archivieren mündlich und in Holzschnitt, was sie wissen, und betreiben Feinwerk, das in der Akademie hoch im Kurs steht. Halblinge bewirtschaften ein paar Lichtungen mit Bienenstöcken und Kräuterbeeten. Halbelfen und Menschen leben vor allem in Kurnath, der befestigten Schwellpfortenstadt am Westrand, wo Waldläufer und Magier nebeneinander Quartier nehmen.
+
+Politisch gibt es keinen Adel und kein Königreich. Jeder Hain — die familien- und nachbarschaftliche Grundeinheit von dreißig bis zweihundert Köpfen — verwaltet sich selbst durch einen Hainrat und einen sogenannten Schmiedebaum, einen alten Versammlungsort. Einmal im Jahr, im späten Goldherbst, treffen sich die Sprecher aller Haine am großen Schmiedebaum vor Kurnath. Beschlüsse fallen mit knappen Worten und langen Schweigen; die Versammlung ist die einzige Instanz, die Exportquoten, Wildquoten und Hain-Tabus für das ganze Waldland setzt.
+
+Die Akademie ist der dauerhafte Nachbar im Süden. Lehrlinge sammeln in Grünwall Bitterwurz und Aeolyn-Salbei, üben sich an Tier- und Pflanzenkunde und absolvieren ihren Pflichtdienst als Heilkraut-Bote. Die Haine dulden das, solange die Regeln eingehalten werden: kein offenes Feuer auf Wurzelboden, kein Beil ohne Erlaubnis, kein Sigillen-Forschen im Hain-Kern. Sigillen-Funde aus dem Dunwald — die es gibt, leise, aber regelmäßig — sind ein wundes Thema; offiziell gehören sie der Akademie, inoffiziell wandern viele über Schmugglerpfade zu den Häfen der Hohlen Gezeiten.
+
+Wirtschaftlich lebt Grünwall vom Heilkräuterhandel, vom elfischen Bogenbau, von gnomischer Holzfeinmechanik wie Spieldosen und Schließwerken, und in begrenzter Menge von Wildbret und Pelzen. Kurnath ist der einzige relevante Umschlagplatz: Getreide aus den Westlanden hinein, Holzwaren und Tinkturen hinaus, dazu eine ruhige Garnison aus Mensch und Halbelf. Die Reichsstraße nach Althain wird gut gepflegt, weil die Akademie auf sie angewiesen ist.
+
+Geschichtlich ist Grünwall einer der wenigen Wälder, die die Stille als kontinuierlich bewohntes Refugium überstanden haben. Elfische Erinnerung reicht weiter zurück, als sich in Caldrithar sonst irgendwo nachprüfen ließe, und gnomische Wurzelarchive listen Hainnamen in einer Tiefe, die selbst Akademie-Historiker neidisch macht. Das Große Erdbeben vor rund zweihundert Jahren hat den Wald verändert: Wasseradern verschoben sich, ein älterer Innen-Hain versank — und genau dort wuchs in den Jahrzehnten danach das Dunwald-Innere zusammen, schattig, kühl, unwillig.
+
+Heute trägt Grünwall einen leisen Druck. Akademie-Bedarf wächst, Westlande-Händler drücken auf höhere Exportquoten, und der Dunwald-Schatten leckt langsam an Lichtungen, die letztes Jahr noch hell waren. Die Hainräte halten die Balance, indem sie keine schnellen Entscheidungen treffen — eine Politik, die in einem Wald, der sich seit der Schöpfung gehalten hat, bisher gut funktioniert.
+
+
+==== Aussehen
+
+
+Lange Lichtsäulen fallen durch hohes Laub und legen kupferne Bahnen auf den moosigen Boden. Die Luft riecht nach Harz, Pilz und nassem Stein; an Lichtungen mischt sich Kräuterduft dazu. Aus den Wurzeln kommt das feine Klingen gnomischer Windspiele, das nur hört, wer länger als einen Atemzug stehen bleibt. Bachläufe murmeln gleichmäßig, Frühnebel hängt bis Mittag in den Tiefenmulden. Nähert man sich Dunwald, wird das Klingen leiser, dann fehlt es ganz — der Schatten dort schluckt Geräusche so vollständig, dass man die eigenen Schritte als Eindringling hört.
+
+
+==== Klima
+
+
+Vier deutliche Jahreszeiten in gemäßigtem Profil. Lange Goldherbste mit klarer Sicht — die bevorzugte Saison für Akademie-Botanik-Kurse und für die jährliche Hainversammlung. Winter sind kalt, aber nicht arktisch; Schnee schließt manche Tieftäler ab, doch Kurnath bleibt über die Reichsstraße erreichbar. Im Frühling führen die Bäche aus dem Skybreaker-Hochland Hochwasser, kleinere Hain-Pfade werden kurzzeitig unpassierbar. Sommer sind warm und schwül, mit Gewittern, die gelegentlich Bodenfeuer entzünden; Druiden „atmen lassen" Lichtungen präventiv, indem sie kontrolliertes Niedrigfeuer im Spätfrühjahr setzen. Lokale Anomalie: im Dunwald liegen stehende Nebel, die nicht der Tageszeit gehorchen und auch im Hochsommer kühl bleiben.
+
+
+==== Kultur
+
+
+Grünwalls Gesellschaft kennt keinen Adel. Die Grundeinheit ist der Hain — dreißig bis zweihundert Menschen, Elfen, Gnome oder Halblinge, oft gemischt, mit einem Sprecher oder einer Sprecherin und einem heiligen Schmiedebaum. Sprache des Waldes ist eine Hain-Pidgin aus Elfisch und Gnomisch; in Kurnath wird die Allgemeinsprache gesprochen. Geschätzt werden Pflanzenkenntnis, Lautlosigkeit, und das Prinzip des gegenseitigen Nicht-Hinderns. Tabus: Bäume ohne Hain-Erlaubnis fällen, Feuer auf Wurzelboden, lautes Klingen-Klirren in Hain-Nähe, Sigillen-Forschen im Hain-Kern. Begrüßung ist ein Berühren von zwei Fingern an die eigene Schläfe und bedeutet „Ich höre und vergesse nicht". Die Akademie zu Altheim ist pragmatisch akzeptiert, ihre Bildung respektiert, ihre Sigillen-Neugier mit Vorsicht behandelt.
+
+
+==== Wirtschaft
+
+
+Hauptexport: Heilkräuter — Bitterwurz, Aeolyn-Salbei, Taublatt — Richtung Akademie und Hohle-Gezeiten-Häfen. Daneben elfischer Bogenbau und gnomische Holzfeinmechanik wie Spieldosen, Schließwerke und kleine Astrolabien. Wildbret und Pelze nur nach Hainquote. Kurnath ist der Knotenpunkt: Getreide aus den Westlanden hinein, Tinkturen und Holzwaren hinaus, dazu eine ruhige Garnison und mehrere Werkstätten. Verkehrsachsen: die gepflegte Reichsstraße Kurnath ↔ Akademie zu Altheim, Marktpfade in die Westlande, Saumpfade nordwärts in die Hohlen Gezeiten. Schwarzhandel mit Sigillen-Bruchstücken aus dem Dunwald läuft über die Hohle-Gezeiten-Häfen — illegal, gefährlich, aber existent.
+
+
+==== Bemerkenswerte Orte
+
+
+* kurnath
+* dunwald
+* Schmiedebaum vor Kurnath
+* Saumpfad zu den Hohlen Gezeiten
+* Reichsstraße Kurnath–Akademie
+
+
+==== Dominante Völker
+
+
+* `elf` (Elf)
+* `gnome` (Gnom)
+* `half_elf` (Halbelf)
+* `halfling` (Halbling)
+* `human` (Mensch)
+
+
+==== Bekannt für
+
+
+* Heilkräuter und Aeolyn-Salbei
+* Elfischer Bogenbau und gnomische Feinmechanik
+* Hainrats-Verfassung statt Adel
+* Akademie-Hinterland (Botanik, Druiden, Ranger)
+* Dunwald — der schattenkalte Innenkern
+* Kurnath als Schwellpfortenstadt
+
+
+==== Geschichte
+
+
+* Überdauern der Stille als kontinuierlich bewohntes Wald-Refugium (~20.000–800 v.h.)
+* Gründung der Akademie zu Altheim und Aufbau Kurnaths als Schwellpforte (~600 v.h.)
+* Das Große Erdbeben verschiebt Wasseradern; ein innerer Hain versinkt (~200 v.h.)
+* Entstehung des Dunwald-Schattens als räumlich umschriebene Hot-Spot-Zone (~150 v.h. bis heute)
+
+
+==== Gefahren
+
+
+* Dunwald-Schatten: Schattenwesen, Specter, korrupte Treants (lokal Danger 4 im sonstigen Danger-2-Rahmen)
+* Sigillen-Echos und Wild-Magie an versunkenen Wurzelgewölben
+* Frühjahrshochwasser aus dem Skybreaker-Hochland
+* Hain-Tabu-Verstöße (soziale Sanktion, Disposition-Verlust)
+* Schmugglerpfade und Räuber an der Reichsstraße (selten)
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Grünwall ist ein Wald, der die Welt überlebt hat. Als die Sieben die Schöpfung begannen, war der Hochwald schon dicht; als die Kriege Kontinente umpflügten, blieb er zu klein und zu randständig, um Ziel zu werden. Elfen-Familien zogen früh hierher, Gnome folgten in die Wurzeln, und über Jahrtausende wuchs eine Form des Zusammenlebens, die ohne König und ohne Krone auskommt: der Hainrat, gestützt auf den Schmiedebaum.
+
+Während der Stille — der zwanzigtausend Jahre, in denen Magie verhasst, gefürchtet und vergessen war — wurde Grünwall zu einem der wenigen Refugien, in dem Erinnerung lückenlos blieb. Mit der Gründung der Akademie zu Altheim vor rund sechshundert Jahren rückte der Wald an die Bildungsadresse Caldrithars: Botanik, Druiden-Lehre und Ranger-Ausbildung wandern bis heute durch seine Lichtungen. Kurnath wuchs zur Schwellpforte zwischen Akademie, Westlanden und Wald.
+
+Das Große Erdbeben vor zweihundert Jahren hat Grünwall verändert, ohne es zu zerbrechen. Ein älterer Hain versank, Wasseradern verschoben sich, und über Jahrzehnte wuchs in der Mitte des Waldes das Dunwald-Innere zusammen — ein schattenkalter Kern, aus dem Sigillen-Echos sickern. Heute hält der Hainrat die Balance zwischen Akademie-Bedarf, Westlande-Handel und der leisen, beharrlichen Drohung, die aus dem Wald-Inneren leckt. Wer Geduld mitbringt, wird in Grünwall alt; wer drängelt, lernt das Schweigen.
+
+
+'''
+
+
+=== Hohle Gezeiten
+
+
+:slug-hohle-gezeiten: hohle-gezeiten
+:biom-hohle-gezeiten: coast
+:klima-hohle-gezeiten: maritime
+:gefahr-hohle-gezeiten: 3/5
+
+
+Die Hohlen Gezeiten sind kein gewachsenes Land, sondern eine Wunde, die das Meer übernommen hat. Vor dem Großen Erdbeben — vor etwa zweihundert Jahren — lag hier eine geschlossene, fruchtbare Küstenlinie unter einem nordwestlichen Königreich, dessen Namen kein Hafenkind mehr verlässlich kennt. Heute reicht der Atlantis-graue Atem des Ozeans bis in die Stuben: Inseln statt Provinzen, Pfahlbau-Brücken statt Heerstraßen, ein Hafenrat statt eines Königs.
+
+Geographisch zerfällt die Region in drei Schichten. Über Wasser: zerklüftete Felsinseln, deren Klippen von Sturmschauern poliert sind. Auf Wasserhöhe: ein Geflecht aus Prielen, Brackwasser-Buchten und Pfahlbau-Siedlungen, deren ältester und einzig städtischer Vertreter Oberglisstedt ist. Unter Wasser: das eigentlich „Hohle" — ein Karst-Labyrinth, das vor dem Beben Festlandgestein war und heute geflutete Tunnel, Hallen und Spalten beherbergt. Wenn die Gezeitenströme durch dieses Labyrinth donnern, klingt die Region nach einem riesigen, atmenden Wesen. Die Fischer nennen das Phänomen „Hohlflut" und zählen die Tage zwischen den Schreien.
+
+Wirtschaftlich trägt sich die Region durch Salzgärten, Trockenfisch, Aalfang und Tang — letzteres ein Halbgeheimnis, weil alchemistisch verwertbarer Tang bei Akademie-Studenten gut bezahlt wird. Das berühmteste Exportgut bleibt der Gezeitenfeuer-Schnaps aus Oberglisstedt, ein scharfer Tang-Beeren-Brand, der unter Grünwaller Holzfällern und Althainer Marktwirten gleichermaßen gefürchtet und begehrt ist. Im Tausch kommt Bauholz aus Grünwall die einzige sichere Landroute — die südliche Pfahlbau-Brücke — herauf, ohne das die Werften längst eingegangen wären.
+
+Politisch ist die Region ein Vakuum, das die Bewohner mit eigener Improvisation füllen. Der Hafenrat von Oberglisstedt — gewählt aus Schiffsführern, Brennerei-Ältesten und einer Stimme der Thalendis-Heilerin — fällt Recht, verteilt Wracktauch-Lizenzen und führt eine pragmatische Außendiplomatie mit den binnenländischen Nachbarn. Ein nominell zuständiges Königshaus existiert irgendwo in den Westlanden, hat aber seit dem Erdbeben keine durchsetzbare Autorität mehr.
+
+Kulturell sind die Hohlen Gezeiten ein Schmelztiegel. Halflings führen viele der mittleren Brennereien und kleinen Krämereien; Half-Elves stellen die Lotsen, deren Augen die wandernden Sandbänke und Karst-Mündungen lesen können; Menschen sind die zahlenmäßige Mehrheit auf Werften und Fischerbooten; Dragonborn dienen oft in der Stadtwache und kümmern sich um den schweren Hafen-Zoll; und ganz selten gesellt sich ein Aasimar in die Heilkammer am Thalendis-Schrein, wo Geburten und Sterbende gleichermaßen begleitet werden.
+
+Über alldem schwebt der Aberglaube, und sein größter Anker ist Drachensitz — ein Felsvorsprung an der Nordwestküste, der von weitem aussieht wie ein thronender Drache, der das offene Meer prüft. Kein Fischer ankert dort. Kein Schiffer segelt in seinen Schatten, wenn er nicht muss. Die alten Lieder sprechen von einer Wache, die seit der Drachen-Stille im Stein wohnt; die nüchterneren Bewohner halten den Drachensitz für eine Nistklippe der Sturmgreife und lassen das genauso. Beides darf wahr sein.
+
+In den letzten zehn Jahren hat sich etwas verschoben. Die Sturmgreife sind häufiger geworden. Die Hohlflut klingt manchmal nicht mehr nach einem atmenden Wesen, sondern nach einem schlagenden Herzen. Wracktaucher fischen Gegenstände aus der Tiefe, die nicht in jedes Schiffsleichen-Inventar passen — feucht-leuchtende Steine, immer kalt, immer voller Wasserrauschen. Wer von Sigillen weiß, atmet flacher. Wer nicht, geht trotzdem ungern bei Hohlflut allein an die Mole.
+
+
+==== Aussehen
+
+
+Salzige Gischt auf den Lippen, ein dröhnender Bass aus den Karst-Höhlen unter der Wasserlinie, dazu das heisere Geschrei der Möwen und das mahlende Geräusch von Tau gegen geteerte Holzpfähle. Tang in den Brackwasser-Buchten ist dunkelgrün, fast schwarz, und legt sich wie ein zweiter Saum um die Pfahlbau-Stelzen Oberglisstedts. Das Licht wechselt schnell — meist sturmgrau und nieselig, dann unvermittelt diese klare, kalte Blaustunde nach einem Unwetter, in der die Felssilhouetten gegen den Himmel schneiden. Geruch von Salz, geräuchertem Aal, brennendem Tangöl in den Laternen und, näher am Hafen, dem süßlich-stechenden Aroma von Gezeitenfeuer aus offenen Brennerei-Türen.
+
+
+==== Klima
+
+
+Atlantisch-rau das ganze Jahr über. Sommer kühl und neblig, mit kurzen, heftigen Frontdurchgängen. Herbst und Winter bringen Tiefdruck-Ketten und alle drei bis fünf Jahre eine Hurrikan-ähnliche Spitze, die ganze Pfahlbau-Stege wegreißt. Im Frühling treiben Eisstürme aus der nordöstlich angrenzenden Eismark südwärts und schieben Treibeis bis in die äußeren Priele — vereinzelt stranden Eisberge mit gefrorenen Eismark-Karawanen vor Oberglisstedt. Lokales Phänomen ist die „Hohlflut": alle neunzehn Tage donnern die Gezeitenströme durch die gefluteten Karst-Tunnel und erzeugen einen tiefen, atmenden Klang, an dem die Region ihren Namen verdient hat.
+
+
+==== Kultur
+
+
+Schmelztiegel- und Hafenkultur ohne ethnisches Stammvolk: Menschen als Mehrheit (Werft, Fischerei), Halflings als Krämer und Brennerinnen, Half-Elves als Lotsen, Dragonborn als Hafenwächter, Aasimar als seltene Thalendis-Heilerinnen. Politik liegt beim Hafenrat von Oberglisstedt — gewählt, pragmatisch, ohne Adelstitel. Religiöser Mittelpunkt ist Thalendis, Wasser-Göttin der Heiler, Reisenden und Fischer; ihre Schreine säumen jede größere Bucht. Drei Bräuche prägen das Druckgut: die Salzwasser-Bestattung (Asche aufs offene Meer, Sarg verbleibt am Strand), das Drachensitz-Tabu (kein Anker im Schatten des Felsvorsprungs) und die „Hohlflut-Stille" (in den Stunden des dröhnenden Bass-Echos ruht der Hafen, niemand legt ab). Sprache ist eine maritime Variante des Standard-Dialekts mit eigenem Wettervokabular und einer auffälligen Reichweite an Fluchwörtern.
+
+
+==== Wirtschaft
+
+
+Tragend sind Fischerei (Trockenfisch, Aal), Salzgärten, Tang-Ernte (alchemistisch verwertbar, Akademie-Markt) und die Gezeitenfeuer-Brennerei aus Oberglisstedt. Werften bauen kleine bis mittlere Fahrzeuge für Küstennavigation und Sahuagin-sichere Riffwege. Wracktauchen ist ein lizenzpflichtiges Halbhandwerk mit hohem Ertrag und hoher Sterberate. Verkehrsachse ist die südliche Pfahlbau-Brücke nach Grünwall: Bauholz herauf, Salz, Trockenfisch und Schnaps hinunter. Binnenmarkt-Ziel ist Althain für Schnaps und Tang; aus der Eismark kommen im Sommer Pelze über See. Berufsbild: Fischer, Brennerin, Lotsin, Werftzimmerer, Wracktaucher, Salzgärtner, Tangschneider.
+
+
+==== Bemerkenswerte Orte
+
+
+* oberglisstedt
+* drachensitz
+* Südliche Pfahlbau-Brücke nach Grünwall
+* Karst-Labyrinth unter dem Drachensitz
+* Salzgärten der Außenpriele
+* Sturmgreif-Klippen
+
+
+==== Dominante Völker
+
+
+* `human` (Mensch)
+* `half_elf` (Halbelf)
+* `halfling` (Halbling)
+* `dragonborn` (Drachengeborener)
+* `aasimar` (Aasimar)
+
+
+==== Bekannt für
+
+
+* Gezeitenfeuer-Schnaps
+* Pfahlbau-Stadt Oberglisstedt
+* Drachensitz-Felsvorsprung
+* Hohlflut alle 19 Tage
+* Thalendis-Heilkammern
+* Wracktaucher-Subkultur
+
+
+==== Geschichte
+
+
+* Das Große Erdbeben (~200 v.h.) versenkt die geschlossene Küstenlinie und schafft das heutige Inselarchipel + Karst-Labyrinth
+* Gründung des Hafenrats von Oberglisstedt nach dem Zerfall der nominellen Königsverwaltung
+* Erste dokumentierte Hohlflut-Anomalie (vor ~10 Jahren): der dröhnende Bass-Echo verändert seinen Rhythmus, parallel zur Häufung von Sturmgreif-Sichtungen
+* Salzwasser-Bestattung des Hafenrats-Ältesten Boren Stelz vor 4 Jahren — Sarg wird drei Tage später am Drachensitz angeschwemmt, ungeöffnet
+
+
+==== Gefahren
+
+
+* Sturmfluten und Hurrikan-Spitzen
+* Sturmgreife in den Klippen um den Drachensitz
+* Sahuagin-Trupps auf den äußeren Riffen
+* Sea-Hag-Coven in den Karst-Höhlen
+* Hohlflut-Resonanz (Wahnsinn-Stress bei längerer Exposition)
+* Wrack-Strömungen und Karst-Einstürze für Taucher
+
+
+==== Hintergrund (Kurzfassung)
+
+
+_Ursprung._ Bis vor zweihundert Jahren war die Region ein zusammenhängender Küstenstrich unter einem nordwestlichen Königreich. Fischerei und Salzgärten ernährten ein Netz aus Dörfern, eine gepflasterte Heerstraße verband das Land mit den Westlanden, und der heutige Drachensitz war ein bloßer Aussichtsfels über einer geschlossenen Bucht.
+
+_Wandel._ Das Große Erdbeben kontinentaler Größenordnung — datiert auf etwa zweihundert Jahre vor heute — versenkte ganze Küstenstriche. Die Bucht riss auf, das Hinterland sackte ab, die Heerstraße verschwand im Brackwasser. Was zurückblieb, war ein Inselarchipel über einem gefluteten Karst-Labyrinth: das, was die Bewohner heute die „Hohlen Gezeiten" nennen. Das Königreich verlor jeden praktischen Zugriff. Überlebende setzten Pfahlbauten auf die Trümmer der alten Mole von Glisstedt und nannten den Neubau Oberglisstedt. Ein Hafenrat aus Schiffsführern und Brennerei-Ältesten übernahm die Verwaltung. Innerhalb von zwei Generationen war die Region kulturell ein Schmelztiegel, wirtschaftlich auf den Tausch mit Grünwall und Althain ausgerichtet und religiös fest in der Hand der Thalendis-Heilkammern.
+
+_Heute._ Die Region ist semi-autonom, wirtschaftlich tragfähig und an den Wandel angepasst — aber seit etwa zehn Jahren mehren sich die Wetter-Anomalien. Sturmgreife nisten wieder in den Drachensitz-Klippen. Die Hohlflut klingt mancher Hörerin nach einem Herzschlag statt einem Atem. Wracktaucher finden tropfenförmige Saphire, die immer feucht sind und leise rauschen — wer Sigillen-Lore kennt, ahnt, was sich da freilegt. Die Region steht am Anfang einer neuen Erschütterung, und der Hafenrat weiß, dass er sie diesmal nicht aussitzen kann.
+
+
+'''
+
+
+=== Moorlande
+
+
+:slug-moorlande: moorlande
+:biom-moorlande: swamp
+:klima-moorlande: temperate
+:gefahr-moorlande: 3/5
+
+
+Die Moorlande sind kein gewachsenes Land, sondern ein vergessenes — ein Stück Küstenebene, das vor zweihundert Jahren beim Großen Erdbeben fünf Schritt tief gesackt ist und seitdem das Wasser nicht mehr loslässt. Wer ältere Karten zur Hand nimmt, findet hier Felder, Mühlen und einen geraden Fluss; auf den neueren steht nur ein schraffierter Fleck mit der Notiz, dass die Vermessung nicht durchführbar war. Beides ist wahr. Der Sumpf hat das eine ins andere überschrieben.
+
+Geographisch zerfällt die Region in vier Schichten, die ineinander schwimmen. Im Norden steht *Eisendorf* auf festerem, sandhaltigem Boden am Übergang zum Skybreaker-Hochland; im Nordosten markiert der *Waldrand bei Grünwall* den weichen Übergang in den Forst, mit Heilkräutern und Pilzen, die nur an genau dieser feucht-trockenen Grenze wachsen. Das *Moorlande-Kern* in der Mitte ist undurchquerbar, ein Labyrinth aus Schwarzwasser-Prielen, treibenden Schilfinseln und stehendem Methangas, das sich an heißen Tagen in trügerischen Schlieren über dem Wasser sammelt. Im Süden hält *Elenwahr* den letzten Pfahlbaurand vor der Wüste, ein Schmuggler- und Karawanenort, in dem sich der Schlamm langsam in Salzmarsch und dann in Sand auflöst. Und tief im Westen, von keinem Pfad direkt erreichbar, liegt *Khrilvari* — das einzige, was man hier Stadt nennen könnte, wäre sie nicht so still.
+
+Die Khrilvari-Tieflinge sind erst vor etwa hundert Jahren in Gruppen zugesickert, nicht als Trek, nicht auf Einladung, sondern wie Wasser, das sein Niveau sucht. Die Älteren sagen, sie hätten ein Zittern unter der Stelle gespürt, an der sie nun ihre niedrige, aus Sumpfeiche und Sandstein gemauerte Siedlung errichtet haben. Was sie pflegen, ist eine Magie der Schwelle: das Begleiten von Sterbenden über die Linie, das Hören von Stimmen, die nicht ganz weg sind, das Aushandeln zwischen denen, die hier sind, und denen, die da sind. Es ist kein Totenkult — die Khrilvari verbieten Nekromantie im Sinne des Wieder-Aufstehens — sondern eine streng höfliche Mediation, mit eigenem Pfadritus und einem Schwellenrat aus sieben Sprechern. Außenstehende werden selten eingeladen. Wer eingeladen wird, wird vorher dreimal an der Tür höflich abgewiesen, damit beide Seiten sich ihrer Absicht sicher sind.
+
+Pfadwissen ist hier die wichtigste Überlebensskill und der einzig stabile Reichtum. Karten taugen nichts, weil die Wasserläufe wandern; stattdessen tragen die *Pfadhalter* an ihren Gürteln knotige Schilfbündel, in deren Knoten Generationen-Erfahrung lesbar verschlüsselt ist. Ein verlorener Pfadhalter ist eine kulturelle Tragödie — drei Wochen ohne Knoten heißt eine Karawanen-Saison ohne Führung. Die Pfadhalter selbst sind keine Khrilvari-Tieflinge, sondern fast immer Menschen aus den zugewanderten Sippen von Eisendorf und Elenwahr, oft Töchter oder Söhne von Schmieden, die das laute Hämmern gegen die stille Aufmerksamkeit eingetauscht haben.
+
+Wirtschaftlich tragen die Moorlande sich durch drei Dinge: Eisendorfer Roheisen aus Raseneisenerz (das in den Sumpf-Sedimenten in faustgroßen Konkretionen wächst, schlackenreich und billig, aber genau richtig für Skybreaker-Hammerwerke), Heilkräuter und Pilze aus dem Waldrand-Grünwall-Streifen (Sumpfkönigskerze, Knochenflechte, Schreckkappenpilz, alle drei begehrt in Althains Apotheken), und Pfadhalter-Dienste plus Schmuggel über Elenwahr in den Süd-Wüstenarchipel. Was sich nicht offen handeln lässt — Eisen-Halbzeug ohne Königs-Stempel, gelegentliche Tiefling-Amulette aus Khrilvari, sehr selten Reagenzien, die in keine andere Region passen würden — fließt über den südwestlichen Karawanenrand still ab.
+
+Politisch ist die Region grau. Keine Krone hat hier je effektiv Steuern eingetrieben; Westlande beansprucht den nördlichen Rand bei Eisendorf juristisch, Skybreaker-Hochland beansprucht ihn industriell, und der Süden steht außerhalb beider Logiken. Die Eisendorfer Schmiede zahlen, was sie zahlen wollen, und nicht öfter. Khrilvari wird auch von ehrgeizigen Lehnsherren in Ruhe gelassen, weil keiner gerne dort eintrifft, ohne eingeladen worden zu sein. Das Knoten-Pfad-System der Pfadhalter funktioniert als faktische Verwaltung — eine Karawane ohne Pfadhalter kommt nicht durch, und die Pfadhalter haben ihre eigenen, leisen Regeln, wer Eskorte bekommt und wer nicht.
+
+Über dem allen liegt ein magisches Rauschen, schwach aber konstant, das nur Sensitive bemerken. Drachen meiden das Moor; ihre Reiter erzählen, ihre Bindung würde hier „matschig" und unscharf. Die Khrilvari-Ältesten wissen, warum: unter ihrer Schwellenrats-Halle liegt eine alte, durch das Erdbeben freigelegte und seither inaktive Sigillen-Stelle, von der niemand außerhalb erfährt. Seit die erste Sigille andernorts erwacht ist, hat dieses Rauschen einen leisen, neuen Unterton bekommen. Khrilvari spricht nicht darüber. Aber die Knoten der Pfadhalter werden seit einem halben Jahr enger.
+
+
+==== Aussehen
+
+
+Tiefliegender Nebel, der nie ganz weicht, und der bei Sonnenaufgang aus dem Schwarzwasser steigt wie ein langsamer Atem. Halbtote Erlen und Birken, weiß wie Knochen, ihre Wurzeln aus dem Wasser ragend wie Hände. Geruch nach Sumpfgas, nassem Eisen und morschem Pilzholz, am Waldrand dann plötzlich krautig-bitter. Schritte versinken bis zur Wade, jeder Tritt ein Glücksspiel zwischen Schilfwurzel und treibender Insel. Abends Glühwürmchen über den Prielen, im Spätherbst leise phosphoreszierende Algenränder, gelegentlich ein gelbliches Irrlicht, dem niemand folgt. Das einzige menschliche Geräusch ist das ferne, dumpfe Schlagen von Eisendorfer Hämmern aus dem Norden, das sich im Nebel verbiegt und manchmal aus der falschen Richtung kommt.
+
+
+==== Klima
+
+
+Temperate Klimazone, aber atypisch nass. Lange feuchte Frühlinge mit Hochwasser, das oft bis in den Frühsommer reicht und ganze Pfadabschnitte unbenutzbar macht; schwüle Spätsommer mit Moskito-Hochsaison und endemischem *Sumpffieber* (zwei bis drei Tage Schüttelfrost, selten tödlich, oft genug zum Karawanen-Verlust). Milde, vernebelte Herbste; nasse Winter ohne tiefen Bodenfrost — der Sumpfboden friert nie ganz durch und verschluckt daher auch im Februar. Drei lokale Phänomene prägen den Jahreskreis: der *Bläuliche Nebel* (mehrwöchiger Bodennebel im Spätherbst, in dem die Sicht auf Armlänge fällt und Nebelstalker häufiger jagen), die *Sumpfblüte* (Frühsommer-Algenblüte, deren Wasser nachts schwach phosphoresziert und Will-o-Wisps anzulocken scheint), und das *Trockenfenster* (zwei bis drei Wochen im August, die einzig planbar sichere Durchquerungszeit, dann öffnen sich kurzzeitig Pfade, die sonst nicht existieren).
+
+
+==== Kultur
+
+
+Zwei Kulturen teilen die Region. *Khrilvari-Tieflinge* als Lore-Anker — eine leise, höflich-zurückhaltende Schwellenkultur mit eigenem Schwellenrat aus sieben Sprechern, strenger Innenhierarchie und einem Pfadritus, der Sterbende über die Linie begleitet. Nekromantie im Sinne des Wieder-Aufstehens ist tabu; was praktiziert wird, ist Mediation zwischen Lebenden und nicht-ganz-weg-Stimmen. *Zugewanderte Mensch-Sippen* (Eisendorfer Schmiede, Elenwahrer Karawanenführer und die Pfadhalter dazwischen) bilden die zahlenmäßige Mehrheit — zähe Außenseiter aus Westlande und dem südlichen Wüstenrand, mit ausgeprägtem „wir-zahlen-keinen-Lehnsherrn"-Stolz, Loyalität zur Sippe und zum Pfad-Knotensystem. Sprache ist ein Pidgin aus westländischer Hochsprache mit Tiefling-Infernal-Lehnwörtern; die übliche Begrüßung _„Dort-und-Hier"_ ist ein Schwellen-Gruß, der von beiden Seiten verstanden wird. Wertesystem: _kein Versprechen über Land_ — denn Land bewegt sich — sondern Versprechen werden auf Knoten gemacht. Bestattung: schwimmende Holzgerüste, die langsam ins Wasser sinken; keine Gräber, weil der Boden Tote ohnehin zurückgibt.
+
+
+==== Wirtschaft
+
+
+Tragend sind drei Achsen. *Eisendorfer Bog-Eisen*: in den Sumpfsedimenten wachsende Raseneisenerz-Konkretionen, geschmolzen zu schlackenreichen Roheisen-Barren — günstig, robust, geht als Halbzeug nach Skybreaker-Hochland und Westlande. *Heilkräuter und Pilze* vom Waldrand-Grünwall-Streifen — Sumpfkönigskerze, Knochenflechte, Schreckkappenpilz — gehen über Grünwall-Karawanen nach Althain in die Akademie-Apotheken. *Pfadhalter-Dienste*: bezahlte Führung durch die wandernden Wasserläufe, im Trockenfenster Hauptgeschäft, oft mit Eisen-Halbzeug oder Pfeilbündeln vergolten. Daneben ein nicht unwichtiger *Schmuggel-Strom* über Elenwahr in den Süd-Wüstenarchipel: Eisen-Halbzeug ohne Königs-Stempel, gelegentlich Tiefling-Amulette aus Khrilvari, sehr selten Nekromantie-Reagenzien (hoch riskant, selten gehandelt). Einzige verlässliche Verkehrsachse ist der *Hammer-Pfad* von Eisendorf nach Elenwahr durch den westlichen Moorrand; Khrilvari wird gemieden, nicht weil es verboten ist, sondern weil es _nicht eingeladen_.
+
+
+==== Bemerkenswerte Orte
+
+
+* khrilvari
+* eisendorf
+* elenwahr
+* moorlande-kern
+* waldrand-gruenwall
+* Hammer-Pfad (Eisendorf -> Elenwahr)
+* Schwellenrats-Halle in Khrilvari
+
+
+==== Dominante Völker
+
+
+* `tiefling` (Tiefling)
+
+
+==== Bekannt für
+
+
+* Tiefling-Enklave Khrilvari mit Schwellen-Magie
+* Pfadhalter-Knotensystem als Karawanen-Navigation
+* Eisendorfer Bog-Eisen aus Raseneisenerz
+* Bläulicher Nebel im Spätherbst
+* Heilkräuter und Pilze am Waldrand-Grünwall
+* Schmuggel-Achse Elenwahr -> Süd-Wüstenarchipel
+
+
+==== Geschichte
+
+
+* Das Große Erdbeben (~200 v.h.) lässt das Küsten-Hinterland um fünf Schritt absacken; Flussläufe verlagern sich, der heutige Sumpf entsteht binnen einer Generation
+* Etwa hundert Jahre nach dem Erdbeben sickern erste Tiefling-Gruppen aus mehreren Richtungen zu und gründen Khrilvari über einer freigelegten, inaktiven Sigillen-Stelle (Geheimwissen)
+* Vor ~40 Jahren stirbt eine ganze Karawane im Bläulichen Nebel — der Vorfall etabliert die Pfadhalter-Knoten-Norm endgültig als ueberregionalen Standard
+* Seit Erwachen der ersten Sigille (JETZT): das magische Rauschen unter Khrilvari hat einen neuen Unterton; der Schwellenrat tagt häufiger, ohne öffentlich darüber zu sprechen
+
+
+==== Gefahren
+
+
+* Nebelstalker im Bläulichen Nebel (CR 7 Aberration, Frightened-Aura, tarnt sich als normaler Nebel)
+* Trügerischer Boden und Sumpffieber (Schritt-Risiko + endemische Krankheit im Spätsommer)
+* Will-o-Wisps und Wasserkrokodile in den Prielen
+* Verlust des Pfadhalter-Knotens (Orientierungsverlust ohne Karten-Ersatz)
+* Sigillen-Resonanz unter Khrilvari (Story-Tier, Sigillen-Verderber-Risiko bei tiefem Eingreifen)
+
+
+==== Hintergrund (Kurzfassung)
+
+
+_Ursprung._ Vor dem Großen Erdbeben war das Gebiet eine fruchtbare Küstenebene mit Flussdelta, Mühlen und einer geraden Heerstraße nach Westlande. Eisen wurde schon damals abgebaut, allerdings in regulären Stollen am Übergang zum Hochland; Khrilvari existierte nicht, die Tieflinge wohnten verstreut über den ganzen Kontinent.
+
+_Wandel._ Das Erdbeben vor ~200 Jahren senkte den Boden um etwa fünf Schritt, lenkte zwei große Flüsse um und versperrte den Abfluss. Was Felder waren, wurde innerhalb einer Generation Schlamm. Die meisten Bewohner flohen nach Westlande. Wer blieb, waren Sippen am Eisendorf-Übergang — die Eisenfunde im neuen Sumpfboden machten Bleiben lohnend — und Karawanenführer am Süd-Rand, wo Elenwahr zum Zwischenstopp für Wüsten-Routen wurde. Etwa hundert Jahre nach dem Beben tauchten die ersten Tiefling-Gruppen auf, kein einzelner Trek, sondern stetiges Zusickern aus mehreren Richtungen, wie nach einem Ruf. Sie gründeten Khrilvari über einer freigelegten, aber inaktiven Sigillen-Stelle und entwickelten dort über Generationen die Schwellen-Magie, die sie heute pflegen. Parallel verfestigte sich das Pfadhalter-Knotensystem zur faktischen Verwaltung — das wandernde Wasser machte Karten unbrauchbar, also schrieb man Wege in Knoten.
+
+_Aktueller Stand._ Drei Bevölkerungen — Khrilvari-Tieflinge, Eisendorfer Schmieden-Sippen, Elenwahrer Karawanen-Mensch — teilen einen Sumpf. Königliche Ansprüche bleiben unklar; effektive Steuern hat hier nie jemand eingetrieben. Politisch grau, kulturell streng selbst-organisiert. Mit dem Erwachen der ersten Sigille spüren die Khrilvari-Ältesten ein Zittern unter ihrer Schwellenrats-Halle, sprechen aber nicht darüber. Pfadhalter berichten seit einem halben Jahr, dass die Wasserläufe schneller wandern als gewöhnlich. Drachen meiden das Moor weiterhin und kreisen lieber über Skybreaker und Feuergipfel — und genau das beunruhigt die wenigen Sensitiven, die etwas zu vergleichen haben.
+
+
+'''
+
+
+=== Skybreaker-Hochland
+
+
+:slug-skybreaker: skybreaker-hochland
+:biom-skybreaker: mountain
+:klima-skybreaker: temperate
+:gefahr-skybreaker: 2/5
+
+
+Skybreaker-Hochland zerfällt in zwei klar getrennte Höhenstufen, die das Polygon vertikal teilen. Im Norden ragt die namensgebende Bergmauer auf — schroffe Granit- und Schiefergrate, die ihre Spitzen so weit in den Himmel treiben, dass sie ihn beim Sonnenuntergang in roten Bändern aufzubrechen scheinen. Daher der Name: Skybreaker, die Himmelszerbrecher. Was die alten Chronisten „Zentralebenen" nannten, ist in Wahrheit die südliche Hälfte dieser Region: ein hochgelegenes Plateau-Tal, das durch die Bergmauer im Norden vor den Tundra-Winden der Eismark geschützt ist und deshalb fruchtbaren Lehm trägt, obwohl es selbst längst über der Baumgrenze flacher Tiefländer liegt.
+
+Im Herzen dieses Plateaus steht Reldyn — die einzige bedeutende Siedlung im Polygon und die Drehscheibe der ganzen Region. Reldyn lebt vom Knoten dreier Achsen: der Skybreaker-Strasse, die von Westlande über die Pässe nach Althain und weiter zur Akademie-Region führt; den Süd-Pfaden, die Grünwald-Holz und Bauholz heranbringen; und den Eismark-Vorpostenpfaden, die Pelze, Eisen und Mut aus dem Norden holen. In Reldyn werden Akademie-Karawanen verproviantiert, Steinmetzlieferungen umgeschlagen und die Pass-Steuern für die Reichskasse erhoben.
+
+Die Pässe selbst sind das eigentliche Filter dieser Region. Sie sind nur von Sommermitte bis Frühherbst zuverlässig offen, im Frühjahr abhängig vom Skybreaker-Föhn — jenem warmen Fallwind, der das Plateau schlagartig auftaut, aber an den Südhängen Erdrutsche auslöst. Wer zur falschen Jahreszeit reist, steckt fest. Wer im Sturm vorbeireitet ohne zu rasten, verliert nach Pass-Recht sein Gastrecht für ein ganzes Jahr. Die nördlichsten Pass-Dörfer hängen sich an die Steinmetzkultur der Dunmar-Tradition: massive Verbundbauten ohne Mörtel, Schmiede-Innungen, Treue-Eide, die auf den Stein gelegt werden, nicht auf Papier.
+
+Das südliche Plateau dagegen wird von Halbling-Sippen bestellt — kleine Höfe in den geschützten Mulden, Bergweizen und Roggen statt der Tiefebene-Weizensorten, Käse aus Hochlandschafmilch, Bienenstöcke an den Föhn-Hängen. Die Halblinge stellen auch die Postreiter der Skybreaker-Strasse, die in zwei Tagen schaffen, wofür ein Karawanenzug zwei Wochen braucht. Über die Akademie-Diaspora aus Althain hat sich in Reldyn eine zweite, leisere Kulturschicht eingenistet: Bibliothekare, Wetter-Beobachter, Wegekartographen, die der Aeolyn-Toleranz folgen und sich um die Pass-Sigillen kümmern, die den Föhn lesbar machen sollen.
+
+Die Legacy-Bezeichnung „Schlachtfeld" hat ihre Berechtigung. Mehrere historische Heereszüge haben das Plateau durchquert, weil seine Pässe die einzig praktikablen Wege zwischen Westlande und Akademie-Land sind. An manchen Stellen liegt der Lehm so tief über alten Knochen, dass die Bauern im Spätsommer noch heute Pfeilspitzen umpflügen. Heute ist die Region befriedet — Pass-Banditen, Wetterstürze und gelegentliche Eis-Bestien aus den Eismark-Übergängen sind die typischen Bedrohungen, nichts mehr, was Reichsheere bewegen würde.
+
+Skybreaker-Hochland ist damit weder reines Bergland noch reine Ebene, sondern das Scharnier dazwischen: ein Land, das Reisende ausbremst, Karawanen sammelt, und in dem zwei Kulturen — die steinerne der Pässe und die plateauweite der Bauern — sich in den Marktgassen Reldyns treffen, ohne sich je ganz zu vermischen.
+
+
+==== Aussehen
+
+
+Vom Süden her gesehen ein gestaffeltes Bild: zuerst gelbgrüne Plateau-Weiden mit Lehm-Furchen und niedrigen Steinmauern, dann ein blaugrauer Felsriegel, der sich abrupt aus dem Boden hebt, darüber Wolkenfahnen, die aus dem ewigen Eis der Eismark-Grenze herabwehen. Morgens werfen die Peaks lange, kalte Schatten bis weit aufs Plateau, abends streift rotes Licht ihre Westflanken — und tatsächlich sieht es einen Atemzug lang aus, als würde der Himmel an ihnen zerbrechen. Der Wind trägt Steinstaub und Bergthymian, in Reldyn riecht es nach Lehm nach dem Regen, nach Karawanenfeuern und Schmiedeisen. Die Geräuschkulisse: Pass-Wind durch Schluchten, Karawanen-Glocken auf der Strasse, das Hämmern der Steinmetze, im Sommer das hohe Pfeifen der Postreiter-Halbling-Pferde.
+
+
+==== Klima
+
+
+Zwei Klimazonen in einer Region. Das südliche Plateau ist temperate: kühle Sommer um 18–22°C, kalte Winter mit trockenen Pulver-Schneestürmen, die aus den Pässen herabfegen. Niederschlag moderat, durch die Bergmauer im Norden vor den nassesten Tundra-Fronten geschützt. Die Skybreaker-Peaks selbst sind alpin: oberhalb von rund 2400 Metern liegt der Schnee das ganze Jahr, die Pässe sind nur von Mitte Juni bis September zuverlässig offen. Das prägende Wetterphänomen ist der *Skybreaker-Föhn* — ein warmer Fallwind aus den Bergen, der im Frühjahr das Plateau in wenigen Stunden auftaut, aber an den Südhängen Lawinen und Erdrutsche auslöst. Sekundärphänomene: Bora-artige Schneestürme im Winter, schwerer Hagel im Spätsommer, gelegentlich Wolkenbrüche an den Pass-Sätteln.
+
+
+==== Kultur
+
+
+Zwei Kulturschichten leben übereinander. In den nördlichen Pass-Dörfern dominiert die Dunmar-Tradition: Steinmetz-Innungen, Schmiede-Treueide auf den Stein gelegt, mörtellose Verbundarchitektur, ein Wertesystem aus Standhaftigkeit, Loyalität und Handwerksstolz. Bergsprache mit zwergischen Lehnwörtern für Stein-, Pass- und Wetterbegriffe ist alltäglich. Auf dem südlichen Plateau prägen Halbling-Sippen das Bild: bäuerliche Höfe, Postreiter-Tradition, gastfreundliche Marktdörfer. Über beide Schichten legt sich in Reldyn die Aeolyn-Resonanz aus Althain: Wissenswertschätzung, Toleranz, Karten- und Wetterkunde. Universal in der Region gilt das *Pass-Gastrecht* — wer einem Reisenden im Sturm das Lager verweigert, verliert für ein Jahr seinen Sippen-Ruf; wer es einhält, darf nach altem Recht später überall im Hochland um dasselbe bitten. Caldrithisch ist die Verkehrssprache, in Pass-Dörfern dialektal stark gefärbt.
+
+
+==== Wirtschaft
+
+
+Reldyn ist Stapelplatz, die Skybreaker-Strasse die Hauptachse. Exporte sind Steinmetzware (Quader, Mühlsteine, geschliffene Akademie-Säulen aus den Nordhang-Steinbrüchen), Bergweizen und Roggen, Hochland-Käse und Wolle aus den Plateau-Schafherden, sowie Pelze und Eisen aus dem Eismark-Vorland im Transit. Importiert werden Bauholz und Harz aus Grünwall, Steppen-Korn aus Westlande bei Missernten, und Akademie-Bücher aus Althain. Wichtigste Einnahmequelle der Krone: die *Pass-Steuer*, erhoben am Reldyner Tor von der Vogtei. Berufsbild: Bauern (vor allem Halblinge), Schäfer, Steinmetze, Schmiede, Pass-Wächter unter Reichskommando, Karawanenführer, Postreiter, Wetter-Beobachter und Kartographen aus dem Aeolyn-Umfeld. Die Skybreaker-Strasse trägt die ganze Region — fällt sie aus, fällt die Region aus.
+
+
+==== Bemerkenswerte Orte
+
+
+* Reldyn
+* Skybreaker-Peaks
+* Skybreaker-Strasse
+* Nordhang-Steinbrüche
+* Reldyner Pass-Tor
+* Föhn-Hänge
+
+
+==== Dominante Völker
+
+
+* `human` (Mensch)
+* `halfling` (Halbling)
+
+
+==== Bekannt für
+
+
+* Skybreaker-Peaks
+* Skybreaker-Strasse
+* Pass-Gastrecht
+* Reldyner Steinmetzkunst
+* Skybreaker-Föhn
+* Halbling-Postdienst
+
+
+==== Geschichte
+
+
+* Erste Pass-Karawanen lange vor Akademie-Gründung — Reldyn entsteht als Karawanserei am Plateau-Knoten.
+* Gründung der Akademie von Altheim (~600 v.h.): Reldyn wird zum westlichen Vortor der Akademie-Region.
+* Heereszüge der mittleren Jahrhunderte ziehen wiederholt über das Plateau — daher der Legacy-Topos „Schlachtfeld und Kornkammer".
+* Einrichtung der königlichen Pass-Steuer und Aeolyn-Wetterwarte in Reldyn — Befriedung und Verstetigung der Skybreaker-Strasse.
+
+
+==== Gefahren
+
+
+* Pass-Banditen entlang der Skybreaker-Strasse
+* Schneestürme und Lawinen — besonders bei drehendem Föhn
+* Eis-Bestien (Yetis, Winterwölfe) aus dem Eismark-Übergang an den Nordpässen
+* Pass-Sperre durch verspäteten Frühjahrs-Föhn — Karawanenstau, Hungerwinter im Plateau
+* Greifen und Hippogriffe in den Hochgraten, gelegentlich Steinriesen-Solitäre
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Skybreaker-Hochland ist eines der ältesten begangenen Stücke Caldrithars — die Pässe der Skybreaker-Peaks waren Karawanenrouten, lange bevor irgendjemand das Plateau „Zentralebenen" nannte. Reldyn entstand als Karawanserei an der natürlichen Engstelle zwischen Bergmauer und südlich anschließendem Tal, irgendwann in der Frühzeit, als die ersten Steinmetz-Sippen aus den Pass-Dörfern hinunterstiegen und die ersten Halbling-Bauern die geschützten Plateau-Mulden urbar machten.
+
+Mit der Gründung der Akademie von Altheim vor rund sechshundert Jahren begann der zweite Aufstieg der Region. Reldyn wurde zum westlichen Vortor des Akademie-Landes: Studierende, Botenreiter, Buchhändler und Säulen-Karawanen aus den Nordhang-Steinbrüchen quertes Plateau. Die Aeolyn-Toleranz aus Althain sickerte über die Strasse herein und legte sich als dritte Schicht über die Dunmar-Steinmetzkultur des Nordens und die Halbling-Plateaukultur des Südens. In den Jahrhunderten danach zogen mehrere Heereszüge durch die Pässe, weil sie die einzig praktikable Verbindung zwischen Westlande und Akademie waren. Das Plateau wurde wiederholt zum Schlachtfeld — der Topos, der die Legacy-Beschreibung der „Kornkammer mit dem blutgetränkten Lehm" hinterlassen hat.
+
+Heute ist die Region befriedet, danger_level 2. Die Pässe gelten als sicher, solange Föhn und Wetterbeobachtung mitspielen. Reldyn hat seine Pass-Steuer, seine Steinmetze beliefern die Akademie, seine Halbling-Postreiter tragen die akademische Korrespondenz. Die letzten echten Bedrohungen kommen von oben aus den Pässen — wenn der Föhn dreht und etwas aus der Eismark herabkommt, das dort eigentlich nicht hingehört.
+
+
+'''
+
+
+=== Süd-Wüstenarchipel
+
+
+:slug-suedarchipel: suedarchipel
+:biom-suedarchipel: desert
+:klima-suedarchipel: arid
+:gefahr-suedarchipel: 3/5
+
+
+Im Süden Caldrithars schiebt sich eine ockergelbe Wüsten-Halbinsel ins türkisfarbene Flachmeer, und hinter ihrer Südspitze beginnt der Archipel: Dutzende Sand- und Korallen-Inseln, manche kaum grösser als ein Schiffsdeck, andere mit Dünen-Rücken und eigenem Süsswasserbrunnen. Drei Häfen halten die Region zusammen — Daenvalis am Halbinsel-Fuss, Tenrostaz als Riff-Wächter-Festung auf der grössten westlichen Insel, Thalvaris im tieferen Archipel rund um einen freigelegten Süsswasserbrunnen.
+
+Daenvalis empfängt die Karawanen aus den Westlanden, wo der Pfad aus den grünen Hügeln in die Düne kippt. Hier mischen sich Gefrenki-Händler, Halbling-Bäcker und Tiefling-Reisende aus der Aussenmarkt-Wüste; die Werkstätten der Stadt blasen Sand-Glas, das vor Tagen noch als Splitter im Wüstenwind tanzte. Tenrostaz hingegen blickt nur aufs Meer: eine niedrige Mauer aus dunklem Riff-Stein, ein einziger Tiefwasser-Anleger, und Lotsen, die ihr Riff besser kennen als ihre eigenen Kinder. Thalvaris schliesslich lebt vom Tauchen. Seine Perlentaucher tragen Klan-Tattoos an Schulter und Wade, und sein Tempel der Thalendis trinkt direkt aus dem Brunnen, der das Erdbeben vor zweihundert Jahren freilegte.
+
+Eben jenes Beben ist der eigentliche Boden, auf dem die ganze Region steht. Bevor es kam, war der Süd-Archipel eine geschlossene Halbinsel mit einer mittelgrossen Hochelfen-Hafenstadt an der Spitze — ihr Name ist verloren, nur das Sigel auf alten Münzen ist noch erkennbar. Das Beben senkte das Land ab; die Stadt versank in ein zwölf Klafter tiefes Flachmeer, ihre Strassen liegen heute zwischen Korallen, ihre Dächer dienen Riff-Haien als Schatten. Was blieb, waren Hügelkämme — die heutigen Inseln. Was blieb, waren auch die Namen: Daenvalis, Tenrostaz, Thalvaris klingen elfisch, weil sie es sind, geliehen oder geerbt von der untergegangenen Stadt.
+
+Heute kreist die Wirtschaft des Archipels um vier Güter: Perlen (Riff-Perle für den Alltag, Tiefsee-Auster für die wenigen reichen Kunden in Daenvalis), Salz aus den Verdunstungspfannen der Halbinsel, Sand-Glas aus den Daenvalis-Werkstätten und Bergungsgut aus den versunkenen Häusern. Letzteres ist regelmentiert: vor zwanzig Jahren schloss man den Pakt der Drei Häfen, der Riff-Lotsen-Gebühren und Bergungs-Ansprüche aufteilt, und seither schickt die Akademie von Altheim alle paar Monde eine Bergungs-Magier-Truppe, die im Tausch gegen Wissen einen Anteil bekommt.
+
+Die Bevölkerung trägt diese Geschichte unsichtbar mit. Drei kulturelle Schichten überlagern sich: die Halbinsel-Karawanen mit ihrem pragmatischen Gefrenki-Tonfall; die Insel-Seefahrer-Klans mit ihren Ehrcodes, Perlen-Schuldscheinen und Klan-Tattoos; und die kleine Diaspora der Valisar, halbelfisch und elfisch, die sich als Erben der versunkenen Stadt verstehen und das Archiv führen, das es geben sollte, gäbe es Geld für eine Bibliothek. Nominell gehört keine der drei Gemeinden zu einem Königreich; faktisch regelt der Pakt der Drei Häfen das Wichtigste, und das Übrige regeln die Klans und die Tempel.
+
+Religiös teilt sich der Archipel: Thalendis dominiert die Inseln — ihre Heiltränke aus Brunnenwasser sind das einzige verlässliche Heilmittel gegen Glas-Wind-Vergiftung. Pyrathis hält die Schmieden und Glas-Werkstätten in Daenvalis. Nocthari steht im Halbschatten, mit kleinen Schreinen an den Tauchpunkten der versunkenen Stadt — wo Bestattete liegen, schweigt man höflich. Aethyrans Name fällt selten, ausser bei den Glas-Wind-Mystikerinnen, die in geschmolzenen Sandkörnern lesen.
+
+Was die Region gefährlich macht, ist die Mischung. Riff-Piraten der äusseren Inselgruppen jagen kleine Lotsen-Schiffe; Sandstürme können einen Karawanen-Zug auf der Halbinsel in einer halben Stunde zu Tode hetzen; und seit das Beben die Hochelfen-Stadt freilegte, schlafen in ihren Hallen nicht nur Tote. Bergungs-Magier kommen mittlerweile manchmal nicht mehr zurück; ihre Skizzen zeigen ein langsam rotierendes Sigel, das niemand benennen will.
+
+
+==== Aussehen
+
+
+Bleichender Sand, Salzkruste auf Lippen, Hitzeflimmern über den Dünenkämmen der Halbinsel. Türkises Flachmeer mit gelb-braunen Inselrücken, die wie Wirbelfortsätze aus dem Wasser ragen. Möwen schreien, Brandung mahlt an Korallenkanten, das Klappern der Perlentaucher-Glocken markiert die Tauchgänge. In Daenvalis riecht es nach Salz, nach gebranntem Ton aus den Glas-Werkstätten und nach den scharfen Gewürzen der Gefrenki-Stände; bei Sonnenuntergang glitzern Sand-Glas-Splitter wie Sternengebrochenes auf den Dünen-Kämmen.
+
+
+==== Klima
+
+
+Arid. Tages-Hochs zwischen 38 und 42°C im Sommer, Nächte erst nach Mitternacht erträglich. Die Trockenheit wird durch Passatwinde aus Südsüd-Ost gemildert, die Feuchtigkeit vom Meer ins Inland tragen, ohne sich als Regen niederzulassen — stattdessen legt sich an klaren Morgen ein dünner Salznebel über Halbinsel und Inseln. Zwei kurze Regenfenster pro Jahr (drei Wochen im Frühjahr, zwei im Herbst); danach Sturzfluten in den Wadis der Halbinsel, die innerhalb von Stunden Karawanen-Pfade in Schlammrinnen verwandeln. Lokales Phänomen: der „Glas-Wind" — ein heisser Wüstenwind, dessen Sandkörner an seinen Rändern schmelzen und versilberte Glas-Splitter auf den Dünen hinterlassen, Rohmaterial für die Daenvalis-Werkstätten und gefürchtet für die Schnittverletzungen, die er hinterlässt.
+
+
+==== Kultur
+
+
+Drei Schichten ohne dominantes Königreich: die Halbinsel-Karawanen pragmatisch und Gefrenki-affin, die Insel-Seefahrer-Klans nach Familien-Ehre und Perlen-Schulden organisiert, und die Valisar als kleine halbelfisch-elfische Diaspora, die das verbliebene Archiv der versunkenen Stadt führt. Sprachlich vermischen sich Trader-Common, Gefrenki-Slang und ein elfisch-stämmiges Insel-Idiom, das in den Hafenliedern hörbar wird. Wertvoll gilt: Atemkontrolle, Riff-Wissen, Wetterlesen, eine ruhige Hand am Glasrohr. Tabu: Plündern der versunkenen Ruinen ohne Tempel-Segnung; Riff-Lotsen zu betrügen; einer Klan-Matriarchin den Handschlag verweigern. Politik regelt der Pakt der Drei Häfen, alles andere die Klans und die Tempel.
+
+
+==== Wirtschaft
+
+
+Vier Güter tragen den Archipel: Perlen (Riff-Perle als Alltagswährung, Tiefsee-Auster als Luxusgut), Salz aus den Verdunstungspfannen der Halbinsel, Sand-Glas aus den Daenvalis-Werkstätten — gefertigt aus Glas-Wind-Splittern — und Bergungsgut aus der versunkenen Stadt, dessen Verteilung der Pakt der Drei Häfen regelt. Hauptverkehrsachse: Karawanen-Pfad aus den Westlanden bis Daenvalis, dort Umschlag auf Insel-Schiff-Linien Richtung Tenrostaz und Thalvaris. Berufsbild: Perlentaucher, Riff-Lotse, Glasbläser, Salzbauer, Karawanen-Wächter, Bergungs-Magier (oft Halb-Elf mit Thalendis-Schulung). Die Akademie von Altheim ist über das Bergungs-Programm der grösste externe Geldgeber.
+
+
+==== Bemerkenswerte Orte
+
+
+* Daenvalis
+* Tenrostaz
+* Thalvaris
+* Versunkene Stadt der Valisar
+* Glasstaub-Dünen
+* Riff der Stillen Glocken
+* Süsswasser-Brunnen von Thalvaris
+
+
+==== Dominante Völker
+
+
+* `human` (Mensch)
+* `half_elf` (Halbelf)
+* `tiefling` (Tiefling)
+* `halfling` (Halbling)
+
+
+==== Bekannt für
+
+
+* Perlen-Archipel
+* Glas-Wind-Dünen
+* Versunkene Hochelfen-Stadt
+* Riff-Lotsen-Klans
+* Salzpfannen
+* Karawanen-Hafen
+
+
+==== Geschichte
+
+
+* ~200 v.h. — Das Grosse Erdbeben senkt die Süd-Halbinsel und die Hochelfen-Hafenstadt ab; heutige Inseln sind Hügelrücken der versunkenen Ebene.
+* ~150 v.h. — Gründung von Daenvalis am höchsten verbliebenen Punkt der Halbinsel; der Karawanen-Pfad aus den Westlanden wird wieder befahrbar.
+* ~80 v.h. — Die Akademie von Altheim entsendet die ersten Bergungs-Magier; Beginn der systematischen Tauch-Expeditionen zu den versunkenen Häusern.
+* ~20 v.h. — Pakt der Drei Häfen zwischen Daenvalis, Tenrostaz und Thalvaris regelt Riff-Lotsen-Gebühren und Bergungs-Ansprüche.
+
+
+==== Gefahren
+
+
+* Riff-Piraten der äusseren Inselgruppen
+* Hitzschlag und Sandsturm in der Mittagshitze der Halbinsel
+* Versunkene Aberrations in den Ruinen — das Erdbeben hat Schlafendes geweckt
+* Glas-Wind-Splitter — schneiden Lederhaut bei Sturm
+* Riff-Haie an den Perl-Bänken
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Vor dem Grossen Erdbeben war hier eine küstennahe Halbinsel mit einer mittelgrossen Hochelfen-Hafenstadt, deren Name verloren ging und deren Sigel sich nur auf alten Münzen erhielt. Karawanen aus den Westlanden, Gefrenki-Händler aus dem Binnenland und Seehändler aus der tropischen Tiefe trafen sich hier; die Stadt führte ein eigenes Archiv und brannte Salz-Glas in Mengen, die bis nach Altheim verkauft wurden.
+
+Das Grosse Erdbeben senkte vor rund zweihundert Jahren den Süden der Halbinsel ab; die Stadt versank in ein zwölf Klafter tiefes Flachmeer, von dem heute nur noch Hügelkämme als Sand- und Korallen-Inseln aufragen. Überlebende gründeten Daenvalis am höchsten verbliebenen Punkt der Halbinsel; ein halbes Jahrhundert später entstand Thalvaris um den freigelegten Süsswasserbrunnen, und Tenrostaz wuchs als Riff-Wächter-Festung auf dem grössten westlichen Inselrücken.
+
+Heute sind die drei Häfen formell autonom, faktisch verbunden durch den vor zwanzig Jahren geschlossenen Pakt der Drei Häfen. Die Akademie von Altheim schickt seit etwa achtzig Jahren regelmässig Bergungs-Magier zur versunkenen Stadt; jede Saison kommen Funde zurück — manche harmlos, manche pulsieren leise. Die Region lebt vom Perlentauchen, vom Salz, vom Sand-Glas und vom Bergungsgut. Was unter der Wasseroberfläche schläft, weiss niemand genau; einige Skizzen zeigen ein langsam rotierendes Sigel, und einige Bergungs-Magier kehren mittlerweile nicht mehr zurück.
+
+
+'''
+
+
+=== Westlande
+
+
+:slug-westlande: westlande
+:biom-westlande: grassland
+:klima-westlande: temperate
+:gefahr-westlande: 2/5
+
+
+Die Westlande sind der hügelige West-Bogen Caldrithars, ein langgezogenes Bauernland zwischen den Eichenkämmen im Norden und den trockenen Sandausläufern, die nach Süden in den Wüstenarchipel hinauslaufen. Wer von Osten anreist, durchquert zuerst die Schwelle des Grünwalds und steht dann auf einer sanft gewellten Weidenkarte, deren Feldraine sich bis zum Horizont verlieren. Der Boden ist Lehm über Mergel, leicht zu pflügen, reich an Wasser, durchsetzt mit alten Eichen-Hainen, die niemand fällt.
+
+Die Region trägt das Gesicht der Halblinge, auch wenn sie die Mehrheit der Bevölkerung längst nicht mehr stellen. Halbling-Sippen siedelten hier in der Spätzeit der Stille, als das übrige Caldrithar noch Magie vergessen hatte. Sie brachten das mit, was sie bis heute prägt: das Klatsch-Netz, das schneller läuft als jeder reitende Bote; die unzähligen kleinen Wirtshäuser, die zugleich Postamt und Marktplatz sind; die Subkulturen der Leichtfuß-Wanderhändler und der Starkherz-Sesshaften, die nebeneinander leben, ohne sich zu verwechseln.
+
+Die menschlichen Bauern kamen über Generationen aus den Ostmarken nach, weil das Land hier freier ist. Die Westlande sind die einzige Region Caldrithars, in der die Erbpacht abgeschafft wurde — wer ein Stück Boden bestellt, dem gehört der Ertrag und das Recht. Dieses Bauernrecht ist die identitätsstiftende Anomalie der Region und seit drei Generationen der politische Brandsatz zwischen West und Ost. In den Ostmarken nennen Adelige die Westlande spöttisch „das Bauernkönigreich ohne König". Aus westlicher Sicht ist das ein Ehrentitel.
+
+Politisch ruht die Region auf einer Doppelstadt-Achse. *Kristhards* ist die politische Hauptstadt — Sitz des jährlichen Landtags, dreimal in seiner Geschichte belagert und dreimal aus dem eigenen Stein wiedererrichtet. Wer an seinen Mauern entlanggeht, liest die Schichten der Wiederaufbauten wie Jahresringe. *Gormesh* ist das wirtschaftliche Herz: eine größere Stadt im Zentrum, in der sich die Karawanenrouten kreuzen und in der die Halbling-Wirte die Hälfte des Kontinents kennen. Zwischen den beiden Städten verläuft die alte Westachse, und in jedem Dorf an dieser Straße schlafen mehr Geschichten als Menschen.
+
+Drei Stellen der Region tragen den Danger, der dem Rest fehlt. Der *Hurnwald* westlich von Kristhards ist heiliger Druidenboden — wer ohne Erlaubnis eintritt, kehrt selten zurück. *Thornmere Thicket* zieht sich als undurchdringliche Dornenbarriere quer durch die südliche Hügelflur; Schatzgerüchte locken Abenteurer, die meisten finden eine Hag statt eines Hortes. Und die südöstliche Moorgrenze hin zu den `moorlande` ist die einzige Linie, an der Westlande-Patrouillen wirklich Wache stehen müssen.
+
+An der Westküste ändert das Land den Ton. *Kleynhardt* ist ein beschauliches Hafenstädtchen mit einer halbletzten Generation von Töpfermeistern und einem Erntefest, das halb Töpfermarkt, halb Geschichtenwettstreit ist. Davor, kurz vor dem offenen Meer, liegen die *Inseln der Ruhe* — ein kleines Archipel, auf dem Eremiten und Mönche leben und um das herum das Meer auffällig still ist. Manche sagen, die Inseln seien ein Echo des Großen Erdbebens vor zweihundert Jahren, andere ein Werk der Eremiten selbst. Niemand weiß es genau, und niemand drängt es zu wissen.
+
+Verkehr und Außenbeziehungen folgen den Nachbarn: Holz und Druidenkräuter im Tausch mit `gruenwall` im Osten; Karawanen über die trockene Südwest-Schwelle in den `suedarchipel`; Korn und Brot in das `skybreaker-hochland` im Norden, wo immer jemand kämpft; und Schiffe von Kleynhardt nordwärts in die Häfen der `hohle-gezeiten`. Die nahe Akademie in `althain` lebt zu großen Teilen vom Westlande-Brot, und die Halbling-Studierenden im Haus Liebe & Leben sind das natürliche Bindeglied zwischen Land und Lehre.
+
+So liegen die Westlande heute da: ruhig, fruchtbar, mit zwei Hauptstädten, einem heiligen Wald, einer Dornbarriere, einem Insel-Asyl. Militärisch unauffällig, kulturell selbstbewusst, politisch unter Druck. Wer hierher kommt, isst zuerst und stellt dann Fragen.
+
+
+==== Aussehen
+
+
+Die Westlande riechen nach frischem Heu, Backofen und gegärtem Apfelwein. Über den Hügeln liegt ein weiches goldgrünes Licht, langgezogene Wolkenschatten wandern über die Weiden. Eichen stehen einzeln und in kleinen Hainen, ihr Laub raschelt wie eine zweite Sprache. Aus den Dörfern hallt das Klappern von Karrenrädern auf Schotter herüber, aus den Höfen das Geschnatter der Gänse. Die Häuser sind gedrungen, aus Lehm mit Reet, die Stadtmauern von Kristhards aus drei verschiedenen Steinsorten, je nach Bauphase. Wer am Abend an einer Wirtshaustür steht, hört drinnen mehr Sprachen als nur Westländisch — und alle reden gleichzeitig.
+
+
+==== Klima
+
+
+Maritim getöntes Festland-Temperate: milde Winter mit gelegentlichem Bodenfrost, lange grüne Frühlinge, warm-feuchte Sommer, ein eigenständiger goldener Herbst, den die Westländer als *Westwind-Wechsel* zählen — eine fünfte Saison, in der die Erntefeste fallen und der Wind nach Salz schmeckt. Die Westküste liegt unter regelmäßigem Morgennebel; um Kleynhardt rollt der Nebel manchmal bis zur Stadtmauer. Frühjahrshochwasser füllt die Eichenbäche; im Spätsommer treffen vereinzelt Hagelschauer ein, die in Kristhards als Vorzeichen gelesen werden. Auffällig still ist das Meer um die Inseln der Ruhe — eine lokale Anomalie, die niemand erklärt und niemand fürchtet.
+
+
+==== Kultur
+
+
+Halbling-geprägt, mensch-dominiert, half_elf-vermittelt. Die kulturelle Grundinfrastruktur ist das Klatsch-Netz: jeder Wirt ist halbinformell Postmeister, jeder Krämer Nachrichtenhändler. Geschichten reisen schneller als Boten. Halbling-Leichtfuß-Sippen ziehen als Wanderhändler durchs Land, Halbling-Starkherz-Familien führen die Wirtshäuser und Kräutergärten. Die Menschen halten Familie und Sippe hoch, sehen aber ihren Stand als gemacht, nicht als geerbt — das speist das abgeschaffte Erbpacht-Recht. Jährlich tagt der Landtag in Kristhards, Streitigkeiten werden unter alten Eichen geschlichtet. Geheiratet wird meist unter der Schirmherrschaft von Pyrathis (Herd-Feuer); im Hurnwald-Umfeld nimmt Aeolyn (Wandel-Wind) bei Druiden-Trauungen den Platz ein. Die Toten kommen in Erdgräber unter Eichen, ein Eisennagel im Sarg, damit sie nicht zurückkehren — ein Ritus, den die Westländer nicht erklären, sondern befolgen.
+
+
+==== Wirtschaft
+
+
+Kornkammer Caldrithars: Weizen, Hafer und Roggen aus den Hügelfeldern beliefern Akademie-Stadt, Skybreaker-Garnisonen und Hohle-Gezeiten-Häfen. Käse und Wolle aus den nördlichen Weiden, Apfelwein aus den Hainen. Kleynhardt führt eine handverlesene Töpferei mit eigener Hand-Marke, die über den Westhafen exportiert wird. Gormesh ist die Kreuzung: Karawanen Richtung `suedarchipel` bringen Stoffe und Gewürze zurück, der Holz- und Kräuterhandel mit `gruenwall` über Kurnath ist täglich, und die Bergwege ins `skybreaker-hochland` liefern Steine und Erze. Druidische Kräuter aus den Hurnwald-Randstreifen sind ein kleiner, grauer, lukrativer Markt; die Akademie-Heiler kaufen sie. Von den Inseln der Ruhe kommen Eremiten-Tinte und Stille-Pergamente in winziger Menge — gefragt bei Schreibern, die ungestörte Texte brauchen. Halbling-Wanderhändler tragen das Ganze: ohne Klatsch-Netz keine Karawane, ohne Karawane kein Brot.
+
+
+==== Bemerkenswerte Orte
+
+
+* kristhards
+* gormesh
+* kleynhardt
+* hurnwald
+* thornmere-thicket
+* inseln-der-ruhe
+
+
+==== Dominante Völker
+
+
+* `halfling` (Halbling)
+* `human` (Mensch)
+* `half_elf` (Halbelf)
+
+
+==== Bekannt für
+
+
+* Halbling-Klatsch-Netz
+* Abgeschaffte Erbpacht
+* Doppelstadt Kristhards & Gormesh
+* Kornkammer der Akademie
+* Eichengrab mit Eisennagel
+* Inseln der Ruhe
+
+
+==== Geschichte
+
+
+* Halbling-Erstbesiedlung der West-Hügel in der Spätzeit der Stille
+* Abschaffung der Erbpacht — die Westlande setzen das freie Bauernrecht durch
+* Das Große Erdbeben (~200 v.h.) versenkt Teile der Westküste; aus den Trümmern formen sich die Inseln der Ruhe
+* Die drei Belagerungen Kristhards — dreimal zerstört, dreimal aus eigenem Stein wieder aufgebaut
+
+
+==== Gefahren
+
+
+* Druidische Wächter im Hurnwald — Awakened Trees, Treants, Bann-Sprüche gegen Unbefugte
+* Green Hag und Dorn-Schwärme im Thornmere Thicket — Schatzgerüchte als Köder
+* Moor-Übergriffe aus den Moorlanden an der südöstlichen Grenze — Will-o'-Wisp, vergiftete Brunnen
+* Wegelagerer-Banden und Gnoll-Späher an der trockenen Südwest-Schwelle zum Wüstenarchipel
+* Politischer Druck aus den Ostmarken — Adelsputsch droht eine vierte Belagerung Kristhards
+
+
+==== Hintergrund (Kurzfassung)
+
+
+Die Westlande sind älter als die Akademie und jünger als das Erdbeben. In der Spätzeit der Stille zogen Halbling-Sippen in das Hügelland zwischen Eichenwald und Wüstenrand, errichteten erste Lehm-Marktorte und brachten das Klatsch-Netz mit, das die Region bis heute zusammenhält. Über Generationen kamen menschliche Bauernfamilien aus den Ostmarken nach, auf der Suche nach freierem Boden. Aus dem Nebeneinander entstand kein Schmelztiegel, sondern ein Mosaik: die Halblinge tragen die Kultur, die Menschen die Felder.
+
+Mit der Gründung der Akademie von Altheim (~600 v.h.) wurde das Land zum Korridor — Akademiker durchreisten es, Drachenreiter überwinterten in den Tavernen, Karawanen nahmen Form an, das Bauernland wurde zur Kornkammer. Das Große Erdbeben vor zweihundert Jahren versenkte einen Teil der Westküste; die Inseln der Ruhe sind das, was übrig blieb. Im Schock des Bebens schoben Halbling-Wirte und mensch-bürgerliche Stadträte die Abschaffung der Erbpacht durch — ein politischer Schritt, der noch heute den Streit zwischen West und Ost trägt. Die drei Belagerungen Kristhards der folgenden zwei Jahrhunderte waren jedesmal Versuche der Ostmark-Adligen, das alte Recht zurückzubringen. Dreimal hielt die Mauer, dreimal fiel sie, dreimal stand sie wieder.
+
+Heute liegen die Westlande als das ruhigste der unruhigen Länder Caldrithars: politisch unter Druck, militärisch unauffällig, kulturell selbstbewusst. Die Akademie isst Westlande-Brot, die Drachen rasten in Westlande-Tavernen, und in Kristhards wartet man auf den Boten, der die vierte Belagerung ankündigt. Bis dahin pflügt man, kocht man, erzählt man.
+
+
+'''
+
+
+== Cross-Region Quest-Seeds
+
+
+Drei multi-regionale Quest-Aufhänger, die sich aus der Lore-Topologie der 13 Regionen ergeben. Sie sind als GM-Vorschläge gedacht — die Lore-Anker sind verankert, die mechanische Umsetzung bleibt der Kampagne überlassen.
+
+
+=== Q1: „Die Sigille unter Khrilvari" — Moorlande → Althain → Eismark
+
+
+* _Beat 1 (Moorlande):_ Der Khrilvari-Schwellenrat tagt heimlich häufiger; Spieler hören das „neue Untertonen-Rauschen" unter der Schwellenrats-Halle. Tiefling-Sprecher bitten um diskrete Auswärts-Beratung.
+* _Beat 2 (Althain):_ Akademie-Magister erkennt das Rauschen als zweite Sigillen-Resonanz; verweist auf Sigillen-Splitter-Funde, die zuletzt am Karnuss-See dokumentiert wurden. Recherche in der Akademie-Bibliothek führt zu einer Khar-Vethal-Karte.
+* _Beat 3 (Eismark):_ Reise zum Karnuss-See, dort versunkene Khar-Vethal-Stadt. Sigille hängt mit der ersten Hauptstadt-Versenkung zusammen — und mit Anground (Althain). Wer die Sigille birgt, beantwortet eine Frage, die seit sechshundert Jahren offen steht.
+
+
+=== Q2: „Aschefall-Komplott" — Feuergipfel → Aussenmarkt-Wüste → Grenzmark
+
+
+* _Beat 1 (Feuergipfel):_ Aschegeist-Sichtungen am Ashenmoor häufen sich; Mönche der Stillen Flamme bitten Spieler um stille Aufklärung. Das Asche-Horn schweigt — was es nicht sollte.
+* _Beat 2 (Aussenmarkt-Wüste):_ Spieler verfolgen die Aschefall-Karawane Richtung Gipfel von Aschenmoor; entdecken einen verborgenen Nocthari-Schrein mit Fiend-Echos und Spuren, die zu einer Grenzmark-Söldner-Company führen.
+* _Beat 3 (Grenzmark):_ Halbork-Söldner-Banden aus den Hügeln versuchen, den Schrein als Marken-Recht-Hebel gegen Akademie-Patrouillen zu vermarkten. Spieler entscheiden den Markentag-Schiedsspruch — und legen damit fest, wer den Pakt von der Schwarzen Wegmarke das nächste Jahrzehnt führt.
+
+
+=== Q3: „Versunkene Erben" — Süd-Wüstenarchipel → Westlande → Hohle Gezeiten
+
+
+* _Beat 1 (Süd-Wüstenarchipel):_ Bergungs-Magier kehren nicht zurück; die Akademie schickt die Spieler nach Daenvalis. Sie finden das Sigel der versunkenen Hochelfen-Stadt — und Hinweise auf einen Valisar-Erben, der das Archipel verlassen hat.
+* _Beat 2 (Westlande):_ Spuren führen zu den Inseln der Ruhe — Eremiten kennen das Sigel und verweisen auf einen Bruder, der nach Hohle-Gezeiten gegangen ist, weil dort etwas wartet, das aufs Sigel reagiert.
+* _Beat 3 (Hohle Gezeiten):_ Im Karst-Labyrinth unter dem Drachensitz liegt das fehlende Stück. Sea-Hag-Coven hat es bereits angefasst — Wasserrauschende Saphire, die immer feucht bleiben. Wer das Sigel zusammensetzt, weiß nicht, ob er heilt oder weckt.
+
+
+'''
+
+
+== Siehe auch
+
+
+* link:./geographie.adoc[Geographie] — Das Multi-Layer Welt-System, in dem die Regionen sitzen
+* link:./geschichte.adoc[Geschichte] — Götterkrieg, Stille und Akademie-Epoche als historischer Rahmen
+* link:./pantheon-sigillen.adoc[Pantheon & Sigillen] — Die religiösen Layer und Sigillen-Resonanzen, die hier hochkommen
+* link:./kreaturen.adoc[Kreaturen] — Bestiar-Habitate, die in den Gefahren-Listen referenziert werden
+
