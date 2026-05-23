@@ -424,13 +424,13 @@ Das _Multi-Layer-System_ ist komplett designed:
 * NPC & Organisations-Zuordnung
 
 
-=== Content: Noch zu erstellen
+=== Content: Erledigt
 
 
-* _Keine konkreten Regionen, Städte, Routen_ definiert
-* Die Welt ist strukturell bereit aber inhaltlich leer
-* Fehlt: Sub-Location-Ebene Details (exakte POI-Layouts in Städten)
-* Betrifft viele Systeme: Infos, Shops, Recht, NPCs, Akademie-Gebäude
+* _13 Caldrithar-Regionen mit vollständiger Lore_ definiert — siehe link:./regionen-kompendium.adoc[Regionen-Kompendium]
+* Pro Region: `lore_long`, `appearance`, `climate_detail`, `culture_notes`, `economy`, `dominant_species[]`, `known_for[]`, `notable_locations[]`, `historical_events[]`, `dangers[]`, `backstory_summary` in der DB hinterlegt
+* Cross-Region-Konsistenz-Pass 2026-05-20 abgeschlossen (3 DB-Patches appliziert: `eismark`, `moorlande`, `suedarchipel`)
+* Verbleibender Content-Backlog: Sub-Location-Ebene (exakte POI-Layouts in Städten), Akademie-Gebäude-Details, konkrete travel_routes
 
 '''
 
@@ -498,9 +498,25 @@ _Details folgen in wirtschafts-spezifischen Dokumentationen_
 '''
 
 
+== Implementierungsstand 2026-05
+
+
+Das Multi-Layer-System ist seit Sprint 2026-05 nicht mehr nur strukturell, sondern auch inhaltlich für Caldrithar gefüllt:
+
+* _PostGIS-Polygone_ — 13 Caldrithar-Regionen plus Wurzel-Region `caldrithar` aktiv in `regions.geographic_polygon`. Jede Region hat `bbox_normalized` für schnelle Frontend-Layer-Berechnungen.
+* _Lore-Felder_ — 11 erzählerische Felder pro Region (`lore_long`, `appearance`, `climate_detail`, `culture_notes`, `economy`, `dominant_species`, `known_for`, `notable_locations`, `historical_events`, `dangers`, `backstory_summary`) gesetzt und im link:./regionen-kompendium.adoc[Regionen-Kompendium] gedruckt.
+* _Karten-Assets_ — Master-Karte und 13 Region-Ausschnitte als JPEG in `workspace-docs/world-map/`. Die neue Tabelle `world_map_assets` referenziert die Bild-Bytea-Blobs für das Frontend-Rendering.
+* _Shared-Schema_ — Das `region`-Schema in `@flammenreiter/api-types` (shared@6.16.0, PR #99) wurde um die 11 Lore-Felder erweitert. Konsumenten in `lore-admin` und `session-gm` haben die generierten Types bereits gezogen.
+
+NOTE: Der Cross-Region-Konsistenz-Pass vom 2026-05-20 ist appliziert. Drei minimal-invasive DB-Korrekturen (Migrations `cross_check_fix_eismark`, `cross_check_fix_moorlande`, `cross_check_fix_suedarchipel`) haben Naming-Drift in JSONB-Arrays bereinigt, ohne `lore_long`-Prosa umzuschreiben.
+
+'''
+
+
 == Siehe auch
 
 
+* link:./regionen-kompendium.adoc[Regionen-Kompendium] — Die 13 Caldrithar-Regionen im erzählerischen Detail
 * link:./geschichte.adoc[Geschichte] — Die historischen Layer verstehen
 * link:./pantheon-sigillen.adoc[Pantheon] — Religiöse Zonen und göttliche Macht
 * link:./kreaturen.adoc[Kreaturen] — Gefährliche Gebiete und Bestiary-Habitate

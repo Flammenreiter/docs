@@ -11,7 +11,7 @@ Komplette Dokumentation der Flammenreiter-Welt. Geschichte, Pantheon, Sigillen, 
 == Übersicht
 
 
-Diese Dokumentation ist in 5 Hauptdateien organisiert:
+Diese Dokumentation ist in 6 Hauptdateien organisiert:
 
 
 === 1. link:./geschichte.adoc[Geschichte]
@@ -57,7 +57,16 @@ Das Multi-Layer Welt-System:
 * _NPC & Organisations-Zuordnung_ — Wer arbeitet wo
 
 
-=== 4. link:./kreaturen.adoc[Kreaturen]
+=== 4. link:./regionen-kompendium.adoc[Regionen-Kompendium]
+
+Die 13 Caldrithar-Regionen im erzählerischen Detail:
+* _Wurzel-Region_ — `caldrithar` als Kontinent-Container
+* _13 Sub-Regionen alphabetisch_ — Althain, Aussenmarkt-Wüste, Eismark, Feuergipfel, Grenzmark, Grenzwald, Grüne Tiefen, Grünwall, Hohle Gezeiten, Moorlande, Skybreaker-Hochland, Süd-Wüstenarchipel, Westlande
+* _Pro Region_ — `lore_long`, Aussehen, Klima, Kultur, Wirtschaft, Bemerkenswerte Orte, Dominante Völker, Bekannt für, Geschichte, Gefahren, Hintergrund
+* _Cross-Region Quest-Seeds_ — Drei multi-regionale Story-Aufhänger
+
+
+=== 5. link:./kreaturen.adoc[Kreaturen]
 
 Das vollständige Bestiar-System:
 * _Taxonomie_ — Typ → Spezies → Rasse → Individuum
@@ -82,6 +91,7 @@ Alle Dateien sind im Markdown-Format und können mit relativem Links untereinand
 * link:./geschichte.adoc[Zur Geschichte]
 * link:./pantheon-sigillen.adoc[Zum Pantheon]
 * link:./geographie.adoc[Zur Geographie]
+* link:./regionen-kompendium.adoc[Zum Regionen-Kompendium]
 * link:./kreaturen.adoc[Zu Kreaturen]
 
 
@@ -103,7 +113,8 @@ Diese Lore-Dokumentation ist kampagnenunabhängig und beschreibt die WELT selbst
 
 * _Geschichte_: Vollständig
 * _Pantheon & Sigillen_: Vollständig mit allen 21 Sigillen
-* _Geographie_: Struktur vollständig, konkreter Content fehlt noch
+* _Geographie_: Struktur vollständig, Multi-Layer-System spezifiziert
+* _Regionen-Kompendium_: Vollständig — 13 Caldrithar-Regionen mit allen 11 Lore-Feldern, Cross-Region-Konsistenz-Pass appliziert (2026-05-20)
 * _Kreaturen_: Katalog mit Flammenreiter-Originals + SRD-Integration
 
 '''
