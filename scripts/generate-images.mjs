@@ -10,7 +10,10 @@ import { fileURLToPath } from "url"
 // Script lives in scripts/, but writes paths are relative to repo root (../).
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = join(__dirname, "..")
-const FAL_KEY = "9d8ded87-fc6c-4022-8fbd-1744ad07f82a:fe0625317a6c456f839c3f267961d317"
+
+const FAL_KEY = process.env.FAL_API_KEY
+if (!FAL_KEY) throw new Error('FAL_API_KEY environment variable is required')
+
 const API_URL = "https://fal.run/fal-ai/flux/schnell"
 
 const images = [
@@ -72,7 +75,7 @@ const generate = async (img, idx) => {
   }
 }
 
-console.log(`\n🐉 Flammenreiter Flux Image Generator`)
+console.log(`\nFlammenreiter Flux Image Generator`)
 console.log(`   Bilder: ${images.length}`)
 console.log(`   API: fal.ai/flux/schnell\n`)
 
@@ -83,4 +86,4 @@ for (let i = 0; i < images.length; i++) {
   if (i < images.length - 1) await sleep(1500)
 }
 
-console.log(`\n✨ Fertig! ${ok} OK, ${fail} fehlgeschlagen.`)
+console.log(`\nFertig! ${ok} OK, ${fail} fehlgeschlagen.`)
