@@ -13,15 +13,15 @@
 [.lead]
 Willkommen an der *Akademie der Flammenreiter*. Dieses Handbuch ist für *dich
 als Spieler* gedacht. Es führt dich in die Welt Caldrithar ein, stellt dir die
-Akademie, die vier Häuser und die Grundlagen der Magie vor — und es zeigt dir
-die *Flamme Obsidian*, jene sechs Schüler, deren Geschichte du erlebst. Hier
-findest du alles, was *deine Charaktere bisher wissen* — und nichts, was die
-Spannung der kommenden Abenteuer verderben würde.
+Akademie, die vier Häuser und die Grundlagen der Magie vor — und es zeigt dir,
+wie du einen *Erstjahres-Schüler* erschaffst und spielst. Hier findest du alles,
+was *dein Charakter zu Beginn weiß* — und nichts, was die Spannung der kommenden
+Abenteuer verderben würde.
 
 [NOTE]
 ====
 *Keine Spoiler.* Dieses Handbuch enthält bewusst nur das, was eure Charaktere
-an der Akademie selbst erfahren haben. Manche Rätsel der Welt bleiben offen —
+an der Akademie selbst erfahren. Manche Rätsel der Welt bleiben offen —
 das ist Absicht. Euer Spielleiter kennt die Geheimnisse; ihr entdeckt sie im
 Spiel.
 ====
@@ -231,12 +231,166 @@ Ausdauertrank, Trank des Kletterns, Muskelentspannungs-Salbe.
 
 <<<
 
-== Die Flamme Obsidian
+== So spielt ihr einen Erstjahres-Schüler
 
-Ihr seid die *Flamme Obsidian* — sechs Schüler, die zu Beginn von anderen
-gemieden wurden („bringt kein Glück"). Aber aus sechs Fremden wird im Laufe des
-Jahres eine *Flamme*: eine Gruppe, die zusammenhält. Hier sind eure
-Charaktere.
+Bevor das Abenteuer beginnt, erschafft ihr euren Charakter. An der Akademie der
+Flammenreiter ist *jeder* willkommen — jede Rasse, jede Klasse, jeder
+Hintergrund. Diese Anleitung hilft euch, einen glaubwürdigen Erstjahres-Schüler
+zu bauen.
+
+=== Schritt 1 — Wer bist du?
+
+Überlegt euch ein *Volk* (Rasse) und eine *Klasse* nach den Regeln von D&D 5E.
+An dieser Akademie gibt es keine „falsche" Wahl: Vom kämpferischen Krieger über
+den grüblerischen Magier bis zur fürsorglichen Heilerin ist alles möglich.
+
+[TIP]
+====
+*Denkt an euer Alter.* Ihr seid etwa *zwölf Jahre* alt — Anfänger, keine Helden.
+Ein junger Charakter darf neugierig, ungeschickt, übermütig oder schüchtern
+sein. Diese Ecken und Kanten sind kein Makel, sondern der Stoff, aus dem
+Entwicklung entsteht.
+====
+
+=== Schritt 2 — Dein Haus
+
+Jeder Schüler wird über ein KI-Interview einem der *vier Häuser* zugeordnet, das
+zu seinem Wesen passt (siehe oben). Überlegt euch, *warum* euer Charakter zu
+seinem Haus gehört — was treibt ihn an? Ehre und Kampf (Drachenfeste)? Wissen
+und Magie (Turm der Ketten)? Handwerk (Tiefe Esse)? Heilung und Gemeinschaft
+(Liebe & Leben)? Eine *hausübergreifend gemischte Gruppe* erlebt die meisten
+spannenden Reibungspunkte.
+
+=== Schritt 3 — Warum bist du hier?
+
+Jeder kommt aus einem anderen Grund an die Akademie. Sucht euch einen
+*Hintergrund* und ein *Ziel*:
+
+* Was hat dich an die Akademie geführt?
+* Was willst du am Ende deiner Ausbildung erreichen?
+* Wovor hast du Angst — und worauf bist du heimlich stolz?
+
+Ihr müsst nicht alles sofort festlegen. Vieles davon findet ihr erst *im Spiel*
+heraus — genau dafür ist das erste Jahr da.
+
+=== Schritt 4 — Deine sechs Attribute
+
+Wie in D&D 5E hat jeder Charakter sechs Grundwerte: *Stärke (STR)*, *Geschick
+(DEX)*, *Konstitution (CON)*, *Intelligenz (INT)*, *Weisheit (WIS)* und
+*Charisma (CHA)*. Sie bestimmen, worin euer Charakter glänzt — und wo er sich
+schwertut. Beides gehört dazu: Eine Figur, die alles kann, ist langweilig.
+
+=== Was euch im ersten Jahr erwartet
+
+Im Laufe des ersten Schuljahres wird jeder Charakter mehrere *Meilensteine*
+erreichen — ganz von selbst, durch das, was ihr spielt:
+
+[cols="2,4",options="header"]
+|===
+| Meilenstein | Was es bedeutet
+| *Eine Waffe finden* | Eine Waffe, mit der du gerne und sicher kämpfst.
+| *Ein Zauber oder ein Rezept* | Mindestens ein verlässlicher Zauber (Caster) bzw. ein Trank oder Gegenstand (Nicht-Caster).
+| *Soziale Kompetenz* | Du kannst Gespräche führen und die Motive anderer erkennen.
+| *Selbstkenntnis* | Du weißt, was du kannst, wo deine Grenzen liegen und wohin du willst.
+| *Deine Klasse* | Du bestätigst deine Anfangsklasse — oder entscheidest dich um.
+|===
+
+<<<
+
+== Spiel-Grundlagen
+
+=== Würfeln und Proben
+
+Die Kampagne nutzt das vertraute *D20-System* (D&D 5E als Grundlage). Wenn der
+Ausgang einer Handlung ungewiss ist, würfelt ihr einen *zwanzigseitigen Würfel
+(W20)* und addiert euren passenden Modifikator. Euer Spielleiter nennt eine
+*Schwierigkeit (DC)*, die ihr erreichen oder übertreffen müsst.
+
+[TIP]
+====
+*Scheitern ist kein Drama.* Gerade im ersten Jahr ist ein misslungener Wurf
+selten eine Katastrophe — meistens kostet er Zeit, Nerven oder eine kleine
+Blessur und lädt zu einem ehrlicheren zweiten Versuch ein. Niemand stirbt, weil
+ein Wurf danebenging.
+====
+
+=== Verteidigung statt Angriff
+
+Im Kampfunterricht lernt ihr zuerst, euch zu *verteidigen* — Stand, Blocken,
+Ausweichen, Fallen und wieder Aufstehen. Kampfmeisterin Eisenherz belohnt
+Disziplin höher als Aggression. Im Sparring gegen ältere Schüler geht es nicht
+ums Gewinnen, sondern ums *Standhalten*, um Stil und ums Wiederaufstehen.
+
+=== Das Bündnis mit dem Drachen
+
+Der Höhepunkt eures ersten Jahres ist die *Bindung* mit einem
+Drachen-Seelengefährten. Sie ist *kein Geschenk*, sondern eine *Verantwortung,
+die euch verändert*. Wie ihr euch durch das Jahr entwickelt — wie ihr handelt,
+wofür ihr einsteht, woran ihr wachst — prägt, welcher Drache euch wählt und wie
+eure Bindung beginnt.
+
+Es gibt drei Arten von Drachen, die zu euren Stärken passen:
+
+[cols="2,3",options="header"]
+|===
+| Drachen-Typ | Wesen
+| *Taschendrache* | klein bis mittel, magisch begabt — passt zu Zauberern mit großer magischer Resonanz
+| *Kampfdrache* | groß bis riesig, körperlich mächtig — passt zu Schülern mit Kampfgeist und Entschlossenheit
+| *Schattendrache* | mittel, geschmeidig und still — passt zu agilen, ruhigen Schülern
+|===
+
+*Drache und Reiter ergänzen sich* — sie verdoppeln sich nicht. Wer besonders
+magisch begabt ist, bekommt einen magisch starken Gefährten; wer körperlich
+stark ist, einen physisch mächtigen. Ihr gebt eurem Drachen einen *eigenen
+Namen* — und dieser persönliche Name ist der, der zählt. Welcher Drache euch
+wählt, erfahrt ihr, wenn die Zeit gekommen ist.
+
+<<<
+
+== Was ihr bisher wisst
+
+Dies ist das Wissen, das eure Charaktere an der Akademie tatsächlich erwerben.
+Mehr braucht ihr für den Anfang nicht — den Rest entdeckt ihr im Spiel.
+
+[cols="2,4",options="header"]
+|===
+| Thema | Was ihr wisst
+| *Geschichte der Akademie* | In Altheim, von fünf Gründern errichtet, nimmt jede Rasse auf, fünf Schuljahre, Abschluss des ersten Jahres ist die Drachen-Bindung.
+| *Die vier Häuser* | Drachenfeste (Kampf/Ehre), Turm der Ketten (Theorie/Magie), Tiefe Esse (Handwerk), Liebe & Leben (Heilung).
+| *Das Gleichgewicht der Elemente* | Vier physische Elemente plus Äther; jede magische Wirkung braucht eine Gegenwirkung.
+| *Der Kodex der Drachenfeste* | Neunzehn Phrasen über Ehre; „man fragt nicht, bevor es nicht selbst erzählt wird" und „kein Übermut".
+| *Schmiede- & Eisenkunde* | Das richtige Hämmern, Rohmaterialien, Lederrüstung in drei Schritten.
+| *Tinkturen, Tränke & Salben* | Brauen in Stufen; Unterschied von Heilkraut, Salbe und Trank.
+| *Arkane Theorie & Spell-Lehre* | Zauber in drei Schritten lernen (Sigil, Komponenten, Inkantation); Alt-Akademisch.
+| *Aasimar & der Heiligenschein* | Aasimar (selten — einer unter tausend) tragen ein himmlisches Erbe, das meist zwischen dem 16. und 20. Lebensjahr erwacht.
+| *Ilia, die Wesensprüfer-Kröte* | Die Kröte bei der Begrüßungszeremonie an Rektor Geron Lichtwalds Seite.
+| *Weidegrund & das Umland* | Das Dorf südöstlich der Akademie, Handelsort und Tor zum Ostwald.
+|===
+
+[NOTE]
+====
+*Manche Dinge bleiben offen* — und das ist gut so. Warum die Drachen genau
+jetzt zurückgekehrt sind, was hinter manchem Rätsel der Akademie steckt: das
+sind Fragen, die euch im Laufe der Jahre begegnen werden. Bringt eure Fragen
+mit. Das Abenteuer hat gerade erst begonnen.
+====
+
+<<<
+
+[appendix]
+== Beispiel-Gruppe: „Die Flamme Obsidian" (optional)
+
+[NOTE]
+====
+*Dieser Anhang ist optional* und zeigt *eine* mögliche Gruppe als Anregung für
+eure eigene Charaktererstellung. Eure Spielrunde baut ihre *eigene* Gruppe — die
+„Flamme Obsidian" ist nur ein Beispiel dafür, wie bunt eine Kohorte aussehen
+kann.
+====
+
+Die *Flamme Obsidian* waren sechs Schüler, die zu Beginn von anderen gemieden
+wurden („bringt kein Glück"). Aus sechs Fremden wurde im Laufe des Jahres eine
+*Flamme*: eine Gruppe, die zusammenhält. So sah ihre Besetzung aus:
 
 [cols="2,2,1,1",options="header"]
 |===
@@ -273,97 +427,12 @@ Naturverständnis statt roher Kraft.
 
 *Sephira* — Halb-Elf-Waldläuferin aus Liebe & Leben. Distanz und Präzision mit
 dem Kurzbogen; eine Jägerin, die lernt, zwischen Festhalten und Loslassen zu
-unterscheiden. (Teilt einen Nachnamen mit Dozentin Silke Grünblatt — ob das
-etwas bedeutet?)
-
-=== Eure Drachen-Gefährten
-
-Am Ende des ersten Schuljahres geht jeder von euch eine Bindung mit einem
-Drachen ein. *Nicht ihr wählt — der Drache spürt euch.* Ihr gebt eurem Drachen
-einen *eigenen Namen* — und dieser persönliche Name ist der, der zählt.
-
-Es gibt drei Arten von Drachen, die zu euren Stärken passen:
-
-[cols="2,3",options="header"]
-|===
-| Drachen-Typ | Wesen
-| *Taschendrache* | klein bis mittel, magisch begabt — passt zu Zauberern mit großer magischer Resonanz
-| *Kampfdrache* | groß bis riesig, körperlich mächtig — passt zu Schülern mit Kampfgeist und Entschlossenheit
-| *Schattendrache* | mittel, geschmeidig und still — passt zu agilen, ruhigen Schülern
-|===
-
-*Drache und Reiter ergänzen sich* — sie verdoppeln sich nicht. Wer besonders
-magisch begabt ist, bekommt einen magisch starken Gefährten; wer körperlich
-stark ist, einen physisch mächtigen. Welcher Drache euch wählt, erfahrt ihr,
-wenn die Zeit gekommen ist.
-
-<<<
-
-== Spiel-Grundlagen
-
-=== Würfeln und Proben
-
-Die Kampagne nutzt das vertraute *D20-System* (D&D 5E als Grundlage). Wenn der
-Ausgang einer Handlung ungewiss ist, würfelt ihr einen *zwanzigseitigen Würfel
-(W20)* und addiert euren passenden Modifikator. Euer Spielleiter nennt eine
-*Schwierigkeit (DC)*, die ihr erreichen oder übertreffen müsst.
+unterscheiden.
 
 [TIP]
 ====
-*Scheitern ist kein Drama.* Gerade im ersten Jahr ist ein misslungener Wurf
-selten eine Katastrophe — meistens kostet er Zeit, Nerven oder eine kleine
-Blessur und lädt zu einem ehrlicheren zweiten Versuch ein. Niemand stirbt, weil
-ein Wurf danebenging.
-====
-
-=== Eure sechs Attribute
-
-Wie in D&D 5E hat jeder Charakter sechs Grundwerte: *Stärke (STR)*, *Geschick
-(DEX)*, *Konstitution (CON)*, *Intelligenz (INT)*, *Weisheit (WIS)* und
-*Charisma (CHA)*. Sie bestimmen, worin euer Charakter glänzt — und wo er sich
-schwertut. Beides gehört dazu: Eine Figur, die alles kann, ist langweilig.
-
-=== Verteidigung statt Angriff
-
-Im Kampfunterricht lernt ihr zuerst, euch zu *verteidigen* — Stand, Blocken,
-Ausweichen, Fallen und wieder Aufstehen. Kampfmeisterin Eisenherz belohnt
-Disziplin höher als Aggression. Im Sparring gegen ältere Schüler geht es nicht
-ums Gewinnen, sondern ums *Standhalten*, um Stil und ums Wiederaufstehen.
-
-=== Das Bündnis mit dem Drachen
-
-Der Höhepunkt eures ersten Jahres ist die *Bindung* mit einem
-Drachen-Seelengefährten. Sie ist *kein Geschenk*, sondern eine *Verantwortung,
-die euch verändert*. Wie ihr euch durch das Jahr entwickelt — wie ihr handelt,
-wofür ihr einsteht, woran ihr wachst — prägt, welcher Drache euch wählt und wie
-eure Bindung beginnt.
-
-<<<
-
-== Was ihr bisher wisst
-
-Dies ist das Wissen, das eure Charaktere an der Akademie tatsächlich erworben
-haben. Mehr braucht ihr für den Anfang nicht — den Rest entdeckt ihr im Spiel.
-
-[cols="2,4",options="header"]
-|===
-| Thema | Was ihr wisst
-| *Geschichte der Akademie* | In Altheim, von fünf Gründern errichtet, nimmt jede Rasse auf, fünf Schuljahre, Abschluss des ersten Jahres ist die Drachen-Bindung.
-| *Die vier Häuser* | Drachenfeste (Kampf/Ehre), Turm der Ketten (Theorie/Magie), Tiefe Esse (Handwerk), Liebe & Leben (Heilung).
-| *Das Gleichgewicht der Elemente* | Vier physische Elemente plus Äther; jede magische Wirkung braucht eine Gegenwirkung.
-| *Der Kodex der Drachenfeste* | Neunzehn Phrasen über Ehre; „man fragt nicht, bevor es nicht selbst erzählt wird" und „kein Übermut".
-| *Schmiede- & Eisenkunde* | Das richtige Hämmern, Rohmaterialien, Lederrüstung in drei Schritten.
-| *Tinkturen, Tränke & Salben* | Brauen in Stufen; Unterschied von Heilkraut, Salbe und Trank.
-| *Arkane Theorie & Spell-Lehre* | Zauber in drei Schritten lernen (Sigil, Komponenten, Inkantation); Alt-Akademisch.
-| *Aasimar & der Heiligenschein* | Aasimar (selten — einer unter tausend) tragen ein himmlisches Erbe, das meist zwischen dem 16. und 20. Lebensjahr erwacht.
-| *Ilia, die Wesensprüfer-Kröte* | Die Kröte bei der Begrüßungszeremonie an Rektor Geron Lichtwalds Seite.
-| *Weidegrund & das Umland* | Das Dorf südöstlich der Akademie, Handelsort und Tor zum Ostwald.
-|===
-
-[NOTE]
-====
-*Manche Dinge bleiben offen* — und das ist gut so. Warum die Drachen genau
-jetzt zurückgekehrt sind, was hinter manchem Rätsel der Akademie steckt: das
-sind Fragen, die euch im Laufe der Jahre begegnen werden. Bringt eure Fragen
-mit. Das Abenteuer hat gerade erst begonnen.
+*Was ihr daraus mitnehmen könnt:* Eine gute Gruppe mischt Häuser, Klassen und
+Temperamente. Stärken der einen gleichen Schwächen der anderen aus, und gerade
+die Charaktere mit Ecken und Kanten tragen die schönsten Geschichten. Baut eure
+eigene Flamme — und gebt ihr einen Namen, der zu euch passt.
 ====

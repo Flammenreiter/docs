@@ -11,13 +11,14 @@
 :lang: de
 
 [.lead]
-Dieses Handbuch ist die *vollständige Spielleiter-Referenz* für den ersten
-Arc der Kampagne *Flammenreiter — Jahr 1* (Story Arc „Schulzeit") im Global
-Arc *Die Rückkehr der Sigillen*. Es enthält den kompletten Welt-Kanon,
-inklusive aller *GM-Geheimnisse*, das NSC- und Lore-Kompendium, die
-Story-Struktur von der Weltgeschichte bis zur einzelnen Szene, alle
-Sessions mit Vorlesetexten und Würfelproben sowie die Fließtext-Recaps der
-gespielten Sitzungen.
+Dieses Handbuch ist die *vollständige Spielleiter-Referenz* für das
+wiederverwendbare Abenteuer-Modul *Flammenreiter — Jahr 1* (Story Arc
+„Schulzeit") im Global Arc *Die Rückkehr der Sigillen*. Es ist
+*kampagnen- und gruppenunabhängig*: Jede Spielleitung kann es mit *jeder
+eigenen Gruppe* spielen. Es enthält den kompletten Welt-Kanon inklusive aller
+*GM-Geheimnisse*, das NSC- und Lore-Kompendium, die Story-Struktur von der
+Weltgeschichte bis zur einzelnen Szene und alle Sessions mit Vorlesetexten und
+Würfelaktionen.
 
 [IMPORTANT]
 ====
@@ -28,49 +29,81 @@ dürfen *niemals* an den Tisch geraten. Das parallele *Spieler-Handbuch*
 (`spieler-handbuch-arc1.adoc`) ist von all diesen Inhalten frei.
 ====
 
+[NOTE]
+====
+*Modul, nicht Spielprotokoll.* Der Haupttext dieses Buches ist bewusst
+*generisch*. Er spricht durchgehend von „deiner Gruppe" bzw. „der Flamme" und
+nennt *keine* festen Spielercharaktere. Wo per-Charakter-Inhalte nötig sind,
+findest du *anpassbare Vorlagen* (siehe <<anhang-a>>). Eine konkrete, einmal
+gespielte Besetzung ist als *optionales Beispiel* in <<anhang-b>>
+ausgelagert — klar als *ein möglicher* Verlauf markiert, nicht als Vorschrift.
+====
+
 <<<
 
-== Vorwort für den Spielleiter
+== So nutzt du dieses Buch
 
-Willkommen zur Kampagne *Flammenreiter: Die Schulzeit*. Du leitest hier eine
-*Kategorie-1-Kampagne* im Global Arc *Die Rückkehr der Sigillen* — eine
-Kampagne, in der sich deine Gruppe findet, sich formt und die Welt
-kennenlernt.
+=== Der Pitch
 
-Deine Spieler beginnen als einfache Akademiestudenten, die aus den
-verschiedensten Gründen an der Akademie der Flammenreiter angekommen sind.
-Diese Akademie nimmt jede Rasse und jeden Wunsch auf und tut ihr
-Bestmögliches, dass diese Wünsche in Erfüllung gehen. Der Fokus liegt ganz
-bewusst auf der anfänglichen Entwicklung — dem langsamen, sorgfältigen
-Wachstum jedes einzelnen Charakters.
+*Flammenreiter — Jahr 1* ist ein einsteigerfreundliches, charaktergetriebenes
+Akademie-Abenteuer. Eine Handvoll Erstjahres-Schüler kommt an die *Akademie der
+Flammenreiter*, lernt die Welt, die Magie und einander kennen — und bindet am
+Ende des Jahres einen *Drachen-Seelengefährten*. Der Fokus liegt auf
+*Charakterentwicklung, Rollenspiel und langsamem Wachstum*, nicht auf
+Powergaming.
 
-*Diese Kampagne ist sehr einsteigerfreundlich.* Egal, ob deine Spieler schon
-Pen & Paper, D&D oder etwas Ähnliches gespielt haben — hier wird jeder
-abgeholt. Es geht um Rollenspiel, darum, sich selbst, seinen Charakter und
-seine Mitspieler kennenzulernen. Aber wichtig ist auch: *Alles hat
-Konsequenzen in dieser Welt.*
+=== Für wen ist dieses Modul?
+
+* *Spielleitungen jeder Erfahrungsstufe* — der Aufbau führt dich Schritt für
+  Schritt; alle Welt-Geheimnisse sind hier zentral dokumentiert.
+* *Gruppen, die einen ruhigen, immersiven Einstieg* in eine lebendige Welt
+  suchen — ideal für Einsteiger und gemischte Tische.
+* *Tische mit jungen oder behutsam geführten Charakteren.* Die Schüler starten
+  mit etwa zwölf Jahren; das Modul ist von Grund auf kindersicher angelegt.
+
+=== Voraussetzungen
+
+[cols="1,3",options="header"]
+|===
+| Punkt | Erwartung
+| *Regelsystem* | D20-System (D&D 5E als Grundlage). Tiefe Regelkenntnis ist *nicht* nötig — Proben sind generisch als „passende Fertigkeit, DC X" formuliert.
+| *Gruppengröße* | Funktioniert mit *3–6 Spielern*. Eine *hausübergreifend zusammengewürfelte* Kohorte gibt die meisten Reibungspunkte.
+| *Spielzeit* | Mehrere Monate Echtzeit. Act 1 ist in Chapter/Tage gegliedert und gut pausierbar.
+| *Vorbereitung* | Lies die <<welt-metaplot>>, das <<nsc-kompendium>> und die <<sichtbarkeit>>. Den Rest ziehst du dir Session für Session.
+|===
+
+=== Wie du dieses Buch liest
+
+. *Welt & Metaplot* — verstehe den Horizont, vor dem alles spielt (inkl. der 🔒
+  GM-only-Wahrheit).
+. *Akademie, NSCs, Lore* — dein Nachschlagewerk für jede Szene.
+. *Sichtbarkeits-Prinzip* — die wichtigste Disziplin: was darf an den Tisch?
+. *Story-Struktur & Sessions* — Ziel, Pflicht-Beats, GM-Notes, Szenen mit
+  Vorlesetext und Würfelaktionen pro Session.
+. *Anhang A — Per-PC-Vorlagen* — wie du persönliche Inhalte für *deine*
+  Charaktere baust.
+. *Anhang B — Beispiel-Besetzung* — *eine* gespielte Gruppe als Anschauung.
+
+=== Anpassen ist erwünscht
+
+Was hier auf dem Tisch steht, ist bewusst grob gehalten. Je tiefer du in einen
+Arc einsteigst, desto eher wirst du merken, dass die vorgeschriebene Idee
+vielleicht nicht mehr zu deiner Gruppe passt — und das ist gut so. Gestalte
+Unterrichtsstunden selbst, überlege dir eigene Aufgaben, passe die Geschichte
+an. Sei dir nur über die *Ziele dieses Story Arcs* bewusst (siehe <<ziele>>).
 
 [NOTE]
 ====
 *Hinweis zum Alter der Charaktere.* Die Charaktere starten mit einem Alter
 von etwa *zwölf Jahren*. Kinder werden in dieser Kampagne besonders behutsam
-gehandhabt. *Sexualisierte Inhalte haben hier keinen Platz.* Bitte beachte
-das in jeder Szene, jedem NSC-Dialog, jeder Interaktion. Gefahr darf ernst
+gehandhabt. *Sexualisierte Inhalte haben hier keinen Platz.* Gefahr darf ernst
 sein, aber niemals grausam: Scheitern kostet Zeit, Nerven und kleine
 Blessuren — niemals den Tod eines Kindes.
 ====
 
-=== Deine Freiheit
-
-Was hier auf den Tisch geschrieben ist, ist bewusst grob gehalten. Je tiefer
-du in einen Arc einsteigst, desto schneller wirst du merken, dass die
-vorgeschriebene Idee vielleicht nicht mehr zu deiner Gruppe passt — und das
-ist gut so. Gestalte Unterrichtsstunden selbst, überlege dir eigene Aufgaben,
-passe die Geschichte an. Sei dir nur über die *Ziele dieses Story Arcs*
-bewusst (siehe <<ziele>>).
-
 <<<
 
+[#welt-metaplot]
 == Die Welt Caldrithar und der Metaplot
 
 === Der Global Arc „Die Rückkehr der Sigillen"
@@ -79,7 +112,8 @@ Die Welt Caldrithar ist *lebendig*. Sie ist das Entscheidende. Was deine
 Gruppe erlebt — egal, wer als Spielleiter führt — ist Teil *einer* lebendigen
 Weltgeschichte. Der Global Arc *Die Rückkehr der Sigillen* ist die größte
 mögliche erzählerische Instanz: Alles, was in Caldrithar geschieht, geschieht
-in seinem Schatten.
+in seinem Schatten. Mehrere Spielleitungen können dieselbe Welt bespielen;
+mehrere Gruppen können parallel existieren.
 
 Die Kampagne durchläuft *vier Kategorien* bis zur Auflösung des Global Arcs:
 
@@ -120,7 +154,7 @@ gescheitert sind — nicht am Feuer, sondern an sich selbst.
 [TIP]
 ====
 Dies ist player-visible Wissen (Lore-Artikel „Das Gleichgewicht der fünf
-Elemente"). Magister Halmund führt es an Tag 4 ein und macht es an Tag 5
+Elemente"). Der Magie-Lehrer führt es an Tag 4 ein und macht es an Tag 5
 körperlich erfahrbar: jeder Funke verlangt seinen Gegenfunken.
 ====
 
@@ -130,7 +164,7 @@ körperlich erfahrbar: jeder Funke verlangt seinen Gegenfunken.
 ====
 🔒 *NUR SL.* Die folgenden vier Schichten sind die *tiefsten Geheimnisse* der
 Welt. In Kategorie 1 erfährt die Gruppe davon *NICHTS*. Kein NSC, kein Lehrer,
-kein Rektor — auch Magister Halmund und Professor Vethran nicht — kennt diese
+kein Rektor — auch der Magie- und der Drachen-Lehrer nicht — kennt diese
 Wahrheit. Das Wort „Sigille" existiert in der Welt nicht mehr.
 ====
 
@@ -201,10 +235,10 @@ spätestens in Arc 5 enthüllt werden) — in Jahr 1 bleibt davon alles verborge
 ==== 🔒 Der silberne Pilz
 
 Im Ostwald wächst ein Pilz, der nicht rot, sondern *silbern* ist — glänzend,
-fast metallisch. Er gehörte zu einer geplanten Pfad-A-/Pfad-B-Mechanik rund um
-die M.H.-Notiz. Im *tatsächlich gespielten* Verlauf (Tag 3) wurde der Ostwald-
-Sammelpfad übersprungen; die Gruppe hat den Pilz *nie gesehen*. Seine wahre
-Natur bleibt verborgen und steht dir für spätere Tage offen.
+fast metallisch. Er gehört zu einer optionalen Pfad-A-/Pfad-B-Mechanik rund um
+die geheimnisvolle Notiz (siehe <<chapter1>>). Du kannst den Ostwald-Sammelpfad
+einbauen oder überspringen; lässt du ihn weg, sieht die Gruppe den Pilz nie.
+Seine wahre Natur bleibt verborgen und steht dir für spätere Tage offen.
 
 === 🔒 NUR SL — Die fünf Enden des Global Arcs
 
@@ -243,7 +277,8 @@ bewirken."
 === Die vier Häuser und ihre Türme
 
 Jeder Schüler wird über ein KI-Interview einem *Haus* (Turm) zugeordnet, das
-zu seinem Wesen passt.
+zu seinem Wesen passt. Eine *hausübergreifend zusammengewürfelte* Gruppe ist
+für dieses Modul ideal — sie erzeugt die meisten Reibungs- und Wachstumspunkte.
 
 [cols="1,1,4",options="header"]
 |===
@@ -297,13 +332,16 @@ wie man sich um ihn kümmert und was die Bindung bedeutet. Der Professor hat
 
 <<<
 
+[#nsc-kompendium]
 == NSC-Kompendium
 
 [NOTE]
 ====
 Quelle der Wahrheit: Prod-DB, Tabelle `npcs`, Kampagne
 `707a49b4-7358-4747-866c-90cb910f26bb`. Geheimnisse einzelner NSCs sind mit 🔒
-*NUR SL* markiert.
+*NUR SL* markiert. Die NSCs sind *gruppenunabhängig* — wo der Kanon eine
+Bindung an die konkrete Beispiel-Gruppe nennt, ist das als *Beispiel* notiert
+und für deine Gruppe frei austauschbar.
 ====
 
 === Lehrkräfte — die acht Fächer
@@ -317,15 +355,21 @@ Klinge prüft. Keine Geduld für „erklär mir nochmal", aber Geduld für
 aufrichtige Fehler.
 
 * *Leitbild:* „Mit Gewalt nur Splitter, mit Geduld eine Klinge."
-* *Plot-Thread:* Borkin hat eine *besondere, noch ungeklärte Zuneigung* zur
-  Flamme Obsidian — er schmiedet ihre Übungswaffen extra (Obsidian-Zeichen im
-  Knauf) und schickt nur sie auf Sonderaufträge. *Auflösung: Chapter 4.*
+* *Plot-Thread (anpassbar):* Borkin fasst im Lauf von Jahr 1 eine *besondere,
+  noch ungeklärte Zuneigung* zu *einem* deiner Schüler oder zur ganzen Gruppe —
+  er schmiedet ihre Übungswaffen extra (eigenes Zeichen im Knauf) und schickt
+  nur sie auf Sonderaufträge. *Auflösung: Chapter 4.* Wähle den Bezugspunkt
+  passend zu deiner Gruppe.
 
 ==== Silke Grünblatt — Kräuterkunde & Alchemie
 
 *Halbelfin, Dozentin.* Herzliche, beschwingte Mutterfigur. Unterrichtet im
-warmen Gewächshaus auf dem Dach des Turms Liebe & Leben. Besonders mütterlich
-zu *Sephira* (gleicher Nachname — die Gruppe vermutet eine Verwandtschaft).
+warmen Gewächshaus auf dem Dach des Turms Liebe & Leben.
+
+* *Mentor-Potenzial (anpassbar):* Sie ist besonders mütterlich zu einem Schüler,
+  der ihre Fürsorge braucht. Ein geteilter Nachname kann eine vermutete
+  Verwandtschaft andeuten — ein optionaler Faden, den du an *einen* deiner
+  Charaktere knüpfen kannst.
 
 ==== Magister Halmund — Arkane Theorie & Magie
 
@@ -343,9 +387,9 @@ das Gleichgewichtsprinzip und das Spell-Learning in drei Schritten.
 ==== Brianna Eisenherz — Kampfkunst & Selbstverteidigung
 
 *Halbork, Kampfmeisterin, Mitte 30.* Kettenhemd, breite Schultern, Narbe quer
-übers Gesicht. Streng, nüchtern, loyal gegenüber ihren Schülern. Kennt das
-Pech-Gerücht über Obsidian und wischt es bewusst beiseite — als Halbork weiß
-sie selbst, wie es ist, gemieden zu werden.
+übers Gesicht. Streng, nüchtern, loyal gegenüber ihren Schülern. Als Halbork
+weiß sie selbst, wie es ist, gemieden zu werden — ein etwaiges Pech-Gerücht über
+deine Gruppe wischt sie bewusst beiseite.
 
 * *Leitsatz:* „Ich bringe euch nicht bei zu gewinnen. Ich bringe euch bei zu
   überleben. Das ist Verteidigung — nicht Angriff."
@@ -414,14 +458,14 @@ unterrichtet fast nie im Klassenzimmer, sondern draußen — bei jedem Wetter.
 [cols="2,1,4",options="header"]
 |===
 | Name | Rolle | Charakter
-| *Rektor Geron Lichtwald* | Mensch, Rektor | Hält die Begrüßungsrede zur Aufnahme. Reagierte auf die M.H.-Notiz „seltsam ruhig".
+| *Rektor Geron Lichtwald* | Mensch, Rektor | Hält die Begrüßungsrede zur Aufnahme. Reagiert auf die M.H.-Notiz „seltsam ruhig".
 | *Ilia* | Sprechende Kröte | „Wesensprüfer" bei der Begrüßungszeremonie an Gerons Seite. Prüft das Wesen jedes Novizen (Rolle im Kanon noch offen).
 | *Sigrun Aschnarbe* | Hauslehrerin Drachenfeste | Knapp, befehlsorientiert, ohne falsche Höflichkeit. Brandnarbe über der Wange — Erinnerung an einen Vorfall, über den sie schweigt.
-| *Cervan Stilltinte* | Magister, Hauslehrer Turm der Ketten | Formal, gemessen, silberne Brille, Tintenfleck am Mittelfinger. *Behandelt Cor'O-nas anders als andere — verrät nicht warum* (Aasimar-Sensitivität, GM-Faden).
+| *Cervan Stilltinte* | Magister, Hauslehrer Turm der Ketten | Formal, gemessen, silberne Brille, Tintenfleck am Mittelfinger. *Kann einzelne Schüler mit besonderem Erbe (z. B. Aasimar) anders behandeln, ohne den Grund zu verraten* (GM-Faden).
 | *Hella Krautmund* | „Mutter", Hauslehrerin Liebe & Leben | Halfling, mütterlich-warm, aber nicht weichherzig. Tee in der Hand, Lavendel in den Zöpfen.
 | *Frau Rost* | Werkzeug-Pflege/Schmiede | Knapp, direkt; hält den Schmiedhammer wie einen Esslöffel.
 | *Vondred* | Junger Zwerg, Esse & Glut | Bartlos, rußig, lacht viel.
-| *Melinda* | Küchenleiterin | Hart, aber anerkennend; drohte Obsidian nach der Essensschlacht mit Ausschluss.
+| *Melinda* | Küchenleiterin | Hart, aber anerkennend; droht nach einer Essensschlacht schon mal mit Ausschluss.
 |===
 
 === Mitschüler und Rivalen
@@ -429,13 +473,13 @@ unterrichtet fast nie im Klassenzimmer, sondern draußen — bei jedem Wetter.
 [cols="2,1,4",options="header"]
 |===
 | Name | Rolle | Charakter
-| *Garr Steinrück* | Mensch, 2. Jahr, Drachenfeste | Hager, überheblich, schnellzüngig. Trägt das Gerücht *„Flamme Obsidian bringt kein Glück"* offen vor sich her. *Kein echter Antagonist:* Wer ihm im Sparring oder Wortgefecht standhält, gewinnt seinen widerwilligen Respekt.
-| *Eilis Tannenwart* | Halfling, 2. Jahr, Liebe & Leben | Quirlig, freundlich, hilfsbereit. Glaubt nicht an die Unglücksflamme. Kanonische Frage „Verbündete oder Rivalin?" kippt klar Richtung *Verbündete*.
+| *Garr Steinrück* | Mensch, 2. Jahr, Drachenfeste | Hager, überheblich, schnellzüngig. Trägt ein etwaiges Unglücks-Gerücht über die neue Gruppe offen vor sich her. *Kein echter Antagonist:* Wer ihm im Sparring oder Wortgefecht standhält, gewinnt seinen widerwilligen Respekt.
+| *Eilis Tannenwart* | Halfling, 2. Jahr, Liebe & Leben | Quirlig, freundlich, hilfsbereit. Glaubt nicht an Unglücks-Gerüchte. Kanonische Frage „Verbündete oder Rivalin?" kippt klar Richtung *Verbündete*.
 | *Nemir Dunkel* | Mensch, Lehrling Ketten | Reserviert, beobachtet alles. Wird an Tag 5 vom Verdächtigen zum Zeugen.
 | *Maelis Funkenkind* | Mensch, Lehrling Drachenfeste | Selbstbewusst, Vater ist Schmied, bietet Hilfe an.
-| *Rauven* | Mensch, Lehrling Ketten | Spricht Cor'O-nas auf den Heiligenschein an: „Bist du… ein Aasimar?"
+| *Rauven* | Mensch, Lehrling Ketten | Spricht einen Schüler mit Heiligenschein auf sein Erbe an: „Bist du… ein Aasimar?"
 | *Brann Hammerschlag* | Mensch, Lehrling Drachenfeste | Stämmig, schweigsam.
-| *Tobi* | Halfling, Lehrling Liebe & Leben | Klein, schüchtern, lässt sich von Celia/Sephira helfen.
+| *Tobi* | Halfling, Lehrling Liebe & Leben | Klein, schüchtern, lässt sich gern helfen.
 |===
 
 === Umland und Gäste
@@ -519,10 +563,10 @@ Augen, ruhiger Schlaf). Drei Aspekte: Protector, Scourge, Fallen.
 [NOTE]
 ====
 🔒 *NUR-SL-Anmerkung zu diesem player-visiblen Artikel:* Die allgemeine
-Aasimar-Lore ist bekannt. Cor'O-nas' eigene Natur, Subtyp und mögliches
-Erwachen sind GM-only — die PCs starten mit ~12, kein Erwachen vor 16. Cor'O-nas
-zeigt in Jahr 1 nur *Pre-Erwachens-Anzeichen* (helle Augen, ruhiger Raum),
-*keine* celestialen Kräfte.
+Aasimar-Lore ist bekannt. Die *eigene* Natur, der Subtyp und ein mögliches
+Erwachen eines konkreten Aasimar-Charakters sind GM-only — PCs starten mit ~12,
+kein Erwachen vor 16. Ein Aasimar-PC zeigt in Jahr 1 nur *Pre-Erwachens-
+Anzeichen* (helle Augen, ruhiger Raum), *keine* celestialen Kräfte.
 ====
 
 ==== Ilia, die Wesensprüfer-Kröte (`article`)
@@ -571,17 +615,19 @@ nur die Silhouette sichtbar.
 
 ==== 🔒 Der silberne Pilz (`legend`)
 
-GM-only-Mysterium des Ostwalds. Im gespielten Verlauf übersprungen — die Gruppe
-hat ihn nie gesehen. Wahre Natur ungeklärt, steht dem SL für später offen.
+GM-only-Mysterium des Ostwalds. Optionaler Sammelpfad. Wahre Natur ungeklärt,
+steht dem SL für später offen.
 
 <<<
 
-[#wissensmatrix]
-== Wissens- und Sichtbarkeitsmatrix
+[#sichtbarkeit]
+== Wissens- und Sichtbarkeits-Prinzip
 
-Diese Matrix ist der *Geheimnis-Schutz in Tabellenform*: Sie zeigt, was
+Dieses Prinzip ist der *Geheimnis-Schutz in Tabellenform*: Es zeigt, was
 *player-visible* ist (darf an den Tisch und ins Spieler-Handbuch) und was
-*GM-only* bleibt.
+*GM-only* bleibt. *Es gilt unabhängig davon, welche Gruppe du leitest.*
+
+=== Die Sichtbarkeitsmatrix
 
 [cols="3,1,3",options="header"]
 |===
@@ -592,25 +638,29 @@ Diese Matrix ist der *Geheimnis-Schutz in Tabellenform*: Sie zeigt, was
 | Kodex der Drachenfeste | ✅ player | Drachenfeste-Schüler
 | Schmiede- & Eisenkunde | ✅ player | nach Schmiede-Unterricht
 | Tinkturen, Tränke & Salben | ✅ player | nach Kräuterkunde
-| Arkane Theorie & Spell-Lehre | ✅ player | die 4 Caster
+| Arkane Theorie & Spell-Lehre | ✅ player | die Caster der Gruppe
 | Aasimar & der Heiligenschein | ✅ player | allgemeines Wissen
 | Ilia, die Wesensprüfer-Kröte | ✅ player | nach der Zeremonie
 | Weidegrund & das Umland | ✅ player | nach dem Ausflug
 | 🔒 Die Sigillen & die Etrim | *GM-only* | *niemand* in Kat 1
 | 🔒 Die wahre Anziehung der Drachen | *GM-only* | *niemand* — auch Halmund nicht
 | 🔒 Drachen & das Wesen am Drachenberg | *GM-only* | *niemand* (nur Silhouette sichtbar)
-| 🔒 Der silberne Pilz | *GM-only* | *niemand* (übersprungen)
+| 🔒 Der silberne Pilz | *GM-only* | *niemand*
 |===
 
-=== Was die Spieler tatsächlich entdeckt haben
+=== Das Prinzip in der Praxis
 
-Auswertung der Tabelle `player_lore_discoveries`: Sechs Spieler haben
-ausschließlich *player-visible* Lore entdeckt — *kein einziger GM-only-Eintrag*
-wurde je freigeschaltet. Am breitesten gestreut sind „Geschichte der Akademie",
-„Die vier Häuser", „Gleichgewicht der fünf Elemente", „Schmiede- & Eisenkunde",
-„Tinkturen, Tränke & Salben", „Weidegrund & das Umland", „Ilia" und „Arkane
-Theorie" (jeweils von fast allen Spielern entdeckt). Das bestätigt: Der
-Geheimnis-Schutz hat in der gespielten Kampagne durchgehalten.
+*Faustregel:* Lore wird *im Spiel verdient*, nicht ausgeteilt. Schalte einen
+player-visiblen Artikel erst frei, wenn die Gruppe ihn durch eine konkrete
+Szene erlebt hat (Schmiede-Unterricht → Schmiede-Lore, Ausflug → Umland-Lore).
+Führe pro Charakter Buch darüber, was er entdeckt hat — so weißt du jederzeit,
+welches Wissen am Tisch verfügbar ist.
+
+*Schutz der vier Geheimnisse:* Die vier 🔒-Artikel werden in Kategorie 1
+*niemals* freigeschaltet — auch nicht teilweise, auch nicht „nur als Andeutung
+für die Spieler". Sie färben deine Inszenierung (z. B. Vethrans Unbehagen, die
+Silhouette am Drachenberg), aber das *Wort* und die *Mechanik* dahinter bleiben
+verborgen. Wenn dieser Schutz hält, hat das Modul seinen Zweck erfüllt.
 
 <<<
 
@@ -670,73 +720,28 @@ tatsächlich im Rollenspiel passiert ist:
 |===
 
 Die *Lehrergespräche* in Act 1 (inszenierte Recaps) bereiten genau dies vor.
-Was der Spieler dort zeigt, definiert, wie der Gefährte mit ihm spricht.
+Was der Spieler dort zeigt, definiert, wie der Gefährte mit ihm spricht. Die
+Vorlagen dazu findest du in <<anhang-a>>.
 
-<<<
-
-== Die Flamme Obsidian — die sechs Spielercharaktere
-
-Sechs Schüler, „die niemand haben wollte" — die Flamme Obsidian, von anderen
-gemieden („bringt kein Glück"). Sie starten Level 0 und erreichen Level 1 erst
-mit dem Drachen-Seelengefährten am Ende von Arc 1.
-
-[cols="2,2,1,1",options="header"]
-|===
-| Charakter | Rasse / Klasse | Haus | Alter
-| *Caelynth Drachenfels* | Dragonborn Wizard | Turm der Ketten | 13
-| *Celia Thymianfeld* | Halfling Cleric | Liebe & Leben | 12
-| *Celindra* | Halb-Elf Sorcerer | Turm der Ketten | 13
-| *Cor'O-nas* | Aasimar Monk | Turm der Ketten | 13
-| *Dreddul* | Halb-Ork Druid | Drachenfeste | 13
-| *Sephira* | Halb-Elf Ranger | Liebe & Leben | 12
-|===
-
-=== Attribute (D&D 5E-Werte)
-
-[cols="2,1,1,1,1,1,1",options="header"]
-|===
-| Charakter | STR | DEX | CON | INT | WIS | CHA
-| Caelynth | 14 | 8 | 6 | 14 | 13 | 14
-| Celia | 19 | 14 | 14 | 21 | 19 | 9
-| Celindra | 20 | 15 | 14 | 11 | 7 | 16
-| Cor'O-nas | 11 | 18 | 10 | 9 | 15 | 15
-| Dreddul | 15 | 12 | 7 | 8 | 19 | 17
-| Sephira | 15 | 18 | 9 | 15 | 7 | 6
-|===
-
-[CAUTION]
-====
-🔒 *NUR SL — Cor'O-nas.* Aasimar *Pre-Erwachen*: in Jahr 1 *keine* celestialen
-Kräfte. Erwachen erst 16–20 Jahre; nur Pre-Anzeichen (helle Augen, ruhiger
-Raum) sind erlaubt. Eine WIS-DC-13-Probe für „Reinheit erkennen" (Tag 4) ist
-als Pre-Erwachens-Anzeichen ausdrücklich gestattet.
-====
-
-=== Die Drachen-Gefährten
+=== Die Drachen-Typen
 
 Am Ende von Arc 1 (Act 2) wählt jeden PC ein Drache. *Nicht der Schüler wählt —
-der Drache spürt.* Der Lore-Name ist GM-Referenz; der *persönliche* Name, den
-der Spieler vergibt, zählt.
+der Drache spürt.* Der *persönliche* Name, den der Spieler vergibt, zählt; ein
+etwaiger Lore-Name ist nur GM-Referenz.
 
-[cols="2,2,2,2",options="header"]
+[cols="2,4",options="header"]
 |===
-| PC | Drachen-Typ | Anmarsch (Kanon) | Lore-Name (GM-Ref)
-| Caelynth | Taschendrache (magisch) | Drache kommt zu ihr | Askaril
-| Celia | Taschendrache (stark magisch) | Drache kommt zu ihr | Thymelis
-| Dreddul | Taschendrache (Natur-magisch) | Drache kommt zu ihm | Wurzgrimm
-| Celindra | *Kampfdrache* (physisch) | *geht zum Drachen hin* | Brennfaust
-| Cor'O-nas | Schattendrache (geschmeidig) | Drache kommt zu ihm | Nachthall
-| Sephira | Schattendrache (Jäger) | Drache kommt zu ihr | Frostschwinge
+| Drachen-Typ (DB-Taxonomie) | Wesen & wem er sich zuwendet
+| *Taschendrache* (caster, klein–mittel) | magisch begabt — passt zu Schülern mit großer magischer Resonanz. Der Drache *kommt zum Schüler*.
+| *Kampfdrache* (martial, groß–riesig) | körperlich mächtig — passt zu Kampfgeist und Entschlossenheit. Der Schüler *geht zum Drachen hin*.
+| *Schattendrache* (stealth, mittel) | geschmeidig und still — passt zu agilen, ruhigen Schülern. Der Drache *kommt zum Schüler*.
 |===
-
-*Drachen-Typen (DB-Taxonomie):* Taschendrache (caster, klein–mittel),
-Kampfdrache (martial, groß–riesig), Schattendrache (stealth, mittel).
 
 *Gegenpotenzial-Balance (persönlich, Spielmechanik):* Magisch starke PCs
-erhalten magisch starke Taschendrachen; körperlich/willensstarke (Celindra)
-einen physisch mächtigen Kampfdrachen; geschmeidig-stille (Cor'O-nas, Sephira)
-lautlose Schattendrachen. Drache und Reiter *ergänzen* sich, verdoppeln sich
-nicht.
+erhalten magisch starke Taschendrachen; körperlich/willensstarke einen physisch
+mächtigen Kampfdrachen; geschmeidig-stille lautlose Schattendrachen. Drache und
+Reiter *ergänzen* sich, verdoppeln sich nicht. Die konkrete Zuordnung baust du
+pro Charakter mit der Vorlage in <<anhang-a>>.
 
 [WARNING]
 ====
@@ -757,7 +762,7 @@ Rimejaw (Frost), Virelith (Grün, jung), Aurandor (Gold, uralt), Voltharex
 Die Schüler werden mit dem Lernen selbst konfrontiert — und an ihre Grenzen
 gebracht. Die ersten sechs Monate sind die Phase der *massivsten
 Charakterentwicklung*. Recaps werden als *Lehrergespräche* inszeniert und
-bereiten den Drachen-Level-Up vor.
+bereiten den Drachen-Level-Up vor (Vorlagen in <<anhang-a>>).
 
 === Act-1-Abschluss-Meilensteine (je Charakter)
 
@@ -771,6 +776,7 @@ bereiten den Drachen-Level-Up vor.
 | Klassen-Tendenz | Bestätigung oder Änderungswunsch der Anfangsklasse, steht fest für Act 2.
 |===
 
+[#chapter1]
 === Chapter 1: Das Kennenlernen (Tag 1–8)
 
 *Story-Beat:* Ankunft, Türme, Küchen-Vorfall, die acht Fächer, die M.H.-Notiz.
@@ -782,7 +788,7 @@ aufgelöst, Gruppe funktioniert als Einheit.
 [cols="1,1,3,3",options="header"]
 |===
 | Session | Tag | Fächer / Fokus | Pflicht-Beats
-| 1+2 | 1–2 | Orientierung | Ankunft, Turmzuweisung, Küchen-Vorfall, erste Strafe; „bringt kein Glück"
+| 1+2 | 1–2 | Orientierung | Ankunft, Turmzuweisung, Küchen-Vorfall, erste Strafe; ein etwaiges Unglücks-Gerücht
 | 3 | 3 | Schmiede (Borkin) | Stationen, Material-Auftrag, Ausflug Weidegrund; Reh getötet; *Notiz „M.H." gefunden*; Eilis kennengelernt
 | 4 | 4 | Kräuterkunde (Silke), Magie (Halmund), Lederwerk | Lederrüstung craften; Kräuter-Katastrophe; Magie-Einführung (Gleichgewicht); „Die Notiz war nicht von mir"
 | 5 | 5 | Magie (Vertiefung) | *M.H.-Notiz aufgelöst*; erste Magie-Anwendung
@@ -852,7 +858,7 @@ Vier Sessions, fest definiert. Die gefestigten Charaktere gehen in das
 |===
 | Session | Inhalt
 | 1 | *Die Präsentation* — am Drachenhorst; welcher Drache jeden PC gewählt hat (noch keine Bindung)
-| 2 | *Die Gruppenprüfung* — die Drachen prüfen die Flamme als Team; Ausgang bestimmt Pfad A/B
+| 2 | *Die Gruppenprüfung* — die Drachen prüfen die Gruppe als Team; Ausgang bestimmt Pfad A/B
 | 3–4 | *Das Bindungsritual* — Pfad A (bestanden) oder Pfad B (nicht bestanden); *Level-Up 0 → 1*
 |===
 
@@ -861,7 +867,7 @@ Vier Sessions, fest definiert. Die gefestigten Charaktere gehen in das
 [cols="3,3",options="header"]
 |===
 | Pfad A — sauber bestanden | Pfad B — gestrauchelt
-| Flamme handelte als Einheit; Zusammenhalt schlug Ego | Gruppe zerfaserte; Einigung erzwungen
+| Gruppe handelte als Einheit; Zusammenhalt schlug Ego | Gruppe zerfaserte; Einigung erzwungen
 | *1 Session* (sanft); Drache kommt zum Schüler (Schatten/Taschen) bzw. Schüler geht hin (Kampf) | *2 Sessions* (Aufstieg zum Drachenort, gefährlicher)
 | S4 frei (Naming-RP, Flugversuche, Puffer) | S4 Teil des Aufstiegs
 | Naming ausführlich, ruhig | Naming kürzer, intensiver, erschöpfter
@@ -870,7 +876,7 @@ Vier Sessions, fest definiert. Die gefestigten Charaktere gehen in das
 [IMPORTANT]
 ====
 *Beide Pfade sind würdig* und führen zur Bindung — kein Pfad ist eine Strafe.
-Im Zweifel Pfad A, wenn die Flamme im Kern zusammenstand. Den Ausgang
+Im Zweifel Pfad A, wenn die Gruppe im Kern zusammenstand. Den Ausgang
 *atmosphärisch* verkünden, nie als Note.
 ====
 
@@ -884,7 +890,7 @@ wahre Anziehung, Wesen am Drachenberg) im Vorlesetext.
 == Act 3 — Zeit des Wissens (Monat 9–12)
 
 Sechs Sessions. Die erste echte Bewährungsprobe: Die verborgene *Taverne* öffnet
-sich, das *Quest-Board* erscheint. Die Flamme wählt *als Gruppe* eine Mission
+sich, das *Quest-Board* erscheint. Die Gruppe wählt *gemeinsam* eine Mission
 (5–10 Optionen) und reist durch alle *drei Nachbarregionen* — begleitet vom
 Auftraggeber.
 
@@ -909,11 +915,12 @@ Wichtiges beizutragen. Keine Mission darf einen Charakter überflüssig machen.
 
 == Sessions im Detail
 
-Die folgenden Abschnitte geben pro gespielter Session Ziel, GM-Notes,
-Pflicht-Beats, eine Szenenliste mit Vorlesetext-Hinweisen und Würfelaktionen
-sowie den Cliffhanger wieder. Quelle: Tabellen `sessions` und `scenes` (Felder
-`description` = Vorlesetext/Ziel, `metadata.readAloud` / `gmNotes`,
-`skill_checks`).
+Die folgenden Abschnitte geben pro Session Ziel, GM-Notes, Pflicht-Beats, eine
+Szenenliste mit Vorlesetext-Hinweisen und Würfelaktionen sowie den Cliffhanger
+wieder. Würfelproben sind *generisch* formuliert (passende Fertigkeit, DC X) —
+kalibriere sie auf die tatsächlichen Werte deiner Gruppe. Quelle: Tabellen
+`sessions` und `scenes` (Felder `description` = Vorlesetext/Ziel,
+`metadata.readAloud` / `gmNotes`, `skill_checks`).
 
 [NOTE]
 ====
@@ -927,12 +934,13 @@ GM-only-Lore geprüft: Vorlesetexte enthalten *keine* Sigillen-/Etrim-/Pilz-/
 
 ==== Tag 1–2: Ankunft & die Türme
 
-*Ziel:* Charaktererstellung, Onboarding, Haus-/Flammen-Einteilung, Küchen-
+*Ziel:* Charaktererstellung, Onboarding, Haus-/Gruppen-Einteilung, Küchen-
 Vorfall und erste Strafe. *GM-Notes:* Fundament für Gruppendynamik legen;
 Lehrergespräche als Recap-Format etablieren; Holzschwerter (echte Waffen erst
 Chapter 2); Drachenberg-Gerücht als Hook (🔒 GM-only Foreshadow). *Plot-Thread:*
-„Flamme Obsidian bringt kein Glück". *Pflicht-Beats:* Turmzuweisung,
-Küchen-Vorfall (Dredduls Kraftexzess), Strafe für die ganze Flamme.
+ein etwaiges Unglücks-Gerücht über die neue Gruppe. *Pflicht-Beats:*
+Turmzuweisung, Küchen-Vorfall (ein Schüler-Kraftexzess), Strafe für die ganze
+Gruppe.
 
 ==== Tag 3: Schmiede
 
@@ -940,24 +948,26 @@ Küchen-Vorfall (Dredduls Kraftexzess), Strafe für die ganze Flamme.
 nach Weidegrund. *GM-Notes:* Materialkenntnis & Crafting-Grundlagen; Borkins
 Respekt verdienen. *Pflicht-Beats:* Schmiede-Einführung; Verhandlung mit Finn um
 Roheisen; das Reh in der Lichtung (von 2.-Jahr-Schülern getötet); *die Notiz
-„M.H." unter der Tür*. *Würfel-Highlight:* Dreddul Überzeugung 20+ (Borkin: „Vielleicht
-solltest du eine Professur anstreben").
+„M.H." unter der Tür*. *Würfel-Highlight:* Eine hohe Überzeugungsprobe gegen
+Borkin (z. B. 20+) lockt ihm einen seltenen Respekt ab („Vielleicht solltest du
+eine Professur anstreben").
 
 ==== Tag 4: Lederwerk + Magie/Tränke
 
 *Ziel:* Lederrüstung craften (3 Schritte, Quality Tiers), Kräuter-Katastrophe,
 Magie-Einführung (Gleichgewichtsprinzip). *GM-Notes:* Gleichgewichtsprinzip
-mündlich eingeführt — Spielmechanik vor Act 2 nachziehen; Cor'O-nas Aasimar-
-Pre-Erwachen (WIS DC 13 erlaubt); Halmund-Cliffhanger „Die Notiz war nicht von
-mir". *Würfel-Highlights:*
+mündlich eingeführt — Spielmechanik vor Act 2 nachziehen; ein etwaiger Aasimar-
+PC zeigt Pre-Erwachens-Anzeichen (eine WIS-Probe DC 13 „Reinheit erkennen" ist
+gestattet); Halmund-Cliffhanger „Die Notiz war nicht von mir".
+*Würfel-Highlights (generisch):*
 
-[cols="2,2,1,2",options="header"]
+[cols="2,2,2",options="header"]
 |===
-| Wer | Was | Wurf | Ergebnis
-| Asamir/PC | Leder schneiden | Nat20+4 = 24 | Perfekte Kanten
-| Celia | Leder schneiden | 3 | Ruiniert, 1 Gold Strafe
-| Dreddul | Überzeugung | 20+ | Erfolg
-| Alle | Kräuterkunde | 2–4 | Gruppenkatastrophe
+| Aktion | Probe | Ergebnis-Bandbreite
+| Leder schneiden (gut) | Geschick, hoher Wurf | Perfekte Kanten
+| Leder schneiden (schlecht) | Geschick, tiefer Wurf | Ruiniert, kleine Strafe (z. B. 1 Gold)
+| Borkin überzeugen | Überzeugung, hoher Wurf | Anerkennung
+| Kräuterkunde (Gruppe) | Weisheit, tiefe Würfe | Gruppenkatastrophe (komisch, harmlos)
 |===
 
 ==== Tag 5: Magie-Vertiefung & die M.H.-Notiz
@@ -965,10 +975,11 @@ mir". *Würfel-Highlights:*
 *Ziel:* M.H.-Notiz auflösen, erste Magie-Anwendung, „Wer hat die Notiz wirklich
 geschrieben?". *Pflicht-Beats:* Halmund legt seine eigene Schrift neben die
 Notiz (offenes vs. geschlossenes „M") → *die Notiz war gefälscht*; erste echte
-Zauber der vier Caster (Funke + Gegenfunken); Cor'O-nas' Bibliotheksgeheimnis
-(fehlendes Buch über das Erwachen himmlischen Blutes — nur ein Frösteln).
-*Würfelaktionen:* Magie-Probe (Funke/Gegenfunken, Affinität); Empathie gegen
-Eilis (öffnet sie → Gerücht; Beschuldigung verschließt sie).
+Zauber der Caster (Funke + Gegenfunken); ein etwaiger Aasimar-PC stößt auf ein
+Bibliotheksgeheimnis (fehlendes Buch über das Erwachen himmlischen Blutes — nur
+ein Frösteln). *Würfelaktionen:* Magie-Probe (Funke/Gegenfunken, Affinität);
+Empathie-Probe gegen Eilis (öffnet sie → Gerücht; Beschuldigung verschließt
+sie).
 
 [example]
 ====
@@ -980,7 +991,7 @@ Gleichgewicht kostet. — Ein Freund."
 
 *Cliffhanger:* Aus einem ungeöffneten Buch gleitet eine *zweite, identische
 Notiz* — gleiche Schrift, an einen *anderen* Namen adressiert. Der „Freund"
-prüft nicht nur Flamme Obsidian.
+prüft nicht nur diese eine Gruppe.
 
 ==== Tag 6: Kampfkunst & Überlebenskunst
 
@@ -995,10 +1006,10 @@ echte Beinwunde als Team-Test; ein regloses Augenpaar im Unterholz (Ch3-Hook).
 
 *Ziel:* Vormittags Weltkunde (orkische Werte, Perspektivwechsel), nachmittags
 erstes magisches Geschöpf (Funkenschuppe; kontrastierend: Nebelschleicher).
-*GM-Notes:* Andere Kulturen als Weltanschauung lehren, nicht als Exotik; Dreddul
-als Brücken-Charakter, *nicht* vorführen; 🔒 GM-only Geheimnisse bleiben
-unangetastet. *Würfelaktion:* Streitgespräch (zwei Lager, tragbarer Kompromiss
-statt „gewinnen").
+*GM-Notes:* Andere Kulturen als Weltanschauung lehren, nicht als Exotik; einen
+etwaigen Halb-Ork-PC als Brücken-Charakter einsetzen, *nicht* vorführen; 🔒
+GM-only Geheimnisse bleiben unangetastet. *Würfelaktion:* Streitgespräch (zwei
+Lager, tragbarer Kompromiss statt „gewinnen").
 
 ==== Tag 8: Drachenlehre (Finale Chapter 1)
 
@@ -1008,7 +1019,7 @@ vor Act 2 wissen, was ein Drache ist. *Pflicht-Beats:* drei Stationen
 (Jungtier-Skelett, sieben Schuppenarten, ein dunkel geädertes Drachen-Ei, das
 auf ehrliche vs. gierige Berührung verschieden reagiert — 🔒 Foreshadow der
 wahren Anziehung, unausgesprochen); Vethrans Zweifel; eine persönliche Frage an
-jeden Schüler (färbt die spätere Drachen-Bindung).
+jeden Schüler (färbt die spätere Drachen-Bindung — Vorlage in <<anhang-a>>).
 
 [CAUTION]
 ====
@@ -1049,8 +1060,8 @@ geöffnet, nicht aufgelöst.
 ==== Ch2-S3: Borkins Sonderauftrag
 
 *Ziel:* Spezialmaterial (*Schwarzglas-Erz*) im Ostwald bergen — Geduld statt
-Kraft. *GM-Notes:* spielbare Verdichtung des Threads „Borkins besondere Zuneigung
-zu Obsidian — warum?". *Pflicht-Beats:* Rohan Wildbachs Überlebenskunst-Lehre;
+Kraft. *GM-Notes:* spielbare Verdichtung des Threads „Borkins besondere
+Zuneigung — warum?". *Pflicht-Beats:* Rohan Wildbachs Überlebenskunst-Lehre;
 Reise in den Ostwald; ein Gelände-Hindernis und ein tierischer Wächter
 (Gluthornkäfer, drei Lösungswege); Erz bergen (Materialkenntnis-Probe); eine
 *rätselhafte Restwärme* im Glas als leiser Motiv-Hook (nicht aufgelöst). *Danach:*
@@ -1082,10 +1093,12 @@ Sensitivity). *Würfelaktionen:* Selbstschutz/Einschüchtern DC 13, Initiative D
 ==== Ch3-S3: Kultur-Begegnung (Finale Chapter 3)
 
 *Ziel:* Eine orkische Gesandtschaft (Korga Steinblut) besucht die Akademie; die
-Flamme soll vermitteln. *These:* „Das Fremde ist nicht das Feindliche." Brücken-
-figur: Dreddul (PC, Halb-Ork). *Pflicht-Beats:* gerade Rede statt Schmeichelei;
-Verstehen vor Urteilen. *Cliffhanger:* Wegmann dreht den Spiegel um — „Wer bist
-du geworden, seit du durch dieses Tor kamst?" (Hook auf Chapter 4).
+Gruppe soll vermitteln. *These:* „Das Fremde ist nicht das Feindliche."
+*Brücken-Potenzial:* Falls deine Gruppe einen orkisch-stämmigen PC hat, ist er
+die ideale Brücke; sonst trägt die ganze Gruppe die Vermittlung. *Pflicht-Beats:*
+gerade Rede statt Schmeichelei; Verstehen vor Urteilen. *Cliffhanger:* Wegmann
+dreht den Spiegel um — „Wer bist du geworden, seit du durch dieses Tor kamst?"
+(Hook auf Chapter 4).
 
 === Chapter 4 — Ch4-S1: Der Spiegel (Finale Act 1)
 
@@ -1108,9 +1121,9 @@ beiden RP-Kernszenen (Lehrergespräch, „Mein Geheimnis") sind *bewusst würfel
 | Überlebenskunst | Feuer/Fährte/Erste Hilfe (Weisheit) | 12
 |===
 
-*Cliffhanger:* „Ende Act 1. Aus sechs Fremden ist eine Flamme geworden —
-geprüft, gespiegelt, sich selbst bekannt. Hinter den Wolken über dem Drachenberg
-bewegt sich etwas Großes und Wartendes. Bald ruft der Berg: die Zeit der Bindung
+*Cliffhanger:* „Ende Act 1. Aus Fremden ist eine Gruppe geworden — geprüft,
+gespiegelt, sich selbst bekannt. Hinter den Wolken über dem Drachenberg bewegt
+sich etwas Großes und Wartendes. Bald ruft der Berg: die Zeit der Bindung
 beginnt."
 
 === Act 2 — die Bindungs-Sessions
@@ -1126,9 +1139,9 @@ Einladung zum ehrlicheren zweiten Versuch. *Eine GM-only-Foreshadow-Szene*
 
 ==== Act2-S2: Die Gruppenprüfung
 
-*Ziel:* Die Drachen prüfen die Flamme *als Team* — ein verletztes Drachenjunges
+*Ziel:* Die Drachen prüfen die Gruppe *als Team* — ein verletztes Drachenjunges
 sicher zum Horst zurückbringen. *Würfelaktionen:* 11 teamwork-fokussierte D20/DC-
-Proben quer durch alle sechs Stärken; richtige Person an richtiger Station =
+Proben quer durch alle sechs Attribute; richtige Person an richtiger Station =
 Vorteil, selbstlose Hilfe gelingt automatisch, Solo-Glanz mit Nachteil. *Loot:*
 Drachenschuppe des geretteten Jungen (Gruppen-Erinnerungsstück). *Ergebnis:* GM-
 Weiche Pfad A/B (siehe oben). *Kein PC-Tod* — Scheitern kostet Zeit, Nerven,
@@ -1138,7 +1151,7 @@ kleine Blessuren.
 
 *Ziel:* Sanfte, natürliche Bindung; *Level-Up 0 → 1* (einzige Quelle: der
 Seelengefährte). Kernsatz (Vethran): „Eine Bindung ist kein Geschenk. Sie ist
-eine Verantwortung, die euch verändert." *Pflicht-Beats:* sechs 1:1-Begegnungen
+eine Verantwortung, die euch verändert." *Pflicht-Beats:* eine 1:1-Begegnung pro
 PC ↔ Drache; der Seelenbund + Level-Up; Naming (persönlicher Name zählt); erster
 gemeinsamer Bewegungsversuch. *Würfelaktionen:* sparsam, nie zum „Gewinnen"
 (WIS-Selbstkenntnis DC 10, DEX-Koordination DC 10 — Misserfolg ohne Nachteil).
@@ -1156,19 +1169,180 @@ Umkehren ist jederzeit erlaubt.
 
 <<<
 
-== Fließtext-Recaps (gespielte Sitzungen)
+[#anhang-a]
+== Anhang A — Per-PC-Vorlagen
 
 [NOTE]
 ====
-Diese Fließtext-Erzählungen stammen aus
-`chapters.consequences.storyVerlauf` (Prod-DB). Sie fassen zusammen, was in
-jeder Sitzung kanonisch passiert ist, und sind als *Vorlese-/Erinnerungstext*
-zwischen den Sessions gedacht. GM-only-Inhalte sind als Anmerkungen markiert.
+Dieses Modul ist im Haupttext gruppenunabhängig. Wo der Kanon *pro Charakter*
+inszeniert wird (Lehrergespräche, persönliche Vethran-Frage, Drachen-Bindung),
+baust du die Inhalte mit den folgenden Vorlagen für *deine* Gruppe. Lies jeden
+Charakter nach *Haus*, *Klasse* und *Persönlichkeit* — und passe Format und Ton
+entsprechend an.
 ====
 
-=== Tag 5 — Die fünfte Stunde
+=== Vorlage 1 — Das Lehrergespräch (Recap-Format)
 
-Tag 5 ist der Tag, an dem Flamme Obsidian erfährt, dass die geheimnisvolle
+Lehrergespräche ersetzen das klassische Recap und bereiten den Drachen-Level-Up
+vor. Wähle für jeden PC ein *Format*, das zu seinem Verhalten in den letzten
+Sessions passt:
+
+[cols="2,2,3",options="header"]
+|===
+| PC-Profil (Beispiel) | Passendes Format | Ton & Ziel
+| Provokateur / Regelbrecher | *Disziplinargespräch* (Sigrun, Borkin, Eisenherz) | knapp, fordernd; Spiegel ohne Demütigung
+| Scheu / zurückhaltend | *Teestunde* (Hella, Silke) | warm, geduldig; Raum zum Reden
+| Wissbegierig / grüblerisch | *Sokratisches Nachgespräch* (Halmund, Vethran) | Frage auf Frage; Selbsterkenntnis
+| Fürsorglich / aufopfernd | *Sorgen-Gespräch* (Silke, Hella) | „Wer sorgt für dich?"; Grenze thematisieren
+| Ehrgeizig / machthungrig | *Standpunkt-Gespräch* (Wegmann, Eisenherz) | „Wofür willst du stark sein?"; Richtung prüfen
+|===
+
+*So baust du es:* Nimm ein konkretes RP-Moment der letzten Sessions → wähle den
+Lehrer, der dazu passt → spiele ein kurzes 1:1, in dem der PC sein Verhalten
+*selbst* benennt. Was er hier zeigt, definiert, wie sein Drache später mit ihm
+spricht.
+
+=== Vorlage 2 — Vethrans persönliche Frage (Tag 8)
+
+Vethran stellt jedem Schüler *eine* Frage ohne richtige Antwort. Leite sie aus
+dem Charakter ab:
+
+[cols="2,3",options="header"]
+|===
+| Charakter-Spannung | Frageform (Beispiel)
+| Erbe vs. eigene Identität | „Trägst du den Namen — oder trägt der Name dich?"
+| Fürsorge bis zur Selbstaufgabe | „Bis wohin gehst du für andere — und ab wann verschwindest du?"
+| Macht vs. Kontrolle | „Was, wenn deine Kraft eines Tages größer ist als deine Hand?"
+| Stilles / verborgenes Erbe | „Was, wenn in dir etwas erwacht, das du nicht gerufen hast?"
+| Herz vs. Härte | „Womit gewinnst du — mit der Faust oder mit dem, was du verstehst?"
+| Festhalten vs. Loslassen | „Was kannst du nicht loslassen, ohne dich selbst zu verlieren?"
+|===
+
+*Regel:* Keine Frage hat eine richtige Antwort. Schweigen ist gültig. Notiere
+die Antwort — sie färbt die Bindung.
+
+=== Vorlage 3 — Drachen-Bindung nach PC-Profil
+
+Lies jeden PC und leite *Typ* und *Anmarsch* des Drachen ab. Der Drache
+*ergänzt* den Reiter, verdoppelt ihn nicht:
+
+[cols="2,2,3",options="header"]
+|===
+| PC-Profil | Drachen-Typ | Anmarsch
+| Hohes magisches Potenzial (Caster, hohe Affinität) | *Taschendrache* (magisch) | Drache *kommt zum PC*
+| Sehr starkes magisches Potenzial | *Taschendrache* (stark magisch) | Drache *kommt zum PC*
+| Natur-/Wildmagie | *Taschendrache* (Natur-magisch) | Drache *kommt zum PC*
+| Kampfgeist, körperliche Stärke, Wille | *Kampfdrache* (physisch) | PC *geht zum Drachen hin*
+| Geschmeidig, ruhig, diszipliniert | *Schattendrache* | Drache *kommt zum PC*
+| Jäger-Profil, Distanz, Präzision | *Schattendrache* (Jäger) | Drache *kommt zum PC*
+|===
+
+*Naming:* Der Spieler vergibt den *persönlichen* Namen — der zählt. Etwaige
+Lore-Namen vom Horst sind nur deine GM-Referenz.
+
+[WARNING]
+====
+🔒 *NUR SL.* Wie *stark* ein Gefährte ausfällt, hängt an den *Extremen*, die der
+PC zeigt (Ehrgeiz, Wissensgier, Machthunger, Zielstrebigkeit — in jede
+Richtung). Das ist die kosmische Wahrheit hinter der Zuordnung. Sie kommt
+*niemals* an den Tisch — der Spieler erlebt nur, dass „sein" Drache zu ihm passt.
+====
+
+<<<
+
+[#anhang-b]
+== Anhang B — Beispiel-Besetzung: „Die Flamme Obsidian"
+
+[IMPORTANT]
+====
+*Dies ist EIN Beispiel, keine Vorschrift.* Die folgende Gruppe wurde mit dem
+Modul tatsächlich gespielt. Sie zeigt, wie sich die generischen Bausteine in der
+Praxis füllen — du kannst sie als Anschauung lesen, einzelne Ideen übernehmen
+oder vollständig ignorieren. Dein Tisch baut seine *eigene* Gruppe.
+====
+
+=== Die sechs Spielercharaktere
+
+Sechs Schüler, „die niemand haben wollte" — die Flamme Obsidian, von anderen
+gemieden („bringt kein Glück"). Sie starteten Level 0 und erreichten Level 1 erst
+mit dem Drachen-Seelengefährten am Ende von Arc 1.
+
+[cols="2,2,1,1",options="header"]
+|===
+| Charakter | Rasse / Klasse | Haus | Alter
+| *Caelynth Drachenfels* | Dragonborn Wizard | Turm der Ketten | 13
+| *Celia Thymianfeld* | Halfling Cleric | Liebe & Leben | 12
+| *Celindra* | Halb-Elf Sorcerer | Turm der Ketten | 13
+| *Cor'O-nas* | Aasimar Monk | Turm der Ketten | 13
+| *Dreddul* | Halb-Ork Druid | Drachenfeste | 13
+| *Sephira* | Halb-Elf Ranger | Liebe & Leben | 12
+|===
+
+*Attribute (D&D 5E-Werte):*
+
+[cols="2,1,1,1,1,1,1",options="header"]
+|===
+| Charakter | STR | DEX | CON | INT | WIS | CHA
+| Caelynth | 14 | 8 | 6 | 14 | 13 | 14
+| Celia | 19 | 14 | 14 | 21 | 19 | 9
+| Celindra | 20 | 15 | 14 | 11 | 7 | 16
+| Cor'O-nas | 11 | 18 | 10 | 9 | 15 | 15
+| Dreddul | 15 | 12 | 7 | 8 | 19 | 17
+| Sephira | 15 | 18 | 9 | 15 | 7 | 6
+|===
+
+[CAUTION]
+====
+🔒 *NUR SL — Cor'O-nas.* Aasimar *Pre-Erwachen*: in Jahr 1 *keine* celestialen
+Kräfte. Erwachen erst 16–20 Jahre; nur Pre-Anzeichen (helle Augen, ruhiger
+Raum) sind erlaubt. Eine WIS-DC-13-Probe für „Reinheit erkennen" (Tag 4) ist
+als Pre-Erwachens-Anzeichen ausdrücklich gestattet.
+====
+
+=== Wie die Per-PC-Vorlagen hier gefüllt wurden
+
+So wurden die Vorlagen aus <<anhang-a>> für diese konkrete Gruppe ausgespielt:
+
+[cols="2,2,3",options="header"]
+|===
+| PC | Vethrans Frage (Tag 8) | Drachen-Bindung
+| Caelynth | Erbe vs. Identität | Taschendrache *Askaril* (magisch) — kommt zu ihr
+| Celia | Fürsorge bis zur Grenze | Taschendrache *Thymelis* (stark magisch) — kommt zu ihr
+| Celindra | Macht vs. Kontrolle | Kampfdrache *Brennfaust* (physisch) — sie geht hin
+| Cor'O-nas | das erwachende Erbe und wer führt | Schattendrache *Nachthall* — kommt zu ihm
+| Dreddul | Herz statt Faust | Taschendrache *Wurzgrimm* (Natur-magisch) — kommt zu ihm
+| Sephira | Festhalten vs. Loslassen | Schattendrache *Frostschwinge* (Jäger) — kommt zu ihr
+|===
+
+*Drachen-Namen:* Askaril, Thymelis, Wurzgrimm, Brennfaust, Nachthall,
+Frostschwinge sind die *persönlichen* Namen, die diese Spieler vergaben.
+
+=== Wie Schlüssel-Beats bei dieser Gruppe liefen
+
+* *Küchen-Vorfall (Tag 1–2):* Dredduls Kraftexzess löste die erste
+  Gruppenstrafe aus und schweißte die sechs zusammen.
+* *Borkins Zuneigung:* galt der ganzen Flamme Obsidian — er schmiedete die
+  Übungswaffen mit *Obsidian-Zeichen* im Knauf.
+* *Silkes Mentorschaft:* besonders mütterlich zu *Sephira* (geteilter Nachname
+  Grünblatt — Verwandtschaft vermutet, nie aufgelöst).
+* *Aasimar-Faden:* Cor'O-nas wurde von Cervan Stilltinte anders behandelt und
+  von Rauven auf seinen Heiligenschein angesprochen.
+* *Kultur-Brücke (Ch3-S3):* Dreddul (Halb-Ork) übersetzte bei Korga Steinblut
+  nicht nur Worte, sondern den Sinn dahinter.
+
+=== Beispielverlauf (gespielte Sitzungen)
+
+[NOTE]
+====
+Die folgenden Fließtext-Erzählungen sind *instanz-spezifische Spielprotokolle*
+dieser einen Gruppe (Quelle: `chapters.consequences.storyVerlauf`). Sie sind
+*kein Modul-Kanon*, sondern Anschauungsmaterial dafür, wie eine Sitzung klingen
+kann. GM-only-Inhalte sind als Anmerkungen markiert.
+====
+
+==== Tag 5 — Die fünfte Stunde
+
+Tag 5 ist der Tag, an dem die Flamme Obsidian erfährt, dass die geheimnisvolle
 Notiz aus Tag 3 niemals von Magister Halmund stammte. In der unterirdischen
 Bibliothek ist ein Tisch exakt für sechs vorbereitet — mit zwei Kesseln für
 die beiden, die Tränke statt Magie lernen. Jemand kennt die Gruppe genau.
@@ -1186,7 +1360,7 @@ Verfolgung des „Freundes" endet mit einem Umhang in Halbling-Größe und einem
 Pergament: „Wenn ihr das lest, habt ihr bestanden. Aber das Spiel hat gerade
 erst begonnen."
 
-=== Tag 6 — Kampfkunst & Überlebenskunst
+==== Tag 6 — Kampfkunst & Überlebenskunst
 
 Ein bewusst körperlicher Tag. Brianna Eisenherz tritt auf — die Halbork-
 Kampfmeisterin mit Kettenhemd und Gesichtsnarbe. Ihr Leitsatz prägt alles: „Ich
@@ -1199,7 +1373,7 @@ In vier Stationen lernen die Schüler Überlebenskunst zum Anfassen; eine echte
 Beinwunde zwingt sie, als Team zu handeln. Der Tag endet mit Eisenherz' erstem
 knappem Nicken — der ersten Anerkennung für die gemiedene Flamme.
 
-=== Tag 7 — Politik & Kreaturenkunde
+==== Tag 7 — Politik & Kreaturenkunde
 
 Ein Tag für den Kopf. Aldric Wegmann führt Politik als Streitgespräch: „Böse ist
 meistens nur die Kultur, deren Grund ihr noch nicht kennt." Der emotionale Kern
@@ -1212,7 +1386,7 @@ zurück: Mitgefühl macht nicht schwach, sondern genau. Der Tag endet mit einem
 Foreshadow auf die Drachenlehre — „Bringt eure Fragen mit. Ich habe selbst keine
 Antworten."
 
-=== Tag 8 — Drachenlehre (Finale Chapter 1)
+==== Tag 8 — Drachenlehre (Finale Chapter 1)
 
 Die erste Woche schließt mit dem wichtigsten Fach. Vethran Aschenwacht wird als
 vollwertiger kanonischer NSC etabliert — sokratisch, ehrlich ratlos: „Antworten
@@ -1235,42 +1409,21 @@ führt; Dreddul: Herz statt Faust; Sephira: Festhalten vs. Loslassen). Keine
 Frage hat eine richtige Antwort; Schweigen ist gültig. Chapter 1 endet mit einem
 Zeitsprung in die Zeit der Bindung.
 
-=== Chapter 2 — Klinge und Konversation (Ch2-S1 bis Ch2-S3)
+==== Chapter 2–3 & die Bindung — im Schnelldurchlauf
 
-In Ch2-S1 findet jeder Charakter seine Waffe — stumpfe Übungswaffen aus Borkins
-Esse mit dem Obsidian-Zeichen im Knauf (ein leiser Hinweis auf Borkins
-Zuneigung). Das erste ernste Sparring gegen das zweite Jahr verwandelt Garrs
-Stichelei in widerwilligen Respekt, sobald die Flamme standhält; Eilis gibt ihr
-erstes anerkennendes Nicken und sät Zweifel am Pech-Gerücht. In Ch2-S2 entlockt
-die Gruppe dem schweigsamen Händler Cael Wegmar einen Hinweis — *ohne Drohung*,
-über Vertrauen und Geduld. In Ch2-S3 schickt Borkin gezielt nur die Flamme
-Obsidian los, *Schwarzglas-Erz* aus einer Brandlichtung im Ostwald zu bergen; das
-Glas zeigt eine rätselhafte Restwärme — ein leiser Motiv-Hook, der nichts
-auflöst.
-
-=== Chapter 3 — Grenzen und Gefahren (Ch3-S1 bis Ch3-S3)
-
-Die Exkursion in den Grenzwald (Region 1 von 3) bringt die erste echte Gefahr
-außerhalb der Akademie. Tag 1 endet am Lagerfeuer mit nahenden Schattenwölfen;
-Tag 2 löst es auf — die Gruppe *schützt sich selbst* (verteidigen, nicht töten)
-und vertreibt den Spähtrupp, ohne zu töten. Ch3-S3 schließt das Chapter mit der
-orkischen Gesandtschaft (Korga Steinblut): „Das Fremde ist nicht das Feindliche."
-Dreddul übersetzt nicht nur Worte, sondern den Sinn dahinter — und Wegmann dreht
-den Spiegel um auf die Halbjahrsprüfung.
-
-=== Act 2 — die Bindung (Act2-S1 bis Act2-S4)
-
-In Act2-S1 zeigt sich am Drachenhorst, welcher Drache jeden PC gewählt hat —
-noch ohne Bindung. In Act2-S2 prüfen die Drachen die Flamme als Team über die
-Rettung eines verletzten Drachenjungen; der Ausgang bestimmt Pfad A oder B. In
-Act2-S3/S4 findet die Bindung statt — sanft (Pfad A) oder erkämpft (Pfad B) —
-und mit ihr der einzige mechanische Level-Up des Jahres: *Stufe 0 → 1*, geleitet
-vom Seelengefährten, basierend auf der Charakterentwicklung aus Act 1. Jeder
-Spieler gibt seinem Drachen einen eigenen Namen.
+In Chapter 2 fand jeder Charakter seine Waffe (stumpfe Übungswaffen mit dem
+Obsidian-Zeichen im Knauf), entlockte dem schweigsamen Cael Wegmar einen Hinweis
+*ohne Drohung* und barg auf Borkins Sonderauftrag *Schwarzglas-Erz* mit
+rätselhafter Restwärme. In Chapter 3 brachte die Grenzwald-Exkursion die erste
+echte Gefahr (Schattenwölfe, vertrieben statt getötet), gefolgt von der
+orkischen Gesandtschaft Korga Steinbluts. In Act 2 zeigte sich am Horst, welcher
+Drache jeden PC gewählt hatte; die Gruppenprüfung (Rettung eines verletzten
+Drachenjungen) entschied über Pfad A/B, und die Bindung brachte den einzigen
+Level-Up des Jahres (Stufe 0 → 1), geleitet vom Seelengefährten.
 
 <<<
 
-== Anhang: Welt-Variablen (CampaignChapterState)
+== Anhang C — Welt-Variablen (CampaignChapterState)
 
 Diese Variablen überleben den Wechsel zwischen Story Arcs und tragen die
 Geschichte fort:
@@ -1290,7 +1443,7 @@ Geschichte fort:
 
 [NOTE]
 ====
-*Stand Jahr 1:* `magie_verstaendnis` eingeführt; `drachen_perspektive` =
+*Stand Ende Jahr 1:* `magie_verstaendnis` eingeführt; `drachen_perspektive` =
 beschuetzer; `sigillen_bekannt` = false (und *bleibt* false bis Kategorie 2);
 `regionen_besucht` = Grenzwald + Act-3-Reise (≥ 3); `charakter_level` = 1 nach
 der Bindung.
