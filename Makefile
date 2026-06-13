@@ -8,9 +8,9 @@ HTML_OPTS = $(COMMON_OPTS) -a toc=left
 
 all: html pdf
 
-html: build/html/index.html build/html/spieler-handbuch.html build/html/gm-manual.html build/html/player-manual.html build/html/setup-guide.html
+html: build/html/index.html build/html/spieler-handbuch.html build/html/gm-manual.html build/html/player-manual.html build/html/setup-guide.html build/html/gm-handbuch-arc1.html build/html/spieler-handbuch-arc1.html
 
-pdf: build/pdf/index.pdf build/pdf/spieler-handbuch.pdf build/pdf/gm-manual.pdf build/pdf/player-manual.pdf build/pdf/setup-guide.pdf
+pdf: build/pdf/index.pdf build/pdf/spieler-handbuch.pdf build/pdf/gm-manual.pdf build/pdf/player-manual.pdf build/pdf/setup-guide.pdf build/pdf/gm-handbuch-arc1.pdf build/pdf/spieler-handbuch-arc1.pdf
 
 build/html/index.html: index.adoc
 	@mkdir -p build/html
@@ -32,6 +32,14 @@ build/html/setup-guide.html: manuals/setup-guide.adoc
 	@mkdir -p build/html
 	$(ASCIIDOCTOR) $(HTML_OPTS) -a imagesdir=../images -D build/html manuals/setup-guide.adoc
 
+build/html/gm-handbuch-arc1.html: manuals/gm-handbuch-arc1.adoc
+	@mkdir -p build/html
+	$(ASCIIDOCTOR) $(HTML_OPTS) -a imagesdir=../images -D build/html manuals/gm-handbuch-arc1.adoc
+
+build/html/spieler-handbuch-arc1.html: manuals/spieler-handbuch-arc1.adoc
+	@mkdir -p build/html
+	$(ASCIIDOCTOR) $(HTML_OPTS) -a imagesdir=../images -D build/html manuals/spieler-handbuch-arc1.adoc
+
 build/pdf/index.pdf: index.adoc
 	@mkdir -p build/pdf
 	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -D build/pdf index.adoc
@@ -51,6 +59,14 @@ build/pdf/player-manual.pdf: manuals/player-manual.adoc
 build/pdf/setup-guide.pdf: manuals/setup-guide.adoc
 	@mkdir -p build/pdf
 	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -a imagesdir=../images -D build/pdf manuals/setup-guide.adoc
+
+build/pdf/gm-handbuch-arc1.pdf: manuals/gm-handbuch-arc1.adoc
+	@mkdir -p build/pdf
+	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -a imagesdir=../images -D build/pdf manuals/gm-handbuch-arc1.adoc
+
+build/pdf/spieler-handbuch-arc1.pdf: manuals/spieler-handbuch-arc1.adoc
+	@mkdir -p build/pdf
+	$(ASCIIDOCTOR_PDF) $(PDF_OPTS) -a imagesdir=../images -D build/pdf manuals/spieler-handbuch-arc1.adoc
 
 chapters:
 	@mkdir -p build/pdf

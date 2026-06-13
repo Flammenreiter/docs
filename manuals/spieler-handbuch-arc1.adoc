@@ -1,0 +1,438 @@
+= Flammenreiter — Spieler-Handbuch: Jahr 1 „Schulzeit"
+:author: Flammenreiter — Kampagnenteam
+:revdate: 2026-06-03
+:doctype: book
+:toc: left
+:toclevels: 3
+:icons: font
+:sectanchors:
+:sectnums:
+:imagesdir: ../images
+:lang: de
+
+[.lead]
+Willkommen an der *Akademie der Flammenreiter*. Dieses Handbuch ist für *dich
+als Spieler* gedacht. Es führt dich in die Welt Caldrithar ein, stellt dir die
+Akademie, die vier Häuser und die Grundlagen der Magie vor — und es zeigt dir,
+wie du einen *Erstjahres-Schüler* erschaffst und spielst. Hier findest du alles,
+was *dein Charakter zu Beginn weiß* — und nichts, was die Spannung der kommenden
+Abenteuer verderben würde.
+
+[NOTE]
+====
+*Keine Spoiler.* Dieses Handbuch enthält bewusst nur das, was eure Charaktere
+an der Akademie selbst erfahren. Manche Rätsel der Welt bleiben offen —
+das ist Absicht. Euer Spielleiter kennt die Geheimnisse; ihr entdeckt sie im
+Spiel.
+====
+
+<<<
+
+== Vorwort für Spieler
+
+Ihr beginnt diese Kampagne als einfache Akademiestudenten, die aus den
+verschiedensten Gründen an der Akademie der Flammenreiter angekommen sind.
+Diese Akademie zeichnet sich im ganzen Land dadurch aus, dass sie *jede Rasse
+und jeden Wunsch aufnimmt* — und ihr Bestmögliches tut, dass diese Wünsche in
+Erfüllung gehen.
+
+Diese Kampagne ist sehr *einsteigerfreundlich*. Egal, ob ihr schon Pen & Paper,
+D&D oder etwas Ähnliches gespielt habt — hier wird jeder abgeholt. Niemand wird
+in einen Hype von übermächtigen Charakteren geworfen. Es geht darum, dass jeder
+Charakter Zeit hat, sich zu entwickeln. Es geht um Rollenspiel. Es geht darum,
+sich selbst, seinen Charakter und seine Mitspieler kennenzulernen.
+
+Aber wichtig ist auch: *Alles hat Konsequenzen in dieser Welt.*
+
+[TIP]
+====
+Eure Charaktere starten mit etwa *zwölf Jahren*. Ihr seid jung, neu und habt
+noch alles vor euch. Wachstum ist hier kein Sprint — es ist ein langsamer,
+sorgfältiger Weg. Genießt das.
+====
+
+<<<
+
+== Die Welt Caldrithar
+
+Ihr lebt in *Caldrithar*, einer lebendigen Welt voller Völker, Kulturen und
+alter Geschichten. Die Welt ist *nicht ungefährlich*: Je weiter ihr euch von
+der Akademie entfernt, desto rauer wird sie. Aber sie ist auch voller Wunder —
+Magie ist real, Drachen sind zurückgekehrt, und die Akademie der Flammenreiter
+steht an einem Ort von außergewöhnlicher magischer Kraft.
+
+=== Die Drachen
+
+Die Akademie der Flammenreiter trägt ihren Namen nicht zufällig: Am Ende eures
+ersten Schuljahres geht jeder von euch eine *Bindung mit einem Drachen* ein —
+einem Seelengefährten, der euch ein Leben lang begleitet.
+
+*Was die Welt glaubt:* Die Drachen haben sich an der Akademie niedergelassen,
+weil sie ein Ort großer Fürsorge ist. Die Pflege, das magische Potenzial und
+die Ausbildung möglicher Drachenreiter haben die Drachen angezogen — ein Ort
+des Vertrauens, an dem Mensch und Drache zueinanderfinden.
+
+Drachen sind keine bloßen Tiere. Sie sind uralte, denkende, *wählende*
+Individuen, jeder mit eigener Persönlichkeit. Eine Bindung heißt nicht, ein
+Haustier zu versorgen, sondern ein zweites Wesen zu verstehen, das fühlt,
+leidet, zürnt und vertraut. Wenn der Tag der Bindung kommt, wählt nicht ihr den
+Drachen — *der Drache spürt euch*.
+
+<<<
+
+== Die Akademie in Altheim
+
+Die Akademie der Flammenreiter steht in *Altheim* auf einem Ort von
+außergewöhnlichem magischem Potenzial — kein Geheimnis, jeder spürt es, der den
+Campus betritt. Sie wurde von *fünf Gründern* errichtet, deren Ideale bis heute
+in den Häusern fortleben. Sie nimmt *jede Rasse und jeden Wunsch* auf, und die
+Ausbildung dauert *fünf Jahre*.
+
+Der Tag beginnt früh — die Hauslehrer holen euch vor dem Morgengrauen aus dem
+Bett (4:30 Uhr). Und die Akademie behütet euch nicht vor den Gefahren der Welt:
+
+[quote]
+„Ihr werdet hier nicht dazu ausgebildet, irgendwann in einer Schreiberbude zu
+sitzen. Ihr werdet dazu ausgebildet, in die Welt hinauszugehen und etwas zu
+bewirken."
+
+=== Die Begrüßungszeremonie
+
+Bei eurer Aufnahme begegnet ihr *Rektor Geron Lichtwald* und an seiner Seite
+*Ilia*, der Wesensprüfer-Kröte — Teil des Zeremoniells, mit dem die Akademie
+ihre neuen Flammen empfängt.
+
+=== Weidegrund und das Umland
+
+Eine gute Stunde Fußweg *südöstlich* der Akademie, zwischen zwei Flüssen, liegt
+das Dorf *Weidegrund* — von der Akademie aus mit bloßem Auge zu erkennen. Hier
+lebt *Finn*, ein junger Händler (fair, ehrlich, erkennt Lügen sofort), und die
+*Hühnerfrau* am Dorfrand (gibt Federn und tauscht Eier). Am Dorfplatz schwelt
+ein Streit zwischen Bäcker und Müller. Auf halbem Weg liegt eine *Lichtung* im
+Ostwald, wo das zweite Jahr Rehe und Wild jagt — für die Küche und für das
+Leder, aus dem die Akademie ihre Rüstungen fertigt.
+
+[quote]
+„Hier gibt es nichts, was euch weh tun kann. Es sei denn, ihr seid
+ungeschickt." — Das gilt für das nahe Umland. Weiter draußen wird die Welt
+rauer.
+
+<<<
+
+== Die vier Häuser und Wohntürme
+
+Jeder Schüler wird über ein KI-Interview einem *Haus* (Turm) zugeordnet, das zu
+seinem Wesen passt. Die Häuser tragen die Ideale der Gründer weiter — und sie
+sind euer Zuhause an der Akademie.
+
+[cols="1,1,4",options="header"]
+|===
+| Haus (Turm) | Farbe | Wesen
+| *Drachenfeste* | Rot | Granit und Esche, viele Waffen, in der Mitte hängt ein *Kodex* an der Wand. Das Haus der Kampf-Berufung, der Stärke und der Ehre.
+| *Turm der Ketten* | Blau | Bücher, Kerzen, eine Atmosphäre des Respekts. Das Haus der magischen Erleuchtung, der Theorie und der Konstruktions-Magie.
+| *Tiefe Esse* | Schwarz | Schmiede, Erd-Magie, Untergrund. Das Haus des Handwerks und der Materie.
+| *Liebe & Leben* | Grün | Warmer Gemeinschaftsraum, Kamin, Pflanzen, Polster. Das Haus der Heilung, der Lebenskunst und der Tempel-Praxis.
+|===
+
+[NOTE]
+====
+Zur Mittagszeit ziehen sich die Häuser in ihre eigenen Räume zurück — jeder
+Turm hat seine eigene Atmosphäre, Bücher und Küche.
+====
+
+=== Der Kodex der Drachenfeste
+
+In der Mitte des Drachenfeste-Gemeinschaftsraums hängt ein *Kodex* aus
+*neunzehn Phrasen* über den ehrenvollen Krieger und das ehrenvolle Mitglied der
+Gesellschaft. Zwei Grundsätze prägen den Alltag besonders:
+
+* *„Man fragt nicht, bevor es nicht selbst erzählt wird."* Wer schweigt, wird
+  nicht ausgefragt — Geheimnisse bleiben, bis ihr Träger sie teilt.
+* *Kein Übermut.* Lob nimmt man höflich an, ohne sich darüber zu erheben.
+
+<<<
+
+== Eure Lehrer
+
+An der Akademie unterrichten euch acht Fachlehrer. Lernt sie kennen — sie
+fordern euch, und einige von ihnen werden euch im Laufe des Jahres ans Herz
+wachsen.
+
+[cols="2,2,3",options="header"]
+|===
+| Lehrkraft | Fach | Was euch erwartet
+| *Borkin Glutfaust* (Zwerg) | Schmiede & Handwerk | Grummelig, aber fair. Lehrt das richtige Hämmern: „Seht das Material an, als würdet ihr ein Tier streicheln." Geduld für aufrichtige Fehler, keine für Faulheit.
+| *Silke Grünblatt* (Halbelfin) | Kräuterkunde & Alchemie | Herzlich und beschwingt, eine Mutterfigur. Lehrt im warmen Gewächshaus das Brauen von Tränken, Salben und Heilmitteln.
+| *Magister Halmund* (Halbelf) | Arkane Theorie & Magie | Kühl, präzise, notiert jede Antwort. Lehrt das Gleichgewichtsprinzip und das Erlernen von Zaubern in drei Schritten.
+| *Brianna Eisenherz* (Halbork) | Kampfkunst & Selbstverteidigung | Streng, nüchtern, loyal. Ihr Leitsatz: „Ich bringe euch bei zu überleben. Das ist Verteidigung — nicht Angriff."
+| *Aldric Wegmann* (Mensch) | Politik & Weltkunde | Weit gereister Ex-Gesandter. Sein Unterricht ist Streitgespräch: „Böse ist meistens nur die Kultur, deren Grund ihr noch nicht kennt."
+| *Yssa Krallenbund* (Halbelfin) | Kreaturenkunde | Ruhige Hand, scharfer Blick. Credo: „Kein Geschöpf ist böse. Es ist hungrig, verängstigt oder verteidigt sein Revier."
+| *Vethran Aschenwacht* (Mensch) | Drachenlehre & Drachenpflege | Der „Professor mit den Zweifeln". Sokratisch, ehrlich: „Bringt eure Fragen mit. Ich habe selbst keine Antworten."
+| *Rohan Wildbach* (Mensch) | Überlebenskunst | Wettergegerbter Wildhüter, unterrichtet draußen bei jedem Wetter. „Vorbereitung rettet Leben."
+|===
+
+[NOTE]
+====
+Eure *Hauslehrer* begleiten euch besonders eng: *Sigrun Aschnarbe*
+(Drachenfeste, knapp und direkt), *Cervan Stilltinte* (Turm der Ketten, formal
+und gemessen) und *Hella Krautmund* („Mutter", Liebe & Leben, mütterlich-warm).
+====
+
+<<<
+
+== Das Gleichgewicht der Elemente — Magie-Grundlagen
+
+Das magische Gleichgewicht ist *kein Geheimnis*. Es ist die Grundlage aller
+Magie in Caldrithar und wird an jeder Akademie gelehrt — älter als die Drachen.
+
+=== Die fünf Elemente
+
+*Vier physische Elemente*, bändigbar durch Elementarmagie:
+
+* *Feuer* und *Wasser* (klassisches Gegenpaar)
+* *Erde* und *Luft* (klassisches Gegenpaar)
+
+*Ein übernatürliches Element*, das NICHT gebändigt werden kann:
+
+* *Äther*, mit zwei Aspekten: *Geist* (die mentale Kraft des Zauberers) und
+  *Arkan* (die rein magische Kraft).
+
+=== Das Prinzip der Gegenwirkung
+
+*Jede elementare Wirkung braucht eine elementare Gegenwirkung.* Wer einen
+Feuerball erzeugt, muss eine Wasserform als Ausgleich schaffen — den Boden
+tränken, Nebel erzeugen, irgendeine Gegenwirkung. Das ist Grundlagenunterricht.
+Magie ist kein Geschenk, sondern ein *Tausch*: jeder Funke verlangt seinen
+Gegenfunken.
+
+Die höchste Form der Elementarmagie ist der *Avatar* — ein Magier, der alle
+vier physischen Elemente meistert und jedes Gegenelement selbst erzeugen kann.
+
+[quote]
+„Magie wirkt immer in zwei Richtungen. Nichts auf dieser Welt kann existieren,
+ohne dass es eine Balance gibt."
+
+=== Zauber erlernen — die drei Schritte
+
+Magister Halmund lehrt das Erlernen von Zaubern in drei Stufen:
+
+. *Sigil finden* — die magische Zeichnung des Zaubers im Buch suchen,
+  einordnen und markieren. Die Theorie-Texte sind in *Alt-Akademisch*
+  verfasst, einer fremden Sprache.
+. *Komponenten zuordnen* — Material-, Verbal- und Somatic-Komponente passend
+  zum Sigil bestimmen.
+. *Inkantation wirken* — die Inkantation lesen, die Hand bewegen.
+
+Wer kein Zauber-Sigil zeichnet, *braut*: Sammeln und Reinheit prüfen, dann in der
+richtigen Reihenfolge brauen. Silke Grünblatt besteht auf der Unterscheidung
+von *Heilkraut* (wirkt roh), *Salbe* (wird aufgetragen) und *Trank* (wird
+getrunken). Erste Rezepte: kleiner Heiltrank, Antitoxin, Heilkraut-Salbe,
+Ausdauertrank, Trank des Kletterns, Muskelentspannungs-Salbe.
+
+<<<
+
+== So spielt ihr einen Erstjahres-Schüler
+
+Bevor das Abenteuer beginnt, erschafft ihr euren Charakter. An der Akademie der
+Flammenreiter ist *jeder* willkommen — jede Rasse, jede Klasse, jeder
+Hintergrund. Diese Anleitung hilft euch, einen glaubwürdigen Erstjahres-Schüler
+zu bauen.
+
+=== Schritt 1 — Wer bist du?
+
+Überlegt euch ein *Volk* (Rasse) und eine *Klasse* nach den Regeln von D&D 5E.
+An dieser Akademie gibt es keine „falsche" Wahl: Vom kämpferischen Krieger über
+den grüblerischen Magier bis zur fürsorglichen Heilerin ist alles möglich.
+
+[TIP]
+====
+*Denkt an euer Alter.* Ihr seid etwa *zwölf Jahre* alt — Anfänger, keine Helden.
+Ein junger Charakter darf neugierig, ungeschickt, übermütig oder schüchtern
+sein. Diese Ecken und Kanten sind kein Makel, sondern der Stoff, aus dem
+Entwicklung entsteht.
+====
+
+=== Schritt 2 — Dein Haus
+
+Jeder Schüler wird über ein KI-Interview einem der *vier Häuser* zugeordnet, das
+zu seinem Wesen passt (siehe oben). Überlegt euch, *warum* euer Charakter zu
+seinem Haus gehört — was treibt ihn an? Ehre und Kampf (Drachenfeste)? Wissen
+und Magie (Turm der Ketten)? Handwerk (Tiefe Esse)? Heilung und Gemeinschaft
+(Liebe & Leben)? Eine *hausübergreifend gemischte Gruppe* erlebt die meisten
+spannenden Reibungspunkte.
+
+=== Schritt 3 — Warum bist du hier?
+
+Jeder kommt aus einem anderen Grund an die Akademie. Sucht euch einen
+*Hintergrund* und ein *Ziel*:
+
+* Was hat dich an die Akademie geführt?
+* Was willst du am Ende deiner Ausbildung erreichen?
+* Wovor hast du Angst — und worauf bist du heimlich stolz?
+
+Ihr müsst nicht alles sofort festlegen. Vieles davon findet ihr erst *im Spiel*
+heraus — genau dafür ist das erste Jahr da.
+
+=== Schritt 4 — Deine sechs Attribute
+
+Wie in D&D 5E hat jeder Charakter sechs Grundwerte: *Stärke (STR)*, *Geschick
+(DEX)*, *Konstitution (CON)*, *Intelligenz (INT)*, *Weisheit (WIS)* und
+*Charisma (CHA)*. Sie bestimmen, worin euer Charakter glänzt — und wo er sich
+schwertut. Beides gehört dazu: Eine Figur, die alles kann, ist langweilig.
+
+=== Was euch im ersten Jahr erwartet
+
+Im Laufe des ersten Schuljahres wird jeder Charakter mehrere *Meilensteine*
+erreichen — ganz von selbst, durch das, was ihr spielt:
+
+[cols="2,4",options="header"]
+|===
+| Meilenstein | Was es bedeutet
+| *Eine Waffe finden* | Eine Waffe, mit der du gerne und sicher kämpfst.
+| *Ein Zauber oder ein Rezept* | Mindestens ein verlässlicher Zauber (Caster) bzw. ein Trank oder Gegenstand (Nicht-Caster).
+| *Soziale Kompetenz* | Du kannst Gespräche führen und die Motive anderer erkennen.
+| *Selbstkenntnis* | Du weißt, was du kannst, wo deine Grenzen liegen und wohin du willst.
+| *Deine Klasse* | Du bestätigst deine Anfangsklasse — oder entscheidest dich um.
+|===
+
+<<<
+
+== Spiel-Grundlagen
+
+=== Würfeln und Proben
+
+Die Kampagne nutzt das vertraute *D20-System* (D&D 5E als Grundlage). Wenn der
+Ausgang einer Handlung ungewiss ist, würfelt ihr einen *zwanzigseitigen Würfel
+(W20)* und addiert euren passenden Modifikator. Euer Spielleiter nennt eine
+*Schwierigkeit (DC)*, die ihr erreichen oder übertreffen müsst.
+
+[TIP]
+====
+*Scheitern ist kein Drama.* Gerade im ersten Jahr ist ein misslungener Wurf
+selten eine Katastrophe — meistens kostet er Zeit, Nerven oder eine kleine
+Blessur und lädt zu einem ehrlicheren zweiten Versuch ein. Niemand stirbt, weil
+ein Wurf danebenging.
+====
+
+=== Verteidigung statt Angriff
+
+Im Kampfunterricht lernt ihr zuerst, euch zu *verteidigen* — Stand, Blocken,
+Ausweichen, Fallen und wieder Aufstehen. Kampfmeisterin Eisenherz belohnt
+Disziplin höher als Aggression. Im Sparring gegen ältere Schüler geht es nicht
+ums Gewinnen, sondern ums *Standhalten*, um Stil und ums Wiederaufstehen.
+
+=== Das Bündnis mit dem Drachen
+
+Der Höhepunkt eures ersten Jahres ist die *Bindung* mit einem
+Drachen-Seelengefährten. Sie ist *kein Geschenk*, sondern eine *Verantwortung,
+die euch verändert*. Wie ihr euch durch das Jahr entwickelt — wie ihr handelt,
+wofür ihr einsteht, woran ihr wachst — prägt, welcher Drache euch wählt und wie
+eure Bindung beginnt.
+
+Es gibt drei Arten von Drachen, die zu euren Stärken passen:
+
+[cols="2,3",options="header"]
+|===
+| Drachen-Typ | Wesen
+| *Taschendrache* | klein bis mittel, magisch begabt — passt zu Zauberern mit großer magischer Resonanz
+| *Kampfdrache* | groß bis riesig, körperlich mächtig — passt zu Schülern mit Kampfgeist und Entschlossenheit
+| *Schattendrache* | mittel, geschmeidig und still — passt zu agilen, ruhigen Schülern
+|===
+
+*Drache und Reiter ergänzen sich* — sie verdoppeln sich nicht. Wer besonders
+magisch begabt ist, bekommt einen magisch starken Gefährten; wer körperlich
+stark ist, einen physisch mächtigen. Ihr gebt eurem Drachen einen *eigenen
+Namen* — und dieser persönliche Name ist der, der zählt. Welcher Drache euch
+wählt, erfahrt ihr, wenn die Zeit gekommen ist.
+
+<<<
+
+== Was ihr bisher wisst
+
+Dies ist das Wissen, das eure Charaktere an der Akademie tatsächlich erwerben.
+Mehr braucht ihr für den Anfang nicht — den Rest entdeckt ihr im Spiel.
+
+[cols="2,4",options="header"]
+|===
+| Thema | Was ihr wisst
+| *Geschichte der Akademie* | In Altheim, von fünf Gründern errichtet, nimmt jede Rasse auf, fünf Schuljahre, Abschluss des ersten Jahres ist die Drachen-Bindung.
+| *Die vier Häuser* | Drachenfeste (Kampf/Ehre), Turm der Ketten (Theorie/Magie), Tiefe Esse (Handwerk), Liebe & Leben (Heilung).
+| *Das Gleichgewicht der Elemente* | Vier physische Elemente plus Äther; jede magische Wirkung braucht eine Gegenwirkung.
+| *Der Kodex der Drachenfeste* | Neunzehn Phrasen über Ehre; „man fragt nicht, bevor es nicht selbst erzählt wird" und „kein Übermut".
+| *Schmiede- & Eisenkunde* | Das richtige Hämmern, Rohmaterialien, Lederrüstung in drei Schritten.
+| *Tinkturen, Tränke & Salben* | Brauen in Stufen; Unterschied von Heilkraut, Salbe und Trank.
+| *Arkane Theorie & Spell-Lehre* | Zauber in drei Schritten lernen (Sigil, Komponenten, Inkantation); Alt-Akademisch.
+| *Aasimar & der Heiligenschein* | Aasimar (selten — einer unter tausend) tragen ein himmlisches Erbe, das meist zwischen dem 16. und 20. Lebensjahr erwacht.
+| *Ilia, die Wesensprüfer-Kröte* | Die Kröte bei der Begrüßungszeremonie an Rektor Geron Lichtwalds Seite.
+| *Weidegrund & das Umland* | Das Dorf südöstlich der Akademie, Handelsort und Tor zum Ostwald.
+|===
+
+[NOTE]
+====
+*Manche Dinge bleiben offen* — und das ist gut so. Warum die Drachen genau
+jetzt zurückgekehrt sind, was hinter manchem Rätsel der Akademie steckt: das
+sind Fragen, die euch im Laufe der Jahre begegnen werden. Bringt eure Fragen
+mit. Das Abenteuer hat gerade erst begonnen.
+====
+
+<<<
+
+[appendix]
+== Beispiel-Gruppe: „Die Flamme Obsidian" (optional)
+
+[NOTE]
+====
+*Dieser Anhang ist optional* und zeigt *eine* mögliche Gruppe als Anregung für
+eure eigene Charaktererstellung. Eure Spielrunde baut ihre *eigene* Gruppe — die
+„Flamme Obsidian" ist nur ein Beispiel dafür, wie bunt eine Kohorte aussehen
+kann.
+====
+
+Die *Flamme Obsidian* waren sechs Schüler, die zu Beginn von anderen gemieden
+wurden („bringt kein Glück"). Aus sechs Fremden wurde im Laufe des Jahres eine
+*Flamme*: eine Gruppe, die zusammenhält. So sah ihre Besetzung aus:
+
+[cols="2,2,1,1",options="header"]
+|===
+| Charakter | Rasse / Klasse | Haus | Alter
+| *Caelynth Drachenfels* | Dragonborn — Wizard | Turm der Ketten | 13
+| *Celia Thymianfeld* | Halfling — Cleric | Liebe & Leben | 12
+| *Celindra* | Halb-Elf — Sorcerer | Turm der Ketten | 13
+| *Cor'O-nas* | Aasimar — Monk | Turm der Ketten | 13
+| *Dreddul* | Halb-Ork — Druid | Drachenfeste | 13
+| *Sephira* | Halb-Elf — Ranger | Liebe & Leben | 12
+|===
+
+=== Kurzprofile
+
+*Caelynth Drachenfels* — Dragonborn-Zauberin aus dem Turm der Ketten. Lenkt
+ihre Magie mit Stab und Fokus; ein scharfer Verstand, der zwischen Erbe und
+eigener Identität navigiert.
+
+*Celia Thymianfeld* — Halfling-Klerikerin aus Liebe & Leben. Klein, aber
+überraschend kräftig; ihr Herz schlägt für Heilung und Fürsorge — manchmal bis
+an die eigene Grenze.
+
+*Celindra* — Halb-Elf-Hexenmeisterin aus dem Turm der Ketten. Körperlich
+auffällig stark und mit roher, angeborener Magie; ihr Weg führt über die
+Kontrolle dieser Macht.
+
+*Cor'O-nas* — Aasimar-Mönch aus dem Turm der Ketten. Ruhig, diszipliniert,
+geschmeidig; eine stille Präsenz, die einen Raum verändert, sobald man ihn
+betritt.
+
+*Dreddul* — Halb-Ork-Druide aus der Drachenfeste, der einzige Erstjahr-Schüler
+seines Hauses. Eine lebende Brücke zwischen zwei Welten — Herz statt Faust,
+Naturverständnis statt roher Kraft.
+
+*Sephira* — Halb-Elf-Waldläuferin aus Liebe & Leben. Distanz und Präzision mit
+dem Kurzbogen; eine Jägerin, die lernt, zwischen Festhalten und Loslassen zu
+unterscheiden.
+
+[TIP]
+====
+*Was ihr daraus mitnehmen könnt:* Eine gute Gruppe mischt Häuser, Klassen und
+Temperamente. Stärken der einen gleichen Schwächen der anderen aus, und gerade
+die Charaktere mit Ecken und Kanten tragen die schönsten Geschichten. Baut eure
+eigene Flamme — und gebt ihr einen Namen, der zu euch passt.
+====
