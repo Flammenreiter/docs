@@ -99,14 +99,5 @@
     "type": "command",
     "command": "powershell -ExecutionPolicy Bypass -File C:/Entwicklung/dnd/docs/.claude/hooks/statusline-command.ps1",
     "padding": 1
-  },
-  "model": "claude-fable-5[1m]",
-  "fallbackModel": [
-    "claude-opus-4-8[1m]",
-    "default"
-  ],
-  "effortLevel": "xhigh",
-  "ultracode": true,
-  "disableWorkflows": false,
-  "dynamicWorkflowSize": "medium"
+  }
 }

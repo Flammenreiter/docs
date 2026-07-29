@@ -4,6 +4,18 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ## [Unreleased]
 
+### Changed
+
+- **Projekt-Override der Session-Defaults entfernt** (`.claude/settings.json`): die sechs von
+  `agent-core sync --scope project` geseedeten Keys `model`, `fallbackModel`, `effortLevel`,
+  `ultracode`, `disableWorkflows`, `dynamicWorkflowSize` sind gelöscht. In der Präzedenz
+  `Managed > CLI > Local > Project > User` sticht eine Projektdatei das User-Setting — das Repo
+  lief damit weiter auf `claude-fable-5[1m]`, obwohl global Opus 5 kanonisch ist (agent-core
+  ADR-0033). Ohne die Keys erbt das Repo das User-Setting und folgt künftigen Modellwechseln
+  automatisch. Die Werte entsprachen exakt dem agent-core-Seed, es ging also keine bewusste
+  lokale Entscheidung verloren. Nur die sechs Keys entfernt — Formatierung, Key-Reihenfolge,
+  `permissions`, `hooks`, `mcpServers` und `statusLine` unangetastet
+
 ### Sprint 2026-05-11 — Welle-4 AsciiDoc-Cleanup (STORY-WELLE-4-DOCS)
 
 Basierend auf dem Cross-LLM-Audit `workspace-docs/audits/2026-05-10/docs-claude.md` (303 Z. Hauptaudit + Gemini-Diff). 12 Akzeptanzkriterien, 18 atomare Commits in `refactor/welle-4-2026-05-11`.
