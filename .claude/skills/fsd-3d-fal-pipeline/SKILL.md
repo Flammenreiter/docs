@@ -41,10 +41,11 @@ Memory: `project_plugins_installed.md` + `project_redesign_prompt_style.md`.
 2. Every fal.ai endpoint route MUST have: Zod validation → cache lookup → fal call → optimization → R2 upload → cache write. Skipping any step is a bug.
 3. Cache key is `sha256(endpoint + JSON.stringify(input))`. Never just the prompt.
 4. GLB output from fal goes through `optimizeGLB()` (Draco + textureCompress) before R2 upload. Unoptimized 5–20 MB GLBs in production are not acceptable.
-5. FLUX.1 dev is non-commercial. Use FLUX schnell (Apache 2.0) or FLUX Pro / FLUX.2 Pro (commercial via fal) instead.
+5. FLUX.1 dev gilt hier weiter als non-commercial. Use FLUX schnell (Apache 2.0) or FLUX Pro / FLUX.2 Pro (commercial via fal) instead. **Offener Punkt (2026-07-23):** die fal-Modellseite widerspricht dieser Einordnung ("suitable for both personal and commercial use" über die fal-Plattformlizenz). Geprüft wurde nur die Modellseite, nicht die Lizenz-AGB — bis zur rechtlichen Klärung bleibt die konservative Regel. Details: `references/01-fal-models.md`.
 6. R3F decorative canvases get `pointerEvents: 'none'` + `events={undefined}` + `aria-hidden="true"`.
 7. Motion: `m.*` (not `motion.*`) under `<LazyMotion strict>`. `import from 'motion/react'`, never `framer-motion`.
 8. Rate-limit middleware on every `/api/fal/*` route. Without it, a single bot can drain $1000+/hour.
+9. **Endpoint-IDs nie analog ableiten.** fal.ai mischt Slash und Bindestrich innerhalb derselben Modellfamilie (`fal-ai/flux/schnell` vs. `fal-ai/flux-2-pro`, `fal-ai/hunyuan3d/v2` vs. `fal-ai/hunyuan-3d/v3.1/rapid/text-to-3d`), und mal fehlt das `fal-ai/`-Präfix, mal ist es Pflicht. Jede ID einzeln gegen `https://fal.ai/models/<id>` prüfen — mit Negativkontrolle (erfundene ID muss 404 liefern) und Seiteninhalt lesen (deprecated Endpoints antworten trotzdem mit 200). Nie eine Wildcard-ID (`.../v3/pro/*`) in Code oder Referenz schreiben: sie ist per Konstruktion nicht prüfbar. Methode: `references/01-fal-models.md`.
 
 ## FSD Placement Quick Reference
 
@@ -60,23 +61,34 @@ Memory: `project_plugins_installed.md` + `project_redesign_prompt_style.md`.
 
 ## Model Selection Heuristic
 
+> Alle IDs und Preise hier sind der Kurzauszug aus `references/01-fal-models.md` (Stand 2026-07-23).
+> Bei Abweichung gilt die Referenz — und vor Nutzung immer die dort beschriebene Pruefmethode.
+
 When the user asks for a 3D model:
-- Brand-critical, one-shot, build-time → Hyper3D Rodin (`fal-ai/hyper3d/rodin`)
-- Runtime, user-facing, cached → Hunyuan3D v3.1 Rapid (`fal-ai/hunyuan-3d/v3.1/rapid/text-to-3d`)
-- Preview / thumbnail → SF3D (`fal-ai/stable-point-aware-3d`)
+- Brand-critical, one-shot, build-time → Hyper3D Rodin (`fal-ai/hyper3d/rodin`, $0.40 pro Generation)
+- Runtime, user-facing, cached → Hunyuan3D v3.1 Rapid (`fal-ai/hunyuan-3d/v3.1/rapid/text-to-3d`, $0.225 pro Generation)
+- Preview / thumbnail → TRELLIS (`fal-ai/trellis`, $0.02 pro Generation). **Achtung:** der frühere
+  Preview-Default SF3D (`fal-ai/stable-point-aware-3d`) ist nicht mehr verfügbar (geprüft
+  2026-07-23), und TRELLIS ist **kein Drop-in-Ersatz** — anderes Modell, anderes Output-Profil.
+  Wer SF3D-Eigenschaften (sub-second, albedo-only) fachlich braucht, bewertet die Preview-Stufe neu.
 
 When the user asks for an image:
-- Brand-critical fallback / hero → FLUX.2 Pro (`fal-ai/flux-2/pro`)
-- Iteration, textures, low-stakes → FLUX schnell (`fal-ai/flux/schnell`)
-- Multi-image consistency needed → Nano Banana Pro
+- Brand-critical fallback / hero → FLUX.2 Pro (`fal-ai/flux-2-pro`, $0.03 für das erste Output-MP,
+  danach +$0.015 je weiterem MP Input und Output, aufgerundet auf volle MP)
+- Iteration, textures, low-stakes → FLUX schnell (`fal-ai/flux/schnell`, $0.003 pro MP, aufgerundet)
+- Multi-image consistency needed → Nano Banana Pro (`fal-ai/nano-banana-pro`, $0.15 pro Bild bei
+  1K/2K, $0.30 bei 4K, +$0.015 mit Web-Search)
 
 When the user asks for video:
-- Cheapest viable loop → Wan 2.6 (`fal-ai/wan/v2.6/text-to-video`, $0.05/s)
-- Cinematic quality → Kling 3.0 Pro
-- Audio required → Veo 3.1
+- Cheapest viable loop → Wan 2.7 (`fal-ai/wan/v2.7/text-to-video`, $0.10/s @720p, $0.15/s @1080p)
+- Cinematic quality → Kling 3.0 Pro (`fal-ai/kling-video/v3/pro/text-to-video`, $0.112/s ohne Audio,
+  $0.168/s mit Audio, $0.196/s mit Audio + Voice-Control)
+- Audio required → Veo 3.1 (`fal-ai/veo3.1`, $0.20/s @720p/1080p ohne Audio, $0.40/s mit Audio;
+  @4K $0.40/s bzw. $0.60/s — günstigere Tiers: `/fast` und `/lite`)
 
 When the user asks for HDRI:
-- Stop. Explain: fal.ai has no true HDR generation. Generate LDR panorama via FLUX.2 Pro with equirectangular prompt. Use as R3F `<Environment files=…>`. This is sufficient for web hero scenes but not physically correct HDR.
+- Stop. Explain: fal.ai has no true HDR generation. Generate LDR panorama via FLUX.2 Pro
+  (`fal-ai/flux-2-pro`) with equirectangular prompt. Use as R3F `<Environment files=…>`. This is sufficient for web hero scenes but not physically correct HDR.
 
 ## Generation Triggers (when to start a new fal-call vs. reuse)
 

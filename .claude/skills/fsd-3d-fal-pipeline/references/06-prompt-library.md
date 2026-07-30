@@ -1,8 +1,12 @@
 # Hyperrealistic Tabletop Prompt Library (Redesign 2026-05)
 
-> **Stand:** 2026-05-13
+> **Stand:** 2026-05-13 · **Endpoint-IDs und Preise korrigiert 2026-07-23**
 > **Style-Direction:** Tabletop-Pergament + 3D-Akzente (ADR-019, pending)
 > **Master-Anker:** `hyperrealistic, photoreal, museum-quality, no stylization`
+>
+> Die Prompts sind unveraendert; korrigiert wurden nur die Endpoint-IDs (`flux-2/pro` war tot →
+> `fal-ai/flux-2-pro`, Veo-Wildcard → konkrete ID) und die Kostenzeilen. Preisquelle und
+> Pruefmethode: `references/01-fal-models.md`.
 
 This library is the **single source** for fal.ai prompts in the Flammenreiter Redesign initiative. When generating new assets, copy a template and only vary the asset-specific bracketed slot. **Do not drop the style-anchor or cinematography tags** — they are what keeps the output hyperrealistic instead of stylized.
 
@@ -21,7 +25,9 @@ This library is the **single source** for fal.ai prompts in the Flammenreiter Re
 
 ## 4 House-Sigils — `fal-ai/hyper3d/rodin` (build-time)
 
-Per Sigil ~30 Iterations à $0.40 = ~$48 total. Output: GLB + PBR + albedo/normal/roughness textures separat.
+Per Sigil ~30 Iterations à $0.40 pro Generation = ~$48 total (4 × 30 Generationen). Guenstigere
+Variante derselben Familie: `fal-ai/hyper3d/rodin/v2.5/fast` zu $0.10 pro Generation. Output: GLB +
+PBR + albedo/normal/roughness textures separat.
 
 ### Drachenfeste (Warrior / Fire — `#8B1A1A` + Gold `#D4A843`)
 
@@ -65,9 +71,11 @@ stylization, no painting, no cartoon
 
 ---
 
-## Pergament-Texturen — `fal-ai/flux-2/pro` (build-time)
+## Pergament-Texturen — `fal-ai/flux-2-pro` (build-time)
 
-30 Varianten à $0.03 ≈ $1. Output: 2K seamless texture maps.
+30 Varianten × $0.03 fuer das erste Output-Megapixel ≈ $0.90 bei 1 MP. Output: 2K seamless texture
+maps — 2K liegt ueber 1 MP, jedes weitere angefangene Megapixel kostet +$0.015, der reale Betrag
+liegt also hoeher. Vor der Bestellung mit der Zielaufloesung nachrechnen.
 
 ```
 hyperrealistic aged vellum parchment texture, naturally weathered animal skin with
@@ -88,9 +96,11 @@ no illustration
 
 ---
 
-## House-Atmosphere-Panoramas — `fal-ai/flux-2/pro` equirectangular
+## House-Atmosphere-Panoramas — `fal-ai/flux-2-pro` equirectangular
 
-Resolution: `width: 2048, height: 1024` (2:1 ratio). 4 Houses × 20 Iterations ≈ $2.40. Used as R3F `<Environment files={url} background={false} />`.
+Resolution: `width: 2048, height: 1024` (2:1 ratio) — das sind ≈2,1 MP, nach Aufrundung 3 MP. 4 Houses
+× 20 Iterations = 80 Generationen; $2.40 ist die 1-MP-Untergrenze, real kommen +$0.015 je weiterem
+angefangenen Megapixel dazu. Used as R3F `<Environment files={url} background={false} />`.
 
 ### Drachenfeste-Throne-Hall
 
@@ -134,9 +144,16 @@ no text, no people, no signature
 
 ---
 
-## Hero-Video-Loops — `fal-ai/veo3.1/...` (5s seamless)
+## Hero-Video-Loops — `fal-ai/veo3.1` (5s seamless)
 
-Top-5-Splash-Pages × ~$1. Use first-frame-equals-last-frame for seamless loop. NO audio variant (saves 50% cost).
+Top-5-Splash-Pages × $1.00 pro 5-s-Loop ($0.20/s @720p und @1080p ohne Audio). Mit Audio waeren es
+$0.40/s = $2.00 pro Loop, die NO-audio-Variante spart also genau 50 %. @4K kostet der Loop $2.00 ohne
+Audio bzw. $3.00 mit Audio. Guenstigere Tiers derselben Familie: `fal-ai/veo3.1/fast` ($0.10/s bzw.
+$0.15/s @720p und @1080p) und `fal-ai/veo3.1/lite` ($0.03/s @720p ohne Audio bis $0.08/s @1080p mit
+Audio). Use first-frame-equals-last-frame for seamless loop.
+
+Die frueher hier stehende Wildcard `fal-ai/veo3.1/...` ist durch die konkrete Basis-ID ersetzt —
+eine Platzhalter-ID laesst sich nicht gegen die Live-API pruefen (SKILL.md, Hard Rule 9).
 
 ### Master Template
 
@@ -159,7 +176,8 @@ no people, no text, no signature, photoreal, no stylization
 
 ## Character-Token-3D — `fal-ai/hunyuan-3d/v3.1/rapid/text-to-3d`
 
-Per Token $0.225. Used for in-game tokens, character-sheet portrait-thumbs, NPC list-icons.
+Per Token $0.225 pro Generation. Used for in-game tokens, character-sheet portrait-thumbs, NPC
+list-icons.
 
 ### Master Template (Style-Lock — IDENTICAL across all tokens)
 
@@ -178,9 +196,10 @@ marks and edge wear, neutral T-pose facing forward, soft three-point studio ligh
 
 ---
 
-## Wax-Seals (Card-Header-Component asset) — `fal-ai/flux-2/pro`
+## Wax-Seals (Card-Header-Component asset) — `fal-ai/flux-2-pro`
 
-Per Haus 1 statisches Asset + 1 mit Imprint. ~$0.24 total.
+Per Haus 1 statisches Asset + 1 mit Imprint = 8 Generationen × $0.03 (erstes Output-Megapixel) =
+~$0.24 total bei 1 MP; jedes weitere angefangene MP kostet +$0.015.
 
 ```
 hyperrealistic close-up of red wax seal pressed onto aged parchment, [HOUSE_NAME]
@@ -203,7 +222,7 @@ stylization, no text
 5. **`no stylization, no painting, no cartoon` am Ende** als Sicherheitsnetz — verstärkt den Realismus-Pull.
 6. **House-Hex-Codes direkt im Prompt** — `#8B1A1A enamel inlay` ist präziser als `dark red enamel`. fal versteht Hex-Codes.
 7. **Lighting-Direction explizit** — `raking light from 90 degrees` oder `forge firelight from below` ist immer besser als generisches `dramatic lighting`.
-8. **Negative-Prompts (wo supported, z.B. flux-2/pro):** immer `flat colors, anime, painted, stylized, low-poly, illustration, watermark, text, logo, signature`.
+8. **Negative-Prompts (wo supported, z.B. `fal-ai/flux-2-pro`):** immer `flat colors, anime, painted, stylized, low-poly, illustration, watermark, text, logo, signature`.
 
 ---
 
@@ -211,13 +230,17 @@ stylization, no text
 
 | Asset | Endpoint | Qty | Iterations | Unit-Cost | Sub-Total |
 |---|---|---|---|---|---|
-| House-Sigils | hyper3d/rodin | 4 | 30 each | $0.40 | $48 |
-| Pergament-Textures | flux-2/pro | 30 | 1 each | $0.03 | $0.90 |
-| House-Panoramas | flux-2/pro | 4 | 20 each | $0.03 | $2.40 |
-| Hero-Loops | veo3.1 (no audio) | 5 | 3 each | $1.00 | $15 |
-| Wax-Seals | flux-2/pro | 8 | 3 each | $0.03 | $0.72 |
-| Char-Tokens | hunyuan-3d-rapid | 50 | 1 each | $0.225 | $11.25 |
+| House-Sigils | `fal-ai/hyper3d/rodin` | 4 | 30 each | $0.40 pro Generation | $48 |
+| Pergament-Textures | `fal-ai/flux-2-pro` | 30 | 1 each | $0.03 (1. MP) +$0.015/MP | ≥$0.90 |
+| House-Panoramas | `fal-ai/flux-2-pro` | 4 | 20 each | $0.03 (1. MP) +$0.015/MP | ≥$2.40 |
+| Hero-Loops | `fal-ai/veo3.1` (no audio) | 5 | 3 each | $1.00 pro 5-s-Loop @720p/1080p | $15 |
+| Wax-Seals | `fal-ai/flux-2-pro` | 8 | 3 each | $0.03 (1. MP) +$0.015/MP | ≥$0.72 |
+| Char-Tokens | `fal-ai/hunyuan-3d/v3.1/rapid/text-to-3d` | 50 | 1 each | $0.225 pro Generation | $11.25 |
 | A/B-Reserve | mixed | — | — | — | ~$30 |
-| **Total budget** | | | | | **~$108** |
+| **Total budget** | | | | | **≥~$108** |
+
+Die drei `fal-ai/flux-2-pro`-Zeilen sind Untergrenzen: sie rechnen mit 1 Megapixel Output. 2K-Texturen
+und 2048×1024-Panoramas liegen darueber, jedes weitere angefangene MP kostet +$0.015 (Input **und**
+Output). Der Gesamtbetrag ist deshalb ein Minimum, keine Punktschaetzung.
 
 Spending-Cap im fal.ai-Dashboard: empfohlen $200/Monat.

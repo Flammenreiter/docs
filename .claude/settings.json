@@ -68,6 +68,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File C:/Entwicklung/dnd/docs/.claude/hooks/improvement-reflect.ps1",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -89,6 +99,11 @@
           {
             "type": "command",
             "command": "powershell -ExecutionPolicy Bypass -File C:/Entwicklung/dnd/docs/.claude/hooks/agent-core-sync.ps1",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File C:/Entwicklung/dnd/docs/.claude/hooks/worktree-bootstrap.ps1",
             "timeout": 60
           }
         ]

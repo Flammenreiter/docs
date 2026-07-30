@@ -8,7 +8,9 @@
 - [ ] `FAL_KEY` never in any file under `src/` of the frontend
 - [ ] Backend has rate-limit middleware on `/api/fal/*` (token bucket, ≤ 10 req/min/IP default)
 - [ ] Cache key is `sha256(endpoint + JSON.stringify(input))`, NOT just `sha256(prompt)`
-- [ ] FLUX.1 **dev** is NOT used anywhere (non-commercial license)
+- [ ] FLUX.1 **dev** is NOT used anywhere (non-commercial license — Lizenzlage seit 2026-07-23 strittig, konservative Regel gilt bis zur Klaerung: `01-fal-models.md`)
+- [ ] Jede benutzte Endpoint-ID ist einzeln gegen `https://fal.ai/models/<id>` geprueft — **nie analog abgeleitet** (fal.ai mischt Slash und Bindestrich in derselben Modellfamilie) und **nie als Wildcard** (`.../v3/pro/*`) notiert
+- [ ] Der Seiteninhalt wurde gelesen, nicht nur der Statuscode — deprecated Endpoints (`fal-ai/veo3`, `fal-ai/flux-pro`) antworten mit 200
 - [ ] GLB output from fal goes through `optimizeGLB()` before R2 upload
 - [ ] Long-running 3D / video generations use `fal.subscribe` (auto-poll) or queue+webhook, NEVER blocking `fal.run`
 - [ ] User prompts pass through content moderation before fal call (or are scoped to trusted users)
