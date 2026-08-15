@@ -41,6 +41,18 @@ Nicht-destruktiv und idempotent. Genau einen Befehl wählen:
 
 `sync` schreibt: `CLAUDE.md` (+ `.claude/skills|agents|hooks`, gemergte `settings.json`, im project-Scope zusätzlich `.mcp.json`).
 
+Ist der Arbeitsbaum nicht sauber, gilt vor einem `sync --scope project`:
+
+- **WIP-Commit statt Stash.** `sync` erzeugt genau die Dateien neu, die ein Stash mitnimmt. Gemessen
+  am 2026-08-05 in einem Wegwerf-Repo: Stash → Generat neu geschrieben → `git stash apply` endet mit
+  Exit 1 und `UU CLAUDE.md` (1 unmerged path); derselbe Ablauf mit WIP-Commit statt Stash ergibt
+  `unmerged-count=0` bei erhaltener Arbeit. Generierte Dateien von Hand zu mergen ist der falsche
+  Weg — der richtige ist, den Sync erneut zu erzeugen.
+- **Nie den Branch wechseln, um zu syncen.** Der Default-Branch ist bei Cloudflare Pages / Vercel /
+  Netlify ein Auto-Deploy-Target; ein Checkout dorthin plus ein späterer Commit ist ein Schritt in
+  Richtung ungewollter Veröffentlichung. `sync` selbst wechselt nichts — das ist die Auflage an den,
+  der es aufruft.
+
 ### Schritt 4: OpenCode installieren — Bundle beziehen, KEIN sync
 
 OpenCode wird **nicht gesynct**. Das OpenCode-Target ist ein **consume-only `.tgz`-Bundle**, das man bezieht und

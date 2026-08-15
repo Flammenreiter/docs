@@ -1,7 +1,7 @@
 {
   "generator": "@gmolike/agent-core",
-  "version": "1.6.0",
-  "generatedAt": "2026-07-30T09:11:07.402Z",
+  "version": "2.0.0",
+  "generatedAt": "2026-08-15T17:53:04.162Z",
   "scope": "project",
   "selectedProfiles": [
     "core",
@@ -57,12 +57,20 @@
         "hash": "d556f701e7679f09c120393e23cf179741ce7dc6448a6625fe79b54178d94884"
       },
       {
+        "name": "color-registry",
+        "hash": "bf7bb5ebe99e4f5439e62cbddc89627401965c2737afa1efb4b3ad86882ddf7a"
+      },
+      {
         "name": "colorize",
         "hash": "41678bbf7b43cdce60d0b67a612551075f34af345cdb156c16e323cd5509d249"
       },
       {
         "name": "commit",
         "hash": "6eaebc5ce89021ab4c3b4f6bca0c22a2aef43f4c92df525deb84b666d7cb0e57"
+      },
+      {
+        "name": "contract-golden-test",
+        "hash": "02e1b68d603d540606331c99b67f38053193c211aca6946a29ecdb087e11f2d3"
       },
       {
         "name": "contribute-catalog",
@@ -138,31 +146,31 @@
       },
       {
         "name": "gitnexus-cli",
-        "hash": "dcaaa26d8e13e234c1a1631d4450ab450630b560ada97aae6c9334663352b8f1"
+        "hash": "d07a3e50bc43bc3df0d57dde88b43a0042572c1a0a550988a59a7aecc2503e4c"
       },
       {
         "name": "gitnexus-debugging",
-        "hash": "edc8739ff0ea19da3f3eb8d3def241e3ed719d70b49e179c55d4c1834c40f069"
+        "hash": "c84bda0402b4bc140252353d2e081daad0c12dad873d2869d7ef745f7c6b696b"
       },
       {
         "name": "gitnexus-exploring",
-        "hash": "41ca9b58615761899f6b19370969700ea39482c7ae47f10da6f212ef2ba0c655"
+        "hash": "933d88367c3ff13a81127afad3ebe468f37af0e6f153e067c3c74cb0f5bad2f3"
       },
       {
         "name": "gitnexus-guide",
-        "hash": "ebbce43a43283e12f204998b5c9edfedcfd58deafb309e9971e2fa3f38719a50"
+        "hash": "70cdd26c5045ac46e7220a3db405332cb0e05d782d92b990d3ad3f746b336b28"
       },
       {
         "name": "gitnexus-impact-analysis",
-        "hash": "62b319b5ff2e1bef4f42fb1850e404d2003239045794a211c38c5115433d6a16"
+        "hash": "cd6ed1fd2806bb65f3ccfba58f57a4b64089c550e5c27588b51a2fe9dc2d32d5"
       },
       {
         "name": "gitnexus-pr-review",
-        "hash": "248dcad5866cde88d0359426bb89732ee1d115dfd07707ed7193cad00676527e"
+        "hash": "6a97f3eb04ca51d9fdea8ea45316a614a64fcbd71a311a71a953d970182c0a6c"
       },
       {
         "name": "gitnexus-refactoring",
-        "hash": "05e1f5c5c5139d3adcbc09586db268266739679baca4fc01c5d20fe1320ac02d"
+        "hash": "def40e29a44f718228d8d4aeb83cc30bd25e2029a692448fcac42a70cee27921"
       },
       {
         "name": "gpt-taste",
@@ -218,7 +226,7 @@
       },
       {
         "name": "integration",
-        "hash": "4de08de37d764fe04cedc2c8ea065d715b08bfd5522e09c9a80572735817418b"
+        "hash": "c32f83849e3e759f146eda263f26b73871642ab515bea6237a9d87e223be2732"
       },
       {
         "name": "llm-council",
@@ -250,7 +258,7 @@
       },
       {
         "name": "orchestrate",
-        "hash": "9c8615087253039b15d6eb736b9f31ee039f3c6d810be7da0907a5d59c618d3e"
+        "hash": "09a42b01ce5b8d9d0b1699c7edd3a3906195ee809768c0b8598e1ddf501ef8f7"
       },
       {
         "name": "polish",
@@ -258,7 +266,7 @@
       },
       {
         "name": "port-registry",
-        "hash": "0b11b1e15b7ba5520a63e5fec37535eaeb4235df51f4645bf3eb23271648fc5f"
+        "hash": "010d6b018e503e6e109ca4ba87a213ef46671608ed274992d95b83f5fdcb6b2e"
       },
       {
         "name": "quieter",
@@ -290,7 +298,11 @@
       },
       {
         "name": "setup-changelog",
-        "hash": "e3db040566b7dcddfaa6af3ca389ad7b2587901d6b5ff11bc4e2642696dc52f7"
+        "hash": "ef62a3916b839599772bcb17e71bcad996f6e10ecc49067ef2c0725e71fb78cb"
+      },
+      {
+        "name": "setup-quality-gates",
+        "hash": "24276d62e3d1f440129cab3c3af3eadbca6bdbbd2b9d37dc85e513a62b1c0060"
       },
       {
         "name": "shadcn",
@@ -298,7 +310,7 @@
       },
       {
         "name": "stitch-design-taste",
-        "hash": "2ea9319d4219ed181fa0ca88f99f326f21ee294f2b49099f2e4acbe5e608ddc5"
+        "hash": "4dabafd5f88b7549325c3785d485886366f3fb5588270a13e14748e686f6cf94"
       },
       {
         "name": "tailwind",
@@ -315,6 +327,10 @@
       {
         "name": "typegpu",
         "hash": "6994090b2830384a5ebd64b21c975c4e123ca9b1ba05b7d50ec29ab368a7975e"
+      },
+      {
+        "name": "verify",
+        "hash": "6c3113cffe53050d0c6086e3e680ac9d38968bff91aff1d43fd122868713fbc5"
       },
       {
         "name": "waapi",
@@ -386,15 +402,15 @@
     "hooks": [
       {
         "name": "agent-core-sync.ps1",
-        "hash": "3ad24f6b4466ac96ea2b20e8974d1e9e164f3f2d6570ad77a15d473ba8f4af09"
+        "hash": "3d322736263089279085f77bc1792ab90d8e05fb7075e6a3d000e3286ef6d73a"
       },
       {
         "name": "agent-core-sync.sh",
-        "hash": "cd2cfd5400f287617ec39c015901bcf80ad804149be0469ca39993105589884f"
+        "hash": "6e19f47096d0d912a2c3a1a59f453da2995155bdcf03fc7b4f994e3b383cd703"
       },
       {
         "name": "format-on-edit.ps1",
-        "hash": "acff3af77bb4f55091846cd9e5c97c991267a38d636b8359cd57eb2f18bdd546"
+        "hash": "990eaa8aada37262500489561486c21c3ebe0495052af8eaf7f773fcb6cea7ad"
       },
       {
         "name": "format-on-edit.sh",
@@ -402,7 +418,7 @@
       },
       {
         "name": "improvement-reflect.ps1",
-        "hash": "fff254b2d9b428011f94f30e1e81ffd11e5fc6a3ccef5c28aeb541c045170a09"
+        "hash": "aa27310322295889bf3a8773d132603af2bc86f4894e4a0b39c1c7c50f217274"
       },
       {
         "name": "improvement-reflect.sh",
@@ -410,15 +426,23 @@
       },
       {
         "name": "orchestrator-guard.ps1",
-        "hash": "53330a942eb11970a741ca575acb97f75bb522644ca6a037c76801047bab08c1"
+        "hash": "005d5193a871e548dbc7e87520e12f379892e6dc3ec844beb6bfac118d3aa2c7"
       },
       {
         "name": "orchestrator-guard.sh",
-        "hash": "62e392863dd2bab4733a45292fec08e3962c3a12f0d540247d9dd1bb912ed8cc"
+        "hash": "cd894b26f92bc71f80858b9c0d8eca0c222cb9914af6e4480c15f1509904838f"
+      },
+      {
+        "name": "origin-divergence-check.ps1",
+        "hash": "391f3b39678973af5105408e13b9938a66d3352429647d61baa0a088786a24ee"
+      },
+      {
+        "name": "origin-divergence-check.sh",
+        "hash": "6b4e7c346bb92bf82a83641a1f135326ff6a856c051d919ca26068b1dc3c9bbc"
       },
       {
         "name": "statusline-command.ps1",
-        "hash": "69a2290dae5c789f2c4fdf6478108289bead356e33c6a51d4006f3b1a6bd1cdf"
+        "hash": "af72ee43d900ad8cbb2de2c2b8324885117efc77b105d2d489ef077acda6f620"
       },
       {
         "name": "statusline-command.sh",
@@ -426,49 +450,97 @@
       },
       {
         "name": "worktree-bootstrap.ps1",
-        "hash": "3e509c74722014ee7a2c7a5a248f36ed60a73be674dc9585014cb2f549ed3d5b"
+        "hash": "3da18e8974dc1ee8383d8b93f1be019087b511c444468c36bab59ebefc8826f8"
       },
       {
         "name": "worktree-bootstrap.sh",
-        "hash": "cd4965195cce8bf1bd7accc4f60b1d525c6132335c7b7f0133b8b423f7cab132"
+        "hash": "df6d6e580fc28b8d9e0f7f90c071fe9b9494206dac648eef2e32ec8062186b4a"
       }
     ],
     "rules": [
       {
         "name": "01-role-web-react.md",
-        "hash": "4dd2ab74e133511e4acacc01635bc4221562e979783c571e00b8fc4df871a363"
+        "hash": "4aa3be2127f0c95738edfe306468f60bb8563531b10af33f5fba7ea54c658edf"
       },
       {
         "name": "04-backend.md",
-        "hash": "017ae504721650169064b6728d137a10867c9a133c5d65a43cdef22fbab98e62"
+        "hash": "a926f7def98a8e853571c24b34e8b9d332ccf3ed7b625c0f86d1bed78af2272d"
       },
       {
         "name": "07-stack-backend-node.md",
-        "hash": "4078e48e4b3917d24ba2e95a3c2008c6b2f8d8e108d8ac79ab62609352147fe7"
+        "hash": "86209e8ae9b485657cd6ff3d8117c9a35dc05996742255aa5eca19d7c58faa45"
       },
       {
         "name": "08-stack-backend-kotlin.md",
-        "hash": "107274f6d82fffbd66f2289b414e4dd544eb3a414dd2b37d392f4f50e14205e0"
+        "hash": "c5cf9a4d4fbcb133bbf6a5131d56e1d09ea530b98544c990e706e43314851bb9"
       },
       {
         "name": "10-fsd.md",
-        "hash": "0ad5b17355e100cd208b7d0551b46930fbe4e2c582a5fe965f559a83e88d2a07"
+        "hash": "2eec039b37aeeb37a407a14707e9bd34e44ab1cde3e2edda84da187e0bd57dbb"
       },
       {
         "name": "15-frontend.md",
-        "hash": "7c5e767061f06b3da6f287b2317476b11b37a6da3a7e486d19d15f0df06e84af"
+        "hash": "a986ed70f411403c337e7e9e4a94e28b88bdd3af89e52a24d79d9fb078c9544a"
       },
       {
         "name": "31-quality-web.md",
-        "hash": "b79c1c08b4ddece6e70c2f419bc9dca3a9861b2a1aa40e75d9621946f128bf41"
+        "hash": "34c644332339e54199fa41c5d4a3cf0a1b5dc2ec51cf9209c02a05116b480ab9"
       },
       {
         "name": "35-design.md",
-        "hash": "d8155ab6b58d1893144067f2a900b83f0234b17dbbb82d9258c70feccebebd0c"
+        "hash": "f63a0cb33d8e92cabe64456784c50dd6867b7c63e033950cdacec4be6401a6f9"
       },
       {
         "name": "55-templates.md",
-        "hash": "7013f296976a53d1233c286f90524426c0429fd438b34639ee56abd70c0e113d"
+        "hash": "98b39744bdbefaeeeeba53c9cc586752db29adb5527d4aab7a9439e55f623c00"
+      },
+      {
+        "name": "00-core.md",
+        "hash": "21d78b3d2ceb9feb5519df7b1dcb2f4c1fd2582e70cadf862d9c2be51061aba2"
+      },
+      {
+        "name": "05-stack.md",
+        "hash": "241f89a0d609baf86c98b60eea7b636d9f8e810c9196441b59f286733fd0a217"
+      },
+      {
+        "name": "06-model-effort.md",
+        "hash": "b4c187ce52fd251202c78f997ea7f68a665e130f7b8a3f3c366dc261d64ed652"
+      },
+      {
+        "name": "20-workflow.md",
+        "hash": "514050fdf7cd466e54ab55fa9ed76454c15c939c798c0bbebcf325c67f6018de"
+      },
+      {
+        "name": "21-session-lifecycle.md",
+        "hash": "5a34b9dd882f3c573c96128274dd28d7d3433e7a4db764c6f6801d259f6d9d3d"
+      },
+      {
+        "name": "22-session-close.md",
+        "hash": "3bca73b5d29e678abdfe2f73c3a84e468112ed0135c842f5845b07ee614ad19b"
+      },
+      {
+        "name": "23-memory-discipline.md",
+        "hash": "1ae20ac251732f143af2599727f35eeca47182867de6a9109c4c0d4b58e72d64"
+      },
+      {
+        "name": "25-orchestration.md",
+        "hash": "38f94a62ba37300e69671dbced880c3acc208d450d550decca737fced60816a2"
+      },
+      {
+        "name": "26-autonomy.md",
+        "hash": "a14dd548a242a1a0b240afda23f55681eb10d64f07af25b48ec7fcd3218cefcd"
+      },
+      {
+        "name": "30-quality.md",
+        "hash": "22517636b52fe48f2d3309f562e185eb04ade86bc6bb3312c99fb39be684fb89"
+      },
+      {
+        "name": "40-language.md",
+        "hash": "614a4a299c81d754a529108e7d19e696f4074e5fbfbd2f199fcb25c3f08a0364"
+      },
+      {
+        "name": "50-agent-core.md",
+        "hash": "45b86c2dae6cae44ff5962a224887fb4e9f09b711cf133b254bd692c6e188e85"
       }
     ]
   }

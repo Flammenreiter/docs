@@ -107,6 +107,16 @@
             "timeout": 60
           }
         ]
+      },
+      {
+        "matcher": "startup|resume|clear|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/scripts/agent-core-bootstrap.sh",
+            "timeout": 120
+          }
+        ]
       }
     ]
   },

@@ -25,6 +25,8 @@ description: "Use when the user wants to know what will break if they change som
 4. Assess risk and report to user
 ```
 
+> **Linked git worktree?** `Repository not indexed.` there means the index lives in the main checkout — do **not** run `analyze` in the worktree. Read `skill:gitnexus-guide` § Worktrees first.
+
 ## Step 0 — Verify the index is fresh (mandatory)
 
 **A stale index makes this skill's output worthless.** The graph does not self-maintain — no hook re-indexes it after a commit or merge. It reflects the codebase as of the last manual `analyze`, which may be months old.

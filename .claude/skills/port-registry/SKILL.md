@@ -18,7 +18,8 @@ derselbe Worktree bekommt reproduzierbar denselben Port, auf jeder Maschine, ohn
 - Ein Dev-/Preview-/Storybook-Server soll hochgezogen werden — **besonders in einem Worktree**.
 - `EADDRINUSE`, „port already in use", oder `strictPort: true` scheitert hart.
 - Die Frage „welcher Port ist frei" / „wer hält Port 3000" steht an.
-- Ein neuer belegter Port ist entstanden und soll eingetragen werden.
+- Ein neuer belegter Port oder ein neues Projekt ist entstanden und braucht einen Eintrag — der wird
+  **angefordert**, nicht selbst geschrieben (letzter Abschnitt).
 
 ## Die Registry — belegte Ports in diesem Repo
 
@@ -44,6 +45,9 @@ Die Registry endet nicht am Repo-Rand: alle Projekte unter `C:\Entwicklung` teil
 Loopback-Adresse. Verifiziert per `grep -rn "strictPort\|port:"` über die `vite.config.ts` der
 Nachbarprojekte:
 
+**Auch diese Tabelle ist Auslieferung, kein Formular.** Ein neu entstandener Port wird **gemeldet**,
+nicht hier eingetragen — der Weg steht unter „Einen neuen Eintrag anfordern".
+
 | Port | Belegt von | Fundstelle |
 |---|---|---|
 | 3000 | global-login `apps/login` — **ohne** `strictPort` | `global-login/apps/login/vite.config.ts:19` |
@@ -52,8 +56,17 @@ Nachbarprojekte:
 | 3000 / 3001 / 3002 | faninitiative-platform `apps/web` / `apps/dashboard` / `apps/scanner` | `faninitiative-platform/apps/{web,dashboard,scanner}/vite.config.ts:21`, `:65`, `:79` |
 | 3000 | smart-home-app `apps/web` | `smart-home-app/apps/web/vite.config.ts:84` |
 | 6345 | doppelklick `apps/shell`, `strictPort: true` | `doppelklick/apps/shell/vite.config.ts:10` |
+| 40900 / 40903 | canu-camp-hennig `apps/web` — Dev bzw. Preview, beide `strictPort: true` | `canu-camp-hennig/apps/web/vite.config.ts:140`, `:141` |
+| 40901 | canu-camp-hennig `apps/api` (`next dev` / `next start --port`) | `canu-camp-hennig/apps/api/package.json:11`, `:13` |
+| 40905 | canu-camp-hennig `apps/mobile` (`expo start --port`, vier Skripte) | `canu-camp-hennig/apps/mobile/package.json:8`–`:11` |
 
 **Fünf Projekte wollen 3000, drei wollen 3001, zwei wollen 3002.** Das ist der Grund für diesen Skill.
+
+`canu-camp-hennig` ist die Ausnahme und zugleich der Beleg: es ist das einzige Nachbarprojekt, das
+seine Ports **aus dem Vergabeplan unten** bezieht — `40900 = 30000 + 10·1000 + 90·10 + 0`, also Web im
+Hauptbaum (Slot 90) — und folgerichtig das einzige, das mit niemandem kollidiert. `+5` ist im Plan
+frei und wird dort faktisch für `apps/mobile` (Expo) belegt; wer als nächstes eine Mobile-App
+aufsetzt, nimmt sinnvollerweise denselben Offset, statt einen neuen zu erfinden.
 
 ## Der harte Fall: Port 3000 ist nicht verschiebbar
 
@@ -114,9 +127,32 @@ Hash-Kollision (siehe unten).
 | 2 | Claude-Template | 32000 | 7 | San | 37000 |
 | 3 | doppelklick | 33000 | 8 | claude-code-session-source | 38000 |
 | 4 | faninitiative-platform | 34000 | 9 | Projects | 39000 |
+| 10 | canu-camp-hennig | 40000 | | | |
 
-Index 10–18 (40000–48999) sind frei für neue Projekte. **Bestehende Indizes werden nie umnummeriert** —
+Index 11–18 (41000–48999) sind **noch nicht vergeben**. „Frei" heißt hier *zu vergeben*, nicht *zu
+nehmen*: die Zeile schreibt agent-core, angefordert wird sie über „Einen neuen Eintrag anfordern"
+unten — mit dem Befehl, der dort ausgeschrieben steht. **Bestehende Indizes werden nie umnummeriert** —
 eine Umnummerierung verschiebt still jeden Port jedes Worktrees dieses Projekts.
+
+> **Index 10 ist Bestand, kein Vorrat — und war es schon, bevor er hier stand.** `canu-camp-hennig`
+> fährt seine vier Dev-Server längst nach diesem Plan (40900 · 40901 · 40903 · 40905, Fundstellen in
+> der Nachbar-Tabelle oben), tauchte in dieser Tabelle aber nie auf; sie endete bei 9. Aufgefallen ist
+> die Lücke erst von der anderen Seite: `color-registry` führt den Projekt-Slot **als** diesen
+> `PROJECT_INDEX` und trug `"canu-camp-hennig": 10` ein (`PROJECT_SLOTS` in `src/colorRegistry.ts`,
+> am 2026-08-05 Zeile 124 — die Zeilenzahl `113` stand hier bis dahin falsch, sie war schon
+> **innerhalb** ihres eigenen Commits verrutscht) — die zugesagte
+> eine Tabelle war damit zwei. Ohne diesen Nachtrag hätte das nächste regulär aufgenommene Projekt
+> Index 10 bekommen und wäre in Ports **und** Fensterfarbe kollidiert.
+>
+> Verifiziert am 2026-08-03: `canu-camp-hennig` ist ein echtes Git-Repo unter `C:/Entwicklung`
+> (`git rev-parse --is-inside-work-tree` → `true`, Remote `github.com/gmolike/canu-camp-hennig.git`,
+> vier Commits) mit einem Worktree — `canu-camp-hennig-worktrees/ultraplan-w0-w1`, Slot 54, also
+> 40540 ff. Eine ältere Erhebung, die es als bloßes Verzeichnis ohne Repo führte, ist damit überholt.
+>
+> **Asymmetrie, die hier stehen muss:** dieser Plan reicht bis Index 18, die geteilte Farb-Tabelle nur
+> bis Slot 11 (zwölf Farbtöne, gemessene Kapazität). Ein Projekt ab Index 12 bekommt also einen Port,
+> aber keinen Farbton mehr — das ist dann eine Entscheidung, kein Eintrag
+> (`shared/skills/color-registry/SKILL.md`).
 
 ### Beispiel — die realen claude-skills-Worktrees
 
@@ -219,9 +255,55 @@ filtern und den Status selbst lesen — nie auf dem Statuswort:
 netstat -ano -p tcp | grep ":3000 "
 ```
 
-## Einen neuen Eintrag hinzufügen
+## Einen neuen Eintrag anfordern — schreiben kann hier nur agent-core
 
-Damit die Registry nicht driftet:
+**Diese Datei ist eine Auslieferung, kein Formular.** Die Quelle liegt in agent-core unter
+`shared/skills/port-registry/SKILL.md`; was ein Konsument liest, ist die vendorte Kopie in
+`~/.claude/skills/port-registry/SKILL.md`, und die wird bei **jedem** Sitzungsstart überschrieben:
+`src/targets/claude.ts` kopiert das Skill-Verzeichnis **bedingungslos** (`copyDir(join(SHARED,
+"skills", name), …)` — keine Bedingung, kein Hash-Vergleich; der Hash-Schutz greift nur beim
+**Prune**, also gegen das Löschen), und der SessionStart-Hook
+`targets/claude/hooks/agent-core-sync.sh` löst den Sync dafür bei jedem Chat-Start aus. Ein Eintrag,
+den ein Konsument hier schreibt, überlebt die Sitzungsgrenze nicht — und `shared/rules/50-agent-core.md`
+verbietet den Fork ohnehin („never fork rule text into a project").
+
+**Welcher der beiden Fälle gilt, entscheidet ein Befehl:** `git remote -v` im Repo, in dem gearbeitet
+wird. Steht dort `gmolike/agent-core`, wird eingetragen (zweiter Block). Steht dort etwas anderes,
+wird angefordert (erster Block). Einen dritten Weg gibt es nicht — insbesondere keinen
+Selbstbedienungsbereich: der `PROJECT_INDEX` ist zugleich der Slot der Fensterfarbe
+(`shared/skills/color-registry/SKILL.md`), ein selbst genommener Index nähme still eine Farbe mit.
+
+### Anfordern — der Normalfall, aus einem Konsumenten-Repo
+
+1. **Antrag stellen**, wörtlich:
+
+```bash
+gh issue create --repo gmolike/agent-core --label skill-improvement \
+  --title "port-registry: PROJECT_INDEX <verzeichnisname>" \
+  --body "Projekt: <verzeichnisname unter C:/Entwicklung>, Remote: <url>
+Provisorisch belegt: <ports> -- Fundstellen <datei:zeile>, gegreppt
+Ist-Stand vor der Belegung: <Ausgabe von Get-NetTCPConnection>"
+```
+
+   Der **Verzeichnisname** ist der Schlüssel — case-sensitive, unübersetzt, nicht geglättet; derselbe
+   Schlüssel vergibt die Fensterfarbe. Ohne Fundstellen und ohne geprüften Ist-Stand ist der Antrag
+   nicht überprüfbar; dann wird nachgefordert, nicht vergeben. Der Befehl steht hier ausgeschrieben,
+   damit dieser Skill für sich steht — der allgemeine Rückkanal in `shared/rules/22-session-close.md`
+   ist derselbe Weg, aber er kommt erst am Ende einer Sitzung vorbei.
+2. **Bis zur Vergabe weiterarbeiten — provisorisch belegen, nicht blockieren.** Nimm das Band des
+   nächsten in der Tabelle oben **nicht vergebenen** Index und schreibe die Ports in **dein eigenes**
+   Repo. Das ist eine Reservierung, keine Vergabe: kollidieren zwei Anträge, entscheidet agent-core
+   nach Eingangsreihenfolge der Issues, und der spätere zieht um. Der Fall ist real eingetreten —
+   `canu-camp-hennig` fuhr vier Server tagelang auf Index 10, bevor die Zeile existierte.
+3. **Das Issue ist die Notiz.** Die provisorische Nummer gehört in den Issue-Text, nicht in eine
+   Notizdatei nebenher: der Hauptsitzung ist das Schreiben ohnehin verwehrt
+   (`shared/rules/25-orchestration.md`), und was das eigene Repo braucht, steht dort in seiner Config
+   (`vite.config.ts`, `package.json`) — genau der `datei:zeile`, die der Antrag zitiert.
+4. **Alles andere in dieser Datei läuft denselben Weg**: ein neu entstandener belegter Port, ein zu
+   reservierender Bereich, eine Zeile in der Nachbar-Tabelle. Es sind Zeilen in einer Datei, an die
+   der Adressat nicht herankommt — also derselbe Antrag, mit derselben Belegpflicht.
+
+### Eintragen — nur in agent-core selbst
 
 1. **Belegten Port eintragen** — Zeile in die passende Tabelle, mit `datei:zeile` als Fundstelle
    (vorher gegreppt, nicht aus dem Kopf) und der Einordnung **hart gekoppelt** vs. **Skill-Default**.
@@ -229,7 +311,11 @@ Damit die Registry nicht driftet:
    Einordnung nicht überprüfbar und der nächste Leser verschiebt ihn.
 2. **Reservieren**, falls hart gekoppelt oder aufwärts scannend (dann als **Bereich**, nicht als
    einzelner Port — siehe impeccable).
-3. **Neues Projekt** → nächster freier `PROJECT_INDEX` unten anhängen. Bestehende **nie** umnummerieren.
+3. **Neues Projekt** → nächsten nicht vergebenen `PROJECT_INDEX` oben anhängen — und **dieselbe Zahl**
+   in `shared/skills/color-registry/SKILL.md` und in `PROJECT_SLOTS` in `src/colorRegistry.ts`.
+   Bestehende **nie** umnummerieren. Der Golden Test `src/projectSlots.golden.test.ts` vergleicht alle
+   Kopien gegen `PROJECT_SLOTS`, nennt die Zahl der verglichenen Projektzeilen und wird rot, sobald
+   eine Tabelle zurückbleibt.
 4. **Drift-Check** — findet neu entstandene Ports im Repo:
 
 ```bash
