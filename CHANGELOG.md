@@ -6,6 +6,26 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ### Changed
 
+- **`02-spielmechaniken/traits.adoc` auf den Stand der UDRS-W5-Trait-Achsen-Abnahme vom 2026-08-22
+  nachgeführt** (STORY-UDRS-W6-07). Das Regelwerk widersprach an vier Stellen dem, was Glenn
+  abgenommen hat — und weil `traits.adoc` die Prosa-Quelle ist, aus der die Wurf-Matrix destilliert
+  wurde, wäre die nächste Zähl- oder Pol-Frage wieder aus dem falschen Dokument beantwortet worden.
+  - _18 statt 17 Basis-Spektren_ (F1, F36): `ambition-contentment` (Ehrgeizig ↔ Genügsam) ist
+    kanonisiert und trägt `sort_order` 18, mit eigenem Abschnitt für ihre Wirkungen. Im Gegenzug
+    weicht der Master-Aspekt `ehrgeizig`, dessen Wirkungen wörtlich dieselben waren — der
+    Aspekt-Kanon steht damit bei 16. Alle Zählangaben im Dokument sind mitgezogen.
+  - _Achse 13 zeigt wieder in eine Richtung_ (F25, F26): Die Kurz-Beschreibung schrieb die
+    Arroganz-Wirkung dem positiven Pol zu, als einzige der 18 Zeilen. Jetzt gilt durchgängig
+    positiv = Demütig, negativ = Arrogant; der Pol heißt „Arrogant", nicht „Stolz".
+  - _Die Skala −5 bis +5 ist ausgesprochen_ (F45), samt der Zerlegung in Pol-Richtung und Stufe
+    1..5, dem Lock ab Stufe 4 und einer Wirkungstabelle für die Level-Skalierung. Der DB-Block ist
+    nachgezogen.
+  - _Der Vorzeichen-Grundsatz steht ausgeschrieben_ (F39, F40): jeder Pol trägt Vorteil **und**
+    Hürde im Gegenkontext, mit dem Vorbild Gläubig → `anti_faith`, der einen dokumentierten
+    Ausnahme (Kalt) und der Werteskala +3/+2/+1/−2 samt den zwei bewussten −1-Stellen.
+  - _Neu: ein Abschnitt zu Kontext-Marken_ — 5 aufgelöste, 12 erhaltene, 10 neue, mit dem Hinweis,
+    dass ausser `profession` keine von ihnen heute einen Würfel ändert.
+
 - **Projekt-Override der Session-Defaults entfernt** (`.claude/settings.json`): die sechs von
   `agent-core sync --scope project` geseedeten Keys `model`, `fallbackModel`, `effortLevel`,
   `ultracode`, `disableWorkflows`, `dynamicWorkflowSize` sind gelöscht. In der Präzedenz
