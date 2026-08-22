@@ -20,9 +20,14 @@ Jeder Trait ist ein Spektrum mit zwei Polen:
 * _Bewertung_: Beide Pole haben eigene Stärken UND Schwächen. Es gibt kein objektiv 'gutes' oder 'schlechtes' Ende
 
 
-=== Kanon: 17 Basis-Spektren
+[[traits-basis-spektren]]
+=== Kanon: 18 Basis-Spektren
 
-Seit STORY-WORLD-001 (2026-05-17) ist der Spektren-Kanon auf *17 bipolare Achsen* konsolidiert (vorher zwei parallele Tabellen `trait_spectrums` und `trait_axes` mit jeweils 12 unterschiedlichen Achsen — als Migrations-Drift im Mai 2026 entstanden). Die `trait_axes`-Tabelle wird nach Frontend-Refactor entfernt; Source-of-Truth ist `trait_spectrums` mit `sort_order INTEGER`.
+Seit STORY-WORLD-001 (2026-05-17) ist der Spektren-Kanon konsolidiert (vorher zwei parallele Tabellen `trait_spectrums` und `trait_axes` mit jeweils 12 unterschiedlichen Achsen — als Migrations-Drift im Mai 2026 entstanden). Die `trait_axes`-Tabelle wird nach Frontend-Refactor entfernt; Source-of-Truth ist `trait_spectrums` mit `sort_order INTEGER`.
+
+Mit der UDRS-W5-Abnahme vom 2026-08-22 (F1, F36) ist die *18. Achse* `ambition-contentment` dazugekommen; sie trägt `sort_order` 18. Vorher bestand sie nur in den Entwurfsdateien der Wurf-Matrix und war nirgends kanonisch. Im Gegenzug weicht der gleichnamige Master-Aspekt `ehrgeizig` — beides gehört zusammen, siehe <<traits-achse-18>> und <<traits-master-aspekte>>.
+
+IMPORTANT: Bei jeder künftigen Zähl-Angabe gilt `trait_spectrums` als die Zahl; Regelwerk und Code folgen ihr (Abnahme F2). Wer eine Achse ergänzt oder streicht, ändert zuerst dort — und zieht diese Tabelle nach.
 
 [cols="1,2,2,2,3",options="header"]
 |===
@@ -45,9 +50,29 @@ Seit STORY-WORLD-001 (2026-05-17) ist der Spektren-Kanon auf *17 bipolare Achsen
 | 15 | `spirituality-materialism`  | Spirituell     | Materialistisch | Transzendenz suchen vs. Greifbarem vertrauen (persönlich-mystisch).
 | 16 | `nature-alienation`         | Naturverbunden | Entfremdet      | Wildnis und Druiden vertrauen vs. Mauern und Akademie-Magie.
 | 17 | `tradition-progress`        | Traditionell   | Fortschrittlich | Vertrauen ins Alte vs. ins Neue; Reform-Reaktion.
+| 18 | `ambition-contentment`      | Ehrgeizig      | Genügsam        | Aufstieg und Rang erstreben vs. mit dem Erreichten zufrieden sein.
 |===
 
-NOTE: Die Spektren 4, 5, 11, 15, 16 sind 2026-05-17 als Vereinigungsmenge aus den beiden Legacy-Tabellen hinzugekommen. Doku-Sortierung folgt `sort_order` aus `trait_spectrums`.
+NOTE: Die Spektren 4, 5, 11, 15, 16 sind 2026-05-17 als Vereinigungsmenge aus den beiden Legacy-Tabellen hinzugekommen; Spektrum 18 kam mit der UDRS-W5-Abnahme am 2026-08-22 dazu. Doku-Sortierung folgt `sort_order` aus `trait_spectrums`.
+
+
+[[traits-achse-18]]
+==== Die 18. Achse: Ehrgeiz — Genügsamkeit
+
+Diese Achse ist die einzige, deren Wirkungen hier ausgeschrieben stehen, und das aus einem Grund: sie ersetzt einen Persönlichkeits-Aspekt. Der Master-Aspekt `ehrgeizig` trug bis zur Abnahme *wörtlich dieselben* Wirkungen wie der Ehrgeiz-Pol dieser Achse. Dieselbe Eigenschaft stand damit zweimal im System — einmal als Achse, einmal als Aspekt —, und die Vorrang-Regel (Wesenszug schlägt Aspekt bei gleichem Kontext) hätte den Aspekt beim Würfeln durchgestrichen. Für den Spieler sähe das wie ein Fehler aus. Deshalb bleibt genau eine der beiden Fassungen: die Achse.
+
+[cols="1,2,1,3",options="header"]
+|===
+| Pol | Kontext | Wert | Wirkung
+
+.3+| *Ehrgeizig* | Überredenskunst | +2 | Überzeugen beim Aufstieg
+| Initiative | +1 | Initiative gegen Ranghöhere
+| Kompromiss (`negotiation.compromise`) | -2 | Will gewinnen, nicht teilen — die Hürde, die die Achse vom weichenden Aspekt geerbt hat
+.2+| *Genügsam* | Überredenskunst | +2 | Unbestechlich — kein Angebot bewegt ihn (Bestechung widerstehen)
+| Initiative | -2 | In Macht- und Rang-Konflikten fehlt ihm der Biss
+|===
+
+NOTE: „Bestechung widerstehen" hing als eigene Kontext-Marke `bribery.resist` in der Luft und ist mit der Abnahme auf die Fertigkeit *Überredenskunst* umgezogen — damit wirkt der Genügsam-Pol sofort, ohne dass irgendwo neuer Code eine Marke setzen muss. Siehe <<traits-kontext-marken>>.
 
 
 
@@ -284,16 +309,17 @@ Neben den bipolaren Basis-Trails gibt es eine zweite Trait-Art: _einseitige Pers
 
 | Struktur | Spektrum -5 bis +5 zwischen zwei Polen | Skala 0 bis +5 (nur eine Richtung)
 | Gegenpol | Ja (z.B. Loyal ↔ Treulos) | Nein — Abwesenheit ist neutral, kein Gegen-Trait
-| Beispiele | Loyal, Mutig, Ehrlich, Gnädig, Neugierig, Großzügig | Paranoid, Ehrgeizig, Charmeur, Archivar, Resonanzhörer, Ritualtreu
+| Beispiele | Loyal, Mutig, Ehrlich, Gnädig, Neugierig, Großzügig, Ehrgeizig | Paranoid, Charmeur, Archivar, Resonanzhörer, Ritualtreu, Spurenleser
 | Wirkung | Beide Pole haben Stärken UND Schwächen | Hat positive UND negative Auswirkungen auf Würfe, je nach Kontext
 | Erwerb | Bei Charaktererschaffung + Evolution | Durch Story-Events, Ausbildung, Trauma, Hintergrund
-| Anzahl pro Charakter | Kanon-Set (17 Basis-Spektren) | Frei (typisch 0-5 pro Charakter aus 17 Master-Aspekten)
+| Anzahl pro Charakter | Kanon-Set (18 Basis-Spektren) | Frei (typisch 0-5 pro Charakter aus 16 Master-Aspekten)
 |===
 
 
-=== Kanon: 17 Master-Aspekte
+[[traits-master-aspekte]]
+=== Kanon: 16 Master-Aspekte
 
-Seit STORY-WORLD-002 (2026-05-17) ist der Aspekt-Kanon auf *17 Master-Aspekte* festgelegt. Drei Aspekte aus dem ursprünglichen 8er-Set wurden entfernt, weil sie mit den 17 Basis-Spektren überlappten:
+Seit STORY-WORLD-002 (2026-05-17) ist der Aspekt-Kanon festgelegt. Drei Aspekte aus dem ursprünglichen 8er-Set wurden damals entfernt, weil sie mit den Basis-Spektren überlappten:
 
 * `wissbegierig` → ersetzt durch das Spektrum `curiosity-indifference`
 * `pedantisch` → ersetzt durch `carefulness-negligence`
@@ -301,12 +327,17 @@ Seit STORY-WORLD-002 (2026-05-17) ist der Aspekt-Kanon auf *17 Master-Aspekte* f
 
 12 neue Aspekte füllen vorher unbesetzte Domain-Tags (combat, magie, glaube, adel, kriminalität, fremd) und sorgen für vollständige Coverage.
 
+Mit der UDRS-W5-Abnahme vom 2026-08-22 (F1, F36) ist ein vierter Aspekt aus demselben Ursprungssatz weggefallen — aus demselben Grund wie die drei oben, nur zwei Jahresviertel später bemerkt:
+
+* `ehrgeizig` → ersetzt durch das Basis-Spektrum `ambition-contentment`, siehe <<traits-achse-18>>
+
+Damit stehen *16 Master-Aspekte* im Kanon: vier aus dem ursprünglichen 8er-Set und die 12 neuen.
+
 [cols="1,1,2,3,3",options="header"]
 |===
 | Slug | Trauma? | Domain-Tags | Positive Wirkung (Kontext) | Negative Wirkung (Kontext)
 
 | `paranoid`               | — | wahrnehmung, sozial         | +2 Insight gegen Lügen, +2 Perception bei Hinterhalt | -2 Persuasion (Trust-basiert)
-| `ehrgeizig`              | — | sozial, combat              | +2 Persuasion (Aufstieg), +1 Initiative gegen Ranghohe | -2 bei Kompromiss-Verhandlungen, -2 Insight bei Verbündeten
 | `aberglaeubisch`         | — | wahrnehmung, sozial         | +2 Insight für Übernatürliches, +2 Religion | -2 Entscheidungen gegen Omen, -2 Logik-Rätsel
 | `loyal-zu-akademie`      | — | sozial, akademie            | +3 mit Akademie-NPCs, +2 mit Studenten | -2 mit Akademie-Feinden
 | `trauma-hoehenangst`     | *ja* | movement, trauma          | — | -3 Athletics-Klettern, -2 Initiative auf Höhen
