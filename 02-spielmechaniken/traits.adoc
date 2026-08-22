@@ -130,6 +130,62 @@ Diese Achse ist die einzige, deren Wirkungen hier ausgeschrieben stehen, und das
 NOTE: „Bestechung widerstehen" hing als eigene Kontext-Marke `bribery.resist` in der Luft und ist mit der Abnahme auf die Fertigkeit *Überredenskunst* umgezogen — damit wirkt der Genügsam-Pol sofort, ohne dass irgendwo neuer Code eine Marke setzen muss. Siehe <<traits-kontext-marken>>.
 
 
+[[traits-kontext-marken]]
+=== Kontext-Marken: wann eine Achsen-Wirkung greift
+
+Eine Achsen-Wirkung hängt an einem *Kontext*, und davon gibt es zwei Arten:
+
+* Ein *Fertigkeitsschlüssel* (`persuasion`, `investigation`, `stealth` …) greift von selbst, sobald auf diese Fertigkeit gewürfelt wird. Nichts muss dafür gesetzt werden.
+* Eine *Kontext-Marke* (mit Punkt oder Unterstrich: `fear.save`, `anti_faith`, `time_pressure` …) greift nur, wenn der auslösende Code sie beim Wurf ausdrücklich mitgibt.
+
+[WARNING]
+====
+*Eine Marke ohne Setzer ist toter Inhalt.* Sie steht im Charakterbogen, beschreibt den Charakter — und ändert keinen einzigen Würfel. Vor der UDRS-W5-Abnahme galt das für *alle* damals definierten Marken: keine einzige wurde von irgendeinem Aufrufer gesetzt. Wer eine neue Marke einführt, führt damit einen Arbeitsposten ein, kein fertiges Regelstück.
+====
+
+Die Abnahme hat den Bestand deshalb dreigeteilt.
+
+*Aufgelöst* — fünf Marken sind auf eine 5e-Fertigkeit umgezogen und wirken damit sofort, ohne neuen Code:
+
+[cols="2,2,3",options="header"]
+|===
+| Frühere Marke | Jetzt | Entscheidung
+
+| `haggle`              | Überredenskunst   | F20 — Feilschen _ist_ Überreden; wirkt sofort im Laden-Dialog
+| `bribery.resist`      | Überredenskunst   | E4 — Bestechung widerstehen ist eine soziale Probe
+| `omen.resist`         | Empathie          | F28 — Betrug durchschauen ist in 5e Empathie
+| `manipulation.resist` | Empathie          | F22 — als Empathie-Wurf gegen die Überredung des Gegenübers
+| `traps.disarm`        | Fingerfertigkeit  | E4 — Nebeneffekt: Fingerfertigkeit ist danach nicht mehr unberührt
+|===
+
+*Erhalten* — zwölf Marken bleiben Marken, weil eine Fertigkeit ihren Sinn nicht trägt: `fear.save`, `initiative`, `concentration.save`, `ally.trust`, `duel.open`, `reputation.honorable`, `ambush`, `gift.trust`, `anti_faith`, `divine.save`, `vision.interpret`, `appraisal`.
+
+Zwei davon sind ausdrücklich gegen den Umbau entschieden worden: `gift.trust` (F21) und `appraisal` (F31) hätte man auf Überredenskunst beziehungsweise Arkane Kunde legen können — sie bleiben eigenständig, weil Geschenke-Vertrauen und nüchternes Schätzen etwas anderes sind als Überreden und Wissen.
+
+*Neu* — zehn Marken sind mit der Abnahme entstanden, weil die nachgezogenen Vorteile und Hürden (<<traits-vorzeichen-grundsatz>>) Kontexte brauchen, die es vorher nicht gab:
+
+[cols="2,3",options="header"]
+|===
+| Marke | Bedeutung
+
+| `distraction.resist`     | Ablenkung und Verlockung widerstehen
+| `time_pressure`          | Wurf unter Zeitdruck
+| `flee`                   | Akrobatik und Athletik beim Fliehen
+| `persuasion.sincere`     | Überreden mit aufrichtigem Auftreten
+| `deception.ally`         | Täuschen gegenüber Verbündeten
+| `persuasion.helpless`    | Überreden Unterlegener und Wehrloser
+| `stealth.urban`          | Heimlichkeit in Stadt und Gassen
+| `innovation`             | neue Methoden und Erfindungen
+| `negotiation.compromise` | Verhandlung, die einen Kompromiss verlangt
+| `profession`             | Wurf mit Berufsbezug (Handwerk)
+|===
+
+[IMPORTANT]
+====
+*Bis auf `profession` wirkt keine dieser Marken heute.* `profession` ist bereits angebunden — sie wird gesetzt, sobald ein Wurf einen Berufsbezug trägt. Alle übrigen warten auf die Verdrahtung in W6: der Kampf setzt dann `ambush` und `duel.open`, der Rettungswurf-Pfad `fear.save`, `divine.save` und `concentration.save`, und so fort (Abnahme F41 = A). Bis dahin beschreiben sie den Charakter, ohne ihn stärker zu machen — und sie werden dem Spieler trotzdem angezeigt (F42).
+====
+
+
 
 == Evolution: Wie Traits sich ändern
 
