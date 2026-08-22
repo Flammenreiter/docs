@@ -19,6 +19,27 @@ Jeder Trait ist ein Spektrum mit zwei Polen:
 * _Commitment_: Nur Commitment wird belohnt — high positive UND high negative Levels geben Vorteile
 * _Bewertung_: Beide Pole haben eigene Stärken UND Schwächen. Es gibt kein objektiv 'gutes' oder 'schlechtes' Ende
 
+[[traits-skala]]
+==== Die Skala: -5 bis +5, und wie die Datenbank sie führt
+
+*-5 bis +5 ist die geltende Skala* — bestätigt durch die UDRS-W5-Abnahme vom 2026-08-22 (F45). Sie ist keine Zahlengerade in einer einzelnen Spalte, sondern setzt sich aus zwei Teilen zusammen:
+
+* Die *Pol-Richtung* steht in `traits.spectrum_end` (`positive` oder `negative`) — sie entscheidet, welchen der beiden Pole ein Charakter besitzt.
+* Die *Stufe* steht in `character_traits.level` und läuft von *1 bis 5*. Sie ist der Betragsteil der Skala, kein eigener Wertebereich.
+
+[source]
+----
+Spektrum-Position = Pol-Richtung × Stufe
+----
+
+Ein Charakter mit dem Pol `negative` der Achse `honesty-deception` auf Stufe 4 steht also bei *-4* — „Verlogen+4". Wer Mutig+3 hat, hat nicht zugleich „Feige-3": es gibt genau eine Zeile, an genau einem Pol.
+
+Ein Charakter besitzt niemals beide Pole derselben Achse gleichzeitig. Die 0 der Skala ist deshalb kein speicherbarer Wert, sondern die *Abwesenheit* einer Zeile: Wer auf einer Achse keinen Wesenszug trägt, steht auf 0 und bekommt von ihr weder Bonus noch Hürde.
+
+*Ab Stufe 4 schreibt sich der Wesenszug fest* (Lock). Die Achse ist dann für die normale Evolution gesperrt — kleine Verschiebungen aus einzelnen Entscheidungen kippen sie nicht mehr, nur noch ein GM-Eingriff oder ein existenzieller Story-Moment. Das ist die mechanische Seite der Aussage weiter unten, dass hohe Level mehr Macht *und* mehr Verantwortung bedeuten: ab 4 ist die Wahl getroffen.
+
+NOTE: Die Datenbank führte `character_traits.level` bis zur Abnahme kommentarlos als „1-10", ohne dass eine Prüfung das erzwungen hätte — eine Behauptung, die dem Regelwerk widersprach und in drei Code-Stellen unabhängig voneinander unterschiedlich ausgelegt wurde. Seit F45 gilt 1..5, mit einem CHECK in der Datenbank. Die Lock-Schwelle 4 ist die alte Schwelle 8 der doppelten Skala übersetzt, nicht neu gesetzt.
+
 
 [[traits-basis-spektren]]
 === Kanon: 18 Basis-Spektren
@@ -267,14 +288,16 @@ Das ist nicht punishment — das ist narratives Tiefe und Charakteren-Komplikati
 ----
 character_traits
 ├── character_id (FK)
-├── trait_id (FK → traits Tabelle)
-├── current_level (-5 to +5)
+├── trait_id (FK → traits Tabelle; dort steht die Pol-Richtung spectrum_end)
+├── level (1..5 — Stufe des Pols, der Betragsteil der Skala -5..+5)
 ├── evolution_history (jsonb: [{date, shift, trigger, gm_note}])
 ├── public_level (sichtbare Level — kann anders sein)
 ├── visibility_scope (enum)
 ├── accuracy (enum: accurate|exaggerated|understated|false)
-└── locked (bool — GM kann trait temporär lockern bei speziellen Geschichten)
+└── is_locked (bool — ab Stufe 4 gesetzt; der GM kann den Lock lösen)
 ----
+
+Die Spektrum-Position eines Charakters steht damit in *zwei* Spalten, nicht in einer: Richtung in `traits.spectrum_end`, Stufe in `character_traits.level` (siehe <<traits-skala>>). Wer die Position als eine Zahl braucht, rechnet sie aus beiden aus — und tut das an genau einer Stelle, nicht an jeder Verbrauchsstelle neu.
 
 
 === Evolution-Triggering
