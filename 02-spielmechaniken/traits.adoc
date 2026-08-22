@@ -40,6 +40,30 @@ Ein Charakter besitzt niemals beide Pole derselben Achse gleichzeitig. Die 0 der
 
 NOTE: Die Datenbank führte `character_traits.level` bis zur Abnahme kommentarlos als „1-10", ohne dass eine Prüfung das erzwungen hätte — eine Behauptung, die dem Regelwerk widersprach und in drei Code-Stellen unabhängig voneinander unterschiedlich ausgelegt wurde. Seit F45 gilt 1..5, mit einem CHECK in der Datenbank. Die Lock-Schwelle 4 ist die alte Schwelle 8 der doppelten Skala übersetzt, nicht neu gesetzt.
 
+===== Was die Stufe am Würfel bewirkt
+
+Die Grundgrößen einer Achsen-Wirkung (<<traits-vorzeichen-grundsatz>>) gelten für *Stufe 3* als Doku-Basislinie. Bei abweichender Stufe skalieren sie linear, mit einer erzwungenen Mindestgröße von 1 — dieselbe Formel wie bei den Persönlichkeits-Aspekten:
+
+[source]
+----
+wirksamer Wert = Vorzeichen(basis) × max(1, abgeschnitten(|basis| × Stufe / 3))
+----
+
+[cols="1,1,1,1,1,1",options="header"]
+|===
+| Grundgröße | Stufe 1 | Stufe 2 | Stufe 3 | Stufe 4 | Stufe 5
+
+| *+3* | +1 | +2 | +3 | +4 | +5
+| *+2* | +1 | +1 | +2 | +2 | +3
+| *+1* | +1 | +1 | +1 | +1 | +1
+| *-1* | -1 | -1 | -1 | -1 | -1
+| *-2* | -1 | -1 | -2 | -2 | -3
+|===
+
+Zwei Eigenheiten dieser Tabelle sind gewollt und sollten nicht als Fehler gelesen werden. *Erstens:* auf Stufe 1 und 2 sind +1 und +2 nicht unterscheidbar, beide ergeben +1 — die Abstufung, die eine Nebenwirkung von einer Hauptwirkung trennt, wird erst ab Stufe 3 sichtbar. *Zweitens:* eine +1-Zeile bleibt über die *gesamte* Skala bei +1; sie wächst nie. Nebenwirkungen sind damit Farbe, keine Machtquelle.
+
+Auf der bestätigten Skala ist der höchste Wert, den eine einzelne Zeile erreichen kann, *+5* (eine +3-Zeile auf Stufe 5) beziehungsweise *+3* für die weit häufigere +2-Zeile. Die Sorge aus der Abnahme, ein einzelner Wesenszug könne mit +6 die stärkste Zeile der ganzen Modifikatorenkette werden, erledigt sich mit F45 von selbst: sie setzte eine Stufe 10 voraus, die es nicht mehr gibt.
+
 
 [[traits-vorzeichen-grundsatz]]
 === Vorzeichen-Grundsatz: jeder Pol trägt Vorteil und Hürde
