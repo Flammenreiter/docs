@@ -41,6 +41,38 @@ Ein Charakter besitzt niemals beide Pole derselben Achse gleichzeitig. Die 0 der
 NOTE: Die Datenbank führte `character_traits.level` bis zur Abnahme kommentarlos als „1-10", ohne dass eine Prüfung das erzwungen hätte — eine Behauptung, die dem Regelwerk widersprach und in drei Code-Stellen unabhängig voneinander unterschiedlich ausgelegt wurde. Seit F45 gilt 1..5, mit einem CHECK in der Datenbank. Die Lock-Schwelle 4 ist die alte Schwelle 8 der doppelten Skala übersetzt, nicht neu gesetzt.
 
 
+[[traits-vorzeichen-grundsatz]]
+=== Vorzeichen-Grundsatz: jeder Pol trägt Vorteil und Hürde
+
+Der Satz weiter oben — „beide Pole haben eigene Stärken UND Schwächen" — war bis zur UDRS-W5-Abnahme eine Absichtserklärung ohne Prüfbarkeit. Beim Destillieren der Achsen in die Wurf-Matrix ist er fünfmal verloren gegangen: fünf Pole trugen am Ende *nur* eine Hürde und keinen einzigen Vorteil, 28 trugen *nur* Vorteile und zahlten keinen Preis. In vier der fünf Fälle stand der fehlende Vorteil sogar schon in der Pol-Prosa und wurde nur nicht übersetzt. Deshalb steht der Grundsatz ab hier ausgeschrieben:
+
+[IMPORTANT]
+====
+*Jeder Pol jeder Achse trägt mindestens einen Vorteil (F39) und mindestens eine Hürde in einem Gegenkontext (F40).* Ein Pol, der nur nützt, ist eine Belohnung und kein Charakterzug; ein Pol, der nur schadet, wird nie freiwillig gewählt.
+====
+
+*Das Vorbild* ist der Gläubig-Pol von `faith-skepticism`: +2 Religion, +2 auf Rettungswürfe gegen göttliche Effekte — und -2 in glaubensfeindlichem, atheistischem Kontext (`anti_faith`). Die Hürde greift nicht bei denselben Würfen wie der Vorteil, sondern genau dort, wo der Wesenszug im Weg steht. Nach diesem Muster ist jede Hürde gebaut: aus der Pol-Prosa abgeleitet, wo sie eine hergibt, sonst als Gegenkontext-Spiegelung des Vorteils, den der Gegenpol trägt.
+
+*Die eine dokumentierte Ausnahme* ist der Kalt-Pol von `empathy-coldness`. Er zahlt ausdrücklich keinen Preis (F23) — als bewusst entschiedener Einzelfall, nicht als Versehen. Wer eine zweite Ausnahme einführen will, braucht eine ebensolche ausdrückliche Entscheidung; „ist beim Übersetzen weggefallen" ist keine.
+
+==== Die Werteskala
+
+Die Grundgrößen gelten für Stufe 3 als Doku-Basislinie und skalieren mit der Stufe (siehe <<traits-skala>> und die Skalierungsformel im Aspekt-Kapitel).
+
+[cols="1,3,2",options="header"]
+|===
+| Wert | Wofür | Vorkommen
+
+| *+3* | Ausnahme-Stufe für eine ausdrücklich so abgenommene starke Hauptwirkung | genau einmal — Kalt auf Empathie (F22/F43)
+| *+2* | normale Hauptwirkung eines Pols | die Regel
+| *+1* | Nebenwirkung, die den Pol abrundet | häufig
+| *-2* | hergeleitete Hürde im Gegenkontext | die Regel für Hürden
+| *-1* | bewusst milde Hürde | genau zweimal — Verlogen auf aufrichtiges Überzeugen (F13), Arrogant auf Überredenskunst (F27)
+|===
+
+NOTE: Die beiden -1-Stellen sind einzeln entschieden worden und schlagen als spezifische Festlegung die allgemeine Regel „Hürden sind -2". Sie sind kein Präzedenzfall für eine frei wählbare Zwischenstufe: wer eine neue Hürde formuliert, nimmt -2, sofern nicht ausdrücklich anders entschieden.
+
+
 [[traits-basis-spektren]]
 === Kanon: 18 Basis-Spektren
 
