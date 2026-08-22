@@ -45,7 +45,7 @@ IMPORTANT: Bei jeder künftigen Zähl-Angabe gilt `trait_spectrums` als die Zahl
 | 10 | `generosity-greed`          | Großzügig      | Gierig          | Teilen vs. horten und fordern.
 | 11 | `empathy-coldness`          | Empathisch     | Kalt            | Mitfühlen vs. distanzieren; emotionaler Resonanz-Filter.
 | 12 | `diplomacy-confrontation`   | Diplomatisch   | Konfrontativ    | Ausgleich vs. Konflikt; Verhandlung vs. Provokation.
-| 13 | `humility-arrogance`        | Demütig        | Arrogant        | Anerkennung suchen vs. bescheiden bleiben.
+| 13 | `humility-arrogance`        | Demütig        | Arrogant        | Bescheiden bleiben und Rat annehmen vs. Anerkennung und Vorrang fordern.
 | 14 | `faith-skepticism`          | Gläubig        | Skeptisch       | Göttern und Visionen vertrauen vs. Beweise fordern (institutionell).
 | 15 | `spirituality-materialism`  | Spirituell     | Materialistisch | Transzendenz suchen vs. Greifbarem vertrauen (persönlich-mystisch).
 | 16 | `nature-alienation`         | Naturverbunden | Entfremdet      | Wildnis und Druiden vertrauen vs. Mauern und Akademie-Magie.
@@ -54,6 +54,8 @@ IMPORTANT: Bei jeder künftigen Zähl-Angabe gilt `trait_spectrums` als die Zahl
 |===
 
 NOTE: Die Spektren 4, 5, 11, 15, 16 sind 2026-05-17 als Vereinigungsmenge aus den beiden Legacy-Tabellen hinzugekommen; Spektrum 18 kam mit der UDRS-W5-Abnahme am 2026-08-22 dazu. Doku-Sortierung folgt `sort_order` aus `trait_spectrums`.
+
+WARNING: Achse 13 zeigte in Regelwerk und Wurf-Matrix jahrelang in entgegengesetzte Richtungen — die Matrix schrieb die Stolz-Wirkungen dem *positiven* Pol zu, die Datenbank führt dort *Demütig*. Ein Charakterbogen zeigte „Demütig+5" und das Wurf-Protokoll begründete den Bonus mit „Stolz". Die Abnahme vom 2026-08-22 hat das zugunsten der Datenbank aufgelöst (F25): *positiv = Demütig, negativ = Arrogant*, und der negative Pol heißt *Arrogant*, nicht „Stolz" (F26). Wer diese Achse anfasst — in Prosa, Seed oder Code —, prüft die Richtung, bevor er eine Wirkung zuordnet.
 
 
 [[traits-achse-18]]
