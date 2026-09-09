@@ -6,6 +6,16 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ### Changed
 
+- **Gemfile auf die Versionen angehoben, die der CI-Lauf ohnehin schon benutzt:** `asciidoctor-diagram`
+  `~> 2.3` → `~> 3.2` (3.2.1), `rouge` `~> 4.3` → `~> 5.1` (5.1.0). `asciidoctor` (2.0.26) und
+  `asciidoctor-pdf` (2.3.27) waren bereits in Range. Belegt mit einem vollständigen lokalen Build
+  (Ruby 3.3.6, `make html pdf`): 7 HTML + 7 PDF, 0 Warnungen.
+- **`build-pdf.yml` läuft jetzt über das Gemfile** (`bundle exec asciidoctor` / `bundle exec asciidoctor-pdf`)
+  statt über vier ungepinnte `gem install`-Aufrufe. Vorher war das Gemfile Dekoration: `bundler-cache: true`
+  installierte die Gemfile-Versionen, und der nächste Schritt überschrieb sie mit dem jeweils neuesten Stand
+  von RubyGems — genau deshalb lief die CI längst mit diagram 3.x und rouge 5.x, während das Gemfile 2.x/4.x
+  behauptete. Jetzt bestimmt das Gemfile, was gebaut wird.
+
 - **`02-spielmechaniken/traits.adoc` auf den Stand der UDRS-W5-Trait-Achsen-Abnahme vom 2026-08-22
   nachgeführt** (STORY-UDRS-W6-07). Das Regelwerk widersprach an vier Stellen dem, was Glenn
   abgenommen hat — und weil `traits.adoc` die Prosa-Quelle ist, aus der die Wurf-Matrix destilliert
