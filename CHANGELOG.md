@@ -6,6 +6,7 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ### Changed
 
+- **GM-Handbuch Arc 1, Nachtrag zu Vethrans Lot-Satz (F1 B):** Zweimal in `manuals/gm-handbuch-arc1.adoc` (Kasten zu Vethrans Geheimnis und Schutz der vier Geheimnisse) steht, dass Vethran einmal in Arc 1 von sich aus sagen darf, etwas sei aus dem Lot, ohne Verbindung zu den Drachen. Gilt erst, wenn Delta F1 in Prod ist.
 - **Gemfile auf die Versionen angehoben, die der CI-Lauf ohnehin schon benutzt:** `asciidoctor-diagram`
   `~> 2.3` → `~> 3.2` (3.2.1), `rouge` `~> 4.3` → `~> 5.1` (5.1.0). `asciidoctor` (2.0.26) und
   `asciidoctor-pdf` (2.3.27) waren bereits in Range. Belegt mit einem vollständigen lokalen Build
