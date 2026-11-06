@@ -443,6 +443,10 @@ Beobachtung* (Drachen wirken nicht wie freiwillige Gäste; die Bindungs-
 Geschichte klingt zu glatt). Er *ahnt* ein Ungleichgewicht, kann es aber nicht
 benennen. Er enthüllt niemals kanonisches GM-Wissen, *weil er es selbst nicht
 hat*. Setze ihn als ehrliches Unbehagen ein, nie als Informationsquelle.
+
+*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.
+
+_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._
 ====
 
 ==== Rohan Wildbach — Überlebenskunst
@@ -661,6 +665,10 @@ welches Wissen am Tisch verfügbar ist.
 für die Spieler". Sie färben deine Inszenierung (z. B. Vethrans Unbehagen, die
 Silhouette am Drachenberg), aber das *Wort* und die *Mechanik* dahinter bleiben
 verborgen. Wenn dieser Schutz hält, hat das Modul seinen Zweck erfüllt.
+
+*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.
+
+_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._
 
 <<<
 
