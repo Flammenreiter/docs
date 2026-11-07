@@ -390,26 +390,28 @@ kann.
 
 Die *Flamme Obsidian* waren sechs Schüler, die zu Beginn von anderen gemieden
 wurden („bringt kein Glück"). Aus sechs Fremden wurde im Laufe des Jahres eine
-*Flamme*: eine Gruppe, die zusammenhält. So sah ihre Besetzung aus:
+*Flamme*: eine Gruppe, die zusammenhält. So sieht ihre Besetzung heute aus (Stand
+07.11.2026; die Spieler haben die Nachnamen selbst gewählt, seit Teil 5 sind alle
+vierzehn):
 
 [cols="2,2,1,1",options="header"]
 |===
 | Charakter | Rasse / Klasse | Haus | Alter
-| *Caelynth Drachenfels* | Dragonborn — Wizard | Turm der Ketten | 13
-| *Celia Thymianfeld* | Halfling — Cleric | Liebe & Leben | 12
-| *Celindra* | Halb-Elf — Sorcerer | Turm der Ketten | 13
-| *Cor'O-nas* | Aasimar — Monk | Turm der Ketten | 13
-| *Dreddul* | Halb-Ork — Druid | Drachenfeste | 13
-| *Sephira* | Halb-Elf — Ranger | Liebe & Leben | 12
+| *Caelynth Sardonyx* | Dragonborn — Wizard | Turm der Ketten | 14
+| *Celia Gagat* | Halfling — Cleric | Liebe & Leben | 14
+| *Celindra* | Halb-Elf — Sorcerer | Turm der Ketten | 14
+| *Cor'O-nas Cliffgate* | Aasimar — Monk | Turm der Ketten | 14
+| *Dreddul Malachit* | Halb-Ork — Druid | Drachenfeste | 14
+| *Sephira von Stein* | Halb-Elf — Ranger | Liebe & Leben | 14
 |===
 
 === Kurzprofile
 
-*Caelynth Drachenfels* — Dragonborn-Zauberin aus dem Turm der Ketten. Lenkt
+*Caelynth Sardonyx* — Dragonborn-Zauberin aus dem Turm der Ketten. Lenkt
 ihre Magie mit Stab und Fokus; ein scharfer Verstand, der zwischen Erbe und
 eigener Identität navigiert.
 
-*Celia Thymianfeld* — Halfling-Klerikerin aus Liebe & Leben. Klein, aber
+*Celia Gagat* — Halfling-Klerikerin aus Liebe & Leben. Klein, aber
 überraschend kräftig; ihr Herz schlägt für Heilung und Fürsorge — manchmal bis
 an die eigene Grenze.
 
@@ -417,15 +419,15 @@ an die eigene Grenze.
 auffällig stark und mit roher, angeborener Magie; ihr Weg führt über die
 Kontrolle dieser Macht.
 
-*Cor'O-nas* — Aasimar-Mönch aus dem Turm der Ketten. Ruhig, diszipliniert,
+*Cor'O-nas Cliffgate* — Aasimar-Mönch aus dem Turm der Ketten. Ruhig, diszipliniert,
 geschmeidig; eine stille Präsenz, die einen Raum verändert, sobald man ihn
 betritt.
 
-*Dreddul* — Halb-Ork-Druide aus der Drachenfeste, der einzige Erstjahr-Schüler
+*Dreddul Malachit* — Halb-Ork-Druide aus der Drachenfeste, der einzige Erstjahr-Schüler
 seines Hauses. Eine lebende Brücke zwischen zwei Welten — Herz statt Faust,
 Naturverständnis statt roher Kraft.
 
-*Sephira* — Halb-Elf-Waldläuferin aus Liebe & Leben. Distanz und Präzision mit
+*Sephira von Stein* — Halb-Elf-Waldläuferin aus Liebe & Leben. Distanz und Präzision mit
 dem Kurzbogen; eine Jägerin, die lernt, zwischen Festhalten und Loslassen zu
 unterscheiden.
 

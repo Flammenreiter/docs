@@ -6,6 +6,9 @@ Alle Aenderungen an der Flammenreiter-Dokumentation.
 
 ### Changed
 
+- **Nachnamen und Alter der Spielerfiguren, Stand 2026-11-07 (Glenn):** `manuals/spieler-handbuch-arc1.adoc` und `manuals/gm-handbuch-arc1.adoc` führen Caelynth Sardonyx, Celia Gagat, Cor'O-nas Cliffgate, Dreddul Malachit und Sephira von Stein; alle Figuren sind seit Teil 5 (06.11.) vierzehn. Der Klan Drachenfels und das Haus Drachenfels der Welt bleiben. Im GM-Handbuch ein Nachtrag, dass die vermutete Verwandtschaft Sephira–Silke („Grünblatt") damit offen ist.
+- **Kanon-Nachtrag 2026-11-07 (Glenn, M7 A):** `manuals/gm-handbuch-arc1.adoc` hält fest, dass die Kinder seit Teil 5 (06.11.2026) Vethrans Überlieferung kennen (Etrims, Gaben der Schöpfung, Sigillen der Zeit, Drachen als Gegengewicht), nur überliefert, nicht bestätigt. Die Wahrheit bleibt NUR SL. Delta F1 (Lot-Satz) ist verworfen, die beiden F1-Nachträge vom 2026-11-06 sind durchgestrichen statt gelöscht.
+- **Kanon-Nachtrag 2026-11-07 (Glenn, M8 A), Zeitleiste:** Drachen ≈ 100 n.G., Magiekrieg bis ≈ 350 n.G., Rückkehr vor ≈ 60 Jahren (statt ≈ 100 v.h.), heute ≈ 600–700 n.G.; nachgetragen in `01-welt-lore/geschichte.adoc`, `regionen-kompendium.adoc`, `pantheon-sigillen.adoc` und `02-spielmechaniken/dragon-bond.adoc`, alte Angaben durchgestrichen.
 - **GM-Handbuch Arc 1, Nachtrag zu Vethrans Lot-Satz (F1 B):** Zweimal in `manuals/gm-handbuch-arc1.adoc` (Kasten zu Vethrans Geheimnis und Schutz der vier Geheimnisse) steht, dass Vethran einmal in Arc 1 von sich aus sagen darf, etwas sei aus dem Lot, ohne Verbindung zu den Drachen. Gilt erst, wenn Delta F1 in Prod ist.
 - **Gemfile auf die Versionen angehoben, die der CI-Lauf ohnehin schon benutzt:** `asciidoctor-diagram`
   `~> 2.3` → `~> 3.2` (3.2.1), `rouge` `~> 4.3` → `~> 5.1` (5.1.0). `asciidoctor` (2.0.26) und

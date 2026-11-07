@@ -177,6 +177,9 @@ Vor etwa 200 Jahren erschütterte ein _Beben kontinentaler Größenordnung_ die 
 
 === ~100 Jahre v.h.: Die Drachen kehren zurück
 
+*Nachtrag 2026-11-07 (Glenn, M8 A) — Zeitleiste vom Tisch, jetzt Kanon.* Gezählt wird hier *n.G.* = nach Gründung der Akademie (eine andere Zählung als das Kalenderjahr 291 des App-Kalenders). Die Drachen kamen *≈ 100 n.G.* aus dem Osten und liessen sich auf den höchsten Bergen nieder; ungefähr zur selben Zeit erschien eine *neue Macht* auf dem Kontinent. Der *Magiekrieg* endete *≈ 350 n.G.* („Jahr 300" ist das Kapitel, in dem der Akademie-Chronist schreibt). Alle Seiten verloren, die Drachen verschwanden und mit ihnen fast alle Magie. Die Drachen kehrten *vor ≈ 60 Jahren* zurück, mit ihnen ein Grossteil der Magie; die Flamme Obsidian ist der *dritte Jahrgang* mit Drachen. *Heute ≈ 600–700 n.G.* Umgerechnet: Drachen erstmals ≈ 500–600 v.h., Kriegsende ≈ 250–350 v.h., Rückkehr ≈ 60 v.h. Die Epochen der Schöpfung, der Kriege und der Stille bleiben die ältere Schicht davor; der Magiekrieg der Akademie-Zeit ist nicht dieselbe Sache wie die Magierkriege der Epoche 2. Quelle: Teil 5 am 06.11.2026, Glenns Zusammenfassung am Tisch und Stilltintes Chronik in Szene 200.
+
+[.line-through]#Datierung „~100 Jahre v.h." überholt — die Rückkehr liegt ≈ 60 Jahre zurück.#
 
 Die _Drachen kehrten unerwartet zurück_.
 
@@ -207,7 +210,7 @@ Die Verbindung ist der _Magie-Level der Welt_:
 
 _Die Drachen wussten ALLES vorher_:
 * Sie spürten, dass die Sigillen erwachen würden
-* Deshalb kamen sie vor 100 Jahren zurück
+* [.line-through]#Deshalb kamen sie vor 100 Jahren zurück# — *Nachtrag 2026-11-07 (Glenn):* vor ≈ 60 Jahren
 * Sie sind instinktive Wächter der göttlichen Macht
 * Drachen-Rückkehr und Sigillen-Manifestation sind _das gleiche Signal_, nur mit unterschiedlicher Reaktionszeit
 
@@ -306,9 +309,11 @@ Anground ist einer der tiefsten Geheimnisse der Akademie:
 | ~80.000 v.h. | Beginn der Kriege. Götterkrieg (GEHEIM). Sigillen entstehen als Machtfragmente.
 | ~20.000 v.h. | Ende der Kriege. Welt zerstört. Beginn der Stille. Magie verschwindet.
 | ~800 v.h. | Magie kehrt zurück. Erste Magier seit Zehntausenden Jahren.
-| ~600 v.h. | Akademie von Altheim gegründet durch die Fünf Gründer.
+| ~600 v.h. | Akademie von Altheim gegründet durch die Fünf Gründer. *Nachtrag 2026-11-07 (Glenn):* Beginn der Zählung n.G.; heute ≈ 600–700 n.G.
+| ≈ 100 n.G. (≈ 500–600 v.h.) | *Nachtrag 2026-11-07 (Glenn):* Drachen kommen aus dem Osten auf die höchsten Berge; zur selben Zeit erscheint eine neue Macht auf dem Kontinent.
+| bis ≈ 350 n.G. (≈ 250–350 v.h.) | *Nachtrag 2026-11-07 (Glenn):* Magiekrieg. Alle Seiten verlieren, die Drachen und fast alle Magie verschwinden.
 | ~200 v.h. | _Das Große Erdbeben_ erschüttert den Kontinent. Ganze Küstenstriche versinken, neue Gebirgsketten heben sich. Die Akademie übersteht es dank arkaner Verstärkung der Gründungsmauern. Viele Sigillen-Verstecke werden freigelegt — bleiben jedoch unentdeckt.
-| ~100 v.h. | Drachen kehren zurück. Drachenbindung wird Akademie-Disziplin. Erste Bondings werden öffentlich.
+| [.line-through]#~100 v.h.# ≈ 60 v.h. (Nachtrag 2026-11-07, Glenn) | Drachen kehren zurück, mit ihnen ein Grossteil der Magie. Drachenbindung wird Akademie-Disziplin. Erste Bondings werden öffentlich. Die Flamme Obsidian ist der dritte Jahrgang mit Drachen.
 | JETZT | Erste Sigille manifestiert sich. Kampagne beginnt.
 |===
 
