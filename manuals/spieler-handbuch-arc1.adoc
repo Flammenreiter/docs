@@ -46,8 +46,7 @@ Aber wichtig ist auch: *Alles hat Konsequenzen in dieser Welt.*
 
 [TIP]
 ====
-Eure Charaktere starten mit etwa *zwölf Jahren* (seit Teil 5 seid ihr
-vierzehn). Ihr seid jung, neu und habt
+Eure Charaktere starten mit etwa *zwölf Jahren*. Ihr seid jung, neu und habt
 noch alles vor euch. Wachstum ist hier kein Sprint — es ist ein langsamer,
 sorgfältiger Weg. Genießt das.
 ====
@@ -247,7 +246,7 @@ den grüblerischen Magier bis zur fürsorglichen Heilerin ist alles möglich.
 
 [TIP]
 ====
-*Denkt an euer Alter.* Ihr seid *vierzehn Jahre* alt — Anfänger, keine Helden.
+*Denkt an euer Alter.* Ihr seid etwa *zwölf Jahre* alt — Anfänger, keine Helden.
 Ein junger Charakter darf neugierig, ungeschickt, übermütig oder schüchtern
 sein. Diese Ecken und Kanten sind kein Makel, sondern der Stoff, aus dem
 Entwicklung entsteht.
@@ -391,8 +390,8 @@ kann.
 
 Die *Flamme Obsidian* waren sechs Schüler, die zu Beginn von anderen gemieden
 wurden („bringt kein Glück"). Aus sechs Fremden wurde im Laufe des Jahres eine
-*Flamme*: eine Gruppe, die zusammenhält. So sieht ihre Besetzung heute aus (die
-Nachnamen habt ihr in Teil 4 selbst gewählt, und seit Teil 5 seid ihr alle
+*Flamme*: eine Gruppe, die zusammenhält. So sieht ihre Besetzung heute aus (Stand
+07.11.2026; die Spieler haben die Nachnamen selbst gewählt, seit Teil 5 sind alle
 vierzehn):
 
 [cols="2,2,1,1",options="header"]
