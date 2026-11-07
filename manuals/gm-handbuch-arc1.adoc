@@ -165,8 +165,10 @@ körperlich erfahrbar: jeder Funke verlangt seinen Gegenfunken.
 🔒 *NUR SL.* Die folgenden vier Schichten sind die *tiefsten Geheimnisse* der
 Welt. In Kategorie 1 erfährt die Gruppe davon *NICHTS*. Kein NSC, kein Lehrer,
 kein Rektor — auch der Magie- und der Drachen-Lehrer nicht — kennt diese
-Wahrheit. Das Wort „Sigille" existiert in der Welt nicht mehr.
+Wahrheit. [.line-through]#Das Wort „Sigille" existiert in der Welt nicht mehr.#
 ====
+
+*Nachtrag 2026-11-07 (Glenn, M7 A) — die Überlieferung, die die Kinder seit dem 06.11.2026 kennen.* In Teil 5, Szene 400 „Bringt eure Fragen mit", hat Vethran Aschenwacht der Flamme Obsidian unter seinem eigenen Vorbehalt __„dass ich euch jetzt erzähle, ist nur überliefert und nicht bestätigt"__ erzählt: Die Drachen kämpften einst gegen *besondere Magier*, die *Etrims*, gesegnet mit einer der *Gaben der Schöpfung*; wer drei Gaben trägt, sei ein *Halbgott*. Es gebe eine Sigille über jeden Aspekt dieser Welt, darunter die drei *Sigillen der Zeit* (Zukunft, Gegenwart, Vergangenheit) — __„zu viel Macht in einer Hand braucht immer ein Gegengewicht"__, und diese Gegenkraft __„scheint … die Drachen zu sein"__; diesmal könnten die Drachen diese Macht nicht allein ausüben. *Das gilt als Überlieferung in der Welt: nur überliefert, nicht bestätigt.* Die Wahrheit dahinter bleibt NUR SL — 21 Sigillen der Sieben, die Zählung 1/2/3 unten, die 50/50-Entscheidung, die eigene Welt der Drachen, die wahre Anziehung. In Kategorie 1 bestätigt kein NSC die Überlieferung, und kein Drache kennt sie. Das Wort „Sigille" darf fallen, wo ein Lehrer es als Überlieferung nennt. Fragt ein Kind nach den Sigillen, trägt jede neue Szene dafür eine Wenn-Zeile. Delta F1 (Vethrans Lot-Satz) ist verworfen.
 
 ==== 🔒 Die Sigillen und der Etrim
 
@@ -444,9 +446,11 @@ Geschichte klingt zu glatt). Er *ahnt* ein Ungleichgewicht, kann es aber nicht
 benennen. Er enthüllt niemals kanonisches GM-Wissen, *weil er es selbst nicht
 hat*. Setze ihn als ehrliches Unbehagen ein, nie als Informationsquelle.
 
-*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.
+*Nachtrag 2026-11-07 (Glenn, M7 A).* Gespielt am 06.11.2026: Vethran hat die Überlieferung von Etrims, Sigillen und dem Gegengewicht erzählt, ausdrücklich als __„nur überliefert und nicht bestätigt"__ (Wortlaut im Nachtrag unter „Die kosmische Wahrheit"). Er kennt eine Überlieferung, nicht die Wahrheit; mehr gibt er in Kategorie 1 nicht preis. Der Lot-Satz fiel nicht, Delta F1 ist verworfen — der Nachtrag vom 2026-11-06 darunter ist überholt.
 
-_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._
+[.line-through]#*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.#
+
+[.line-through]#_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._#
 ====
 
 ==== Rohan Wildbach — Überlebenskunst
@@ -600,8 +604,9 @@ vollständig ausgeschlossen.
 
 21 Sigillen der Sieben, der Etrim als Träger, die 50/50-Entscheidung. In
 Kategorie 1 kennt *kein* NSC und kein Lehrer dieses Wissen — auch Halmund nicht.
-Das Wort selbst ist aus der Welt verschwunden. Frühestes Auftauchen einer
+[.line-through]#Das Wort selbst ist aus der Welt verschwunden.# Frühestes Auftauchen einer
 Sigille: Kategorie 2 (Level 15). (Volltext siehe <<_die_sigillen_und_der_etrim>>.)
+*Nachtrag 2026-11-07 (Glenn, M7 A):* Seit dem 06.11.2026 kennen die Kinder Vethrans Überlieferung (Etrims, Gaben der Schöpfung, Sigillen der Zeit, Drachen als Gegengewicht), nur überliefert, nicht bestätigt. Dieser Artikel bleibt GM-only; was er festhält, bestätigt niemand.
 
 ==== 🔒 Die wahre Anziehung der Drachen (`legend`)
 
@@ -666,9 +671,11 @@ für die Spieler". Sie färben deine Inszenierung (z. B. Vethrans Unbehagen, die
 Silhouette am Drachenberg), aber das *Wort* und die *Mechanik* dahinter bleiben
 verborgen. Wenn dieser Schutz hält, hat das Modul seinen Zweck erfüllt.
 
-*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.
+*Nachtrag 2026-11-07 (Glenn, M7 A).* Der Schutz gilt für die *Wahrheit*. Eine verzerrte Überlieferung ist seit dem 06.11.2026 am Tisch: Vethran hat Etrims, Sigillen der Zeit und die Drachen als Gegengewicht genannt, als __„nur überliefert und nicht bestätigt"__. Sie bleibt Überlieferung; kein NSC bestätigt sie in Kategorie 1. Delta F1 ist verworfen, der Nachtrag darunter überholt.
 
-_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._
+[.line-through]#*Nachtrag 2026-11-06, F1 B (Glenn, über den Orchestrator).* Einmal in Arc 1 darf Vethran im Gespräch von sich aus sagen: __„Vielleicht ist etwas aus dem Lot. Ich weiß es nicht."__ Stelle: Szene 400 am 13.11.2026, Wortlaut und Auflagen in `session-2026-11-13/10-szenentexte.md`. Das gilt nur für ihn. Es ist sein Unbehagen, keine Auskunft: Er kennt das Gegengewicht weiterhin nicht, stellt selbst keine Verbindung zu den Drachen her und bestätigt keine, das Wort Gleichgewicht fällt nicht. Der Recap hält fest, ob er fiel. Alles andere hier gilt unverändert.#
+
+[.line-through]#_Lesart des Protokollanten: Der Nachtrag gilt erst, wenn Delta F1 in Prod ist; das Paket läuft in Kürze._#
 
 <<<
 

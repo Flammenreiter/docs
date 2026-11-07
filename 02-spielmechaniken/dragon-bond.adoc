@@ -9,7 +9,7 @@ Drachenbindung mit Spezies-Variationen, Bindungsphasen, täglicher Pflege, Trait
 == Drachen-Taxonomie: 3 Spezies x 7 Rassen
 
 
-Die Akademie unterscheidet seit der Rückkehr (~100 v.h.) drei _Spezies_ (nach Größe / Lebensraum / Bindungs-Profil), die sich jeweils in sieben elementaren _Rassen_ ausprägen können. Insgesamt also _21 dokumentierte Varianten_.
+Die Akademie unterscheidet seit der Rückkehr ([.line-through]#~100 v.h.# ≈ 60 v.h., Nachtrag 2026-11-07, Glenn; die Flamme Obsidian ist der dritte Jahrgang mit Drachen) drei _Spezies_ (nach Größe / Lebensraum / Bindungs-Profil), die sich jeweils in sieben elementaren _Rassen_ ausprägen können. Insgesamt also _21 dokumentierte Varianten_.
 
 
 === Die 3 Spezies

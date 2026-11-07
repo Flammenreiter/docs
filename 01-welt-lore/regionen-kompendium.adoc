@@ -113,7 +113,7 @@ Die Akademie ist der größte Arbeitgeber: Lehre, Forschung, Drachenpflege, Bibl
 
 * ~600 v.h.: Gründung der Akademie von Altheim durch die Fünf Gründer
 * ~200 v.h.: Akademie übersteht das Große Erdbeben dank arkan verstärkter Gründungsmauern
-* ~100 v.h.: Rückkehr der Drachen — Drachenbindung wird Akademie-Disziplin
+* [.line-through]#~100 v.h.# ≈ 60 v.h.: Rückkehr der Drachen — Drachenbindung wird Akademie-Disziplin. *Nachtrag 2026-11-07 (Glenn):* Rückkehr der Drachen vor ≈ 60 Jahren, nicht ≈ 100; Zeitleiste n.G. siehe link:geschichte.adoc[Geschichte]. Davor, ≈ 100 bis ≈ 350 n.G.: die Drachen auf den höchsten Bergen und der Magiekrieg.
 * JETZT: Erste Sigille manifestiert sich in der materiellen Welt
 
 
@@ -449,7 +449,7 @@ Die Region exportiert Schmiede-Arbeit auf höchstem Niveau: Drachen-Bondings-Ges
 * Großes Erdbeben (~200 v.h.) — weckte die Gipfel, hob Gravenward aus dem Meer
 * Gründung des Klosters der Stillen Flamme (~190 v.h., kurz nach dem Beben)
 * Letzte lokale Eruption (~60 v.h., zerstörte zwei Hangsiedlungen)
-* Drachen-Rückkehr (~100 v.h.) — erste Bondings-Geschirre aus den Tiefen-Essen
+* Drachen-Rückkehr ([.line-through]#~100 v.h.# ≈ 60 v.h.) — erste Bondings-Geschirre aus den Tiefen-Essen. *Nachtrag 2026-11-07 (Glenn):* Rückkehr der Drachen vor ≈ 60 Jahren, nicht ≈ 100; Zeitleiste n.G. siehe link:geschichte.adoc[Geschichte].
 
 
 ==== Gefahren
@@ -559,7 +559,7 @@ Die Grenzmark lebt vom Durchgang. Hauptgut ist die *Karawanen-Eskorte*: Söldner
 
 * ~200 v.h.: Großes Erdbeben — Hügelflanken brechen ein, alte Stein-Tafeln aus der Stillen Epoche werden freigelegt.
 * ~150 v.h.: Pakt von der Schwarzen Wegmarke — Halbork-Clans und Akademie einigen sich auf freie Patrouillen-Durchreise gegen Respekt vor dem Marken-Recht.
-* ~100 v.h.: Drachen-Rückkehr — erste Sichtungen über dem Hornschiefer-Pass; die ältesten Clan-Frauen schweigen seither.
+* [.line-through]#~100 v.h.# ≈ 60 v.h.: Drachen-Rückkehr — erste Sichtungen über dem Hornschiefer-Pass; die ältesten Clan-Frauen schweigen seither. *Nachtrag 2026-11-07 (Glenn):* Rückkehr der Drachen vor ≈ 60 Jahren, nicht ≈ 100; Zeitleiste n.G. siehe link:geschichte.adoc[Geschichte].
 * Jüngst: Sigillen-Manifestation — Akademie-Patrouillen verdreifachen sich, Söldner-Verträge werden teurer, Spannung wächst.
 
 
