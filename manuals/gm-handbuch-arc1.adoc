@@ -95,7 +95,7 @@ an. Sei dir nur über die *Ziele dieses Story Arcs* bewusst (siehe <<ziele>>).
 [NOTE]
 ====
 *Hinweis zum Alter der Charaktere.* Die Charaktere starten mit einem Alter
-von etwa *zwölf Jahren*. Kinder werden in dieser Kampagne besonders behutsam
+von etwa *zwölf Jahren*; seit Teil 5 (06.11.) sind alle *vierzehn*. Kinder werden in dieser Kampagne besonders behutsam
 gehandhabt. *Sexualisierte Inhalte haben hier keinen Platz.* Gefahr darf ernst
 sein, aber niemals grausam: Scheitern kostet Zeit, Nerven und kleine
 Blessuren — niemals den Tod eines Kindes.
@@ -1280,17 +1280,21 @@ oder vollständig ignorieren. Dein Tisch baut seine *eigene* Gruppe.
 
 Sechs Schüler, „die niemand haben wollte" — die Flamme Obsidian, von anderen
 gemieden („bringt kein Glück"). Sie starteten Level 0 und erreichten Level 1 erst
-mit dem Drachen-Seelengefährten am Ende von Arc 1.
+mit dem Drachen-Seelengefährten am Ende von Arc 1. Namen und Alter in der Tabelle:
+Stand 2026-11-07 (Glenn) — Nachnamen aus der Abfrage in Teil 4, gewählt am
+05./07.11.; Caelynth heisst mit Familiennamen Sardonyx, ihr *Klan* bleibt
+Drachenfels. Seit Teil 5 (06.11.) sind alle *vierzehn*. Bis dahin hiessen sie
+Caelynth Drachenfels und Celia Thymianfeld und waren zwölf bzw. dreizehn.
 
 [cols="2,2,1,1",options="header"]
 |===
 | Charakter | Rasse / Klasse | Haus | Alter
-| *Caelynth Drachenfels* | Dragonborn Wizard | Turm der Ketten | 13
-| *Celia Thymianfeld* | Halfling Cleric | Liebe & Leben | 12
-| *Celindra* | Halb-Elf Sorcerer | Turm der Ketten | 13
-| *Cor'O-nas* | Aasimar Monk | Turm der Ketten | 13
-| *Dreddul* | Halb-Ork Druid | Drachenfeste | 13
-| *Sephira* | Halb-Elf Ranger | Liebe & Leben | 12
+| *Caelynth Sardonyx* | Dragonborn Wizard | Turm der Ketten | 14
+| *Celia Gagat* | Halfling Cleric | Liebe & Leben | 14
+| *Celindra* | Halb-Elf Sorcerer | Turm der Ketten | 14
+| *Cor'O-nas Cliffgate* | Aasimar Monk | Turm der Ketten | 14
+| *Dreddul Malachit* | Halb-Ork Druid | Drachenfeste | 14
+| *Sephira von Stein* | Halb-Elf Ranger | Liebe & Leben | 14
 |===
 
 *Attribute (D&D 5E-Werte):*
@@ -1339,7 +1343,9 @@ Frostschwinge sind die *persönlichen* Namen, die diese Spieler vergaben.
 * *Borkins Zuneigung:* galt der ganzen Flamme Obsidian — er schmiedete die
   Übungswaffen mit *Obsidian-Zeichen* im Knauf.
 * *Silkes Mentorschaft:* besonders mütterlich zu *Sephira* (geteilter Nachname
-  Grünblatt — Verwandtschaft vermutet, nie aufgelöst).
+  Grünblatt — Verwandtschaft vermutet, nie aufgelöst). _Nachtrag 2026-11-07:_
+  Sephira heisst seit 2026-11-07 *von Stein* (Glenn). Ob die vermutete
+  Verwandtschaft mit Silke damit fällt, ist offen.
 * *Aasimar-Faden:* Cor'O-nas wurde von Cervan Stilltinte anders behandelt und
   von Rauven auf seinen Heiligenschein angesprochen.
 * *Kultur-Brücke (Ch3-S3):* Dreddul (Halb-Ork) übersetzte bei Korga Steinblut
